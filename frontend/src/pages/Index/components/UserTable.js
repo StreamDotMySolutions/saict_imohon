@@ -1,7 +1,11 @@
 import React from 'react';
+import Pagination from './Pagination';
+import HeaderTable from './HeaderTable';
 
 function UserTable() {
   return (
+    <>
+    <HeaderTable />
     <table className="table table-bordered">
         <thead>
             <tr>
@@ -50,6 +54,15 @@ function UserTable() {
         </tr>
       </tbody>
     </table>
+
+    <div class="d-flex">
+    <div className='text-muted'>120 pengguna</div>
+    <div class="ms-auto"><Pagination /></div>
+    </div>
+
+    
+ 
+    </>
   );
 }
 

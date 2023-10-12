@@ -22,18 +22,9 @@ function TopNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-          
-            <NavDropdown title="Negeri" id="basic-nav-dropdown">
-              <NavDropdown.Item style={{width:'180px'}} as={NavLink} to="/selangor">{flag('selangor')} Selangor</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/pulau-pinang">{flag('pulau-pinang')} Pulau Pinang</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/negeri-sembilan">{flag('negeri-sembilan')} Negeri Sembilan</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/kedah">{flag('kedah')} Kedah</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/terengganu">{flag('terengganu')} Terengganu</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/kelantan">{flag('kelantan')} Kelantan</NavDropdown.Item>
-            </NavDropdown>
 
             <Nav activeKey={location.pathname}>
-              <Nav.Link as={NavLink} to="/dashboard" className='text-muted'>Dashboard</Nav.Link>
+              <Nav.Link as={NavLink} to="/" className='active'>Logout</Nav.Link>
             </Nav>
             
           </Nav>
