@@ -3,11 +3,11 @@ import { Button, Modal, ModalFooter } from 'react-bootstrap';
 import axios from '../../../../libs/axios';
 import useUserStore from '../../stores/UserStore';
 import Form from '../Form/Form';
+import { setFormError , resetStore } from '../libs/include'
 
 function CreateUserModal() {
     const user = useUserStore()
     const [show, setShow] = useState(false);
-    const [error, setError] = useState(false);
 
     const handleClose = () => {
         setShow(false);
@@ -18,28 +18,21 @@ function CreateUserModal() {
     const handleSubmit = (e) => {
       
         e.preventDefault()
-        setError(false)
-        console.log(user.password)
         if (user.name?.value == undefined ) {
             setFormError('name','Name is required')
-            setError(true)
         }
 
-        console.log(user.email)
-        if (user.email?.value == undefined || user.email?.value === '' || user.email?.value == null ) {
+        if (user.email?.value == undefined) {
             setFormError('email','Email is required')
-            setError(true)
         }
 
         if (user.nric?.value == undefined) {
             setFormError('nric','nric is required')
-            setError(true)
         }
 
 
         if (user.password?.value == undefined) {
             setFormError('password','password is required')
-            setError(true)
         }
 
         if(
@@ -47,7 +40,6 @@ function CreateUserModal() {
             user.email?.value == undefined ||
             user.nric?.value == undefined ||
             user.password?.value == undefined 
-     
         ) return
 
         // console.log(user)
@@ -99,35 +91,3 @@ function CreateUserModal() {
 }
 
 export default CreateUserModal;
-
-
-/**
- * To set error on userStore
- * will be used on UserForm
- * @param {*} field 
- * @param {*} message 
- */
-function setFormError(field, message) {
-      const data = {
-        value:null,
-        error: true,
-        message: message,
-      };
-      const updatedState = {
-        [field]: data, // Use dynamic property name
-      };
-      useUserStore.setState(updatedState);
-
-    
-  }
-
-
-  function resetStore(){
-    useUserStore.setState({
-        name: null,
-        email: null,
-        nric: null,
-        password: null
-        })
-  }
-  
