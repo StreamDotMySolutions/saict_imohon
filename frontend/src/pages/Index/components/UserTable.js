@@ -1,6 +1,9 @@
 import React from 'react';
 import Pagination from './Pagination';
 import HeaderTable from './HeaderTable';
+import ShowUserModal from './Modal/ShowUserModal';
+import EditUserModal from './Modal/EditUserModal';
+import DeleteUserModal from './Modal/DeleteUserModal';
 
 function UserTable() {
   return (
@@ -21,11 +24,11 @@ function UserTable() {
           <td className='px-5'>Johor</td>
           <td className='px-5'>Unit Rekabentuk</td>
           <td className='px-5'>
-          <button className="btn btn-primary">Show</button>
+            <ShowUserModal />
             {' '}
-            <button className="btn btn-primary">Edit</button>
+            <EditUserModal />
             {' '}
-            <button className="btn btn-danger">Delete</button>
+            <DeleteUserModal />
           </td>
         </tr>
         <tr>
