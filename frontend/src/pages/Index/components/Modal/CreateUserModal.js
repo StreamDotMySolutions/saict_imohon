@@ -17,16 +17,16 @@ export default function CreateUserModal() {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      const errors = validateFields(user);
-    
-      if (errors.length === 0) {
-        // Form is valid, proceed with submission
-         //send formdata using FormData()
-        const formData = new FormData()
-        formData.append('name', user?.name?.value )
-        formData.append('email', user?.email?.value )
-        formData.append('nric',  user?.nric.value )
-        formData.append('password',  user?.password.value )
+        const fieldNames = ['name', 'email', 'nric', 'password'];
+        const formData = new FormData();
+
+        // create payload
+        fieldNames.forEach((fieldName) => {
+          const value = user?.[fieldName]?.value;
+          if (value !== null && value !== '' && value !== undefined) {
+            formData.append(fieldName, value) // only append if has value
+          }
+        });
 
         axios({
             url: user.store_url,  // user store API
@@ -35,18 +35,17 @@ export default function CreateUserModal() {
         })
         .then( response => {
             useUserStore.setState({ refresh: true }) // useEffect trigger
-            //console.log(response)
             handleClose() // close modal
         })
         .catch( error => {
-            console.error(error)
+          if (error.response && error.response.status === 422) {
+            // Handle status code 422 errors here
+            handleValidationErrors(fieldNames, error.response.data.errors, setFormError);
+          } else {
+            // Handle other errors (e.g., network issues, server errors)
+            console.error(error);
+          }
         })
-
-        handleClose() // close modal
-        resetStore() // reset store
-      }
-
-     
     };
 
   return (
@@ -98,3 +97,12 @@ function validateFields(user) {
   return errors;
 }
 
+function handleValidationErrors(fieldNames, validationErrors, setFormError) {
+  //const fieldNames = ['name', 'email', 'nric', 'password'];
+
+  fieldNames.forEach((fieldName) => {
+    if (validationErrors[fieldName]) {
+      setFormError(fieldName, ` ${validationErrors[fieldName]}`);
+    }
+  });
+}

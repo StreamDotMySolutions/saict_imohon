@@ -15,6 +15,16 @@ function TopNavbar() {
         <Navbar.Brand as={NavLink} to="/"><img style={{ 'width':'125px' }}  src={Logo} /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+
+        <Nav>
+
+          <Nav>
+            <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Home</Nav.Link>
+    
+            <Nav.Link as={NavLink} to="/categories"> <FontAwesomeIcon icon="fa-solid fa-list" />{' '}Category</Nav.Link>
+          </Nav>
+
+        </Nav>
           <Nav className="ms-auto">
 
             <Nav>

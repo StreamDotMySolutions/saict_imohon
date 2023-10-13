@@ -10,7 +10,7 @@ import { Tabs,Tab } from 'react-bootstrap';
 const Index = () => {
 
     return (
-    <Container className="mt-3 mb-3">
+
       
       <Tabs
         defaultActiveKey="admin"
@@ -28,7 +28,6 @@ const Index = () => {
         </Tab>
       </Tabs>
 
-    </Container>
     )
 } 
 
