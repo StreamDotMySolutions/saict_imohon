@@ -5,7 +5,7 @@ import useUserStore from '../../stores/UserStore';
 import Form from '../Form/Form';
 import { setFormError , resetStore } from '../libs/include'
 
-function CreateUserModal() {
+export default function CreateUserModal() {
     const user = useUserStore()
     const [show, setShow] = useState(false);
 
@@ -16,60 +16,42 @@ function CreateUserModal() {
     const handleShow = () => setShow(true);
 
     const handleSubmit = (e) => {
-      
-        e.preventDefault()
-        if (user.name?.value == undefined ) {
-            setFormError('name','Name is required')
-        }
+      e.preventDefault();
+      const errors = validateFields(user);
+    
+      if (errors.length === 0) {
+        // Form is valid, proceed with submission
+         //send formdata using FormData()
+        const formData = new FormData()
+        formData.append('name', user?.name?.value )
+        formData.append('email', user?.email?.value )
+        formData.append('nric',  user?.nric.value )
+        formData.append('password',  user?.password.value )
 
-        if (user.email?.value == undefined) {
-            setFormError('email','Email is required')
-        }
+        axios({
+            url: user.store_url,  // user store API
+            method: 'post', // method is POST
+            data: formData, // payload is formData
+        })
+        .then( response => {
+            useUserStore.setState({ refresh: true }) // useEffect trigger
+            //console.log(response)
+            handleClose() // close modal
+        })
+        .catch( error => {
+            console.error(error)
+        })
 
-        if (user.nric?.value == undefined) {
-            setFormError('nric','nric is required')
-        }
+        handleClose() // close modal
+        resetStore() // reset store
+      }
 
-
-        if (user.password?.value == undefined) {
-            setFormError('password','password is required')
-        }
-
-        if(
-            user.name?.value == undefined ||
-            user.email?.value == undefined ||
-            user.nric?.value == undefined ||
-            user.password?.value == undefined 
-        ) return
-
-        // console.log(user)
-        // //send formdata using FormData()
-        // const formData = new FormData()
-        // formData.append('name',  useUserStore.getState('name') )
-
-        // axios({
-        //     url: user.store_url,  // Laravel route 
-        //     method: 'post', // method is POST
-        //     data: formData, // payload is formData
-        // })
-        // .then( response => {
-        //     useUserStore.setState({ refresh: true }) // useEffect trigger
-        //     console.log(response)
-        //             handleClose()
-        // })
-        // .catch( error => {
-        //     console.error(error)
-        // })
-
-        handleClose()
-        resetStore()
-
+     
     };
 
   return (
     <>
       <Button onClick={handleShow}>Create</Button>
-
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>Add User</Modal.Title>
@@ -90,4 +72,29 @@ function CreateUserModal() {
   );
 }
 
-export default CreateUserModal;
+function validateFields(user) {
+  const errors = [];
+
+  if (!user.name?.value) {
+    setFormError('name', 'Name is required');
+    errors.push('Name');
+  }
+
+  if (!user.email?.value) {
+    setFormError('email', 'Email is required');
+    errors.push('Email');
+  }
+
+  if (!user.nric?.value) {
+    setFormError('nric', 'NRIC is required');
+    errors.push('NRIC');
+  }
+
+  if (!user.password?.value) {
+    setFormError('password', 'Password is required');
+    errors.push('Password');
+  }
+
+  return errors;
+}
+
