@@ -37,7 +37,6 @@ class CategoryController extends Controller
         return response()->json(['message' => 'success']);
     }
 
-    
     public function update(Request $request, Category $category)
     {
         // Validate the request data if necessary
@@ -60,4 +59,13 @@ class CategoryController extends Controller
         $category->delete(); // delete the node
         return response()->json(['message' => 'success']);
     }
+
+    public function ordering(Category $category, $direction)
+    {
+        
+        \Log::info($direction);
+        
+        //$node->down();
+    }
 }
+

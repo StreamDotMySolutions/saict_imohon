@@ -9,7 +9,6 @@ const CategoryIndex = () => {
     const category = useCategoryStore()
     const [data, setData] = useState([])
 
-
     useEffect( () => {
         axios({
             url: category.index_url,  // user store API
@@ -21,8 +20,6 @@ const CategoryIndex = () => {
             useCategoryStore.setState({refresh: false})
         })
     },[category.refresh])
-
-
 
     function handleSubmit(){
         const formData = new FormData();
@@ -47,11 +44,6 @@ const CategoryIndex = () => {
             console.error(error);
           });
     }
-
-    const options = data?.map((category) => ({
-        value: category.id,
-        label: category.name,
-      }));
 
     return (
         <div>
@@ -79,7 +71,7 @@ const CategoryIndex = () => {
                 </Col>
             </Row>
             <hr />
-            <CategoryTree data={data} />   
+            {data.length > 0 ? <CategoryTree data={data} /> : 'loading...' }   
         </div>
     );
 };
@@ -101,7 +93,7 @@ function CategoryTree({ data }) {
         ))}
       </ul>
     );
-  }
+}
 
 function CategoryDropdown({ data, depth = 0 }) {
   const indent = '_ _'.repeat(depth);
@@ -114,9 +106,10 @@ function CategoryDropdown({ data, depth = 0 }) {
         {/* <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}> */}
         <option
           value={category.id}
-          className={category.parent_id === null ? 'text-uppercase fw-bold' : ''}
+          className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
           key={index}
-          disabled={category.parent_id === null} >
+          //disabled={category.parent_id === null}
+           >
           {depth != 0 && 'I'}{indent}{' '}{category.name}
         </option>
         <CategoryDropdown data={category.children} depth={depth + 1} />
@@ -126,7 +119,6 @@ function CategoryDropdown({ data, depth = 0 }) {
   </>
   );
 }
-
 
 function CategoryItem({ category }) {
 
@@ -203,6 +195,10 @@ function CategoryItem({ category }) {
     setIsEditing(false);
   };
 
+  const handleOrderingClick = (id,ordering) => {
+
+  }
+
   return (
     <>
       {isEditing ? (
@@ -224,8 +220,13 @@ function CategoryItem({ category }) {
           size='sm'
           className='text-uppercase border border-1'
         >
-          {category.name}
+          {category.name} 
+      
         </Button>
+
+        <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-up" /></Button> 
+         <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-down" /></Button> 
+        
         <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-edit" /></Button> 
         
         {' '}
