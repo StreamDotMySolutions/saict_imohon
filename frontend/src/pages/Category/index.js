@@ -111,7 +111,12 @@ function CategoryDropdown({ data, depth = 0 }) {
       {data.map((category,index) => (
         <>
      
-        <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}>
+        {/* <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}> */}
+        <option
+          value={category.id}
+          className={category.parent_id === null ? 'text-uppercase fw-bold' : ''}
+          key={index}
+          disabled={category.parent_id === null} >
           {depth != 0 && 'I'}{indent}{' '}{category.name}
         </option>
         <CategoryDropdown data={category.children} depth={depth + 1} />
