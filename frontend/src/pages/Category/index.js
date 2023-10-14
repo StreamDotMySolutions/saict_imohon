@@ -34,8 +34,6 @@ const CategoryIndex = () => {
         if (category?.parent_id?.value) {
             formData.append('parent_id', category.parent_id.value);
         }
-
-        console.log('submit')
         
         axios({
           url: category.store_url,
@@ -106,18 +104,20 @@ function CategoryTree({ data }) {
   }
 
 function CategoryDropdown({ data, depth = 0 }) {
-  const indent = '--'.repeat(depth);
+  const indent = '_ _'.repeat(depth);
   
   return (
     <>
-      {data.map((category) => (
-        <option className='text-uppercase' key={category.id} value={category.id}>
-          {indent}{' '}{category.name}
+      {data.map((category,index) => (
+        <>
+     
+        <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}>
+          {depth != 0 && 'I'}{indent}{' '}{category.name}
         </option>
+        <CategoryDropdown data={category.children} depth={depth + 1} />
+        </>
       ))}
-      {data.map((category) => (
-        <CategoryDropdown key={category.id} data={category.children} depth={depth + 1} />
-      ))}
+
   </>
   );
 }
@@ -135,7 +135,7 @@ function CategoryItem({ category }) {
     // After 2 seconds, hide the notification
     setTimeout(() => {
       setShowNotification(false);
-    }, 2000);
+    }, 3000);
   };
 
   const handleEditClick = () => {
@@ -146,13 +146,53 @@ function CategoryItem({ category }) {
     setIsEditing(false);
   };
 
-  const handleDeleteClick = () => {
-    showNotificationFor2Seconds()
+  const handleDeleteClick = (id) => {
+
+    const store = useCategoryStore.getState()
+    const formData = new FormData();
+
+
+    formData.append('_method', 'delete');
+    
+    axios({
+      url: `${store.delete_url}/${id}`,
+      method: 'post',
+      data: formData,
+    })
+      .then((response) => {      
+        useCategoryStore.setState({refresh: true})
+        showNotificationFor2Seconds()
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = (id) => {
     // Save the updated category name, e.g., send an API request
+    const store = useCategoryStore.getState()
     console.log(`Saving category name: ${newCategoryName}`);
+
+    // Send to server
+    const formData = new FormData();
+
+    formData.append('_method', 'put');
+    formData.append('name', newCategoryName);
+    
+    axios({
+      url: `${store.update_url}/${id}`,
+      method: 'post',
+      data: formData,
+    })
+      .then((response) => {      
+        useCategoryStore.setState({refresh: true})
+        showNotificationFor2Seconds()
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
 
     // Exit the editing mode
     setIsEditing(false);
@@ -169,7 +209,7 @@ function CategoryItem({ category }) {
             value={newCategoryName}
             onChange={(e) => setNewCategoryName(e.target.value)}
           />
-          <Button onClick={handleSaveClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-save" /></Button> 
+          <Button onClick={ () => handleSaveClick(category.id) } variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-save" /></Button> 
           <Button onClick={handleCancelClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-times" /></Button> 
         </>
       ) : (
@@ -184,7 +224,7 @@ function CategoryItem({ category }) {
         <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-edit" /></Button> 
         
         {' '}
-        <Button  onClick={handleDeleteClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-trash" /></Button> 
+        <Button onClick={ () => handleDeleteClick(category.id) } variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-trash" /></Button> 
 
         {showNotification && (
           <Toast
@@ -203,7 +243,7 @@ function CategoryItem({ category }) {
             <Toast.Header className='bg-light'>
               <strong className="me-auto">Notification</strong>
             </Toast.Header>
-            <Toast.Body className='text-light'>Changes saved!</Toast.Body>
+            <Toast.Body className='text-light'>success</Toast.Body>
           </Toast>
         )}
         </>
@@ -213,8 +253,4 @@ function CategoryItem({ category }) {
   );
 }
 
-
-
-
-  
 export default CategoryIndex;

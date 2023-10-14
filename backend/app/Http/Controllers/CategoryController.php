@@ -22,8 +22,6 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        \Log::info($request);
-        // CategoryService::store($request->all());
 
         $category =  Category::create($request->only('name')); // create node
 
@@ -33,22 +31,33 @@ class CategoryController extends Controller
             if (!is_null($parent_id) && !empty($parent_id)) {
                 $node = Category::find($parent_id); // find the node
                 $node->appendNode($category); // assign created category to that node
-            } else {
-                // Handle the case where parent_id is null or empty
-            }
-        } else {
-            // Handle the case where parent_id is not present in the request
+            } 
         }
 
         return response()->json(['message' => 'success']);
     }
 
-    public function delete(Request $request)
+    
+    public function update(Request $request, Category $category)
     {
-        \Log::info($request);
-        // find the node first
-        $node = Category::find($request->input('id')); // find the node
-        // $node->delete(); // delete the node
-        // return response()->json(['message' => 'success']);
+        // Validate the request data if necessary
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+        // Add validation rules for other attributes
+        ]);
+
+        // Update the category attributes
+        $category->name = $request->input('name');
+ 
+        // Save the changes to the database
+        $category->save();
+
+        return response()->json(['message' => 'success']);
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete(); // delete the node
+        return response()->json(['message' => 'success']);
     }
 }
