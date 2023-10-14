@@ -2,12 +2,13 @@ import {useEffect, useState } from 'react';
 import useCategoryStore from './stores/CategoryStore';
 import axios from '../../libs/axios';
 import CategoryForm from './components/form';
-import { Button, Col,Row,Form } from 'react-bootstrap';
+import { Button, Col,Row,Form, Toast} from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CategoryIndex = () => {
     const category = useCategoryStore()
-    console.log(category?.name?.value)
     const [data, setData] = useState([])
+
 
     useEffect( () => {
         axios({
@@ -54,32 +55,23 @@ const CategoryIndex = () => {
         label: category.name,
       }));
 
-    
-   
     return (
         <div>
             <h1>Category</h1>
             <Row>
-
                 <Col>
-                
                     <Form.Select
-                          onChange={(e) => { 
-                                const data = {
-                                    value: e.target.value
-                                }
-                                useCategoryStore.setState({parent_id: data})}
+                      onChange={(e) => { 
+                            const data = {
+                                value: e.target.value
                             }
+                            useCategoryStore.setState({parent_id: data})}
+                        }
                     >
-                        <option></option>
+                        <option>Choose Parent</option>
+                        <option>------------</option>
                         <CategoryDropdown data={data} />
-                        {/* {data?.map((category) => (
-                            <option key={category.id} value={category.id}>{category.name}</option>
-                        ))}  */}
-
                     </Form.Select>
-
-                    
                 </Col>
                 <Col xs={4}>
                     <CategoryForm />
@@ -89,15 +81,7 @@ const CategoryIndex = () => {
                 </Col>
             </Row>
             <hr />
-            {/* <ul>
-                {data?.map((category) => (
-                    <li key={category.id}>{category.name}</li>
-                ))} 
-            </ul> */}
-
-            <CategoryTree data={data} />
-
-   
+            <CategoryTree data={data} />   
         </div>
     );
 };
@@ -110,8 +94,10 @@ function CategoryTree({ data }) {
     return (
       <ul>
         {data.map((category) => (
-          <li key={category.id}>
-            {category.name}
+          <li className='p-2' key={category.id}>
+            {/* <Button variant='light' size='sm' className='text-uppercase border border-1'>{category.name}</Button>  */}
+
+            <CategoryItem category={category} />           
             <CategoryTree data={category.children} /> {/* Recursively render child categories */}
           </li>
         ))}
@@ -119,23 +105,116 @@ function CategoryTree({ data }) {
     );
   }
 
-  function CategoryDropdown({ data, depth = 0 }) {
-    const indent = '__'.repeat(depth);
-   
-    return (
-     <>
-        {data.map((category) => (
-          <option  key={category.id} value={category.id}>
-           {indent}{' '}{category.name}
+function CategoryDropdown({ data, depth = 0 }) {
+  const indent = '--'.repeat(depth);
+  
+  return (
+    <>
+      {data.map((category) => (
+        <option className='text-uppercase' key={category.id} value={category.id}>
+          {indent}{' '}{category.name}
+        </option>
+      ))}
+      {data.map((category) => (
+        <CategoryDropdown key={category.id} data={category.children} depth={depth + 1} />
+      ))}
+  </>
+  );
+}
+
+
+function CategoryItem({ category }) {
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState(category.name);
+
+  const showNotificationFor2Seconds = () => {
+    setShowNotification(true);
+  
+    // After 2 seconds, hide the notification
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 2000);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
+
+  const handleDeleteClick = () => {
+    showNotificationFor2Seconds()
+  };
+
+  const handleSaveClick = () => {
+    // Save the updated category name, e.g., send an API request
+    console.log(`Saving category name: ${newCategoryName}`);
+
+    // Exit the editing mode
+    setIsEditing(false);
+  };
+
+  return (
+    <>
+      {isEditing ? (
+        <>
+          <input
+            style={{ backgroundColor: 'lightyellow'}}
+            className='p-1 border border-1 me-1' 
+            type="text"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+          />
+          <Button onClick={handleSaveClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-save" /></Button> 
+          <Button onClick={handleCancelClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-times" /></Button> 
+        </>
+      ) : (
+        <>
+        <Button
+          variant='light'
+          size='sm'
+          className='text-uppercase border border-1'
+        >
+          {category.name}
+        </Button>
+        <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-edit" /></Button> 
         
-          </option>
-        ))}
-        {data.map((category) => (
-          <CategoryDropdown key={category.id} data={category.children} depth={depth + 1} />
-        ))}
+        {' '}
+        <Button  onClick={handleDeleteClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-trash" /></Button> 
+
+        {showNotification && (
+          <Toast
+            onClose={() => setShowNotification(false)}
+            show={showNotification}
+            delay={2000}
+            bg='dark'
+            autohide
+            style={{
+              position: 'absolute',
+              top: '30%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <Toast.Header className='bg-light'>
+              <strong className="me-auto">Notification</strong>
+            </Toast.Header>
+            <Toast.Body className='text-light'>Changes saved!</Toast.Body>
+          </Toast>
+        )}
+        </>
+      )}
+      
     </>
-    );
-  }
+  );
+}
+
+
+
 
   
 export default CategoryIndex;

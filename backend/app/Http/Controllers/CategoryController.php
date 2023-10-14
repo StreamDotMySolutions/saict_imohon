@@ -25,14 +25,14 @@ class CategoryController extends Controller
         \Log::info($request);
         // CategoryService::store($request->all());
 
-        $category =  Category::create($request->only('name'));
+        $category =  Category::create($request->only('name')); // create node
 
         if ($request->has('parent_id')) {
-            $parent_id = $request->input('parent_id');
+            $parent_id = $request->input('parent_id'); // submitted by dropdown
 
             if (!is_null($parent_id) && !empty($parent_id)) {
-                $node = Category::find($parent_id);
-                $node->appendNode($category);
+                $node = Category::find($parent_id); // find the node
+                $node->appendNode($category); // assign created category to that node
             } else {
                 // Handle the case where parent_id is null or empty
             }
@@ -41,5 +41,14 @@ class CategoryController extends Controller
         }
 
         return response()->json(['message' => 'success']);
+    }
+
+    public function delete(Request $request)
+    {
+        \Log::info($request);
+        // find the node first
+        $node = Category::find($request->input('id')); // find the node
+        // $node->delete(); // delete the node
+        // return response()->json(['message' => 'success']);
     }
 }
