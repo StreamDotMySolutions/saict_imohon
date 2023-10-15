@@ -17,11 +17,34 @@ export function setFormError(field, message) {
     useUserStore.setState(updatedState);
 }
 
+/**
+ *                   
+  'role',
+  'email', 
+  'password',
+
+  'name', 
+  'occupation',
+  'nric', 
+  'phone',
+  'address',
+
+  'user_department_id'
+ */
 export function resetStore(){
-  useUserStore.setState({
-      name: null,
+  useUserStore.setState(
+    {
+      role: null,
       email: null,
+      password: null,
+      
+      name: null,
+      occupation: null,
       nric: null,
-      password: null
+      phone: null,
+      address: null,
+
+      user_department_id: null,
+    
       })
 }

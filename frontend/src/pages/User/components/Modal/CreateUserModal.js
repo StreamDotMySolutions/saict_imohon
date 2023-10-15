@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalFooter } from 'react-bootstrap';
+import { Button, Modal, ModalFooter ,Row} from 'react-bootstrap';
 import axios from '../../../../libs/axios';
 import useUserStore from '../../stores/UserStore';
 import Form from '../Form/Form';
@@ -8,16 +8,35 @@ import { setFormError , resetStore } from '../libs/include'
 export default function CreateUserModal() {
     const user = useUserStore()
     const [show, setShow] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleClose = () => {
-        setShow(false);
+        setShow(false)
+        setError(false)
         resetStore()
     }
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+      setError(false)
+      setShow(true);
+    }
 
     const handleSubmit = (e) => {
+      setError(false)
       e.preventDefault();
-        const fieldNames = ['name', 'email', 'nric', 'password'];
+        const fieldNames = [
+
+                    'role',
+                    'email', 
+                    'password',
+
+                    'name', 
+                    'occupation',
+                    'nric', 
+                    'phone',
+                    'address',
+
+                    'user_department_id'
+                  ];
         const formData = new FormData();
 
         // create payload
@@ -40,7 +59,9 @@ export default function CreateUserModal() {
         .catch( error => {
           if (error.response && error.response.status === 422) {
             // Handle status code 422 errors here
+            console.warn(error.response.data.errors)
             handleValidationErrors(fieldNames, error.response.data.errors, setFormError);
+            setError(true)
           } else {
             // Handle other errors (e.g., network issues, server errors)
             console.error(error);
@@ -59,6 +80,12 @@ export default function CreateUserModal() {
             <Form />
         </Modal.Body>
         <ModalFooter>
+          <Row className='text-danger'>
+            { error &&
+            <>
+            Please check all tabs for error
+            </>}
+          </Row>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
@@ -69,32 +96,6 @@ export default function CreateUserModal() {
       </Modal>
     </>
   );
-}
-
-function validateFields(user) {
-  const errors = [];
-
-  if (!user.name?.value) {
-    setFormError('name', 'Name is required');
-    errors.push('Name');
-  }
-
-  if (!user.email?.value) {
-    setFormError('email', 'Email is required');
-    errors.push('Email');
-  }
-
-  if (!user.nric?.value) {
-    setFormError('nric', 'NRIC is required');
-    errors.push('NRIC');
-  }
-
-  if (!user.password?.value) {
-    setFormError('password', 'Password is required');
-    errors.push('Password');
-  }
-
-  return errors;
 }
 
 function handleValidationErrors(fieldNames, validationErrors, setFormError) {

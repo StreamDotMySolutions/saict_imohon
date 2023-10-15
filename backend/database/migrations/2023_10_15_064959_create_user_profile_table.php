@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('user_profile', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('user_department_id');
             $table->string('name');
-
+            $table->string('occupation');
+            $table->string('phone');
+            $table->string('address');
             $table->timestamps();
-            $table->nestedSet();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('user_profile');
     }
 };

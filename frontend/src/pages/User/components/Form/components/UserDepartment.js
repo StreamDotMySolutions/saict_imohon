@@ -1,11 +1,12 @@
 import React, { useState,useEffect } from 'react'
-import useCategoryStore from '../../../../Category/stores/CategoryStore'
 import useUserDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore';
+import useUserStore from '../../../stores/UserStore';
 import axios from '../../../../../libs/axios'
-//import { Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 const UserDepartment = () => {
     const category = useUserDepartmentStore()
+    const user = useUserStore()
     const [data,setData] = useState([])
     // console.log('from category')
     // console.log(category.index_url)
@@ -16,7 +17,7 @@ const UserDepartment = () => {
             method: 'get', // method is POST
         })
         .then( response => {
-            console.log(response.data)
+            //console.log(response.data)
             setData(response.data.user_departments)
         })
     },[])
@@ -24,17 +25,20 @@ const UserDepartment = () => {
     return (
         <>
         <select
-            className='form-select'
+            className={`form-select ${user.user_department_id?.message ? 'is-invalid' : ''}`}
             size='20'
             onChange={(e) => { 
                 const data = {
                     value: e.target.value
                 }
-                useCategoryStore.setState({parent_id: data})}
+                useUserStore.setState({user_department_id: data})}
             }
         >
             <CategoryDropdown data={data} />
         </select>
+        <Form.Control.Feedback type="invalid">
+                {user.user_department_id?.message}
+        </Form.Control.Feedback>
         </>
     );
 };

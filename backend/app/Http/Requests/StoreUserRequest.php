@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\MalaysianNRIC;
+
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,10 +24,24 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+          
+            'role' => 'required',
             'email' => 'required|email|unique:users,email',
-            'nric' => 'required|min:6',
             'password' => 'required|min:6',
+
+            'name' => 'required',
+            'occupation' => 'required',
+            'nric' => [
+                'required',
+                'string',
+                //'regex:/^\d{6}-(?:[LMTSCJH]{1}|[0-9]{2})-\d{3}(?:[A-Z]{2}|[0-9]{2})$/',
+                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/'
+            ],
+            'phone' => 'required',
+            'address' => 'required',
+
+            'user_department_id' => 'required',
+           
         ];
     }
 }
