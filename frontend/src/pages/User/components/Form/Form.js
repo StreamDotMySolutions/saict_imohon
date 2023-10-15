@@ -1,81 +1,105 @@
 import React, { useState } from 'react';
-import { Form, FormControl, Button, Container } from 'react-bootstrap';
+import { Form, FormControl, Button, Container, Tabs, Tab } from 'react-bootstrap';
 import useUserStore from '../../stores/UserStore'; 
+import Category from './components/Category';
 
 function UserForm() {
     const user = useUserStore()
     
     return (
-        <Container>
-        {/* <Form >
-            <Form.Group controlId="formBasicText">
-            <Form.Label>Name</Form.Label>
-            <FormControl
-                type="text"
-                placeholder="Enter officer name"
-                value={user.name?.value}
-                onChange={(e) => { 
-                    const data = {
-                        value: e.target.value
-                    }
-                    useUserStore.setState({name: data})}
-                    }
-                isInvalid={user.name?.error} // Apply the is_invalid class when isValid is true
-            />
-            <Form.Control.Feedback type="invalid">
-                {user.name?.message}
-            </Form.Control.Feedback>
-            </Form.Group>
-        </Form> */}
-<Form>
-            <InputText
-                label='Officer Name'
-                placeholder={'Enter officer name'}
-                type='text'
-                field='name'
-            />
+    <Container>
 
+    <Tabs
+      defaultActiveKey="user"
+      id="UserTab"
+      className="mb-3"
+    >
+      <Tab eventKey="user" title="Akaun">
+        <Form>
             <InputText
-                label='Officer Email'
-                placeholder={'Enter officer email'}
+                label='Email'
+                placeholder={'Alamat email'}
                 type='text'
                 field='email'
             />
 
 
             <InputText
-                label='Officer NRIC Number'
-                placeholder={'Enter NRIC number'}
-                type='text'
-                field='nric'
-            />
-
-            <InputText
-                label='Officer Password'
-                placeholder={'Enter officer password'}
+                label='Password'
+                placeholder={'Password'}
                 type='password'
                 field='password'
             />
-</Form>
-        </Container>
+        </Form>
+      </Tab>
+      <Tab eventKey="profile" title="Profil" >
+      <Form>
+
+        <InputText
+                label='Nama penuh'
+                placeholder={'Nama penuh'}
+                type='text'
+                field='name'
+            />
+
+        <InputText
+                label='Jawatan'
+                placeholder={'Nama penuh'}
+                type='text'
+                field='occupation'
+            />
+
+
+        <InputText
+            label='Nombor Kad Pengenalan'
+            placeholder={'Isi no kad pengenalan'}
+            type='text'
+            field='nric'
+        />
+
+        <InputText
+            label='Nombor telefon'
+            placeholder={'Nombor telefon'}
+            type='text'
+            field='nric'
+        />
+
+        <InputText
+            label='Alamat 1'
+            placeholder='Isi alamat'
+            as='textarea'
+            field='nric'
+            rows={3}
+        />
+        </Form>
+      </Tab>
+      <Tab eventKey="department" title="Jabatan" >
+        <Category /> 
+      </Tab>
+    </Tabs>
+        
+    </Container>
     );
 }
 
 export default UserForm;
 
-
 function InputText({
     label,
     placeholder,
     field,
-    type
+    type,
+    as,
+    rows
 }){
     const user = useUserStore()
     return(
-        <Form.Group>
+        <Form.Group className='mb-3'>
         <Form.Label>{label}</Form.Label>
         <FormControl
             type={type}
+            as={as}
+            rows={rows}
             name={field}
             autocomplete='off'
             placeholder={placeholder}
