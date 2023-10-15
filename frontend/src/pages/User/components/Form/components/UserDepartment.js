@@ -1,13 +1,14 @@
 import React, { useState,useEffect } from 'react'
 import useCategoryStore from '../../../../Category/stores/CategoryStore'
+import useUserDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore';
 import axios from '../../../../../libs/axios'
-import { Form } from 'react-bootstrap';
+//import { Form } from 'react-bootstrap';
 
-const Category = () => {
-    const category = useCategoryStore()
+const UserDepartment = () => {
+    const category = useUserDepartmentStore()
     const [data,setData] = useState([])
-    console.log('from category')
-    console.log(category.index_url)
+    // console.log('from category')
+    // console.log(category.index_url)
 
     useEffect( () => {
         axios({
@@ -16,7 +17,7 @@ const Category = () => {
         })
         .then( response => {
             console.log(response.data)
-            setData(response.data.categories)
+            setData(response.data.user_departments)
         })
     },[])
 
@@ -64,4 +65,4 @@ function CategoryDropdown({ data, depth = 0 }) {
     );
   }
 
-export default Category;
+export default UserDepartment;

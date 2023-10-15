@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, FormControl, Button, Container, Tabs, Tab } from 'react-bootstrap';
 import useUserStore from '../../stores/UserStore'; 
-import Category from './components/Category';
+import UserDepartment from './components/UserDepartment';
 
 function UserForm() {
     const user = useUserStore()
@@ -74,7 +74,7 @@ function UserForm() {
         </Form>
       </Tab>
       <Tab eventKey="department" title="Jabatan" >
-        <Category /> 
+        <UserDepartment /> 
       </Tab>
     </Tabs>
         

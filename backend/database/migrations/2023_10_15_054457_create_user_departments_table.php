@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('user_departments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
 
@@ -25,9 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
-        // Schema::table('categories', function (Blueprint $table) {
-        //     $table->dropNestedSet();
-        // });
+        Schema::dropIfExists('user_departments');
     }
 };

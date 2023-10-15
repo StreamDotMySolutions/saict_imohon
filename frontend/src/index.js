@@ -19,6 +19,7 @@ import Teknologi from "./pages/Teknologi"
 import Keselamatan from "./pages/Keselamatan"
 import Privasi from "./pages/Privasi"
 import CategoryIndex from './pages/Category'
+import UserDepartment from './pages/UserDepartment';
 
 /** Font Awesome **/
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -33,7 +34,7 @@ export default function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             {/* <Route index element={<Home />} /> */}
-            <Route index element={<User />} />
+            <Route index element={<Home />} />
             <Route path="*" element={<Error404 />} />
             <Route path="/dashboard" element={<Dashboard />} />
 
@@ -42,6 +43,8 @@ export default function App() {
             <Route path="/keselamatan" element={<Keselamatan />} />
             <Route path="/privasi" element={<Privasi />} />
             <Route path="/categories" element={<CategoryIndex />} />
+            <Route path="/users" element={<User />} />
+            <Route path="/user-departments" element={<UserDepartment />} />
           </Route>
         </Routes>
       </BrowserRouter>
