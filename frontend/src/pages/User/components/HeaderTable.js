@@ -12,12 +12,12 @@ const HeaderTable = () => {
                 <Col xs={2}><Button variant='light' className='border border-2'>Negeri</Button></Col>
                 <Col xs={4}>
                 
-                {/* <Form.Select aria-label="Default select example">
+                <Form.Select aria-label="Default select example">
                     <option >Pilih negeri</option>
                     <option value="1">Johor</option>
                     <option value="2">Pahang</option>
                     <option value="3">Melaka</option>
-                </Form.Select> */}
+                </Form.Select>
                 </Col>
             </Row>
         </Col>

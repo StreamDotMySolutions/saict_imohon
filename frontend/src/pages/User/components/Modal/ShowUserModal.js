@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalFooter } from 'react-bootstrap';
 
-function ShowUserModal() {
+function ShowUserModal({id}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -18,6 +18,7 @@ function ShowUserModal() {
         <Modal.Body>
           {/* Add your form or content here */}
           <p>Your form content goes here.</p>
+          id is {id}
         </Modal.Body>
         <ModalFooter>
           <Button variant="secondary" onClick={handleClose}>

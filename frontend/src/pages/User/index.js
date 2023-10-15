@@ -10,8 +10,6 @@ import { Tabs,Tab } from 'react-bootstrap';
 const User = () => {
 
     return (
-
-      
       <Tabs
         defaultActiveKey="admin"
         id="admin"

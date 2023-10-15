@@ -8,7 +8,7 @@ const users = {
         message:null
     },
     refresh: false,
-    index_url :  process.env.REACT_APP_BACKEND_URL + '/users/index?page=1',
+    index_url :  process.env.REACT_APP_BACKEND_URL + '/users/?page=1',
     store_url :  process.env.REACT_APP_BACKEND_URL + '/users/store',
     update_url :  process.env.REACT_APP_BACKEND_URL + '/users/update',
     delete_url :  process.env.REACT_APP_BACKEND_URL + '/users/delete',
