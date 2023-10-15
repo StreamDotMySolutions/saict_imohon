@@ -10,10 +10,12 @@ class CategoryController extends Controller
 {
     public function index(){
 
-        $categories = Category::withDepth()
-            ->with('ancestors')
-            ->get()
-            ->toTree();
+        // $categories = Category::withDepth()
+        //     ->with('ancestors')
+        //     ->get()
+        //     ->toTree();
+
+        $categories = Category::defaultOrder()->get()->toTree();
 
         return response()->json([
             'categories' => $categories
@@ -62,9 +64,20 @@ class CategoryController extends Controller
 
     public function ordering(Category $category, $direction)
     {
-        
-        \Log::info($direction);
-        
+        // \Log::info($category);
+        // \Log::info($direction);
+        $node = Category::find($category->id);
+
+        switch($direction){
+            case 'up':
+                $node->up();
+            break;
+
+            case 'down':
+                $node->down();
+            break;
+        }
+        return response()->json(['message' => 'success']);
         //$node->down();
     }
 }

@@ -12,10 +12,7 @@ import Error404 from "./pages/Error404"
 
 /** Pages - PUBLIC */
 import Home from "./pages/Home"
-import Index from "./pages/Index"
-import States from "./pages/States"
-import Regions from "./pages/Regions"
-import Candidate from "./pages/Candidates"
+import User from "./pages/User"
 import Dashboard from "./pages/Dashboard"
 import Penafian from "./pages/Penafian"
 import Teknologi from "./pages/Teknologi"
@@ -26,7 +23,6 @@ import CategoryIndex from './pages/Category'
 /** Font Awesome **/
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-
 library.add(fas)
 
 export default function App() {
@@ -37,7 +33,7 @@ export default function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             {/* <Route index element={<Home />} /> */}
-            <Route index element={<Index />} />
+            <Route index element={<User />} />
             <Route path="*" element={<Error404 />} />
             <Route path="/dashboard" element={<Dashboard />} />
 
@@ -45,7 +41,6 @@ export default function App() {
             <Route path="/teknologi" element={<Teknologi />} />
             <Route path="/keselamatan" element={<Keselamatan />} />
             <Route path="/privasi" element={<Privasi />} />
-            <Route path="/index" element={<Index />} />
             <Route path="/categories" element={<CategoryIndex />} />
           </Route>
         </Routes>

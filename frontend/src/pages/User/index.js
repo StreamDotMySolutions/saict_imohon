@@ -7,7 +7,7 @@ import HeaderTable from './components/HeaderTable';
 import { Tabs,Tab } from 'react-bootstrap';
 
 
-const Index = () => {
+const User = () => {
 
     return (
 
@@ -32,4 +32,4 @@ const Index = () => {
 } 
 
 
-export default Index
+export default User

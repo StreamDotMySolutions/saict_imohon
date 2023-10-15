@@ -195,7 +195,25 @@ function CategoryItem({ category }) {
     setIsEditing(false);
   };
 
-  const handleOrderingClick = (id,ordering) => {
+  const handleOrderingClick = (id,direction) => {
+    const store = useCategoryStore.getState()
+    console.log(`Ordering : ${id} way is ${direction}`);
+    const formData = new FormData();
+
+    formData.append('_method', 'patch');
+    
+    axios({
+      url: `${store.ordering_url}/${id}/${direction}`,
+      method: 'post',
+      data: formData,
+    })
+      .then((response) => {      
+        useCategoryStore.setState({refresh: true})
+        showNotificationFor2Seconds()
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
   }
 
@@ -216,6 +234,7 @@ function CategoryItem({ category }) {
       ) : (
         <>
         <Button
+          onClick={handleEditClick}
           variant='light'
           size='sm'
           className='text-uppercase border border-1'
@@ -224,8 +243,8 @@ function CategoryItem({ category }) {
       
         </Button>
 
-        <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-up" /></Button> 
-         <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-down" /></Button> 
+        <Button onClick={ () => handleOrderingClick(category.id,'up')} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-up" /></Button> 
+        <Button onClick={ () => handleOrderingClick(category.id,'down')} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-caret-down" /></Button> 
         
         <Button onClick={handleEditClick} variant='light' size='sm'><FontAwesomeIcon icon="fa-solid fa-edit" /></Button> 
         
