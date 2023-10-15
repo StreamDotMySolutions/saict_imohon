@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 
 class UserService
@@ -18,12 +19,15 @@ class UserService
     // 'user_department_id' => '4',
     public static function store(Request $request){
         
-        // user
+        // User
         $user = User::create($request->only(['email','password']));
     
-        // role
+        // Role
         $user->assignRole($request->input('role'));
 
-        
+        // insert into UserProfile
+        $profile = $request->merge(['user_id' => $user->id]);
+        \Log::info($profile);
+        UserProfile::create($profile->except(['email','password']));
     }
 }
