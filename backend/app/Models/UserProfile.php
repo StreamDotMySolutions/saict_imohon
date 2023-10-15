@@ -17,4 +17,9 @@ class UserProfile extends Model
         'phone',
         'address',
     ];
+
+    public function userDepartment(){
+        return $this->belongsTo(UserDepartment::class);
+    }
+
 }

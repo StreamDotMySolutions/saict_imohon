@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\User;
 
 class UserController extends Controller
 {
+
+    public function index()
+    {
+        $paginate = User::query()->with('profile.userDepartment');
+
+        
+        $users = $paginate->orderBy('id','DESC')->paginate(10)->withQueryString();
+
+        return \Response::json([
+            'message' => 'success',
+            'users' => $users,
+        ]);
+    }
+
     public function store(StoreUserRequest $request)
     {
         \Log::info($request->validated());

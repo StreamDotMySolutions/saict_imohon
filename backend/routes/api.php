@@ -7,6 +7,7 @@ use App\Http\Controllers\UserDepartmentController;
 use App\Http\Controllers\CategoryController;
 
 
+Route::get('/users', [UserController::class, 'index']);
 Route::post('/users/store', [UserController::class, 'store']);
 
 Route::get('/user-departments', [UserDepartmentController::class, 'index']);

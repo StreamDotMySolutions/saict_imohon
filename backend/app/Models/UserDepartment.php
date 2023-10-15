@@ -14,4 +14,6 @@ class UserDepartment extends Model
     protected $fillable = [
         'name',
     ];
+
+
 }
