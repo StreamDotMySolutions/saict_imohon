@@ -10,7 +10,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         \Log::info($request->validated());
-        //UserService::store($request->validated());
+        UserService::store($request);
         return response()->json(['message' => 'success']);
     }
 
