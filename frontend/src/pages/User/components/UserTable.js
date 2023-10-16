@@ -12,7 +12,7 @@ function UserTable() {
 
   const store = useUserStore()
   const [data, setData] = useState([])
-
+  //console.log(store.index_url)
   useEffect( () => {
       axios({
           url: store.index_url,  // user store API
@@ -24,7 +24,7 @@ function UserTable() {
           setData(response.data.users)
           useUserStore.setState({refresh: false})
       })
-  },[store.refresh])
+  },[store.refresh,store.index_url])
 
 
 
@@ -83,7 +83,8 @@ function RenderTable({items}) {
 function PaginatorLink ({items}){
   //console.log(items.links)
   const handlePaginationClick = (url) => {
-    console.log(url)
+    //console.log(url)
+    useUserStore.setState({index_url: url})
   }
   const links = items?.links?.map( (page,index) => 
       
