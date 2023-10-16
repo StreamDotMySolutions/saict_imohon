@@ -2,8 +2,8 @@ import { Button } from "react-bootstrap"
 import useStore from "./store"
 const Home = () => {
 
-    const store = useStore()
-    //const store = useStore.getState()
+    const store = useStore() // kena guna as Hook
+    //const store = useStore.getState() // tak jalan
     return (
         <>
         <h1>Sistem i Mohon</h1>
