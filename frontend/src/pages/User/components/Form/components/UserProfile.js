@@ -5,22 +5,20 @@ import useUserStore from '../../../stores/UserStore';
 
 const UserProfile = () => {
     return (
-        <Form>
+    <Form>
+        <InputText
+            label='Nama penuh'
+            placeholder='Nama penuh'
+            type='text'
+            field='name'
+        />
 
         <InputText
-                label='Nama penuh'
-                placeholder='Nama penuh'
-                type='text'
-                field='name'
-            />
-
-        <InputText
-                label='Jawatan'
-                placeholder='Jawatan di RTM'
-                type='text'
-                field='occupation'
-            />
-
+            label='Jawatan'
+            placeholder='Jawatan di RTM'
+            type='text'
+            field='occupation'
+        />
 
         <InputText
             label='Nombor Kad Pengenalan'
@@ -43,7 +41,7 @@ const UserProfile = () => {
             field='address'
             rows={3}
         />
-        </Form>
+    </Form>
     );
 };
 

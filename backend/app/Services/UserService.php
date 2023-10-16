@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class UserService
 {
-
     // 'role' => 'admin',
     // 'email' => 'user@local',
     // 'password' => 'password',

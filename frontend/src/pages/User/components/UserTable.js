@@ -9,7 +9,8 @@ import axios from '../../../libs/axios';
 import { Pagination,PageItem } from 'react-bootstrap';
 
 function UserTable() {
-  const store = useUserStore.getState()
+
+  const store = useUserStore()
   const [data, setData] = useState([])
 
   useEffect( () => {
@@ -19,20 +20,20 @@ function UserTable() {
       })
       .then( response => {
           //console.log(response.data)
+          console.log('loading data...')
           setData(response.data.users)
           useUserStore.setState({refresh: false})
       })
   },[store.refresh])
-  //console.log(store.data)
+
+
+
   return (
     <>
-    {/* <HeaderTable /> */}
-
+    <HeaderTable />
     <RenderTable items={data} />
-    
-
+  
     <div class="d-flex">
-      <div className='text-muted'>120 pengguna</div>
       <div class="ms-auto">
         <PaginatorLink items={data} />
       </div>

@@ -7,7 +7,7 @@ const HeaderTable = () => {
 
     <Row className='mb-3'>
         <Col xs={11}>
-            <Row className='col-6'>
+            {/* <Row className='col-6'>
                 <Col className='me-2' xs={1}><Button variant='light'>HQ</Button></Col>
                 <Col xs={2}><Button variant='light' className='border border-2'>Negeri</Button></Col>
                 <Col xs={4}>
@@ -19,7 +19,7 @@ const HeaderTable = () => {
                     <option value="3">Melaka</option>
                 </Form.Select>
                 </Col>
-            </Row>
+            </Row> */}
         </Col>
         <Col>
             <CreateUserModal />

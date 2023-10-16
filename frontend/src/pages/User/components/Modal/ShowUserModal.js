@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalFooter } from 'react-bootstrap';
+import useUserStore from '../../stores/UserStore';
 
 function ShowUserModal({id}) {
+  
+  const store = useUserStore()
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+
+  const handleClose = () => { 
+    setShow(false);
+    useUserStore.setState({namapenuh: 'azril'})
+    useUserStore.setState({refresh: true})
+  }
   const handleShow = () => setShow(true);
 
   return (

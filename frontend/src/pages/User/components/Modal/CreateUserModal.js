@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalFooter ,Row} from 'react-bootstrap';
 import axios from '../../../../libs/axios';
 import useUserStore from '../../stores/UserStore';
@@ -6,6 +6,10 @@ import Form from '../Form/Form';
 import { setFormError , resetStore } from '../libs/include'
 
 export default function CreateUserModal() {
+
+  const store = useUserStore.getState()
+
+
     const user = useUserStore()
     const [show, setShow] = useState(false);
     const [error, setError] = useState(false);
@@ -53,6 +57,7 @@ export default function CreateUserModal() {
             data: formData, // payload is formData
         })
         .then( response => {
+            //console.log('refresh - true')
             useUserStore.setState({ refresh: true }) // useEffect trigger
             handleClose() // close modal
         })
@@ -68,6 +73,8 @@ export default function CreateUserModal() {
           }
         })
     };
+
+   
 
   return (
     <>
