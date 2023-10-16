@@ -2,10 +2,16 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserDepartmentController;
-use App\Http\Controllers\CategoryController;
 
+use App\Http\Controllers\{
+    UserController,
+    UserDepartmentController,
+    CategoryController,
+    AuthController
+};
+
+Route::post('/login', [AuthController::class, 'store'])->middleware('guest')->name('login');
+Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users/store', [UserController::class, 'store']);

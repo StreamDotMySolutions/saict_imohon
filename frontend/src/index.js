@@ -7,6 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 /** Layouts */
 import DefaultLayout from "./layouts/DefaultLayout"
 
+/** Protected Route */
+import ProtectedRout from './libs/ProtectedRoute';
+import SignIn from './pages/SignIn'
+
 /** Error */
 import Error404 from "./pages/Error404"
 
@@ -24,6 +28,7 @@ import UserDepartment from './pages/UserDepartment';
 /** Font Awesome **/
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import ProtectedRoute from './libs/ProtectedRoute';
 library.add(fas)
 
 export default function App() {
@@ -31,20 +36,28 @@ export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Routes>
-          <Route element={<DefaultLayout />}>
-            {/* <Route index element={<Home />} /> */}
-            <Route index element={<Home />} />
-            <Route path="*" element={<Error404 />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+        <Routes>            
+          
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="*" element={<Error404 />} />
 
-            <Route path="/penafian" element={<Penafian />} />
-            <Route path="/teknologi" element={<Teknologi />} />
-            <Route path="/keselamatan" element={<Keselamatan />} />
-            <Route path="/privasi" element={<Privasi />} />
-            <Route path="/categories" element={<CategoryIndex />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/user-departments" element={<UserDepartment />} />
+            <Route element={<DefaultLayout />}>
+              <Route element={<ProtectedRoute />}>  
+                {/* <Route index element={<Home />} /> */}
+                <Route index element={<Home />} />
+              
+                <Route path="/home" element={<Home />} />
+
+                <Route path="/dashboard" element={<Dashboard />} />
+
+                <Route path="/penafian" element={<Penafian />} />
+                <Route path="/teknologi" element={<Teknologi />} />
+                <Route path="/keselamatan" element={<Keselamatan />} />
+                <Route path="/privasi" element={<Privasi />} />
+                <Route path="/categories" element={<CategoryIndex />} />
+                <Route path="/users" element={<User />} />
+                <Route path="/user-departments" element={<UserDepartment />} />
+              </Route>
           </Route>
         </Routes>
       </BrowserRouter>

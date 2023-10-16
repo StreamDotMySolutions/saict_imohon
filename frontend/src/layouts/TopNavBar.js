@@ -5,9 +5,23 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useLocation} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from './img/imohon.png'
+import HandleLogout from '../pages/SignIn/HandleLogout';
+import { useAuthStore } from '../stores/AuthStore';
 
 function TopNavbar() {
 
+  
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
+  
+  const currDate = {
+      show : new Date().toLocaleString(),
+  }
+
+  const handleLogoutClick = () =>{
+    console.log('loggging out')
+      HandleLogout()
+      setIsLoggedIn(false)  
+  }
 
   return (
     <Navbar fixed="top"  bg="light" data-bs-theme="light">
@@ -31,7 +45,7 @@ function TopNavbar() {
           <Nav className="ms-auto">
 
             <Nav>
-              <Nav.Link as={NavLink} to="/" className='active'>Logout{' '}   <FontAwesomeIcon icon="fa-solid fa-sign-out" /></Nav.Link>
+              <Nav.Link as={NavLink} to="/" onClick={handleLogoutClick} className='active'>Logout{' '}   <FontAwesomeIcon icon="fa-solid fa-sign-out" /></Nav.Link>
             </Nav>
             
           </Nav>
