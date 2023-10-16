@@ -1,11 +1,12 @@
 import React, { useState,useEffect } from 'react';
-import Pagination from './Pagination';
+//import Pagination from './Pagination';
 import HeaderTable from './HeaderTable';
 import ShowUserModal from './Modal/ShowUserModal';
 import EditUserModal from './Modal/EditUserModal';
 import DeleteUserModal from './Modal/DeleteUserModal';
 import useUserStore from '../stores/UserStore';
 import axios from '../../../libs/axios';
+import { Pagination,PageItem } from 'react-bootstrap';
 
 function UserTable() {
   const store = useUserStore.getState()
@@ -18,7 +19,7 @@ function UserTable() {
       })
       .then( response => {
           //console.log(response.data)
-          setData(response.data.users.data)
+          setData(response.data.users)
           useUserStore.setState({refresh: false})
       })
   },[store.refresh])
@@ -27,12 +28,14 @@ function UserTable() {
     <>
     {/* <HeaderTable /> */}
 
-    {data.length > 0 ?  <RenderTable data={data} /> : 'loading...' }
+    <RenderTable items={data} />
     
 
     <div class="d-flex">
       <div className='text-muted'>120 pengguna</div>
-      <div class="ms-auto"><Pagination /></div>
+      <div class="ms-auto">
+        <PaginatorLink items={data} />
+      </div>
     </div>
     </>
   );
@@ -40,7 +43,8 @@ function UserTable() {
 
 export default UserTable;
 
-const  RenderTable = (users) => {
+function RenderTable({items}) {
+  //console.log(items)
 
   return(
     <table className="table table-bordered">
@@ -53,7 +57,7 @@ const  RenderTable = (users) => {
             </tr>
         </thead>
       <tbody>
-        {users.data?.map((user, index) => (
+        {items?.data?.map((user, index) => (
           <tr key={index}>
             <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
             <td className='px-5'>{user.email}</td>
@@ -71,3 +75,31 @@ const  RenderTable = (users) => {
     </table>
     )
 }
+
+/**
+ * Paginator Links
+ */
+function PaginatorLink ({items}){
+  //console.log(items.links)
+  const handlePaginationClick = (url) => {
+    console.log(url)
+  }
+  const links = items?.links?.map( (page,index) => 
+      
+    <Pagination.Item
+        key={index} 
+        active={page.active}
+        disabled={page.url === null}
+        onClick={() => handlePaginationClick(page.url)}
+        >
+            <span dangerouslySetInnerHTML={{__html: page.label}} />
+    </Pagination.Item>
+  )
+
+  return (
+    <Pagination>
+    {links}
+    </Pagination>
+  )
+}
+

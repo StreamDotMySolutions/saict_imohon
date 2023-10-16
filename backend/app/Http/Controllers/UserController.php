@@ -12,8 +12,6 @@ class UserController extends Controller
     public function index()
     {
         $paginate = User::query()->with('profile.userDepartment');
-
-        
         $users = $paginate->orderBy('id','DESC')->paginate(10)->withQueryString();
 
         return \Response::json([
