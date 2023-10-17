@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import DefaultLayout from "./layouts/DefaultLayout"
 
 /** Protected Route */
-import ProtectedRout from './libs/ProtectedRoute';
+import ProtectedRoute from './libs/ProtectedRoute';
 import SignIn from './pages/SignIn'
 
 /** Error */
@@ -28,7 +28,7 @@ import UserDepartment from './pages/UserDepartment';
 /** Font Awesome **/
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import ProtectedRoute from './libs/ProtectedRoute';
+
 library.add(fas)
 
 export default function App() {

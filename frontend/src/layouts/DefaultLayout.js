@@ -20,8 +20,8 @@ const DefaultLayout = () => {
             <Container fluid className="p-1 mt-5">
               <hr />
               <Col lg={12}>
-              <Container className="mt-3 mb-3">
-                <Outlet />
+                <Container className="mt-3 mb-3">
+                  <Outlet />
                 </Container>
               </Col>
             </Container>
@@ -31,7 +31,7 @@ const DefaultLayout = () => {
           <>
             <Container>
               <div className="d-flex justify-content-center">
-                  <img src="img/maintainance.jpg" className="img-fluid" width="50%" />
+                  <img alt="maintenance" src="img/maintainance.jpg" className="img-fluid" width="50%" />
               </div>
               <Row>
                 <h2 className="text-center mt-3">Laman Web Dalam Penyelengaraan</h2>

@@ -30,30 +30,30 @@ const Footer = () => {
         <Col md={4}>
           <ul className="list-unstyled">
             <li>
-              <NavLink extact className="text-dark text-decoration-none hover-link" to="/keselamatan" activeClassName="active-link">
+              <NavLink className="text-dark text-decoration-none hover-link" to="/keselamatan">
               <FontAwesomeIcon icon="fa-solid fa-lock" />{' '}Dasar Keselamatan
               </NavLink>
      
             </li>
             <li>
-              <NavLink extact className="text-dark text-decoration-none hover-link" to="/penafian" activeClassName="active-link">
+              <NavLink className="text-dark text-decoration-none hover-link" to="/penafian">
               <FontAwesomeIcon icon="fa-solid fa-hand" />{' '}Penafian
               </NavLink>
             </li>
             <li>
-              <NavLink extact className="text-dark text-decoration-none hover-link" to="/privasi" activeClassName="active-link">
+              <NavLink className="text-dark text-decoration-none hover-link" to="/privasi">
               <FontAwesomeIcon icon="fa-solid fa-user-lock" />{' '}Dasar Privasi
               </NavLink>
             </li>
             <li>
-              <NavLink extact className="text-dark text-decoration-none hover-link" to="/teknologi" activeClassName="active-link">
+              <NavLink className="text-dark text-decoration-none hover-link" to="/teknologi">
               <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Teknologi
               </NavLink>
             </li>
           </ul>
         </Col>
         <Col md={4}>
-          <p>
+          
             <h5>Jabatan Penyiaran Malaysia</h5>
             <FontAwesomeIcon icon="fa-solid fa-location-dot" />{' '}
             Angkasapuri Kota Media <br />
@@ -62,12 +62,12 @@ const Footer = () => {
             Tel: 03 - 2288 8796 <br />
             <FontAwesomeIcon icon="fa-solid fa-fax" /> {' '}
             Faks: 03 - 2282 1927
-          </p>
+          
         </Col>
         <Col md={4}>
-          <p>
+          
           <FontAwesomeIcon icon="fa-solid fa-copyright" />{' '}Hak Cipta Terpelihara &copy; 2023 Seksyen Aplikasi ICT, Jabatan Penyiaran Malaysia
-          </p>
+          
           <p className="text-end">
             <a href="#" className="text-secondary text-decoration-none">
             <FontAwesomeIcon icon="fas fa-arrow-up" /> {' '}Kembali ke atas

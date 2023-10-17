@@ -33,8 +33,8 @@ function UserTable() {
     <HeaderTable />
     <RenderTable items={data} />
   
-    <div class="d-flex">
-      <div class="ms-auto">
+    <div className="d-flex">
+      <div className="ms-auto">
         <PaginatorLink items={data} />
       </div>
     </div>

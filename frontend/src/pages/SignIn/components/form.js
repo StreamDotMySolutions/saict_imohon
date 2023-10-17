@@ -98,7 +98,7 @@ const Form = () => {
             <button type="submit" className="btn btn-primary btn-lg login-button w-50">
                 { isLoading ? 
                 <>
-                <i class="fa-solid fa-sync fa-spin"></i>
+                <i className="fa-solid fa-sync fa-spin"></i>
                 </>
                 :
                 <>
