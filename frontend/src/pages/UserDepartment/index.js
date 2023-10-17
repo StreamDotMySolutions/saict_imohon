@@ -15,7 +15,7 @@ const UserDepartment = () => {
             method: 'get', // method is POST
         })
         .then( response => {
-            console.log(response.data)
+            //console.log(response.data)
             setData(response.data.user_departments)
             useUserDepartmentStore.setState({refresh: false})
         })
@@ -97,6 +97,7 @@ function CategoryTree({ data }) {
 }
 
 function CategoryDropdown({ data, depth = 0 }) {
+  if( data.length == 0 ) return 
   const indent = '_ _'.repeat(depth);
   
   return (
@@ -170,7 +171,7 @@ function CategoryItem({ category }) {
   const handleSaveClick = (id) => {
     // Save the updated category name, e.g., send an API request
     const store = useUserDepartmentStore.getState()
-    console.log(`Saving category name: ${newCategoryName}`);
+    //console.log(`Saving category name: ${newCategoryName}`);
 
     // Send to server
     const formData = new FormData();

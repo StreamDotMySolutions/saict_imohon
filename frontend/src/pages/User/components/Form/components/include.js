@@ -18,7 +18,7 @@ export function InputText({
             as={as}
             rows={rows}
             name={field}
-            autocomplete='off'
+            autoComplete='off'
             placeholder={placeholder}
             value={user[field]?.value}
             onChange={(e) => { 

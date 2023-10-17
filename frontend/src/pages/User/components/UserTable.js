@@ -20,7 +20,7 @@ function UserTable() {
       })
       .then( response => {
           //console.log(response.data)
-          console.log('loading data...')
+          //console.log('loading data...')
           setData(response.data.users)
           useUserStore.setState({refresh: false})
       })

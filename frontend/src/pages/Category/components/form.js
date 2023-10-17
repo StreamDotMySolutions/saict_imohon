@@ -15,7 +15,7 @@ const CategoryForm = () => {
                         id='name'
                         type='text'
                         name='name'
-                        autocomplete='off'
+                        autoComplete='off'
                         placeholder='Enter category name'
                         value={category.name?.value}
                         onClick={

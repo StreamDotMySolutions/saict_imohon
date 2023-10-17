@@ -9,7 +9,6 @@ import useUserStore from './stores/UserStore';
 
 const User = () => {
     const store = useUserStore()
-    console.log(store)
     return (
       <Tabs
         defaultActiveKey="admin"
@@ -17,9 +16,7 @@ const User = () => {
         className="mb-3"
       >
         <Tab eventKey="admin" title="Admin">
-        {store.refresh ? 'true' : 'false'}
           <UserTable />
-     
         </Tab>
         <Tab eventKey="Penyelaras" title="Penyelaras">
           <UserTable />

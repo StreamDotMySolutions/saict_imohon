@@ -15,7 +15,7 @@ const CategoryIndex = () => {
             method: 'get', // method is POST
         })
         .then( response => {
-            console.log(response.data)
+            //console.log(response.data)
             setData(response.data.categories)
             useCategoryStore.setState({refresh: false})
         })
@@ -83,12 +83,12 @@ function CategoryTree({ data }) {
   
     return (
       <ul>
-        {data.map((category) => (
+        {data.map((category,index) => (
           <li className='p-2' key={category.id}>
             {/* <Button variant='light' size='sm' className='text-uppercase border border-1'>{category.name}</Button>  */}
 
             <CategoryItem category={category} />           
-            <CategoryTree data={category.children} /> {/* Recursively render child categories */}
+            <CategoryTree key={index} data={category.children} /> {/* Recursively render child categories */}
           </li>
         ))}
       </ul>
@@ -96,20 +96,19 @@ function CategoryTree({ data }) {
 }
 
 function CategoryDropdown({ data, depth = 0 }) {
+
+  if( data.length == 0 ) return 
   const indent = '_ _'.repeat(depth);
   
   return (
     <>
       {data.map((category,index) => (
         <>
-     
-        {/* <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}> */}
         <option
+          key={index}
           value={category.id}
           className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
-          key={index}
-          //disabled={category.parent_id === null}
-           >
+          >
           {depth != 0 && 'I'}{indent}{' '}{category.name}
         </option>
         <CategoryDropdown data={category.children} depth={depth + 1} />

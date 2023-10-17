@@ -53,7 +53,7 @@ const Form = () => {
 
     // redirect
     if (isLoggedIn === true) {
-        return <Navigate to='/home' replace />
+        return <Navigate to='/' replace />
     }
 
     // JSX return
