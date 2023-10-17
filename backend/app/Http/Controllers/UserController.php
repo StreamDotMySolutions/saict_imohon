@@ -14,10 +14,7 @@ class UserController extends Controller
         $paginate = User::query()->with('profile.userDepartment')->where('id','<>',1);
         $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
 
-        return \Response::json([
-            'message' => 'success',
-            'users' => $users,
-        ]);
+        return response()->json(['users' => $users]);
     }
 
     public function store(StoreUserRequest $request)
@@ -29,8 +26,13 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user = User::where('id',$user->id)->with('profile.userDepartment')->first();
+        // User, Profile
+        $user = User::where('id',$user->id)->with(['profile.userDepartment'])->first();
+
+        // Role
+
         \Log::info($user);
+        $user['role'] = $user->roles->pluck('name')[0];
         return response()->json(['user' => $user]);
     }
 

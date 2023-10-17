@@ -5,18 +5,10 @@ import axios from '../../../../libs/axios';
 import UserForm from '../Form/Form';
 
 function EditUserModal({id}) {
-  console.log(id)
-  const store = useUserStore()
-  console.log(store.show_url)
-
-
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  
   function handleEditClick({id}){
     setShow(true)
     fetchData(id)
@@ -25,7 +17,7 @@ function EditUserModal({id}) {
 
   return (
     <>
-      <Button onClick={ () => handleEditClick({id})}>Edit</Button>
+      <Button onClick={ () => handleEditClick({id}) }>Edit</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
@@ -58,6 +50,10 @@ function fetchData(id){
     console.log(response)
 
     useUserStore.setState({
+
+                                role:{
+                                        value: response.data?.user?.role
+                                     },
                                 email:{
                                         value: response.data?.user?.email
                                       },
@@ -75,9 +71,8 @@ function fetchData(id){
                                       },      
                             address:  {
                                         value: response.data?.user?.profile?.address
-                                      },     
-                                        
-                  user_department_id:  {
+                                      },                                          
+                  user_department_id: {
                                         value: response.data?.user?.profile?.user_department_id
                                       },  
               })
