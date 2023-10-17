@@ -1,8 +1,8 @@
 import React from 'react'
-import './style.css'
-import login_logo from './img/login.webp'
-import rtm from './img/rtm_logo.png'
-import Form from './form'
+import './assets/style.css'
+import login_logo from './assets/img/login.webp'
+import rtm from './assets/img/rtm_logo.png'
+import Form from './components/form'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const SignIn = () => {
@@ -13,13 +13,16 @@ return (
   <div className="container-fluid h-custom">
     <div className="row d-flex justify-content-center align-items-center h-100">
       <div className="col-md-9 col-lg-6 col-xl-5">
-        <img src={login_logo}
-          className="img-fluid" alt="Content Management System" />
+        <img  src={login_logo}
+              className="img-fluid" 
+              alt="Content Management System" 
+        />
       </div>
       <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <h2 className="text-muted"> <img src={rtm} width="100" /> i Mohon </h2>
+        <h2 className="text-muted mb-3"> <img src={rtm} width="100" /> i Mohon </h2>
         <Form />
       </div>
+      
     </div>
   </div>
   <div

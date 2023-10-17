@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useLocation} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from './img/imohon.png'
-import HandleLogout from '../pages/SignIn/HandleLogout';
+import HandleLogout from '../libs/HandleLogout';
 import { useAuthStore } from '../stores/AuthStore';
 
 function TopNavbar() {

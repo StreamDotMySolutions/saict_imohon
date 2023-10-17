@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuthStore } from '../../stores/AuthStore'
+import { useAuthStore } from '../stores/AuthStore'
 
 
 const HandleLogout = () =>  {
