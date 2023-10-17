@@ -7,7 +7,7 @@ export function InputText({
     field,
     type,
     as,
-    rows
+    rows,
 }){
     const user = useUserStore()
     return(

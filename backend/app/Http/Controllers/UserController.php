@@ -27,4 +27,11 @@ class UserController extends Controller
         return response()->json(['message' => 'success']);
     }
 
+    public function show(User $user)
+    {
+        $user = User::where('id',$user->id)->with('profile.userDepartment')->first();
+        \Log::info($user);
+        return response()->json(['user' => $user]);
+    }
+
 }

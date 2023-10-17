@@ -14,7 +14,8 @@ Route::post('/login', [AuthController::class, 'store'])->middleware('guest')->na
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
 
 Route::get('/users', [UserController::class, 'index']);
-Route::post('/users/store', [UserController::class, 'store']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{user}', [UserController::class, 'show']);
 
 Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 Route::post('/user-departments', [UserDepartmentController::class, 'store']);

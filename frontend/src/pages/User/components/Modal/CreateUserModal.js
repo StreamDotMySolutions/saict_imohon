@@ -7,7 +7,7 @@ import { setFormError , resetStore } from '../libs/include'
 
 export default function CreateUserModal() {
 
-  const store = useUserStore.getState()
+  const store = useUserStore()
 
 
     const user = useUserStore()

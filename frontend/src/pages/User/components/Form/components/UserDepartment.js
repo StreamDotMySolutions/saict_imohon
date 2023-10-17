@@ -34,7 +34,7 @@ const UserDepartment = () => {
                 useUserStore.setState({user_department_id: data})}
             }
         >
-            <CategoryDropdown data={data} />
+            <CategoryDropdown data={data} selected={user?.user_department_id?.value} />
         </select>
         <Form.Control.Feedback type="invalid">
                 {user.user_department_id?.message}
@@ -44,7 +44,7 @@ const UserDepartment = () => {
 };
 
 
-function CategoryDropdown({ data, depth = 0 }) {
+function CategoryDropdown({ data, selected, depth = 0 }) {
     const indent = '_ _'.repeat(depth);
     
     return (
@@ -58,10 +58,11 @@ function CategoryDropdown({ data, depth = 0 }) {
             className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
             key={index}
             disabled={category.parent_id === null}
+            selected={selected == category.id} // Check if this category is selected
              >
             {depth != 0 && 'I'}{indent}{' '}{category.name}
           </option>
-          <CategoryDropdown data={category.children} depth={depth + 1} />
+          <CategoryDropdown data={category.children} selected={selected} depth={depth + 1} />
           </>
         ))}
   

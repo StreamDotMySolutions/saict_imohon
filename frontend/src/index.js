@@ -18,10 +18,12 @@ import Error404 from "./pages/Error404"
 import Home from "./pages/Home"
 import User from "./pages/User"
 import Dashboard from "./pages/Dashboard"
-import Penafian from "./pages/Penafian"
-import Teknologi from "./pages/Teknologi"
-import Keselamatan from "./pages/Keselamatan"
-import Privasi from "./pages/Privasi"
+
+import Penafian from "./pages/Footer/Penafian"
+import Teknologi from "./pages/Footer/Teknologi"
+import Keselamatan from "./pages/Footer/Keselamatan"
+import Privasi from "./pages/Footer/Privasi"
+
 import CategoryIndex from './pages/Category'
 import UserDepartment from './pages/UserDepartment';
 

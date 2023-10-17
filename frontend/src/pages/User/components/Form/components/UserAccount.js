@@ -5,6 +5,7 @@ import useUserStore from '../../../stores/UserStore';
 
 const UserAccount = () => {
     const user = useUserStore()
+    //console.log(user)
     return (
         <Form>
             
@@ -31,6 +32,7 @@ const UserAccount = () => {
             
 
             <InputText
+                
                 label='Email'
                 placeholder={'Alamat email'}
                 type='text'
