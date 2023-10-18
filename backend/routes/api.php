@@ -16,6 +16,8 @@ Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanct
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
+Route::put('/users/{user}', [UserController::class, 'update']);
+Route::delete('/users/{user}', [UserController::class, 'delete']);
 
 Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 Route::post('/user-departments', [UserDepartmentController::class, 'store']);

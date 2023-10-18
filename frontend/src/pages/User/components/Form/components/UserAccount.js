@@ -1,14 +1,22 @@
-import React from 'react';
-import { Form } from 'react-bootstrap';
+import {useState} from 'react';
+import { Form,Button,Collapse } from 'react-bootstrap';
 import { InputText } from './include';
 import useUserStore from '../../../stores/UserStore';
+// import Collapse from 'react-bootstrap/Collapse';
 
 const UserAccount = () => {
     const user = useUserStore()
+    const [togglePassword, setTogglePassword] = useState(false)
+
     //console.log(user)
+
+    function toggle(){
+
+    }
+
     return (
         <Form>
-            
+        
             <Form.Label>Peranan</Form.Label>
             <Form.Select
                 label='Peranan'
@@ -39,13 +47,27 @@ const UserAccount = () => {
                 field='email'
             />
 
-            <InputText
-                label='Password'
-                placeholder={'Password'}
-                type='password'
-                field='password'
-                autoComplete="new-password"
+            <Form.Check // prettier-ignore
+                type="switch"
+                id="custom-switch"
+                label="Tetapkan Password"
+                onChange={() => setTogglePassword(!togglePassword)}
             />
+
+            <Collapse in={togglePassword}>
+                <div>
+                    <InputText
+                    //label='Password'
+                    placeholder={'Password'}
+                    type='password'
+                    field='password'
+                    autoComplete="new-password"
+                    />
+                </div>
+            </Collapse>
+            
+   
+            
         </Form>
     );
 };

@@ -74,8 +74,7 @@ export default function CreateUserModal() {
         })
     };
 
-   
-
+  
   return (
     <>
       <Button onClick={handleShow}>Create</Button>

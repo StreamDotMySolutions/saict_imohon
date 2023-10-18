@@ -1,19 +1,126 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalFooter } from 'react-bootstrap';
+import { Button, Modal, ModalFooter, Row } from 'react-bootstrap';
 import useUserStore from '../../stores/UserStore';
 import axios from '../../../../libs/axios';
 import UserForm from '../Form/Form';
+import { setFormError , resetStore } from '../libs/include'
 
 function EditUserModal({id}) {
 
+  const user = useUserStore()
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const [error, setError] = useState(false);
 
+  const handleClose = () => {
+    setShow(false)
+    resetStore()
+  }
+  
   function handleEditClick({id}){
     setShow(true)
     fetchData(id)
-    console.log('fetch data for ' + id)
+    //console.log('fetch data for ' + id)
   }
+
+  function handleSaveClick({id}){
+    console.log(id)
+    sendData()
+
+  }
+
+  function fetchData(id){
+    const store = useUserStore.getState()
+    axios({
+      url: `${store.show_url}/${id}`,
+    })
+    .then( response =>{
+      //console.log(response)
+  
+      useUserStore.setState({
+  
+                  role:{
+                          value: response.data?.user?.role
+                        },
+                  email:{
+                          value: response.data?.user?.email
+                        },
+                  name: {
+                          value: response.data?.user?.profile?.name
+                        },
+            occupation: {
+                          value: response.data?.user?.profile?.occupation
+                        },     
+                  nric: {
+                          value: response.data?.user?.profile?.nric
+                        },      
+                phone: {
+                          value: response.data?.user?.profile?.phone
+                        },      
+              address:  {
+                          value: response.data?.user?.profile?.address
+                        },                                          
+        user_department_id: {
+                          value: response.data?.user?.profile?.user_department_id
+                        },  
+      })
+    })
+    .catch ( error => {
+      console.warn(error)
+    })
+  }
+
+  function sendData() {
+
+      const fieldNames = [
+
+                  'role',
+                  'email', 
+                  'password',
+
+                  'name', 
+                  'occupation',
+                  'nric', 
+                  'phone',
+                  'address',
+
+                  'user_department_id'
+                ];
+
+      const formData = new FormData();
+      formData.append('_method', 'put')
+
+      // create payload
+      fieldNames.forEach((fieldName) => {
+        const value = user?.[fieldName]?.value;
+        if (value !== null && value !== '' && value !== undefined) {
+          formData.append(fieldName, value) // only append if has value
+        }
+      });
+
+      axios({
+          url: `${user.update_url}/${id}`,  // user update API
+          method: 'post', // method is POST
+          data: formData, // payload is formData
+      })
+      .then( response => {
+          //console.log('refresh - true')
+          useUserStore.setState({ refresh: true }) // useEffect trigger
+          handleClose() // close modal
+      })
+      .catch( error => {
+        if (error.response && error.response.status === 422) {
+          // Handle status code 422 errors here
+          console.warn(error.response.data.errors)
+          handleValidationErrors(fieldNames, error.response.data.errors, setFormError);
+          setError(true)
+        } else {
+          // Handle other errors (e.g., network issues, server errors)
+          console.error(error);
+          setError(true)
+        }
+      })
+  };
+  
 
   return (
     <>
@@ -27,10 +134,16 @@ function EditUserModal({id}) {
           <UserForm />
         </Modal.Body>
         <ModalFooter>
+        <Row className='text-danger'>
+            { error &&
+            <>
+            Please check all tabs for error
+            </>}
+          </Row>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={ () => handleSaveClick({id})}>
             Save Changes
           </Button>
         </ModalFooter>
@@ -38,48 +151,14 @@ function EditUserModal({id}) {
     </>
   );
 }
-
-
-
-function fetchData(id){
-  const store = useUserStore.getState()
-  axios({
-    url: `${store.show_url}/${id}`,
-  })
-  .then( response =>{
-    console.log(response)
-
-    useUserStore.setState({
-
-                                role:{
-                                        value: response.data?.user?.role
-                                     },
-                                email:{
-                                        value: response.data?.user?.email
-                                      },
-                                name: {
-                                        value: response.data?.user?.profile?.name
-                                      },
-                          occupation: {
-                                        value: response.data?.user?.profile?.occupation
-                                      },     
-                                nric: {
-                                        value: response.data?.user?.profile?.nric
-                                      },      
-                              phone: {
-                                        value: response.data?.user?.profile?.phone
-                                      },      
-                            address:  {
-                                        value: response.data?.user?.profile?.address
-                                      },                                          
-                  user_department_id: {
-                                        value: response.data?.user?.profile?.user_department_id
-                                      },  
-              })
-  })
-  .then ( error => {
-    console.warn(error)
-  })
-}
-
 export default EditUserModal;
+
+function handleValidationErrors(fieldNames, validationErrors, setFormError) {
+  //const fieldNames = ['name', 'email', 'nric', 'password'];
+
+  fieldNames.forEach((fieldName) => {
+    if (validationErrors[fieldName]) {
+      setFormError(fieldName, ` ${validationErrors[fieldName]}`);
+    }
+  });
+}

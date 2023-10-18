@@ -4,36 +4,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
 class UserController extends Controller
 {
-
     public function index()
     {
-        $paginate = User::query()->with('profile.userDepartment')->where('id','<>',1);
-        $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
-
+        $users = UserService::index();
         return response()->json(['users' => $users]);
     }
 
     public function store(StoreUserRequest $request)
     {
-        \Log::info($request->validated());
         UserService::store($request);
-        return response()->json(['message' => 'success']);
+        return response()->json(['message' => 'User successfully created']);
     }
 
     public function show(User $user)
     {
-        // User, Profile
-        $user = User::where('id',$user->id)->with(['profile.userDepartment'])->first();
-
-        // Role
-
-        \Log::info($user);
-        $user['role'] = $user->roles->pluck('name')[0];
+        $user = UserService::show($user);
         return response()->json(['user' => $user]);
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        UserService::update($request, $user);
+        return response()->json(['message' => 'User successfully updated']);
+    }
+
+    public function delete(Request $request)
+    {
+        UserService::delete($request);
+        return response()->json(['message' => 'User successfully deleted']);
     }
 
 }
