@@ -13,6 +13,7 @@ function EditUserModal({id}) {
 
   const handleClose = () => {
     setShow(false)
+    setError(false)
     resetStore()
   }
   

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
 
-            $table->timestamps();
             $table->nestedSet();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

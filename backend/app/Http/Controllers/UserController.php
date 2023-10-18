@@ -33,9 +33,9 @@ class UserController extends Controller
         return response()->json(['message' => 'User successfully updated']);
     }
 
-    public function delete(Request $request)
+    public function delete(User $user)
     {
-        UserService::delete($request);
+        UserService::delete($user);
         return response()->json(['message' => 'User successfully deleted']);
     }
 

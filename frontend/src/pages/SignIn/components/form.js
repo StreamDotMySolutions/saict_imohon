@@ -33,9 +33,9 @@ const Form = () => {
             data: formData
         })
         .then(response => {
- 
+            //console.log(response.data.token)
             setMessage(response.message)
-            localStorage.setItem('token', response.token) // localstorate
+            localStorage.setItem('token', response.data.token) // localstorate
             setIsLoggedIn(true) // store
             setIsLoading(false)
         })
@@ -47,8 +47,6 @@ const Form = () => {
             }
             setIsLoading(false)
         })
-       
-   
     }
 
     // redirect

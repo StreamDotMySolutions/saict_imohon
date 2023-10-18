@@ -87,4 +87,22 @@ class UserService
         $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         return $users;
     }
+
+    public static function delete($user)
+    {
+
+        // Delete in User
+        if ($user) {
+
+            $profile = $user->profile;
+
+            if ($profile) {
+                // If the user has a profile, delete it
+                $profile->delete();
+            }
+
+            // If the user with the given ID is found, delete it
+            $user->delete();
+        } 
+    }
 }
