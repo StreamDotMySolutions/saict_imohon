@@ -8,14 +8,14 @@ import useUserStore from '../stores/UserStore';
 import axios from '../../../libs/axios';
 import { Pagination,PageItem } from 'react-bootstrap';
 
-function UserTable() {
+function UserTable({role}) {
 
   const store = useUserStore()
   const [data, setData] = useState([])
   //console.log(store.index_url)
   useEffect( () => {
       axios({
-          url: store.index_url,  // user store API
+          url: `${store.index_url}&role=${role}`,  // user store API
           method: 'get', // method is POST
       })
       .then( response => {
@@ -24,20 +24,25 @@ function UserTable() {
           setData(response.data.users)
           useUserStore.setState({refresh: false})
       })
-  },[store.refresh,store.index_url])
+  },[store.refresh,store.index_url,role])
 
 
 
   return (
     <>
-    <HeaderTable />
-    <RenderTable items={data} />
-  
-    <div className="d-flex">
-      <div className="ms-auto">
-        <PaginatorLink items={data} />
-      </div>
-    </div>
+
+      { data.length == 0 ? '...loading' :
+        <>
+        <HeaderTable />
+
+        <RenderTable items={data} />
+        <div className="d-flex">
+          <div className="ms-auto">
+            <PaginatorLink items={data} />
+          </div>
+        </div>
+      </>
+      }
     </>
   );
 }
@@ -61,9 +66,9 @@ function RenderTable({items}) {
         {items?.data?.map((user, index) => (
           <tr key={index}>
             <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
-            <td className='px-5'>{user.email}</td>
+            <td className='px-5 col-2'>{user.email}</td>
             <td className='px-5'>{user.profile?.user_department?.name}</td>
-            <td className='px-5'>
+            <td className='col-4 px-5 text-center'>
               <ShowUserModal id={user.id} />
               {' '}
               <EditUserModal id={user.id} />

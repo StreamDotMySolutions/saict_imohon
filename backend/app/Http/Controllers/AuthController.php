@@ -8,13 +8,10 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(AuthRequest $request)
     {
 
@@ -24,18 +21,20 @@ class AuthController extends Controller
         // create token in User Model
         $token = Auth::user()->createToken('API Token')->plainTextToken;
 
-        // return with 200 header success
-        // return message = "Authentication Success"
-        // return in JSON
+        // User, Profile
+        //$user = User::where('id',Auth::user('id'))->with(['profile.userDepartment'])->first();
+        $user = User::where('id', Auth::user()->id)->with(['profile.userDepartment'])->first();
+
+        //\Log::info($user);
+        $user['role'] = $user->roles->pluck('name')[0];
+
         return response()->json([
             'message' => 'Authentication Success',
-            'token' => $token
-        ],200);
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 
-    /**
-     * Logging out user
-     */
     public function delete()
     {
         // revoke the token
@@ -46,5 +45,12 @@ class AuthController extends Controller
         ],200);
 
     }
+
+    // public function me()
+    // {
+    //     return response()->json([
+    //         'message' => 'Authentication Success',
+    //     ]);
+    // }
    
 }

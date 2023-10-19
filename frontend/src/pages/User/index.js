@@ -16,14 +16,12 @@ const User = () => {
         className="mb-3"
       >
         <Tab eventKey="admin" title="Admin">
-          <UserTable />
+          <UserTable role='admin'/>
         </Tab>
-        <Tab eventKey="Penyelaras" title="Penyelaras">
-          <UserTable />
+        <Tab eventKey="user" title="User">
+          <UserTable role='user'/>
         </Tab>
-        <Tab eventKey="Pengguna" title="Pengguna">
-          <UserTable />
-        </Tab>
+  
       </Tabs>
 
     )

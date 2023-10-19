@@ -33,9 +33,11 @@ const Form = () => {
             data: formData
         })
         .then(response => {
-            //console.log(response.data.token)
+            //console.log(response.data)
             setMessage(response.message)
             localStorage.setItem('token', response.data.token) // localstorate
+            useAuthStore.setState({user : response.data.user}) // AuthStore
+
             setIsLoggedIn(true) // store
             setIsLoading(false)
         })

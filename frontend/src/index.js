@@ -5,7 +5,8 @@ import ReactDOM from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 /** Layouts */
-import DefaultLayout from "./layouts/DefaultLayout"
+import DefaultLayout from "./layouts/components/DefaultLayout/index.js"
+import Layout from './layouts/Layout';
 
 /** Protected Route */
 import ProtectedRoute from './libs/ProtectedRoute';
@@ -43,7 +44,7 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="*" element={<Error404 />} />
 
-            <Route element={<DefaultLayout />}>
+            <Route element={<Layout />}>
               <Route element={<ProtectedRoute />}>  
                 {/* <Route index element={<Home />} /> */}
                 <Route index element={<Home />} />

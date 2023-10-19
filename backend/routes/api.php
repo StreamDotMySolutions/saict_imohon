@@ -13,6 +13,7 @@ use App\Http\Controllers\{
 // Auth-related routes
 Route::post('/login', [AuthController::class, 'store'])->middleware('guest')->name('login');
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
+Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     // User-related routes
@@ -21,7 +22,6 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
-
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {

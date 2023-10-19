@@ -27,13 +27,13 @@ axios.interceptors.request.use(
     }
 );
 
-// detect 401
+// detect 401 or 403
 axios.interceptors.response.use(
   (response) => response, // Return the response if it's not a 401 error
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response.status === 401 || error.response.status === 403) {
       // Redirect to your login page or another route
-      console.log('401')
+      console.log('401 or 403')
       window.location.href = '/sign-in';
     }
 
