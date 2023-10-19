@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
           
             'role' => 'required',
             //'email' => 'required|email|unique:users,email',
-            'email' => ['required', Rule::unique('users')->whereNull('deleted_at')],
+            'email' => ['required','email', Rule::unique('users')->whereNull('deleted_at')],
             //'password' => 'required|min:6',
             'password' => 'required_if:password_present,true|min:6',
 

@@ -9,6 +9,8 @@ const Layout = () => {
 
     let renderedComponent;
 
+    if(!store?.user?.role)  return <DefaultLayout />
+
     switch (store.user.role) {
         case 'system':
             renderedComponent = <DefaultLayout />;

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Modal, ModalFooter ,Row} from 'react-bootstrap';
-import axios from '../../../../libs/axios';
-import useUserStore from '../../stores/UserStore';
-import Form from '../Form/Form';
+import React, { useState, useEffect } from 'react'
+import { Button, Modal, ModalFooter ,Row} from 'react-bootstrap'
+import axios from '../../../../libs/axios'
+import useUserStore from '../../stores/UserStore'
+import Form from '../Form/Form'
 import { setFormError , resetStore } from '../libs/include'
+import DisplayMessage from '../../../../components/DisplayMessage'
 
 export default function CreateUserModal() {
 
-  const store = useUserStore()
-
-
     const user = useUserStore()
-    const [show, setShow] = useState(false);
-    const [error, setError] = useState(false);
+    const [show, setShow] = useState(false)
+    const [error, setError] = useState(false)
+    const [message, setMessage] = useState(false)
+
 
     const handleClose = () => {
         setShow(false)
@@ -25,6 +25,7 @@ export default function CreateUserModal() {
     }
 
     const handleSubmit = (e) => {
+      setMessage(null)
       setError(false)
       e.preventDefault();
         const fieldNames = [
@@ -58,6 +59,7 @@ export default function CreateUserModal() {
         })
         .then( response => {
             //console.log('refresh - true')
+            setMessage(response.data.message)
             useUserStore.setState({ refresh: true }) // useEffect trigger
             handleClose() // close modal
         })
@@ -77,6 +79,7 @@ export default function CreateUserModal() {
   
   return (
     <>
+      { message && <DisplayMessage variant='success' message={message} />}
       <Button onClick={handleShow}>Create</Button>
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>

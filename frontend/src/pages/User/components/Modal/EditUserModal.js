@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalFooter, Row } from 'react-bootstrap';
-import useUserStore from '../../stores/UserStore';
-import axios from '../../../../libs/axios';
-import UserForm from '../Form/Form';
+import React, { useEffect, useState } from 'react'
+import { Alert, Button, Modal, ModalFooter, Row } from 'react-bootstrap'
+import useUserStore from '../../stores/UserStore'
+import axios from '../../../../libs/axios'
+import UserForm from '../Form/Form'
 import { setFormError , resetStore } from '../libs/include'
+import DisplayMessage from '../../../../components/DisplayMessage'
 
 function EditUserModal({id}) {
 
   const user = useUserStore()
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
+  const [show, setShow] = useState(false)
+  const [error, setError] = useState(false)
+  const [component, setComponent] = useState(false)
+  const [isLoading, setIsloading] = useState(false)
+  const [message, setMessage] = useState(false)
 
   const handleClose = () => {
     setShow(false)
@@ -24,12 +28,12 @@ function EditUserModal({id}) {
   }
 
   function handleSaveClick({id}){
-    console.log(id)
+    //console.log(id)
     sendData()
-
   }
 
   function fetchData(id){
+    setIsloading(true)
     const store = useUserStore.getState()
     axios({
       url: `${store.show_url}/${id}`,
@@ -64,6 +68,10 @@ function EditUserModal({id}) {
                           value: response.data?.user?.profile?.user_department_id
                         },  
       })
+
+      //now assign the Form
+      setComponent(<UserForm />)
+      setIsloading(false)
     })
     .catch ( error => {
       console.warn(error)
@@ -71,7 +79,7 @@ function EditUserModal({id}) {
   }
 
   function sendData() {
-
+    setMessage(null)
       const fieldNames = [
 
                   'role',
@@ -104,7 +112,8 @@ function EditUserModal({id}) {
           data: formData, // payload is formData
       })
       .then( response => {
-          //console.log('refresh - true')
+          //console.log(response.data)
+          setMessage(response.data.message)
           useUserStore.setState({ refresh: true }) // useEffect trigger
           handleClose() // close modal
       })
@@ -117,14 +126,18 @@ function EditUserModal({id}) {
         } else {
           // Handle other errors (e.g., network issues, server errors)
           console.error(error);
+          
           setError(true)
         }
       })
   };
-  
+
+
 
   return (
     <>
+      { message && <DisplayMessage variant='success' message={message} />}
+      
       <Button onClick={ () => handleEditClick({id}) }>Edit</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
@@ -132,7 +145,8 @@ function EditUserModal({id}) {
           <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <UserForm />
+          {/* <UserForm /> */}
+          { isLoading ?  'loading...' : component }
         </Modal.Body>
         <ModalFooter>
         <Row className='text-danger'>

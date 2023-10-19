@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { Button, Modal, ModalFooter } from 'react-bootstrap'
 import useUserStore from '../../stores/UserStore'
 import axios from '../../../../libs/axios'
+import DisplayMessage from '../../../../components/DisplayMessage'
 
 function DeleteUserModal({id}) {
   const store = useUserStore()
   const [show, setShow] = useState(false)
+  const [message, setMessage] = useState(false)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  
 
   function handleDeleteClick({id}){
 
@@ -21,13 +24,17 @@ function DeleteUserModal({id}) {
       method: 'post',
       data: formData
     })
-    .then( () => useUserStore.setState({ refresh: true })  )
+    .then( (response) => { 
+      setMessage(response.data.message)
+      useUserStore.setState({ refresh: true }) 
+    })
     .catch()
 
     handleClose()
   }
   return (
     <>
+     { message && <DisplayMessage variant='success' message={message} />}
       <Button variant='danger' onClick={handleShow}>Delete</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
