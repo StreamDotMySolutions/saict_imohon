@@ -83,7 +83,15 @@ class UserService
 
     public static function index()
     {
-        $paginate = User::query()->with('profile.userDepartment')->where('id','<>',1);
+
+        $role = \Request::query('role');       
+        $paginate = User::query()
+                            ->with('profile.userDepartment')
+                            ->with('roles')
+                            ->whereHas('roles', function($q) use ($role) {
+                                $q->whereIn('name', [$role]);
+                            });
+        
         $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         return $users;
     }
