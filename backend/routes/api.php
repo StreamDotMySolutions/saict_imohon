@@ -14,12 +14,14 @@ use App\Http\Controllers\{
 Route::post('/login', [AuthController::class, 'store'])->middleware('guest')->name('login');
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
 
-// User-related routes
-Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/users', [UserController::class, 'store']);
-Route::get('/users/{user}', [UserController::class, 'show'])->middleware('auth:sanctum');
-Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
-Route::delete('/users/{user}', [UserController::class, 'delete'])->middleware('auth:sanctum');
+Route::group(['middleware' => ['role:system']], function () {
+    // User-related routes
+    Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum')->middleware(['role:system']);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::get('/users/{user}', [UserController::class, 'show'])->middleware('auth:sanctum');
+    Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/users/{user}', [UserController::class, 'delete'])->middleware('auth:sanctum');
+});
 
 // User Department-related routes
 Route::get('/user-departments', [UserDepartmentController::class, 'index'])->middleware('auth:sanctum');

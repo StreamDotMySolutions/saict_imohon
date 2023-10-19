@@ -32,7 +32,7 @@ class UpdateUserRequest extends FormRequest
                     'required',
                     'email',
                     // assuming id is pk
-                    Rule::unique('users', 'email')->ignore($this->user->id),
+                    Rule::unique('users', 'email')->ignore($this->user->id)->whereNull('deleted_at'),
                 ],
                 'password' => 'required_if:password_present,true|min:6',
 
@@ -44,7 +44,7 @@ class UpdateUserRequest extends FormRequest
                     'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
 
                     // different table, need to provide pk
-                    Rule::unique('user_profiles')->ignore($this->user->id,'user_id'),
+                    Rule::unique('user_profiles')->ignore($this->user->id,'user_id')->whereNull('deleted_at'),
                 ],
                 'phone' => 'sometimes|required',
                 'address' => 'sometimes|required',
