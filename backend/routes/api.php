@@ -14,26 +14,31 @@ use App\Http\Controllers\{
 Route::post('/login', [AuthController::class, 'store'])->middleware('guest')->name('login');
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
 
-Route::group(['middleware' => ['role:system']], function () {
+Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     // User-related routes
-    Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum')->middleware(['role:system']);
+    Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
-    Route::get('/users/{user}', [UserController::class, 'show'])->middleware('auth:sanctum');
-    Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/users/{user}', [UserController::class, 'delete'])->middleware('auth:sanctum');
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::delete('/users/{user}', [UserController::class, 'delete']);
+
 });
+    
+Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
+    
+    // User Department-related routes
+    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
+    Route::post('/user-departments', [UserDepartmentController::class, 'store']);
+    Route::delete('/user-departments/{userDepartment}', [UserDepartmentController::class, 'destroy']);
+    Route::put('/user-departments/{userDepartment}', [UserDepartmentController::class, 'update']);
+    Route::patch('/user-departments/ordering/{userDepartment}/{direction}', [UserDepartmentController::class, 'ordering']);
 
-// User Department-related routes
-Route::get('/user-departments', [UserDepartmentController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/user-departments', [UserDepartmentController::class, 'store'])->middleware('auth:sanctum');
-Route::delete('/user-departments/{userDepartment}', [UserDepartmentController::class, 'destroy'])->middleware('auth:sanctum');
-Route::put('/user-departments/{userDepartment}', [UserDepartmentController::class, 'update'])->middleware('auth:sanctum');
-Route::patch('/user-departments/ordering/{userDepartment}/{direction}', [UserDepartmentController::class, 'ordering'])->middleware('auth:sanctum');
+    // Category-related routes
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::patch('/categories/ordering/{category}/{direction}', [CategoryController::class, 'ordering']);
 
-// Category-related routes
-Route::get('/categories', [CategoryController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/categories', [CategoryController::class, 'store'])->middleware('auth:sanctum');
-Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->middleware('auth:sanctum');
-Route::put('/categories/{category}', [CategoryController::class, 'update'])->middleware('auth:sanctum');
-Route::patch('/categories/ordering/{category}/{direction}', [CategoryController::class, 'ordering'])->middleware('auth:sanctum');
+});
 
