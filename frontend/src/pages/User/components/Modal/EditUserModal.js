@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, Modal, ModalFooter, Row } from 'react-bootstrap'
+import { Button, Modal, ModalFooter, Row } from 'react-bootstrap'
 import useUserStore from '../../stores/UserStore'
 import axios from '../../../../libs/axios'
 import UserForm from '../Form/Form'
@@ -113,9 +113,11 @@ function EditUserModal({id}) {
       })
       .then( response => {
           //console.log(response.data)
-          setMessage(response.data.message)
+     
           useUserStore.setState({ refresh: true }) // useEffect trigger
           handleClose() // close modal
+
+          setMessage(response.data.message)
       })
       .catch( error => {
         if (error.response && error.response.status === 422) {
