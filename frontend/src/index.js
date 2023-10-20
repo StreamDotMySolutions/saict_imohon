@@ -31,6 +31,7 @@ import UserDepartment from './pages/UserDepartment';
 /** Font Awesome **/
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import Account from './pages/Account/index.js';
 
 library.add(fas)
 
@@ -50,6 +51,7 @@ export default function App() {
                 <Route index element={<Home />} />
               
                 <Route path="/home" element={<Home />} />
+                <Route path="/account" element={<Account />} />
 
                 <Route path="/dashboard" element={<Dashboard />} />
 

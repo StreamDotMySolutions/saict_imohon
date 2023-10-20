@@ -45,12 +45,5 @@ class AuthController extends Controller
         ],200);
 
     }
-
-    // public function me()
-    // {
-    //     return response()->json([
-    //         'message' => 'Authentication Success',
-    //     ]);
-    // }
    
 }

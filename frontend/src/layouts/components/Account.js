@@ -25,12 +25,12 @@ const Account = () => {
     return (
         <>
         <Nav className='ms-auto'>
-            <Button variant="light border border-1 me-2">
+                <Button variant="light border border-1 me-2">
                     Message <Badge bg="secondary">9</Badge>
                     <span className="visually-hidden">unread messages</span>
                 </Button>
             
-            <Nav.Link className='border border-1 ' as={NavLink} to="/categories"> <FontAwesomeIcon icon="fa-solid fa-lock" />{' '}Account</Nav.Link>
+            <Nav.Link className='border border-1 ' as={NavLink} to="/account"> <FontAwesomeIcon icon="fa-solid fa-lock" />{' '}Account</Nav.Link>
         </Nav>
             
         <Nav>

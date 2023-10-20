@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { InputText } from './include';
-import useUserStore from '../../../stores/UserStore';
 
 const UserProfile = () => {
     return (
