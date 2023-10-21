@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
-
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -27,13 +25,13 @@ class UpdateUserRequest extends FormRequest
        //\Log::info($this->user);
         return [
           
-            'role' => 'sometimes|required',
-            'email' => [
-                    'required',
-                    'email',
-                    // assuming id is pk
-                    Rule::unique('users', 'email')->ignore($this->user->id)->whereNull('deleted_at'),
-                ],
+                'role' => 'sometimes|required',
+                'email' => [
+                        'required',
+                        'email',
+                        // assuming id is pk
+                        Rule::unique('users', 'email')->ignore($this->user->id)->whereNull('deleted_at'),
+                    ],
                 'password' => 'required_if:password_present,true|min:6',
 
                 'name' => 'sometimes|required',

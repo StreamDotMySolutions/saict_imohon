@@ -4,13 +4,15 @@ import axios from '../../libs/axios'
 import useAccountStore from './stores/AccountStore'
 import AccountTab from './components/AccountTab'
 
-
 const Account = () => {
     const store = useAccountStore()
-    useEffect( () => fetchData(store), [store.refresh])
-
+    useEffect( () => fetchData(store), [])
+    
     return (
-        <Container>
+        <>
+        {
+        store?.account?.email == null ? '...loading' : (
+            <Container>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                 <Tab eventKey={1} title="Account">
                     <AccountTab />
@@ -22,7 +24,11 @@ const Account = () => {
                     Tab 3 content
                 </Tab>
             </Tabs>
-        </Container>
+            </Container>
+            )
+        }
+
+        </>
     )
 }
 
@@ -32,7 +38,7 @@ function fetchData(store){
         url: store.show_url
     })
     .then( response => {
-        console.log(response.data)
+        //console.log(response.data)
         useAccountStore.setState({account: response.data.account})
         useAccountStore.setState({refresh: false})
     })

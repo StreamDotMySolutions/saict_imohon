@@ -1,20 +1,35 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Form,Row,Col,Button} from 'react-bootstrap'
 import axios from '../../../../libs/axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const InlineEditing = ({store,fieldValue,fieldName, setRefresh}) => {
+const InlineEditing = ({
+        url,
+        label,
+        placeholder,
+        fieldValue,
+        fieldName, 
+    }) => {
+
     const [isEditing, setIsEditing] = useState(false)
+    const [isSaving, setIsSaving] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [isError, setIsError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
-    const [value, setValue] = useState(fieldValue);
+    const [message, setMessage] = useState(null)
+    const [value, setValue] = useState(fieldValue)
 
     const handleCancelClick = () => {
-        setIsEditing(false);
+        setIsSuccess(false)
+        setIsError(false)
+        setIsEditing(false)
     }
 
     const handleInputClick = () => {
         setIsEditing(true)
+        setIsSuccess(false)
+        setIsError(false)
         console.log('edit')
     }
 
@@ -23,8 +38,37 @@ const InlineEditing = ({store,fieldValue,fieldName, setRefresh}) => {
         setValue(e.target.value)
     }
 
+    const DisplaySuccess = () => {
+        const [isVisible, setIsVisible] = useState(true);
+      
+        useEffect(() => {
+          const timeout = setTimeout(() => {
+            setIsVisible(false);
+          }, 1500); // Hide the component after 2 seconds
+      
+          return () => {
+            clearTimeout(timeout); // Clear the timeout if the component unmounts
+          };
+        }, []);
+      
+        return isVisible ? (
+          <i className="ms-3 fa-solid text-success fa-check fa-beat"></i>
+        ) : null;
+      }
+
+    const DisplayError = () => {
+
+        return isError ? (
+            <>
+            <span className='text-danger'>{message}</span>
+            </>
+        ) : null;
+    }
+
+
     const handleSaveClick = () => {
         console.log('saving')
+        setIsSaving(true)
         console.log(value)
 
         //Send to server
@@ -34,15 +78,19 @@ const InlineEditing = ({store,fieldValue,fieldName, setRefresh}) => {
         formData.append(fieldName, value);
         
         axios({
-          url: `${store.update_url}`,
+          url: url,
           method: 'post',
           data: formData,
         })
           .then((response) => {      
-            setRefresh(true)
+            setIsSaving(false)
+            setIsSuccess(true)
           })
           .catch((error) => {
-            console.error(error);
+            setMessage(error.response.data.message)
+            setIsError(true)
+            console.error(error)
+            setIsSaving(false)
           });
         
         // Exit the editing mode
@@ -55,25 +103,55 @@ const InlineEditing = ({store,fieldValue,fieldName, setRefresh}) => {
             <Row md={6}>
                 <Col md={4} className='p-2'>
                     <Form.Group>
-                        <Form.Label>{fieldName}</Form.Label>
+                        <Form.Label>{label}</Form.Label>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                         
-                        
                             <Form.Control 
-                                className='form-control-plaintext border border-1 p-2'
+                                className={ isError ? 'form-control is-invalid border border-danger border-1 p-2' : 'form-control-plaintext border border-1 p-2'}
                                 value={value}
+                                placeholder={placeholder}
                                 onClick={ handleInputClick }
                                 onChange={ handleInputChange }
                                 style={isEditing ? { backgroundColor: 'lightyellow' } : {}}
                             />
+                    
+
                             {isEditing && (
                                 <>
-                                <Button disabled={isDisabled} className='ms-2 me-2 border border-1 border-success text-success' onClick={ (e) => handleSaveClick(e) } variant='light' ><FontAwesomeIcon icon="fa-solid fa-save" /></Button> 
+                                <Button 
+                                    disabled={isDisabled} 
+                                    className='ms-2 me-2 border border-1 border-success text-success' 
+                                    onClick={ (e) => handleSaveClick(e) } 
+                                    variant='light'
+                                >
+                                    <FontAwesomeIcon icon="fa-solid fa-save" />
+                                </Button> 
                             
-                                <Button className='border border-1 border-danger text-danger' onClick={handleCancelClick} variant='light' ><FontAwesomeIcon icon="fa-solid fa-times" /></Button> 
+                                <Button 
+                                    className='border border-1 border-danger text-danger' 
+                                    onClick={handleCancelClick} 
+                                    variant='light' 
+                                >
+                                    <FontAwesomeIcon icon="fa-solid fa-times" />
+                                </Button> 
                                 </>
                             )}
+
+                            {isSaving && (
+                                <>
+                                  <i className="ms-3 fa-solid fa-sync fa-spin"></i>
+                                </>
+                            )}
+
+                            {isSuccess && (
+                                <DisplaySuccess />
+                            )}
+
+                  
                         </div>
+                        { isError && (
+                            <DisplayError />
+                        )}
 
                     </Form.Group>
                 </Col>

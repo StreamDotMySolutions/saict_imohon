@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Services\AccountService;
+use App\Http\Requests\UpdateAccountRequest;
 
 class AccountController extends Controller
 {
@@ -16,8 +17,9 @@ class AccountController extends Controller
         return response()->json(['account' => $account]);
     }
 
-    public function update(AccountUpdateRequest $request)
+    public function update(UpdateAccountRequest $request)
     {
+        \Log::info($request);
         $user =  auth('sanctum')->user();
         //AccountService::update($user->id,$request->validated);
 
