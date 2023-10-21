@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Password;
+use App\Http\Requests\EmailRequest;
 
 class AuthController extends Controller
 {
@@ -58,6 +59,37 @@ class AuthController extends Controller
         return $status === Password::RESET_LINK_SENT
         ? response()->json($status,200) // success
         : response()->json($status,422); // failed
+    }
 
+    public function resetPassword(ResetRequest $request)
+    {
+
+        // success in validation, now reset the password
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                //$user->tokens()->delete(); // delete the token in DB
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        // success
+        if($status == Password::PASSWORD_RESET){
+            return response([
+                'message' => 'Password reset successfully'
+            ]);
+
+        }
+
+        // error
+        return response([
+            'message' => __($status)
+        ],422);
     }
 }

@@ -24,6 +24,9 @@ const EmailPassword = () => {
 
     const postData = () => {
 
+        setIsError(false) 
+        setIsSuccess(false)
+
         const formData = new FormData
         formData.append('email', email)
         axios({
@@ -33,6 +36,7 @@ const EmailPassword = () => {
         })
         .then( response => {
             console.log(response)
+            setIsSuccess(true)
         })
         .catch( error => {
             console.warn(error)
@@ -43,18 +47,29 @@ const EmailPassword = () => {
 
     return (
         <div>
-            {isError ? 
-            
-                <Alert variant='danger'>
-                    {message}
-                </Alert>
-                :
-                <Alert variant='info'>
+                {
+                isError ? (
+                    <Alert variant='danger'>{message}</Alert>
+                ) : isSuccess ? (
+                    <Alert variant='success'>
+                    Pautan reset berjaya di hantar, sila periksa email anda.
+                    </Alert>
+                ) : (
+                    
+                    <Alert variant='info'>
                     Sila masukkan email anda dan kami akan hantar pautan untuk reset password.
-                </Alert>
-            }
+                    </Alert>
+                )
+                }
 
-            <Form>
+            { 
+            isSuccess ? 
+            (
+                <>
+                <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Sign In</Link>
+                </>
+            ) : (
+                <Form>
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-envelope"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
@@ -81,6 +96,9 @@ const EmailPassword = () => {
                     </Col>
                 </Row>
             </Form>
+            ) 
+            } 
+
         </div>
     );
 };

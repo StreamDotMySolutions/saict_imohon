@@ -15,7 +15,7 @@ use App\Http\Controllers\{
 Route::post('/login', [AuthController::class, 'store'])->name('login');
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
 Route::post('/password/email', [AuthController::class, 'email']);
-Route::post('/password/reset', [AuthController::class, 'reset_password']);
+Route::post('/password/reset', [AuthController::class, 'resetPassword']);
 
 
 // Account Related
