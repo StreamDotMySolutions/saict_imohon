@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react'
-import { Form,Row,Col,Button} from 'react-bootstrap'
+import { Form,Button} from 'react-bootstrap'
 import axios from '../../../../libs/axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -10,6 +10,10 @@ const InlineEditing = ({
         placeholder,
         fieldValue,
         fieldName, 
+        type ='text',
+        as,
+        rows
+      
     }) => {
 
     const [isEditing, setIsEditing] = useState(false)
@@ -64,8 +68,7 @@ const InlineEditing = ({
             </>
         ) : null;
     }
-
-
+    
     const handleSaveClick = () => {
         console.log('saving')
         setIsSaving(true)
@@ -98,65 +101,63 @@ const InlineEditing = ({
     }
 
     return (
-        <div className='mt-2'>
+     
+            <Form.Group className='mb-3'>
+                <Form.Label>{label}</Form.Label>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+            
+                    <Form.Control 
+                        as={as}
+                        rows={rows}
+                        type={type}
+                        className={ isError ? 'form-control is-invalid border border-danger border-1 p-2' : 'form-control-plaintext border border-1 p-2'}
+                        value={value}
+                        placeholder={placeholder}
+                        onClick={ handleInputClick }
+                        onChange={ handleInputChange }
+                        style={isEditing ? { backgroundColor: 'lightyellow' } : {}}
+                    />
+            
 
-            <Row md={6}>
-                <Col md={4} className='p-2'>
-                    <Form.Group>
-                        <Form.Label>{label}</Form.Label>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                        
-                            <Form.Control 
-                                className={ isError ? 'form-control is-invalid border border-danger border-1 p-2' : 'form-control-plaintext border border-1 p-2'}
-                                value={value}
-                                placeholder={placeholder}
-                                onClick={ handleInputClick }
-                                onChange={ handleInputChange }
-                                style={isEditing ? { backgroundColor: 'lightyellow' } : {}}
-                            />
+                    {isEditing && (
+                        <>
+                        <Button 
+                            disabled={isDisabled} 
+                            className='ms-2 me-2 border border-1 border-success text-success' 
+                            onClick={ (e) => handleSaveClick(e) } 
+                            variant='light'
+                        >
+                            <FontAwesomeIcon icon="fa-solid fa-save" />
+                        </Button> 
                     
+                        <Button 
+                            className='border border-1 border-danger text-danger' 
+                            onClick={handleCancelClick} 
+                            variant='light' 
+                        >
+                            <FontAwesomeIcon icon="fa-solid fa-times" />
+                        </Button> 
+                        </>
+                    )}
 
-                            {isEditing && (
-                                <>
-                                <Button 
-                                    disabled={isDisabled} 
-                                    className='ms-2 me-2 border border-1 border-success text-success' 
-                                    onClick={ (e) => handleSaveClick(e) } 
-                                    variant='light'
-                                >
-                                    <FontAwesomeIcon icon="fa-solid fa-save" />
-                                </Button> 
-                            
-                                <Button 
-                                    className='border border-1 border-danger text-danger' 
-                                    onClick={handleCancelClick} 
-                                    variant='light' 
-                                >
-                                    <FontAwesomeIcon icon="fa-solid fa-times" />
-                                </Button> 
-                                </>
-                            )}
+                    {isSaving && (
+                        <>
+                            <i className="ms-3 fa-solid fa-sync fa-spin"></i>
+                        </>
+                    )}
 
-                            {isSaving && (
-                                <>
-                                  <i className="ms-3 fa-solid fa-sync fa-spin"></i>
-                                </>
-                            )}
+                    {isSuccess && (
+                        <DisplaySuccess />
+                    )}
 
-                            {isSuccess && (
-                                <DisplaySuccess />
-                            )}
+            
+                </div>
+                { isError && (
+                    <DisplayError />
+                )}
 
-                  
-                        </div>
-                        { isError && (
-                            <DisplayError />
-                        )}
-
-                    </Form.Group>
-                </Col>
-            </Row>
-        </div>
+            </Form.Group>
+    
     )
 };
 

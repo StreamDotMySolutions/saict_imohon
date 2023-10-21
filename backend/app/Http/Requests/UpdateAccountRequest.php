@@ -27,18 +27,29 @@ class UpdateAccountRequest extends FormRequest
 
         return [
 
-            'name' => [
-                'sometimes',
-                'string',
-                //'required_if:is_name_required,true',
-            ],
-
             'email' => [
                 'sometimes',
                 'email',
                 // assuming id is pk
                 Rule::unique('users', 'email')->ignore($user->id)->whereNull('deleted_at'),
             ],
+
+            'password' => 'required_if:password_present,true|min:6',
+
+            'name' => 'sometimes|required',
+            'occupation' => 'sometimes|required',
+            'nric' => [
+                'sometimes',
+                'string',
+                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+
+                // different table, need to provide pk
+                Rule::unique('user_profiles')->ignore($user->id,'user_id')->whereNull('deleted_at'),
+            ],
+            'phone' => 'sometimes|required',
+            'address' => 'sometimes|required',
+
+            'user_department_id' => 'sometimes|required',
         ];
     }
 }

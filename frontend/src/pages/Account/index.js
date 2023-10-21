@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
-import { Container, Tab, Tabs } from 'react-bootstrap' 
+import { Container, Tab, Tabs, Card } from 'react-bootstrap' 
 import axios from '../../libs/axios'
 import useAccountStore from './stores/AccountStore'
 import AccountTab from './components/AccountTab'
+import ProfileTab from './components/ProfileTab'
+import DepartmentTab from './components/DepartmentTab'
 
 const Account = () => {
     const store = useAccountStore()
+    
     useEffect( () => fetchData(store), [])
     
     return (
@@ -15,13 +18,28 @@ const Account = () => {
             <Container>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                 <Tab eventKey={1} title="Account">
-                    <AccountTab />
+                    <Card className='mt-3'>
+                        <Card.Header>Maklumat Akaun</Card.Header>
+                        <Card.Body className='p-3'><AccountTab /></Card.Body>
+                    </Card>
                 </Tab>
-                <Tab eventKey={2} title="Profile">
-                    Tab 2 content
+                <Tab eventKey={2} title="Profil">
+                    <Card className='mt-3'>
+                        <Card.Header>Maklumat Profil</Card.Header>
+                        <Card.Body className='p-3'>
+                            <ProfileTab />
+                        </Card.Body>
+                    </Card>
                 </Tab>
-                <Tab eventKey={3} title="Department">
-                    Tab 3 content
+
+                
+                <Tab eventKey={3} title="Jabatan">
+                    <Card className='mt-3'>
+                        <Card.Header>Maklumat Jabatan</Card.Header>
+                        <Card.Body className='p-3'>
+                            <DepartmentTab />
+                        </Card.Body>
+                    </Card>
                 </Tab>
             </Tabs>
             </Container>
@@ -34,6 +52,7 @@ const Account = () => {
 
 function fetchData(store){
     console.log('fetch')
+    useAccountStore.setState({account: null})
     axios({
         url: store.show_url
     })

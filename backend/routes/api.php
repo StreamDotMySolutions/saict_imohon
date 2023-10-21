@@ -28,12 +28,14 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
+
+    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
     
     // User Department-related routes
-    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
+    //Route::get('/user-departments', [UserDepartmentController::class, 'index']);
     Route::post('/user-departments', [UserDepartmentController::class, 'store']);
     Route::delete('/user-departments/{userDepartment}', [UserDepartmentController::class, 'destroy']);
     Route::put('/user-departments/{userDepartment}', [UserDepartmentController::class, 'update']);

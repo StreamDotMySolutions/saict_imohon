@@ -23,9 +23,42 @@ class AccountService
 
     }
 
-    public static function update()
+    public static function update($request)
     {
+        
+        $user = User::where('id', auth('sanctum')->user()->id)->first();
+        
+        if($request->has('email')){
+            $user->update($request->only('email'));
+        }
 
+        if($request->has('password')){
+            $user->update([ 'password' => Hash::make($request->input('password')) ] );
+        }
+
+        if($request->has('name')){
+            $user->profile->update($request->only('name'));
+        }
+
+        if($request->has('occupation')){
+            $user->profile->update($request->only('occupation'));
+        }
+
+        if($request->has('nric')){
+            $user->profile->update($request->only('nric'));
+        }
+
+        if($request->has('phone')){
+            $user->profile->update($request->only('phone'));
+        }
+
+        if($request->has('address')){
+            $user->profile->update($request->only('address'));
+        }
+
+        if($request->has('user_department_id')){
+            $user->profile->update($request->only('user_department_id'));
+        }
     }
 
 

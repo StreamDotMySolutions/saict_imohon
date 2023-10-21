@@ -19,10 +19,9 @@ class AccountController extends Controller
 
     public function update(UpdateAccountRequest $request)
     {
-        \Log::info($request);
-        $user =  auth('sanctum')->user();
-        //AccountService::update($user->id,$request->validated);
+   
+        AccountService::update($request);
 
-        return response()->json(['message' => "{$user->profile->name} successfull updated"]);
+        return response()->json(['message' => "User successfull updated"]);
     }
 }
