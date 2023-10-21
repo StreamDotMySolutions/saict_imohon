@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Password;
+
 class AuthController extends Controller
 {
     public function store(AuthRequest $request)
@@ -46,4 +48,16 @@ class AuthController extends Controller
 
     }
    
+    public function email(EmailRequest $request)
+    {
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+        ? response()->json($status,200) // success
+        : response()->json($status,422); // failed
+
+    }
 }

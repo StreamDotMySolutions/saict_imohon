@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Navigate } from 'react-router-dom'
-import { useAuthStore } from '../../../stores/AuthStore'
-import axios from '../../../libs/axios'
+import { Navigate,Link } from 'react-router-dom'
+import { useAuthStore } from '../../../../stores/AuthStore'
+import axios from '../../../../libs/axios'
 
-const Form = () => {
+const SignInForm = () => {
     // set system variables
     const [message, setMessage] = useState(''); // system message
     const [invalid, setInvalid] = useState(true)
@@ -95,7 +95,7 @@ const Form = () => {
           </div>
         
           <div className="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" className="btn btn-primary btn-lg login-button w-50">
+            <button type="submit" className="btn btn-primary btn-lg login-button">
                 { isLoading ? 
                 <>
                 <i className="fa-solid fa-sync fa-spin"></i>
@@ -108,15 +108,20 @@ const Form = () => {
                 
             
             </button>
+            {' '}
+            
+            <span className='fs-6 ms-4'>
+                <Link to='/password/email'>Forgot password ?</Link>
+            </span>
           </div>
 
           <div className='mt-4 pt-2' >
             {  message ? <span className="text-danger"><FontAwesomeIcon icon="fas fa-exclamation-triangle" />{' '}{message}</span>  : null }
           </div>
 
-       </form>
+         </form>
         </>
     )
 }
 
-export default Form
+export default SignInForm
