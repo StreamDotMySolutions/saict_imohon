@@ -26,6 +26,7 @@ const EmailPassword = () => {
 
         setIsError(false) 
         setIsSuccess(false)
+        setIsLoading(true)
 
         const formData = new FormData
         formData.append('email', email)
@@ -37,11 +38,19 @@ const EmailPassword = () => {
         .then( response => {
             console.log(response)
             setIsSuccess(true)
+            setIsLoading(false)
         })
         .catch( error => {
             console.warn(error)
+            setIsLoading(false)
             setIsError(true)
-            setMessage(error.response.data.message)
+            
+            if(error.response.data == 'passwords.throttled'){
+                setMessage('Server is busy, please wait and try again.')
+            } else {
+                setMessage(error.response.data.message)
+            }
+           
         })
     }
 
@@ -49,18 +58,27 @@ const EmailPassword = () => {
         <div>
                 {
                 isError ? (
-                    <Alert variant='danger'>{message}</Alert>
+                    <Alert variant='danger'>{message ? message : 'Server Error.'}</Alert>
                 ) : isSuccess ? (
                     <Alert variant='success'>
                     Pautan reset berjaya di hantar, sila periksa email anda.
                     </Alert>
                 ) : (
-                    
+                    <></>
+                )}
+
+                {!isSuccess && !isError && !isLoading && (
+
                     <Alert variant='info'>
-                    Sila masukkan email anda dan kami akan hantar pautan untuk reset password.
+                        Sila masukkan email anda dan kami akan hantar pautan untuk reset password.
                     </Alert>
-                )
-                }
+                )}
+
+                { isLoading && (
+                    <Alert variant='warning'>
+                          <i className="fa-solid fa-sync fa-spin"></i>{' '}processing...
+                    </Alert>
+                )}
 
             { 
             isSuccess ? 
@@ -80,13 +98,14 @@ const EmailPassword = () => {
                         onChange={handleInputChange} 
                     />
                     <Form.Control.Feedback type="invalid">
-                        Invalid Email.
+                        
                     </Form.Control.Feedback>
                 </InputGroup>
 
                 <Row className='col-12 mt-3 text-center text-lg-start mt-4 pt-2'>
                     <Col>
                         <Button 
+                            disabled={isLoading}
                             onClick={handleClickSubmit}
                             size='lg' 
                             className='login-button'>Submit</Button>

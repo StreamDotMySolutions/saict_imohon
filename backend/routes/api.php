@@ -10,7 +10,7 @@ use App\Http\Controllers\{
     AuthController,
     AccountController,
 };
-
+Auth::routes();
 // Auth-related routes
 Route::post('/login', [AuthController::class, 'store'])->name('login');
 Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
@@ -22,6 +22,8 @@ Route::post('/password/reset', [AuthController::class, 'resetPassword']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/account', [AccountController::class, 'show']);
     Route::put('/account', [AccountController::class, 'update']);
+
+    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
@@ -32,7 +34,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
 
-    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
+   
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
