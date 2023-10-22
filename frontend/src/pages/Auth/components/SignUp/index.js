@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container,Row,Col,Tab, Tabs, Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import {Form, Container,Row,Col,Tab, Tabs, Card, Button, Alert } from 'react-bootstrap';
 import Account from './components/Account';
 import Profile from './components/Profile';
 import Department from './components/Department';
@@ -8,17 +8,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuthStore from '../../stores/AuthStore';
 import axios from 'axios';
 
+
 const SignUpForm = () => {
 
     const store = useAuthStore()
+    const [isSuccess,setIsSuccess] = useState(false)
+    const [isLoading,setIsLoading] = useState(false)
+    
 
     const handleClickSubmit = () => {
-       
+
+        setIsSuccess(false)
+        setIsLoading(true)
+        useAuthStore.setState({ errors: null}) // reset error
+        console.log(store)
+
+  
         const formData = new FormData()
-        if( store && store.email?.value ){
-            console.log(store.email?.value)
-            formData.append('email', store.email.value)
-        }
+
+        const fields = [
+            'email',
+            'password',
+            'password_confirmation',
+            'name',
+            'occupation',
+            'nric',
+            'phone',
+            'address',
+            'user_department_id',
+          ];
+          
+          fields.forEach(fieldName => {
+            if (store && store[fieldName]?.value) {
+              formData.append(fieldName, store[fieldName].value);
+            }
+          });
 
         axios({
             url: store.store_url,
@@ -27,13 +51,36 @@ const SignUpForm = () => {
         })
         .then(response => {
             console.log(response)
+            setIsSuccess(true)
+            setIsLoading(false)
+
+            // reset the store value
+            fields.forEach((field) => {
+                useAuthStore.setState({ [field]: { value: null } });
+            });
+ 
         })
         .catch(error => {
-            console.warn(error)
-            if( error.response.status == 422){
-                console.log('422 errors')
+            setIsLoading(false)
+            if( error.response?.status == 422 ){
+                console.log('422')
+                useAuthStore.setState({ errors:error.response.data.errors  })
             }
         })
+    }
+
+    if(isSuccess){
+        return (
+            <Alert variant='success'>
+                Pendaftaran berjaya. Pihak admin akan mengesahkan pendaftaran anda.
+                Sila periksa emel untuk notifikasi pengesahan akaun.
+                <hr />
+                <Link to='/sign-in'>
+                    <FontAwesomeIcon icon="fa-solid fa-reply" /> Laman utama
+                </Link>
+            </Alert>
+
+        )
     }
 
     return (
@@ -81,18 +128,27 @@ const SignUpForm = () => {
                 </Card> */}
             </Tab>
         </Tabs>
-        <Row className='col-12 mt-3 text-center text-lg-start mt-4 pt-2'>
-            <Col>
-                <Button 
-                    //disabled={isLoading}
-                    onClick={handleClickSubmit}
-                    size='lg' 
-                    className='login-button'>Daftar</Button>
-                <span className='fs-6 ms-4'>
-                    <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Log Masuk</Link>
-                </span>
-            </Col>
+        
+        <Row className='col-12 mt-3 text-center text-lg-start mt-4 pt-2 d-flex justify-content-center'>
+                <Col className='col-6'>
+                    <Button
+                        onClick={handleClickSubmit}
+                        className={`login-button ${store.errors ? 'is-invalid' : ''}`}
+                        disabled={isLoading}
+                    >
+                        Daftar
+                    </Button>
+                    {' '}
+                    <Link onClick={ () =>  useAuthStore.setState({ errors: null}) } to='/sign-in'>
+                        <FontAwesomeIcon className='ms-4' icon="fa-solid fa-reply" /> Log Masuk
+                    </Link>
+
+                </Col>
+                    
+
+           
         </Row>
+
      
         </Container>
         

@@ -16,13 +16,14 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
 use App\Http\Requests\EmailRequest;
 use App\Http\Requests\ResetRequest;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
 
     public function register(RegisterRequest $request)
     {
-
+        \Log::info($request);
     }
 
     public function login(AuthRequest $request)

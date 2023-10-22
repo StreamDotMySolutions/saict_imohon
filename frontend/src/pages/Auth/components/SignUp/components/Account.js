@@ -7,18 +7,21 @@ import axios from '../../../../../libs/axios'
 import useAuthStore from '../../../stores/AuthStore'
 
 const Account = () => {
+    const store = useAuthStore()
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
     const [message, setMessage] = useState(null)
-    const [errors, setErrors] = useState([]); // validation errors
-
+   // const [errors, setErrors] = useState(); // init from store
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [passwordConfirmation, setPasswordConfirmation] = useState(null)
 
     const handleClickSubmit = () => {}
+
+    console.log(store.errors)
+    const errors = store.errors
 
     return (
         <div>
@@ -53,7 +56,7 @@ const Account = () => {
                         type="text" 
                         required 
                         isInvalid={errors?.hasOwnProperty('password')}
-                        onChange={ (e) => setPassword(e.target.value)} 
+                        onChange={ (e) => useAuthStore.setState({ password: { value: e.target.value}} )} 
                     />
 
                     {
@@ -74,8 +77,8 @@ const Account = () => {
                         size='lg' 
                         type="text" 
                         required 
-                        //isInvalid={isError}
-                        onChange={ (e) => setPasswordConfirmation(e.target.value)} 
+                        isInvalid={errors?.hasOwnProperty('password')}
+                        onChange={ (e) => useAuthStore.setState({ password_confirmation: { value: e.target.value}} )} 
                     />
 
                     <Form.Control.Feedback type="invalid">    

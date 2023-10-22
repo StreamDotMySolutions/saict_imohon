@@ -4,14 +4,18 @@ import { useState, useEffect } from 'react'
 import { Link, useParams} from 'react-router-dom'
 import { Form,InputGroup,Button,Row,Col, Alert } from 'react-bootstrap'
 import axio from '../../../../../libs/axios';
+import useAuthStore from '../../../stores/AuthStore';
 
 const Profile = () => {
+    const store = useAuthStore()
+    const errors = store.errors
+
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
     const [message, setMessage] = useState(null)
-    const [errors, setErrors] = useState([]); // validation errors
+    //const [errors, setErrors] = useState([]); // validation errors
 
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
@@ -30,7 +34,7 @@ const Profile = () => {
                         type="text" 
                         required 
                         isInvalid={errors?.hasOwnProperty('name')}
-                        //onChange={ (e) => setEmail(e.target.value)} 
+                        onChange={ (e) => useAuthStore.setState({ name: { value: e.target.value}} )}  
                     />
 
                     {
@@ -52,7 +56,7 @@ const Profile = () => {
                         type="text" 
                         required 
                         isInvalid={errors?.hasOwnProperty('occupation')}
-                        //onChange={ (e) => setOccupation(e.target.value)} 
+                        onChange={ (e) => useAuthStore.setState({ occupation: { value: e.target.value}} )}  
                     />
 
                     {
@@ -70,11 +74,10 @@ const Profile = () => {
                     <Form.Control 
                         placeholder='No Kad Pengenalan ( xxxxxx-xx-xxxx )'
                         name='nric'
-                         
                         type="text" 
                         required 
-                        //isInvalid={isError}
-                        //onChange={ (e) => setNric(e.target.value)} 
+                        isInvalid={errors?.hasOwnProperty('nric')}
+                        onChange={ (e) => useAuthStore.setState({ nric: { value: e.target.value}} )}  
                     />
                     {
                         errors?.hasOwnProperty('nric') &&
@@ -94,8 +97,8 @@ const Profile = () => {
                          
                         type="text" 
                         required 
-                        //isInvalid={isError}
-                        //onChange={ (e) => setPhone(e.target.value)} 
+                        isInvalid={errors?.hasOwnProperty('phone')}
+                        onChange={ (e) => useAuthStore.setState({ phone: { value: e.target.value}} )}  
                     />
                     {
                         errors?.hasOwnProperty('phone') &&
@@ -112,12 +115,11 @@ const Profile = () => {
                     <Form.Control 
                         placeholder='Alamat'
                         name='address'
-                         
                         as='textarea'
                         rows={5}
                         required 
-                        //isInvalid={isError}
-                        //onChange={ (e) => setAddress(e.target.value)} 
+                        isInvalid={errors?.hasOwnProperty('address')}
+                        onChange={ (e) => useAuthStore.setState({ address: { value: e.target.value}} )}  
                     />
                     {
                         errors?.hasOwnProperty('address') &&
