@@ -131,13 +131,19 @@ const SignUpForm = () => {
         
         <Row className='col-12 mt-3 text-center text-lg-start mt-4 pt-2 d-flex justify-content-center'>
                 <Col className='col-6'>
-                    <Button
-                        onClick={handleClickSubmit}
-                        className={`login-button ${store.errors ? 'is-invalid' : ''}`}
-                        disabled={isLoading}
-                    >
-                        Daftar
-                    </Button>
+                <button onClick={handleClickSubmit} type="submit" className="btn btn-primary btn-lg login-button">
+                { isLoading ? 
+                <>
+                <i className="fa-solid fa-sync fa-spin"></i>
+                </>
+                :
+                <>
+                Daftar
+                </>
+                }
+                
+            
+            </button>
                     {' '}
                     <Link onClick={ () =>  useAuthStore.setState({ errors: null}) } to='/sign-in'>
                         <FontAwesomeIcon className='ms-4' icon="fa-solid fa-reply" /> Log Masuk
