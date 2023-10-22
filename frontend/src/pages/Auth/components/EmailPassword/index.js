@@ -76,7 +76,7 @@ const EmailPassword = () => {
 
                 { isLoading && (
                     <Alert variant='warning'>
-                          <i className="fa-solid fa-sync fa-spin"></i>{' '}processing...
+                          <i className="fa-solid fa-sync fa-spin"></i>{' '}sedang memproses...
                     </Alert>
                 )}
 
@@ -84,7 +84,7 @@ const EmailPassword = () => {
             isSuccess ? 
             (
                 <>
-                <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Sign In</Link>
+                <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Log Masuk</Link>
                 </>
             ) : (
                 <Form>
@@ -108,9 +108,9 @@ const EmailPassword = () => {
                             disabled={isLoading}
                             onClick={handleClickSubmit}
                             size='lg' 
-                            className='login-button'>Submit</Button>
+                            className='login-button'>Hantar</Button>
                         <span className='fs-6 ms-4'>
-                            <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Sign In</Link>
+                            <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Log Masuk</Link>
                         </span>
                     </Col>
                 </Row>

@@ -33,10 +33,10 @@ class ResetRequest extends FormRequest
         return [
             'token.required' => 'Missing token',
 
-            'email.required' => 'Your E-Mail is required',
-            'email.string' => 'Your E-Mail should be in string format',
-            'email.email' => 'Your E-Mail format is wrong',
-            'email.exists' => 'Your E-Mail is not exist',
+            'email.required' => 'Sila isi alamat emel anda',
+            'email.string' => 'Sila betulkan alamat emel anda',
+            'email.email' => 'Sila betulkan alamat emel anda',
+            'email.exists' => 'Alamat email tidak wujud',
         ];
     }
 }

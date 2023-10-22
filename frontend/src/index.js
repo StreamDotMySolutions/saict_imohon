@@ -9,7 +9,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 /** Layouts */
 import DefaultLayout from "./layouts/components/DefaultLayout/index.js"
-import SignInLayout from './pages/SignIn/layout.js';
+import AuthLayout from './pages/Auth/layout.js';
 import Layout from './layouts/Layout';
 
 /** Protected Route */
@@ -30,13 +30,13 @@ import Keselamatan from "./pages/Footer/Keselamatan"
 import Privasi from "./pages/Footer/Privasi"
 
 import CategoryIndex from './pages/Category'
-import UserDepartment from './pages/UserDepartment';
+import UserDepartment from './pages/UserDepartment'
 
-
-import Account from './pages/Account/index.js';
-import ResetPassword from './pages/SignIn/components/ResetPassword/index.js';
-import SignInForm from './pages/SignIn/components/SignIn/index.js';
-import EmailPassword from './pages/SignIn/components/EmailPassword/index.js';
+import Account from './pages/Account'
+import ResetPassword from './pages/Auth/components/ResetPassword'
+import SignInForm from './pages/Auth/components/SignIn'
+import SignUpForm from './pages/Auth/components/SignUp'
+import EmailPassword from './pages/Auth/components/EmailPassword'
 
 library.add(fas)
 
@@ -49,22 +49,19 @@ export default function App() {
           
           <Route path="*" element={<Error404 />} />
 
-            <Route element={<SignInLayout />}>
+            <Route element={<AuthLayout />}>
               <Route path="/sign-in" element={<SignInForm />} />
+              <Route path="/sign-up" element={<SignUpForm />} />
               <Route path="/password/email" element={<EmailPassword />} />
               <Route path="/password/reset/:token" element={<ResetPassword />} />
             </Route>
 
             <Route element={<Layout />}>
               <Route element={<ProtectedRoute />}>  
-                {/* <Route index element={<Home />} /> */}
                 <Route index element={<Home />} />
-              
                 <Route path="/home" element={<Home />} />
                 <Route path="/account" element={<Account />} />
-
                 <Route path="/dashboard" element={<Dashboard />} />
-
                 <Route path="/penafian" element={<Penafian />} />
                 <Route path="/teknologi" element={<Teknologi />} />
                 <Route path="/keselamatan" element={<Keselamatan />} />
@@ -74,6 +71,7 @@ export default function App() {
                 <Route path="/user-departments" element={<UserDepartment />} />
               </Route>
           </Route>
+
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Navigate,Link } from 'react-router-dom'
 import { useAuthStore } from '../../../../stores/AuthStore'
 import axios from '../../../../libs/axios'
+import { Row } from 'react-bootstrap'
 
 const SignInForm = () => {
     // set system variables
@@ -61,14 +62,14 @@ const SignInForm = () => {
         <>
         <form  onSubmit={handleSubmit}>
           <div className="form-outline mb-4">
-            <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-envelope" /> Email address</label>
+            <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-envelope" /> Alamat Emel</label>
             <input 
                 required
                 name="email" 
                 type="email" 
                 id="email" 
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('email') ? ' is-invalid' : '')}
-                placeholder="Enter a valid email address" 
+                placeholder="masukkan alamat emel anda" 
             />
             {errors?.hasOwnProperty('email') ? <span className="invalid-feedback" >
                 <strong>
@@ -79,14 +80,14 @@ const SignInForm = () => {
           </div>
 
           <div className="form-outline mb-3">
-          <label className="form-label" ><FontAwesomeIcon icon="fa-solid fa-lock" /> Password</label>
+          <label className="form-label" ><FontAwesomeIcon icon="fa-solid fa-lock" /> Katalaluan</label>
             <input 
                 required
                 name="password" 
                 type="password" 
                 id="password" 
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('password') ? ' is-invalid' : '')}
-                placeholder="Enter password" />
+                placeholder="masukkan katalaluan anda" />
             {errors?.hasOwnProperty('password') ? <span className="invalid-feedback" >
                 <strong>
                     { errors.password ? errors.password : null }
@@ -102,7 +103,7 @@ const SignInForm = () => {
                 </>
                 :
                 <>
-                Login <FontAwesomeIcon icon="fas fa-sign-in" />
+                Log Masuk <FontAwesomeIcon icon="fas fa-sign-in" />
                 </>
                 }
                 
@@ -111,8 +112,13 @@ const SignInForm = () => {
             {' '}
             
             <span className='fs-6 ms-4'>
-                <Link to='/password/email'>Forgot password ?</Link>
+                <Link to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
             </span>
+            <hr />
+            <Row className='text-center'>
+                <Link to='/sign-up'><FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pendaftaran</Link>
+            </Row>
+          
           </div>
 
           <div className='mt-4 pt-2' >

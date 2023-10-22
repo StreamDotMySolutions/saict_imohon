@@ -2,11 +2,10 @@ import React from 'react'
 import './assets/style.css'
 import login_logo from './assets/img/login.webp'
 import rtm from './assets/img/rtm_logo.png'
-import Form from './components/SignIn'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Outlet } from 'react-router-dom'
 
-const SignInLayout = () => {
+const AuthLayout = () => {
 
 return (
 <>
@@ -19,8 +18,8 @@ return (
               alt="Content Management System" 
         />
       </div>
-      <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <h2 className="text-muted mb-3"> <img src={rtm} width="100" /> i Mohon </h2>
+      <div className="col-6 offset-xs-3">
+        <h2 className="text-muted mb-3"> <img src={rtm} width="100px" /> i Mohon </h2>
         <Outlet />
       </div>
       
@@ -41,4 +40,4 @@ return (
 </>
 )} 
 
-export default SignInLayout
+export default AuthLayout

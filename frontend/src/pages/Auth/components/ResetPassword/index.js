@@ -94,7 +94,7 @@ const ResetPassword = () => {
         <Alert variant='success'>
             Anda berjaya reset password anda.
             <span className='fs-6 ms-3'>
-                <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Sign In</Link>
+                <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Log Masuk</Link>
             </span>
         </Alert>
         )}
@@ -168,9 +168,9 @@ const ResetPassword = () => {
                             disabled={isLoading}
                             onClick={handleClickSubmit}
                             size='lg' 
-                            className='login-button'>Submit</Button>
+                            className='login-button'>Hantar</Button>
                         <span className='fs-6 ms-4'>
-                            <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Sign In</Link>
+                            <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-reply"></FontAwesomeIcon>{' '}Log Masuk</Link>
                         </span>
                     </Col>
                 </Row>
