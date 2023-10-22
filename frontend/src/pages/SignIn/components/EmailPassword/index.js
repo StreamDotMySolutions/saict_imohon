@@ -61,7 +61,7 @@ const EmailPassword = () => {
                     <Alert variant='danger'>{message ? message : 'Server Error.'}</Alert>
                 ) : isSuccess ? (
                     <Alert variant='success'>
-                    Pautan reset berjaya di hantar, sila periksa email anda.
+                    Pautan reset password telah berjaya di hantar, sila periksa email anda dan ikuti arahan di sana.
                     </Alert>
                 ) : (
                     <></>

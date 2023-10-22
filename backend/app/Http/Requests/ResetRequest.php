@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-
-use App\Http\Requests\Api\FormRequest; // API response trait
+use Illuminate\Foundation\Http\FormRequest;
 
 class ResetRequest extends FormRequest
 {
@@ -20,8 +19,7 @@ class ResetRequest extends FormRequest
         return [
             'token' => 'required',
             'email' => 'required|string|email|exists:users,email',
-            'password' => 'required|min:8|confirmed'
-            
+            'password' => 'required|min:6|confirmed'
         ];
     }
 

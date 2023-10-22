@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Password;
 use App\Http\Requests\EmailRequest;
+use App\Http\Requests\ResetRequest;
 
 class AuthController extends Controller
 {
@@ -66,6 +70,7 @@ class AuthController extends Controller
 
         // success in validation, now reset the password
         $status = Password::reset(
+            //$request->only('email', 'password', 'password_confirmation', 'token'),
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
                 $user->forceFill([
@@ -73,9 +78,8 @@ class AuthController extends Controller
                     'remember_token' => Str::random(60),
                 ])->save();
 
+                // dev purpose
                 //$user->tokens()->delete(); // delete the token in DB
-
-                event(new PasswordReset($user));
             }
         );
 
@@ -84,7 +88,6 @@ class AuthController extends Controller
             return response([
                 'message' => 'Password reset successfully'
             ]);
-
         }
 
         // error

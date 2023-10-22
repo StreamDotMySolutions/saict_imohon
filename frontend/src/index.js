@@ -52,7 +52,7 @@ export default function App() {
             <Route element={<SignInLayout />}>
               <Route path="/sign-in" element={<SignInForm />} />
               <Route path="/password/email" element={<EmailPassword />} />
-              <Route path="/password/reset" element={<ResetPassword />} />
+              <Route path="/password/reset/:token" element={<ResetPassword />} />
             </Route>
 
             <Route element={<Layout />}>

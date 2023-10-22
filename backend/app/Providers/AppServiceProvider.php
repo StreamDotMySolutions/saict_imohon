@@ -20,9 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // check ReactJS Router
         ResetPassword::createUrlUsing(function ($user, string $token) {
             $url = env("FRONTEND_URL");
-            return $url . '/reset-password?token=' . $token;
+            return $url . '/password/reset/' . $token;
         });
     }
 }
