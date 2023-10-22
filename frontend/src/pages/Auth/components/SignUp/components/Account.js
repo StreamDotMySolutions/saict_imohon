@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Link, useParams} from 'react-router-dom'
 import { Form,InputGroup,Button,Row,Col, Alert } from 'react-bootstrap'
-import axio from '../../../../../libs/axios';
+import axios from '../../../../../libs/axios'
+import useAuthStore from '../../../stores/AuthStore'
 
 const Account = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -24,13 +25,13 @@ const Account = () => {
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-envelope"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Email'
+                        placeholder='Alamat Emel'
                         name='email'
                         size='lg' 
                         type="text" 
                         required 
                         isInvalid={errors?.hasOwnProperty('email')}
-                        onChange={ (e) => setEmail(e.target.value)} 
+                        onChange={ (e) => useAuthStore.setState({ email: { value: e.target.value}} )} 
                     />
 
                     {
@@ -46,7 +47,7 @@ const Account = () => {
                 <InputGroup hasValidation className='mt-3 mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-lock"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='New password'
+                        placeholder='Katalaluan'
                         name='password'
                         size='lg' 
                         type="text" 
@@ -68,7 +69,7 @@ const Account = () => {
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-lock"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Confirm password'
+                        placeholder='Sahkan katalaluan'
                         name='password_confirm'
                         size='lg' 
                         type="text" 

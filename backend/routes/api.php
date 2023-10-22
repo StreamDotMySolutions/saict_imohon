@@ -13,17 +13,17 @@ use App\Http\Controllers\{
 Auth::routes();
 
 // Auth-related routes
-Route::post('/login', [AuthController::class, 'store'])->name('login');
-Route::get('/logout', [AuthController::class, 'delete'])->middleware('auth:sanctum')->name('logout');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 Route::post('/password/email', [AuthController::class, 'email']);
 Route::post('/password/reset', [AuthController::class, 'resetPassword']);
+Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 
 // Account Related
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/account', [AccountController::class, 'show']);
     Route::put('/account', [AccountController::class, 'update']);
-
-    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {

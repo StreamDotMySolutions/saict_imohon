@@ -19,7 +19,13 @@ use App\Http\Requests\ResetRequest;
 
 class AuthController extends Controller
 {
-    public function store(AuthRequest $request)
+
+    public function register(RegisterRequest $request)
+    {
+
+    }
+
+    public function login(AuthRequest $request)
     {
 
         // attempt to authenticate
@@ -29,7 +35,6 @@ class AuthController extends Controller
         $token = Auth::user()->createToken('API Token')->plainTextToken;
 
         // User, Profile
-        //$user = User::where('id',Auth::user('id'))->with(['profile.userDepartment'])->first();
         $user = User::where('id', Auth::user()->id)->with(['profile.userDepartment'])->first();
 
         //\Log::info($user);
@@ -42,7 +47,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function delete()
+    public function logout()
     {
         // revoke the token
         Auth::user()->tokens()->delete();

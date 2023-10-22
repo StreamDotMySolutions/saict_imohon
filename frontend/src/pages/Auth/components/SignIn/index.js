@@ -95,7 +95,7 @@ const SignInForm = () => {
             }  
           </div>
         
-          <div className="text-center text-lg-start mt-4 pt-2">
+          <div className="text-lg-start mt-4 pt-2">
             <button type="submit" className="btn btn-primary btn-lg login-button">
                 { isLoading ? 
                 <>
@@ -103,7 +103,7 @@ const SignInForm = () => {
                 </>
                 :
                 <>
-                Log Masuk <FontAwesomeIcon icon="fas fa-sign-in" />
+                Log Masuk
                 </>
                 }
                 
@@ -113,12 +113,9 @@ const SignInForm = () => {
             
             <span className='fs-6 ms-4'>
                 <Link to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
-            </span>
-            <hr />
-            <Row className='text-center'>
-                <Link to='/sign-up'><FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pendaftaran</Link>
-            </Row>
-          
+                
+                <Link className='ms-3' to='/sign-up'><FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pendaftaran</Link>
+            </span>     
           </div>
 
           <div className='mt-4 pt-2' >
