@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\UserProfile;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,7 +26,14 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         \Log::info($request);
-        $user = User::create($request->only('email','password'));
+        $user = User::create([
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+        $user->assignRole('user');
+        $profile = $request->merge(['user_id' => $user->id]);
+        UserProfile::create($profile->except(['email','password']));
 
         return response()->json(['message' => 'success']);
 
