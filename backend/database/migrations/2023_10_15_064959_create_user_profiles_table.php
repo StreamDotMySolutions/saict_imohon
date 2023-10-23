@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('user_department_id');
-            $table->string('name');
-            $table->string('occupation');
-            $table->string('nric');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('user_department_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('nric')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

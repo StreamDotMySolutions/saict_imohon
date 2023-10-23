@@ -25,7 +25,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         $user = User::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
@@ -36,7 +36,6 @@ class AuthController extends Controller
         UserProfile::create($profile->except(['email','password']));
 
         return response()->json(['message' => 'success']);
-
     }
 
     public function login(AuthRequest $request)
