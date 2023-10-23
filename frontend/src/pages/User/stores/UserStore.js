@@ -12,6 +12,7 @@ const users = {
     store_url :  process.env.REACT_APP_BACKEND_URL + '/users',
     show_url :  process.env.REACT_APP_BACKEND_URL + '/users',
     update_url :  process.env.REACT_APP_BACKEND_URL + '/users',
+    approve_url :  process.env.REACT_APP_BACKEND_URL + '/users',
     delete_url :  process.env.REACT_APP_BACKEND_URL + '/users',
 }
 const useUserStore = create( () => (users)) // create store

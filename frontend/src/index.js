@@ -37,6 +37,8 @@ import ResetPassword from './pages/Auth/components/ResetPassword'
 import SignInForm from './pages/Auth/components/SignIn'
 import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
+import Unauthorized from './pages/Auth/components/Unauthorized/index.js';
+import SignOut from './pages/Auth/components/SignOut/index.js';
 
 library.add(fas)
 
@@ -48,10 +50,14 @@ export default function App() {
         <Routes>            
           
           <Route path="*" element={<Error404 />} />
+         
 
             <Route element={<AuthLayout />}>
               <Route path="/sign-in" element={<SignInForm />} />
               <Route path="/sign-up" element={<SignUpForm />} />
+              <Route path="/sign-out" element={<SignOut />} />
+            
+              <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/password/email" element={<EmailPassword />} />
               <Route path="/password/reset/:token" element={<ResetPassword />} />
             </Route>

@@ -40,28 +40,37 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     {
-
         // attempt to authenticate
         $request->authenticate();
 
-        // create token in User Model
-        $token = Auth::user()->createToken('API Token')->plainTextToken;
+        // find user
+        $user = User::where('id', Auth::user()->id)
+                ->where('is_approved', true) // only is_approved=true
+                ->with(['profile.userDepartment'])
+                ->first();
 
-        // User, Profile
-        $user = User::where('id', Auth::user()->id)->with(['profile.userDepartment'])->first();
+        if ($user) {
+            // create token in User Model
+            $token = Auth::user()->createToken('API Token')->plainTextToken;
+            $user['role'] = $user->roles->pluck('name')[0];
 
-        //\Log::info($user);
-        $user['role'] = $user->roles->pluck('name')[0];
+            \Log::info('login-' . Auth::user()->email);
+            return response()->json([
+                'message' => 'Authentication Success',
+                'token' => $token,
+                'user' => $user
+            ]);
 
-        return response()->json([
-            'message' => 'Authentication Success',
-            'token' => $token,
-            'user' => $user
-        ]);
+        } else {
+            return response()->json([
+                'message' => 'User not approved or not found',
+            ], 401);
+        }
     }
 
     public function logout()
     {
+        \Log::info('logout-' . Auth::user()->email);
         // revoke the token
         Auth::user()->tokens()->delete();
 

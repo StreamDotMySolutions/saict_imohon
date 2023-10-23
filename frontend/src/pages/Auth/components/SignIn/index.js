@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Navigate,Link } from 'react-router-dom'
-import { useAuthStore } from '../../../../stores/AuthStore'
+//import { useAuthStore } from '../../../../stores/AuthStore'
+import useAuthStore from '../../stores/AuthStore'
 import axios from '../../../../libs/axios'
 import { Row } from 'react-bootstrap'
 
 const SignInForm = () => {
     // set system variables
+    const store = useAuthStore()
     const [message, setMessage] = useState(''); // system message
     const [invalid, setInvalid] = useState(true)
+    const [unauthorized, setUnauthorized] = useState(false)
     const [errors, setErrors] = useState([]); // validation errors
     const [isLoading, setIsLoading] = useState(false)
-    const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
-    const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
+    
+    // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
+    // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
+    // const isAuthenticated = useAuthStore( (state) => state.isAuthenticated ) // get state
 
     // handle form submission
     function handleSubmit(event){
@@ -37,12 +42,17 @@ const SignInForm = () => {
             //console.log(response.data)
             setMessage(response.message)
             localStorage.setItem('token', response.data.token) // localstorate
-            useAuthStore.setState({user : response.data.user}) // AuthStore
+            useAuthStore.setState({user : response.data.user}) // user data
+            useAuthStore.setState({isAuthenticated : true}) // system wide
 
-            setIsLoggedIn(true) // store
+            //setIsLoggedIn(true) // store
             setIsLoading(false)
         })
         .catch( error => {
+            if( error.response?.status == 401 ){
+                setUnauthorized(true)
+            }
+
             if( error.response?.status == 422 ){
                 setErrors(error.response.data.errors)
             } else {
@@ -53,13 +63,19 @@ const SignInForm = () => {
     }
 
     // redirect
-    if (isLoggedIn === true) {
+    //if (isLoggedIn === true) {
+    if(store.isAuthenticated === true) {
         return <Navigate to='/' replace />
     }
+
+    // if (unauthorized === true) {
+    //     return <Navigate to='/unauthorized' replace />
+    // }
 
     // JSX return
     return (
         <>
+  
         <form  onSubmit={handleSubmit}>
           <div className="form-outline mb-4">
             <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-envelope" /> Alamat Emel</label>

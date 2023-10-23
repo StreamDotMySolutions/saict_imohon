@@ -15,7 +15,7 @@ Auth::routes();
 // Auth-related routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 Route::post('/password/email', [AuthController::class, 'email']);
 Route::post('/password/reset', [AuthController::class, 'resetPassword']);
 Route::get('/user-departments', [UserDepartmentController::class, 'index']);
@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::patch('/users/{user}', [UserController::class, 'approve']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
 });
     

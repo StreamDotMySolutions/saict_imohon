@@ -1,27 +1,10 @@
 import React from 'react';
 import { Button,Nav,Row,Col,Badge } from 'react-bootstrap'
-import { useAuthStore } from '../../stores/AuthStore';
-import { NavLink, useLocation} from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import HandleLogout from '../../libs/HandleLogout';
 
 const Account = () => {
-    const store = useAuthStore()
 
-  
-    const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
-    
-    const currDate = {
-        show : new Date().toLocaleString(),
-    }
-  
-    const handleLogoutClick = () =>{
-      console.log('loggging out')
-        HandleLogout()
-        setIsLoggedIn(false)  
-    }
-
-    
     return (
         <>
         <Nav className='ms-auto'>
@@ -34,15 +17,7 @@ const Account = () => {
         </Nav>
             
         <Nav>
-            {/* <Row>
-                <Col xs={12}></Col>
-                <Col className='text-center fs-6 text-muted text-uppercase'>
-                <Badge className='p-2 text-dark border border-1'  bg="warning">
-                    { store?.user?.role}
-                </Badge>
-                </Col>
-            </Row> */}
-            <Nav.Link as={NavLink} to="/" onClick={handleLogoutClick} className='active fs-4'> <FontAwesomeIcon icon="fa-solid fa-sign-out" /></Nav.Link>
+            <Nav.Link as={NavLink} to="/sign-out"  className='active fs-4'> <FontAwesomeIcon icon="fa-solid fa-sign-out" /></Nav.Link>
         </Nav>
         </>
    

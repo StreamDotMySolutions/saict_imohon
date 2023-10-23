@@ -6,20 +6,25 @@ import UserTable from './components/UserTable';
 import HeaderTable from './components/HeaderTable';
 import { Tabs,Tab } from 'react-bootstrap';
 import useUserStore from './stores/UserStore';
+import NewRegistration from './components/NewRegistration';
 
 const User = () => {
     const store = useUserStore()
     return (
       <Tabs
-        defaultActiveKey="admin"
-        id="admin"
+        defaultActiveKey="approve"
+        id="userTab"
         className="mb-3"
       >
-        <Tab eventKey="admin" title="Admin">
-          <UserTable role='admin'/>
+        <Tab eventKey="approve" title="New Registration">
+          <NewRegistration role='user'/>
         </Tab>
+
         <Tab eventKey="user" title="User">
           <UserTable role='user'/>
+        </Tab>
+        <Tab eventKey="admin" title="Admin">
+          <UserTable role='admin'/>
         </Tab>
   
       </Tabs>

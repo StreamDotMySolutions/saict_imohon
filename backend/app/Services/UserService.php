@@ -43,6 +43,11 @@ class UserService
         return UserProfile::create($profile->except(['email','password']));
     }
 
+    public static function approve($user)
+    {
+        return User::where('id', $user->id)->update(['is_approved' => true]);
+    }
+
     public static function update(Request $request, $user){
         
         // User
@@ -83,16 +88,36 @@ class UserService
 
     public static function index()
     {
-
-        $role = \Request::query('role');       
-        $paginate = User::query()
+        $users = array();
+        if(\Request::has('role')){
+            //\Log::info('role');
+       
+            $role = \Request::query('role');       
+            $paginate = User::query()
                             ->with('profile.userDepartment')
                             ->with('roles')
                             ->whereHas('roles', function($q) use ($role) {
                                 $q->whereIn('name', [$role]);
-                            });
+                            })  
+                            ->where('is_approved', true);
+            $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+        }
+
+        if(\Request::has('is_approved')){
+            //\Log::info('is_approved');
+       
+            $role = 'user';       
+            $paginate = User::query()
+                            ->with('profile.userDepartment')
+                            ->with('roles')
+                            ->whereHas('roles', function($q) use ($role) {
+                                $q->whereIn('name', [$role]);
+                            })
+                            ->where('is_approved', false);
+            $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+        }
         
-        $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+       
         return $users;
     }
 

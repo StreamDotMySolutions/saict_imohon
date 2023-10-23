@@ -21,6 +21,12 @@ class UserController extends Controller
         return response()->json(['message' => 'User successfully created']);
     }
 
+    public function approve(User $user)
+    {
+        $user = UserService::approve($user);
+        return response()->json(['message' => 'User successfully approved']);
+    }
+
     public function show(User $user)
     {
         $user = UserService::show($user);
