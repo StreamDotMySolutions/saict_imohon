@@ -33,8 +33,6 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
-
-   
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
@@ -54,4 +52,3 @@ Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
     Route::patch('/categories/ordering/{category}/{direction}', [CategoryController::class, 'ordering']);
 
 });
-

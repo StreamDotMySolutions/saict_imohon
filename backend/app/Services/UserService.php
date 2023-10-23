@@ -40,7 +40,7 @@ class UserService
 
         // insert into UserProfile
         $profile = $request->merge(['user_id' => $user->id]);
-        UserProfile::create($profile->except(['email','password']));
+        return UserProfile::create($profile->except(['email','password']));
     }
 
     public static function update(Request $request, $user){

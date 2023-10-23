@@ -25,70 +25,80 @@ const Profile = () => {
 
     return (
         <div>
-                <InputGroup hasValidation className='mb-3'>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='Nama penuh'
-                        name='name'
-                         
-                        type="text" 
-                        required 
-                        isInvalid={errors?.hasOwnProperty('name')}
-                        onChange={ (e) => useAuthStore.setState({ name: { value: e.target.value}} )}  
-                    />
 
-                    {
-                        errors?.hasOwnProperty('name') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.name ? errors.name : null }
-                                </Form.Control.Feedback>
-                            )
-                    }  
-                </InputGroup>
+            <Row>
+                <Col>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='Nama penuh'
+                            name='name'
+                            
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('name')}
+                            onChange={ (e) => useAuthStore.setState({ name: { value: e.target.value}} )}  
+                        />
 
-                <InputGroup hasValidation className='mb-3'>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-briefcase"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='Jawatan'
-                        name='occupation'
-                         
-                        type="text" 
-                        required 
-                        isInvalid={errors?.hasOwnProperty('occupation')}
-                        onChange={ (e) => useAuthStore.setState({ occupation: { value: e.target.value}} )}  
-                    />
+                        {
+                            errors?.hasOwnProperty('name') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.name ? errors.name : null }
+                                    </Form.Control.Feedback>
+                                )
+                        }  
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-briefcase"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='Jawatan'
+                            name='occupation'
+                            
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('occupation')}
+                            onChange={ (e) => useAuthStore.setState({ occupation: { value: e.target.value}} )}  
+                        />
 
-                    {
-                        errors?.hasOwnProperty('occupation') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.occupation ? errors.occupation : null }
-                                </Form.Control.Feedback>
-                            )
-                    } 
-                </InputGroup>
+                        {
+                            errors?.hasOwnProperty('occupation') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.occupation ? errors.occupation : null }
+                                    </Form.Control.Feedback>
+                                )
+                        } 
+                    </InputGroup>
+                </Col>
+                </Row>
 
-                <InputGroup hasValidation className='mb-3'>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-id-card"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='No Kad Pengenalan ( xxxxxx-xx-xxxx )'
-                        name='nric'
-                        type="text" 
-                        required 
-                        isInvalid={errors?.hasOwnProperty('nric')}
-                        onChange={ (e) => useAuthStore.setState({ nric: { value: e.target.value}} )}  
-                    />
-                    {
-                        errors?.hasOwnProperty('nric') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.nric ? errors.nric : null }
-                                </Form.Control.Feedback>
-                            )
-                    } 
-                </InputGroup>
+                <Row>
+                <Col>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-id-card"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='No Kad Pengenalan ( xxxxxx-xx-xxxx )'
+                            name='nric'
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('nric')}
+                            onChange={ (e) => useAuthStore.setState({ nric: { value: e.target.value}} )}  
+                        />
+                        {
+                            errors?.hasOwnProperty('nric') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.nric ? errors.nric : null }
+                                    </Form.Control.Feedback>
+                                )
+                        } 
+                    </InputGroup>
+                </Col>
 
+                <Col>
                 <InputGroup hasValidation className='mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
@@ -109,6 +119,15 @@ const Profile = () => {
                             )
                     } 
                 </InputGroup>
+                </Col>
+            </Row>
+
+
+                
+
+
+
+
 
                 <InputGroup hasValidation className='mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-address-card"></FontAwesomeIcon></InputGroup.Text>

@@ -24,6 +24,10 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         \Log::info($request);
+        $user = User::create($request->only('email','password'));
+
+        return response()->json(['message' => 'success']);
+
     }
 
     public function login(AuthRequest $request)
