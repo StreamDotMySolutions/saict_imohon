@@ -24,9 +24,10 @@ const UserDepartment = () => {
 
     return (
         <>
-        <select
-            className={`form-select ${user.user_department_id?.message ? 'is-invalid' : ''}`}
-            size='20'
+        <Form.Select 
+            htmlSize={10}
+            isInvalid={user.user_department_id?.message}
+            value={user?.user_department_id?.value}
             onChange={(e) => { 
                 const data = {
                     value: e.target.value
@@ -34,8 +35,9 @@ const UserDepartment = () => {
                 useUserStore.setState({user_department_id: data})}
             }
         >
-            <CategoryDropdown data={data} selected={user?.user_department_id?.value} />
-        </select>
+            <CategoryDropdown data={data} />
+        </Form.Select>
+
         <Form.Control.Feedback type="invalid">
                 {user.user_department_id?.message}
         </Form.Control.Feedback>
@@ -44,7 +46,7 @@ const UserDepartment = () => {
 };
 
 
-function CategoryDropdown({ data, selected, depth = 0 }) {
+function CategoryDropdown({ data, depth = 0 }) {
     const indent = '_ _'.repeat(depth);
     
     return (
@@ -58,11 +60,10 @@ function CategoryDropdown({ data, selected, depth = 0 }) {
             className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
             key={index}
             disabled={category.parent_id === null}
-            selected={selected == category.id} // Check if this category is selected
-             >
+            >
             {depth != 0 && 'I'}{indent}{' '}{category.name}
           </option>
-          <CategoryDropdown data={category.children} selected={selected} depth={depth + 1} />
+          <CategoryDropdown data={category.children} depth={depth + 1} />
           </>
         ))}
   

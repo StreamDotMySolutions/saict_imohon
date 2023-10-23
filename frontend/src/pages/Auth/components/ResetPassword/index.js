@@ -26,9 +26,9 @@ const ResetPassword = () => {
         setIsLoading(true)
         setErrors(null)
 
-        console.log(token.token)
-        console.log(password)
-        console.log(passwordConfirmation)
+        // console.log(token.token)
+        // console.log(password)
+        // console.log(passwordConfirmation)
 
         const formData = new FormData()
         formData.append('token', token.token)
@@ -86,6 +86,13 @@ const ResetPassword = () => {
 
             <Alert variant='danger'>
                 {message ? message : 'Input anda mempunyai ralat.'}
+            </Alert>
+        )}
+
+        
+        { isLoading && (
+            <Alert variant='warning'>
+                    <i className="fa-solid fa-sync fa-spin"></i>{' '}sedang memproses...
             </Alert>
         )}
 

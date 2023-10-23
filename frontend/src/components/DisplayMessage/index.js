@@ -24,7 +24,7 @@ function DisplayMessage({ message, variant }) {
     <div className="full-page-overlay">
       <div className="centered-container">
         <Alert className='p-5 col-3 text-center' variant={variant}>
-        <div class="fa-5x">
+        <div className="fa-5x">
           {icon}
         </div>
           {message}

@@ -56,7 +56,7 @@ function RenderTable({items}) {
   const [message, setMessage] = useState(false)
 
   const HandleApproveClick = (id) => {
-    console.log(id)
+    //console.log(id)
     const formData = new FormData();
     formData.append('_method', 'patch');
     formData.append('id', id);
@@ -67,7 +67,7 @@ function RenderTable({items}) {
       data: formData
     })
     .then( response => {
-      console.log(response)
+      //console.log(response)
       useUserStore.setState({ refresh: true }) // useEffect trigger
       setMessage(response.data.message)
     })
@@ -79,36 +79,41 @@ function RenderTable({items}) {
   return(
     <>
     { message && <DisplayMessage variant='success' message={message} />}
-    <table className="table table-bordered">
-        <thead>
-            <tr>
-                <th className="px-5 col-3">Nama</th>
-                <th className="px-">Email</th>
-                <th className="px-5 col-5 border border-end-0">Jabatan</th>
-                <th></th>
+
+    { items?.data?.length ==  0 ? 'Tiada Data' : (
+      <table className="table table-bordered">
+          <thead>
+              <tr>
+                  <th className="px-5 col-3">Nama</th>
+                  <th className="px-">Email</th>
+                  <th className="px-5 col-5 border border-end-0">Jabatan</th>
+                  <th></th>
+              </tr>
+          </thead>
+        <tbody>
+
+          
+          {items?.data?.map((user, index) => (
+            <tr key={index}>
+              <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
+              <td className='px-5 col-1'>{user.email}</td>
+              <td className='px-5'>{user.profile?.user_department?.name}</td>
+              <td className='col-6  text-center'>
+                <Button 
+                  onClick={ () => HandleApproveClick(user.id)} 
+                  variant={'success'}>Approve</Button>
+                {' '}
+                {/* <ShowUserModal id={user.id} />
+                {' '} */}
+                <EditUserModal id={user.id} />
+                {' '}
+                <DeleteUserModal id={user.id}/>
+              </td>
             </tr>
-        </thead>
-      <tbody>
-        {items?.data?.map((user, index) => (
-          <tr key={index}>
-            <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
-            <td className='px-5 col-1'>{user.email}</td>
-            <td className='px-5'>{user.profile?.user_department?.name}</td>
-            <td className='col-6  text-center'>
-              <Button 
-                onClick={ () => HandleApproveClick(user.id)} 
-                variant={'success'}>Approve</Button>
-              {' '}
-              {/* <ShowUserModal id={user.id} />
-              {' '} */}
-              <EditUserModal id={user.id} />
-              {' '}
-              <DeleteUserModal id={user.id}/>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          ))}
+        </tbody>
+      </table>
+    )}
     </>
     )
 }
@@ -134,7 +139,7 @@ function PaginatorLink ({items}){
     </Pagination.Item>
   )
 
-  return (
+  if(items.data.length > 0 )return  (
     <Pagination>
     {links}
     </Pagination>

@@ -20,7 +20,7 @@ const Account = () => {
 
     const handleClickSubmit = () => {}
 
-    console.log(store.errors)
+    //console.log(store.errors)
     const errors = store.errors
 
     return (
