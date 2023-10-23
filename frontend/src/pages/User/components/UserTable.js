@@ -6,7 +6,8 @@ import EditUserModal from './Modal/EditUserModal';
 import DeleteUserModal from './Modal/DeleteUserModal';
 import useUserStore from '../stores/UserStore';
 import axios from '../../../libs/axios';
-import { Pagination,PageItem } from 'react-bootstrap';
+import { Pagination,Button } from 'react-bootstrap';
+import DisplayMessage from '../../../components/DisplayMessage';
 
 function UserTable({role}) {
 
@@ -25,8 +26,6 @@ function UserTable({role}) {
           useUserStore.setState({refresh: false})
       })
   },[store.refresh,store.index_url,role])
-
-
 
   return (
     <>
@@ -51,8 +50,40 @@ export default UserTable;
 
 function RenderTable({items}) {
   //console.log(items)
+  const store = useUserStore()
+  const [message, setMessage] = useState(false)
+  const [isLoading,setIsLoading] = useState(false)
+  const [selectedId,setSelectedId] = useState(null)
 
+  const HandleDisableClick = (id) => {
+    setSelectedId(id)
+    setMessage(null)
+    setIsLoading(true)
+    //console.log(id)
+    const formData = new FormData();
+    formData.append('_method', 'patch');
+    formData.append('id', id);
+
+    axios({
+      url: `${store.approve_url}/${id}/disable`,
+      method: 'post',
+      data: formData
+    })
+    .then( response => {
+      //console.log(response)
+      useUserStore.setState({ refresh: true }) // useEffect trigger
+      setMessage(response.data.message)
+      setIsLoading(false)
+    })
+    .catch( error => {
+      console.warn(error)
+    })
+  }
   return(
+    <>
+    { message && <DisplayMessage variant='success' message={message} />}
+
+    { items?.data?.length ==  0 ? 'Tiada Data' : (
     <table className="table table-bordered">
         <thead>
             <tr>
@@ -69,7 +100,21 @@ function RenderTable({items}) {
             <td className='px-5 col-2'>{user.email}</td>
             <td className='px-5'>{user.profile?.user_department?.name}</td>
             <td className='col-4 px-5 text-center'>
-              <ShowUserModal id={user.id} />
+              {/* <ShowUserModal id={user.id} /> */}
+              <Button 
+                  onClick={ () => HandleDisableClick(user.id)} 
+                  variant={'warning'}>
+
+                  { isLoading  && selectedId == user.id ? 
+                  <>
+                    <i className="fa-solid fa-sync fa-spin"></i>
+                    </>
+                    :
+                    <>
+                    Disable
+                    </>
+                  }
+                  </Button>
               {' '}
               <EditUserModal id={user.id} />
               {' '}
@@ -79,6 +124,8 @@ function RenderTable({items}) {
         ))}
       </tbody>
     </table>
+    )}
+    </>
     )
 }
 
@@ -103,7 +150,7 @@ function PaginatorLink ({items}){
     </Pagination.Item>
   )
 
-  return (
+  if( items.data.length > 0 ) return  (
     <Pagination>
     {links}
     </Pagination>

@@ -32,7 +32,8 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
-    Route::patch('/users/{user}', [UserController::class, 'approve']);
+    Route::patch('/users/{user}/approve', [UserController::class, 'approve']);
+    Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
 });
     

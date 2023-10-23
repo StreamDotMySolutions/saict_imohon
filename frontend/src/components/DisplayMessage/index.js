@@ -9,7 +9,7 @@ function DisplayMessage({ message, variant }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
-    }, 2000); // Hide the component after 2 seconds
+    }, 1000); // Hide the component after 2 seconds
 
     return () => {
       clearTimeout(timeout); // Clear the timeout if the component unmounts

@@ -48,6 +48,11 @@ class UserService
         return User::where('id', $user->id)->update(['is_approved' => true]);
     }
 
+    public static function disable($user)
+    {
+        return User::where('id', $user->id)->update(['is_approved' => false]);
+    }
+
     public static function update(Request $request, $user){
         
         // User

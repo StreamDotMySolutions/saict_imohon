@@ -54,15 +54,21 @@ function RenderTable({items}) {
   //console.log(items)
   const store = useUserStore()
   const [message, setMessage] = useState(false)
+  const [isLoading,setIsLoading] = useState(false)
+  const [selectedId,setSelectedId] = useState(null)
+
 
   const HandleApproveClick = (id) => {
     //console.log(id)
+    setSelectedId(id)
+    setMessage(null)
+    setIsLoading(true)
     const formData = new FormData();
     formData.append('_method', 'patch');
     formData.append('id', id);
 
     axios({
-      url: `${store.approve_url}/${id}`,
+      url: `${store.approve_url}/${id}/approve`,
       method: 'post',
       data: formData
     })
@@ -70,9 +76,11 @@ function RenderTable({items}) {
       //console.log(response)
       useUserStore.setState({ refresh: true }) // useEffect trigger
       setMessage(response.data.message)
+      setIsLoading(false)
     })
     .catch( error => {
       console.warn(error)
+      setIsLoading(false)
     })
   }
 
@@ -101,7 +109,18 @@ function RenderTable({items}) {
               <td className='col-6  text-center'>
                 <Button 
                   onClick={ () => HandleApproveClick(user.id)} 
-                  variant={'success'}>Approve</Button>
+                  variant={'success'}>
+
+                  { isLoading && selectedId == user.id && store ? 
+                  <>
+                    <i className="fa-solid fa-sync fa-spin"></i>
+                    </>
+                    :
+                    <>
+                    Approve
+                    </>
+                  }
+                  </Button>
                 {' '}
                 {/* <ShowUserModal id={user.id} />
                 {' '} */}
@@ -139,7 +158,7 @@ function PaginatorLink ({items}){
     </Pagination.Item>
   )
 
-  if(items.data.length > 0 )return  (
+  if( items.data.length > 0 ) return  (
     <Pagination>
     {links}
     </Pagination>

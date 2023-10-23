@@ -27,6 +27,13 @@ class UserController extends Controller
         return response()->json(['message' => 'User successfully approved']);
     }
 
+    public function disable(User $user)
+    {
+        $user = UserService::disable($user);
+        return response()->json(['message' => 'User successfully disabled']);
+    }
+
+
     public function show(User $user)
     {
         $user = UserService::show($user);
