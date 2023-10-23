@@ -1,12 +1,12 @@
 import React from 'react';
-import { useAuthStore } from '../stores/AuthStore';
+import useAuthStore from '../pages/Auth/stores/AuthStore';
 import DefaultLayout from './components/DefaultLayout';
 import AdminLayout from './components/AdminLayout';
 import UserLayout from './components/UserLayout';
 
 const Layout = () => {
     const store = useAuthStore();
-
+    console.log(store)
     let renderedComponent;
 
     if(!store?.user?.role)  return <DefaultLayout />
