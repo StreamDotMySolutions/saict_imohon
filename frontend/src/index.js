@@ -39,6 +39,7 @@ import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized/index.js';
 import SignOut from './pages/Auth/components/SignOut/index.js';
+import Application from './pages/Application';
 
 library.add(fas)
 
@@ -75,6 +76,8 @@ export default function App() {
                 <Route path="/categories" element={<CategoryIndex />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/user-departments" element={<UserDepartment />} />
+
+                <Route path="/inventory/request" element={<Application />} />
               </Route>
           </Route>
 

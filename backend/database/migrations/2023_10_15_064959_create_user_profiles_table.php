@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('occupation')->nullable();
             $table->string('nric')->nullable();
             $table->string('phone')->nullable();
-            $table->string('address')->nullable();
+            $table->text('address')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

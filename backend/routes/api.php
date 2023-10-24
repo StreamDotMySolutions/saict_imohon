@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     CategoryController,
     AuthController,
     AccountController,
+    ApplicationController
 };
 Auth::routes();
 
@@ -24,6 +25,15 @@ Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/account', [AccountController::class, 'show']);
     Route::put('/account', [AccountController::class, 'update']);
+});
+
+// Application Related
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/applications', [ApplicationController::class, 'index']);
+    Route::get('/applications/{application}', [ApplicationController::class, 'show']);
+    Route::post('/applications', [ApplicationController::class, 'store']);
+    Route::put('/applications/{application}', [ApplicationController::class, 'update']);
+    Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
