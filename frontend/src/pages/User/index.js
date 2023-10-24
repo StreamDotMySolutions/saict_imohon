@@ -40,11 +40,7 @@ const User = () => {
         </Tab>
         <Tab eventKey="approver-2" title="Pelulus 2">
           <UserTable role='approver-2'/>
-        </Tab>
-        <Tab eventKey="coordinator" title="Penyelaras">
-          <UserTable role='coordinator'/>
-        </Tab>
-  
+        </Tab>  
       </Tabs>
 
     )

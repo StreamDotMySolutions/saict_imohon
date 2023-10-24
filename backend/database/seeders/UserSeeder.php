@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         Role::create(['name' => 'user']);
         Role::create(['name' => 'approver-1']);
         Role::create(['name' => 'approver-2']);
-        Role::create(['name' => 'coordinator']);
+        //Role::create(['name' => 'coordinator']);
         
         // Departments
         // root
@@ -96,12 +96,12 @@ class UserSeeder extends Seeder
             'is_approved' => true,
         ]);
 
-        UserProfile::create([
-            'user_id' => $user->id,
-            'user_department_id' => $child->id,
-            'name' => 'Penyelaras'
-        ]);
-        $user->assignRole('coordinator');
+        // UserProfile::create([
+        //     'user_id' => $user->id,
+        //     'user_department_id' => $child->id,
+        //     'name' => 'Penyelaras'
+        // ]);
+        // $user->assignRole('coordinator');
 
         unset($user);
         // approver-1

@@ -6,7 +6,7 @@ import UserLayout from './components/UserLayout';
 
 const Layout = () => {
     const store = useAuthStore();
-    console.log(store)
+    //console.log(store)
     let renderedComponent;
 
     if(!store?.user?.role)  return <DefaultLayout />
@@ -24,11 +24,11 @@ const Layout = () => {
                 renderedComponent = <UserLayout />;
         break;
 
-        case 'apprroval-1':
+        case 'approver-1':
             renderedComponent = <AdminLayout />;
         break;
 
-        case 'apprroval-2':
+        case 'approver-2':
             renderedComponent = <AdminLayout />;
         break;
 
