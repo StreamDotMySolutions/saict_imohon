@@ -19,6 +19,7 @@ function EditUserModal({id}) {
     setShow(false)
     setError(false)
     resetStore()
+    //console.log('store reset')
   }
   
   function handleEditClick({id}){

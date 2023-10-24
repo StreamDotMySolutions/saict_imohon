@@ -6,13 +6,12 @@ import Form from '../Form/Form'
 import { setFormError , resetStore } from '../libs/include'
 import DisplayMessage from '../../../../components/DisplayMessage'
 
-export default function CreateUserModal() {
+export default function CreateUserModal({role}) {
 
     const user = useUserStore()
     const [show, setShow] = useState(false)
     const [error, setError] = useState(false)
     const [message, setMessage] = useState(false)
-
 
     const handleClose = () => {
         setShow(false)

@@ -8,6 +8,7 @@ const users = {
         message:null
     },
     refresh: false,
+    selectedRole: null,
     index_url :  process.env.REACT_APP_BACKEND_URL + '/users/?page=1',
     store_url :  process.env.REACT_APP_BACKEND_URL + '/users',
     show_url :  process.env.REACT_APP_BACKEND_URL + '/users',
