@@ -1,6 +1,6 @@
 import {useEffect, useState } from 'react'
 import axios from '../../libs/axios'
-import { Row,Col, Button, ProgressBar,Modal, Badge } from 'react-bootstrap'
+import { Row,Col, Button, ProgressBar,Modal, Badge,Pagination } from 'react-bootstrap'
 import CreateModal from './modals/CreateModal'
 import ShowModal from './modals/ShowModal'
 import EditModal from './modals/EditModal'
@@ -27,7 +27,7 @@ const Application = () => {
             useApplicationStore.setState({ latestId: null})
         }, 4000);
     
-      },[store.refresh])
+      },[store.refresh,store.url])
 
  
 
@@ -75,9 +75,46 @@ const Application = () => {
             </Row>
             ))}
 
-
+            
+            <div className="d-flex bd-highlight mb-3">
+                <div className="ms-auto p-2 bd-highlight">
+                    <PaginatorLink items={applications} />
+                </div>
+            </div>
         </div>
+
+     
     );
 };
+
+
+/**
+ * Paginator Links
+ */
+function PaginatorLink ({items}){
+    //console.log(items.links)
+    const handlePaginationClick = (url) => {
+      //console.log(url)
+      useApplicationStore.setState({url: url})
+    }
+    const links = items?.links?.map( (page,index) => 
+        
+      <Pagination.Item
+          key={index} 
+          active={page.active}
+          disabled={page.url === null}
+          onClick={() => handlePaginationClick(page.url)}
+          >
+              <span dangerouslySetInnerHTML={{__html: page.label}} />
+      </Pagination.Item>
+    )
+  
+    if( items?.data?.length > 0 ) return  (
+      <Pagination className='mt-3'>
+      {links}
+      </Pagination>
+    )
+  }
+  
 
 export default Application;

@@ -22,11 +22,6 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/inventory/request"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon</Nav.Link>
               </Nav>
 
-              <Nav>
-                <Nav.Link as={NavLink} to="/inventory/request"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Inventori</Nav.Link>
-              </Nav>
-
-
            <Account />
         </Navbar.Collapse>
       </Container>

@@ -5,6 +5,7 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 const useApplicationStore  = create((set) => ({
 
     url: `${base_url}/applications`,
+    index_url:  `${base_url}/applications`,
     refresh: false,
     errors: null,
 
