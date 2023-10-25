@@ -1,10 +1,36 @@
-import React from 'react'
-import { Row,Col, Button, ProgressBar,Modal } from 'react-bootstrap'
+import {useEffect, useState } from 'react'
+import axios from '../../libs/axios'
+import { Row,Col, Button, ProgressBar,Modal, Badge } from 'react-bootstrap'
 import CreateModal from './modals/CreateModal'
 import ShowModal from './modals/ShowModal'
 import EditModal from './modals/EditModal'
+import useApplicationStore from './stores/ApplicationStore'
 
 const Application = () => {
+    const store = useApplicationStore()
+    const [data, setData] = useState([])
+    const applications = data?.data?.applications
+ 
+    useEffect( () => {
+        axios({url: store.url,})
+        .then( response => {
+          //console.log(response)    
+          setData(response)  
+          useApplicationStore.setState({ refresh: false})
+        })
+        .catch( error => {
+          console.warn(error)
+        })
+
+        // Add a delay of 1 second before closing
+        setTimeout(() => {
+            useApplicationStore.setState({ latestId: null})
+        }, 4000);
+    
+      },[store.refresh])
+
+ 
+
     return (
         <div>
             
@@ -23,18 +49,33 @@ const Application = () => {
 
             </Row>
             <hr />
-            <Row className='border border-1 rounded p-3 mt-2'>
-                <Col className='col-1'>1</Col>
-                <Col>Untuk pegawai baharu</Col>
+            {applications?.data?.map((application,index) => (
+            <Row 
+                key={index} 
+                className='border border-1 rounded p-3 mt-2' 
+                //style={{ backgroundColor: 'lightyellow' }}
+                style={{
+                    backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : ''
+                  }}
+            >
+                <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
+                <Col>{application.description}</Col>
                 <Col>24/10/23</Col>
                 <Col>Baharu</Col>
-                <Col className='text-center'><ShowModal />{' '}<EditModal /></Col>
-                <Row>
+                <Col className='text-center'>
+                <ShowModal />
+                {' '}
+                <EditModal />
+                </Col>
+                {/* <Row>
                     <Col className='mt-3'>
-                        <ProgressBar animated variant={'primary'} style={{'height':'25px'}} now={75} label={'Menunggu kelulusan dari Penyelaras'} />
+                        <ProgressBar animated variant={'primary'} style={{ 'height': '25px' }} now={75} label={'Menunggu kelulusan dari Penyelaras'} />
                     </Col>
-                </Row>
+                </Row> */}
             </Row>
+            ))}
+
+
         </div>
     );
 };

@@ -2,21 +2,42 @@ import { create } from 'zustand'
 
 const base_url = process.env.REACT_APP_BACKEND_URL
 
-const application = {
+const useApplicationStore  = create((set) => ({
 
-    url :  `${base_url}/applications`, 
-    refresh: false, // trigger for useEffect()
-    errors : null, // error 422 from Laravel
+    url: `${base_url}/applications`,
+    refresh: false,
+    errors: null,
 
-    // formData
-    description : {
-        value:null, // user keyed in 
+    latestId: null,
+    data: {},
+    
+    setValue: (fieldName, value) => {
+      set((state) => ({
+        data: {
+          ...state.data,
+          [fieldName]: { value },
+        },
+      }));
     },
 
-    type : {
-        value:null, // user keyed in 
-    }
-}
+    setError: (fieldName, error) => {
+        set((state) => ({
+          data: {
+            ...state.data,
+            [fieldName]: { error },
+          },
+        }));
+    },
+      
+    emptyData: () => {
+        set({ data: {} });
+        set({ errors: {} });
+    },
 
-const useApplicationStore= create( () => (application) ) // create store
-export default useApplicationStore
+    getValue: (fieldName) => {
+        const field = useApplicationStore.getState().data[fieldName];
+        return field ? field.value : null;
+    },
+}));
+
+export default useApplicationStore;
