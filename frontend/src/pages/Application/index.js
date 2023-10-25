@@ -66,7 +66,7 @@ const Application = () => {
                 <Col className='text-center'>
                 <ShowModal />
                 {' '}
-                <EditModal />
+                <EditModal id={application.id} />
                 {' '}
                 <DeleteModal id={application.id} />
                 </Col>

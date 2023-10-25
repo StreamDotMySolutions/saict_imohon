@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 class ApplicationService
 {
 
-    public static function index(){ 
+    public static function index()
+    { 
 
         $user =  auth('sanctum')->user();
         $userDepartmentId = $user->userProfile->userDepartment->id; 
@@ -20,9 +21,13 @@ class ApplicationService
 
     }
 
-    public static function show($application){}
+    public static function show($application)
+    {
+        return Application::where('id', $application->id)->first();
+    }
 
-    public static function store($request){
+    public static function store($request)
+    {
         //\Log::info($request);
         $user =  auth('sanctum')->user();
         return Application::create([
@@ -31,9 +36,20 @@ class ApplicationService
         ]);
     }
 
-    public static function update($request){}
+    public static function update($application,$request)
+    {
+        $user =  auth('sanctum')->user();
+        return Application::query()
+                            ->where('user_id', $user->id)
+                            ->where('id',$application->id)
+                            ->update([
+                                    'user_id' => $user->id,
+                                    'description'=> $request->input('description')
+                                ]);
+    }
 
     public static function delete($application){
-        return $application->delete();
+        $user =  auth('sanctum')->user();
+        return $application->where('user_id', $user->id)->where('id',$application->id)->delete();
     }
 }

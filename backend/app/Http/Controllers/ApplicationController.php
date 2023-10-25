@@ -12,14 +12,18 @@ class ApplicationController extends Controller
 {
     public function index(){
         $applications = ApplicationService::index();
-        \Log::info($applications);
+        //\Log::info($applications);
         return response()->json([
             'applications' => $applications
         ]);
     }
 
     public function show(Application $application){
-        ApplicationService::show( $application);
+        \Log::info($application);
+        $application = ApplicationService::show( $application);
+        return response()->json([
+            'application' => $application
+        ]);
     }
 
     public function store(StoreApplicationRequest $request){
@@ -33,7 +37,11 @@ class ApplicationController extends Controller
     } 
 
     public function update(Application $application,UpdateApplicationRequest $request){
-        ApplicationService::update($request);
+        $application = ApplicationService::update($application,$request);
+        return response()->json([
+            'message' => "Permohonan  telah dikemaskini.",
+            //'id' => $application->id
+        ]);
     }
 
     public function delete(Application $application){
