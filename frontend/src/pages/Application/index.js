@@ -5,6 +5,7 @@ import CreateModal from './modals/CreateModal'
 import ShowModal from './modals/ShowModal'
 import EditModal from './modals/EditModal'
 import useApplicationStore from './stores/ApplicationStore'
+import DeleteModal from './modals/DeleteModal'
 
 const Application = () => {
     const store = useApplicationStore()
@@ -66,6 +67,8 @@ const Application = () => {
                 <ShowModal />
                 {' '}
                 <EditModal />
+                {' '}
+                <DeleteModal id={application.id} />
                 </Col>
                 {/* <Row>
                     <Col className='mt-3'>

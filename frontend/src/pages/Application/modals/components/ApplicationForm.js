@@ -15,7 +15,7 @@ const ApplicationForm = () => {
                     <Form.Control 
                         placeholder='Sila nyatakan tujuan permohonan'
                         //value={store.data.description?.value ? store.data.description?.value : '' }
-                        value={useApplicationStore.getState().getValue('description')}
+                        value={ useApplicationStore.getState().getValue('description') ? useApplicationStore.getState().getValue('description') : '' }
                         name='description'
                         size='md' 
                         as="textarea" 

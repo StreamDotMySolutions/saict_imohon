@@ -33,5 +33,7 @@ class ApplicationService
 
     public static function update($request){}
 
-    public static function delete($application){}
+    public static function delete($application){
+        return $application->delete();
+    }
 }

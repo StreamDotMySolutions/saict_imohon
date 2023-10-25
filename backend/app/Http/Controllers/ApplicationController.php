@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\ApplicationService;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
+use App\Models\Application;
 
 class ApplicationController extends Controller
 {
@@ -37,5 +38,10 @@ class ApplicationController extends Controller
 
     public function delete(Application $application){
         ApplicationService::delete( $application);
+
+        return response()->json([
+            'message' => "Permohonan id={$application->id} telah dihapus.",
+            //'id' => $application->id
+        ]);
     }
 }
