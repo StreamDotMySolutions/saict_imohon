@@ -112,7 +112,7 @@ function PaginatorLink ({items}){
       </Pagination.Item>
     )
   
-    if( items?.data?.length > 0 ) return  (
+    return  (
       <Pagination className='mt-3'>
       {links}
       </Pagination>

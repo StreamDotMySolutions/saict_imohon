@@ -150,7 +150,7 @@ function PaginatorLink ({items}){
     </Pagination.Item>
   )
 
-  if( items.data.length > 0 ) return  (
+  return  (
     <Pagination>
     {links}
     </Pagination>

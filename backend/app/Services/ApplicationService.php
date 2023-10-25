@@ -17,7 +17,7 @@ class ApplicationService
         $paginate = Application::whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
                         $query->where('user_department_id', $userDepartmentId);
                     });
-        return $paginate->orderBy('id','DESC')->paginate(15)->withQueryString();
+        return $paginate->orderBy('id','DESC')->paginate(3)->withQueryString();
 
     }
 

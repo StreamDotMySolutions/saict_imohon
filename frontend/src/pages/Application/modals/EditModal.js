@@ -20,8 +20,7 @@ export default function EditModal({id}) {
       setIsLoading(true)
       axios( `${store.show_url}/${id}`)
       .then( response => {
-        console.log(response)
-        
+       
         // set fetched value to form
         if(response.data.application?.hasOwnProperty('description')){
           useApplicationStore.getState().setValue('description', response.data.application.description)
@@ -54,7 +53,7 @@ export default function EditModal({id}) {
       if (useApplicationStore.getState().getValue('description') != null ) {
         formData.append('description', useApplicationStore.getState().getValue('description'))
       }
-      console.log( `${store.edit_url}/${id}`)
+      
       axios({
           url: `${store.edit_url}/${id}`,
           method: 'post',
@@ -65,15 +64,21 @@ export default function EditModal({id}) {
         setIsLoading(false)
         useApplicationStore.setState({refresh:true})
         //setRenderedComponent(<ApplicationForm />)
+        useApplicationStore.setState({latestId: id})
         setRenderedComponent(<SuccessMessage message={response.data.message} />)
+       
+
         // Add a delay of 1 second before closing
         setTimeout(() => {
           handleCloseClick();
         }, 1000);
-
+       
       })
       .catch( error => {
         console.warn(error)
+        if(error.response.status === 422){
+          useApplicationStore.setState({ errors :error.response.data.errors })  
+        }
         setIsLoading(false)
       })
     }
