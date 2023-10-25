@@ -21,9 +21,8 @@ class UserSeeder extends Seeder
         Role::create(['name' => 'system']);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'user']);
-        Role::create(['name' => 'approver-1']);
-        Role::create(['name' => 'approver-2']);
-        //Role::create(['name' => 'coordinator']);
+        Role::create(['name' => 'manager']);
+        Role::create(['name' => 'boss']);
         
         // Departments
         // root
@@ -40,8 +39,7 @@ class UserSeeder extends Seeder
         $node = UserDepartment::find($parent->id); // find the node
         $node->appendNode($child); // assign created department to t
 
-
-        // Users
+        // system ########################################### start
         User::truncate();
         $user = User::create([
             'email' => 'system@local',
@@ -56,9 +54,10 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole('system');
-
         unset($user);
-        // admin
+        // system ########################################### end
+
+        // admin ########################################### start
         $user = User::create([
             'email' => 'admin@local',
             'password' => Hash::make('password'),
@@ -72,9 +71,11 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
-
         unset($user);
-        // user
+        // admin ########################################### end
+
+
+        // user ########################################### start
         $user = User::create([
             'email' => 'user@local',
             'password' => Hash::make('password'),
@@ -87,26 +88,12 @@ class UserSeeder extends Seeder
             'name' => 'User'
         ]);
         $user->assignRole('user');
-
         unset($user);
-        // user
+        // user ########################################### end
+  
+        // manager ########################################### start
         $user = User::create([
-            'email' => 'penyelaras@local',
-            'password' => Hash::make('password'),
-            'is_approved' => true,
-        ]);
-
-        // UserProfile::create([
-        //     'user_id' => $user->id,
-        //     'user_department_id' => $child->id,
-        //     'name' => 'Penyelaras'
-        // ]);
-        // $user->assignRole('coordinator');
-
-        unset($user);
-        // approver-1
-        $user = User::create([
-            'email' => 'pelulus-1@local',
+            'email' => 'manager@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
@@ -114,14 +101,16 @@ class UserSeeder extends Seeder
         UserProfile::create([
             'user_id' => $user->id,
             'user_department_id' => $child->id,
-            'name' => 'Pelulus 1'
+            'name' => 'Manager'
         ]);
-        $user->assignRole('approver-1');
-
+        $user->assignRole('manager');
         unset($user);
-        // approver-2
+        // manager ########################################### manager
+
+
+        // boss ########################################### start
         $user = User::create([
-            'email' => 'pelulus-2@local',
+            'email' => 'boss@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
@@ -131,6 +120,7 @@ class UserSeeder extends Seeder
             'user_department_id' => $child->id,
             'name' => 'Pelulus 2'
         ]);
-        $user->assignRole('approver-2');
+        $user->assignRole('boss');
+        // boss ########################################### end
     }
 }
