@@ -2,8 +2,8 @@ import useAuthStore from "../Auth/stores/AuthStore"
 import SystemDashboard from "./components/SystemDashboard"
 import AdminDashboard from "./components/AdminDashboard"
 import UserDashboard from "./components/UserDashboard"
-import Approver1Dashboard from "./components/Approver1Dashboard"
-import Approver2Dashboard from "./components/Approver2Dashboard"
+import ManagerDashboard from "./components/ManagerDashboard"
+import BossDashboard from "./components/BossDashboard"
 
 const Home = () => {
     const store = useAuthStore();
@@ -22,12 +22,12 @@ const Home = () => {
             renderedComponent = <UserDashboard />;
         break;
 
-        case 'approver-1':
-            renderedComponent = <Approver1Dashboard />;
+        case 'manager':
+            renderedComponent = <ManagerDashboard />;
         break;
 
-        case 'approver-2':
-            renderedComponent = <Approver2Dashboard />;
+        case 'boss':
+            renderedComponent = <BossDashboard />;
         break;
 
         default:

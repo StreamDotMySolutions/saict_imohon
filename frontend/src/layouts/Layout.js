@@ -24,11 +24,11 @@ const Layout = () => {
                 renderedComponent = <UserLayout />;
         break;
 
-        case 'approver-1':
+        case 'manager':
             renderedComponent = <AdminLayout />;
         break;
 
-        case 'approver-2':
+        case 'boss':
             renderedComponent = <AdminLayout />;
         break;
 
