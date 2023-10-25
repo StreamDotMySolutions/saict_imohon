@@ -10,7 +10,11 @@ use App\Http\Requests\UpdateApplicationRequest;
 class ApplicationController extends Controller
 {
     public function index(){
-        ApplicationService::index();
+        $applications = ApplicationService::index();
+        \Log::info($applications);
+        return response()->json([
+            'applications' => $applications
+        ]);
     }
 
     public function show(Application $application){
@@ -18,8 +22,14 @@ class ApplicationController extends Controller
     }
 
     public function store(StoreApplicationRequest $request){
-        ApplicationService::store($request);
-    }
+
+        $application = ApplicationService::store($request);
+
+        return response()->json([
+            'message' => 'Application successfully processed',
+            'id' => $application->id
+        ]);
+    } 
 
     public function update(Application $application,UpdateApplicationRequest $request){
         ApplicationService::update($request);
