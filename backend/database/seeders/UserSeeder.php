@@ -90,6 +90,7 @@ class UserSeeder extends Seeder
         $user->assignRole('user');
         unset($user);
         // user ########################################### end
+
   
         // manager ########################################### start
         $user = User::create([
