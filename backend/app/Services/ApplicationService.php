@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Application;
+use App\Models\ApplicationApproval;
 use Illuminate\Http\Request;
 
 class ApplicationService
@@ -14,10 +15,11 @@ class ApplicationService
         $user =  auth('sanctum')->user();
         $userDepartmentId = $user->userProfile->userDepartment->id; 
 
-        $paginate = Application::whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
+        $paginate = Application::query()->with(['user.userProfile','applicationApprovalByManager'])->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
                         $query->where('user_department_id', $userDepartmentId);
                     });
-        return $paginate->orderBy('id','DESC')->paginate(3)->withQueryString();
+
+        return $paginate->orderBy('id','DESC')->paginate(15)->withQueryString();
 
     }
 
@@ -51,5 +53,16 @@ class ApplicationService
     public static function delete($application){
         $user =  auth('sanctum')->user();
         return $application->where('user_id', $user->id)->where('id',$application->id)->delete();
+    }
+
+    public static function setApplicationApprovalStatus($application,$status)
+    {
+        $user =  auth('sanctum')->user();
+        $matchThese = [
+                        'application_id' => $application->id,
+                        'user_id' => $user->id,
+                        'step' => 1, // 1 is manager
+                    ];
+        return ApplicationApproval::updateOrCreate($matchThese,['status' => $status]);
     }
 }

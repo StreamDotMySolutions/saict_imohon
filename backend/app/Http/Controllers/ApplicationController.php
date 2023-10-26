@@ -29,6 +29,7 @@ class ApplicationController extends Controller
     public function store(StoreApplicationRequest $request){
 
         $application = ApplicationService::store($request);
+        $status = ApplicationService::setApplicationApprovalStatus($application,'pending');
 
         return response()->json([
             'message' => 'Application successfully processed',
@@ -50,6 +51,18 @@ class ApplicationController extends Controller
         return response()->json([
             'message' => "Permohonan id={$application->id} telah dihapus.",
             //'id' => $application->id
+        ]);
+    }
+
+    public function approvalByManager(Application $application,$status)
+    {
+        // \Log::info($application);
+        // \Log::info($status);
+        $status = ApplicationService::setApplicationApprovalStatus($application,$status);
+
+        return response()->json([
+            'message' => $status  ? "Permohonan ID={$application->id} telah diproses." : 'failed',
+            'id' => $application->id
         ]);
     }
 }

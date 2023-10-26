@@ -3,6 +3,7 @@ import useAuthStore from '../pages/Auth/stores/AuthStore';
 import DefaultLayout from './components/DefaultLayout';
 import AdminLayout from './components/AdminLayout';
 import UserLayout from './components/UserLayout';
+import ManagerLayout from './components/ManagerLayout';
 
 const Layout = () => {
     const store = useAuthStore();
@@ -25,7 +26,7 @@ const Layout = () => {
         break;
 
         case 'manager':
-            renderedComponent = <AdminLayout />;
+            renderedComponent = <ManagerLayout />;
         break;
 
         case 'boss':

@@ -34,6 +34,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/applications', [ApplicationController::class, 'store']);
     Route::put('/applications/{application}', [ApplicationController::class, 'update']);
     Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
+
+    // approval 
+    Route::get('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
+    Route::get('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
+    Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {

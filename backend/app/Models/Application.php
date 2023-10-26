@@ -18,11 +18,10 @@ class Application extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeByUserDepartment($query, $userDepartmentId)
+    public function applicationApprovalByManager() 
     {
-        return $query
-            ->join('users', 'applications.user_id', '=', 'users.id')
-            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
-            ->where('user_profiles.user_department_id', $userDepartmentId);
+        return $this->hasOne(ApplicationApproval::class)->where('step', 1);
     }
+
+
 }
