@@ -6,6 +6,8 @@ import ShowModal from './modals/ShowModal'
 import EditModal from './modals/EditModal'
 import useApplicationStore from './stores/ApplicationStore'
 import DeleteModal from './modals/DeleteModal'
+import ApplicationStatus from '../Approval/modals/components/ApplicationStatus'
+import ApplicationProgress from '../Approval/modals/components/ApplicationProgress'
 
 const Application = () => {
     const store = useApplicationStore()
@@ -46,23 +48,32 @@ const Application = () => {
                 <Col className='fw-bold'>Tujuan</Col>
                 <Col className='fw-bold'>Tarikh</Col>
                 <Col className='fw-bold'>Jenis</Col>
+                <Col className='fw-bold text-center'>Status</Col>
                 <Col className='fw-bold text-center'>Tindakan</Col>
 
             </Row>
             <hr />
             {applications?.data?.map((application,index) => (
-            <Row 
-                key={index} 
-                className='border border-1 rounded p-3 mt-2' 
-                //style={{ backgroundColor: 'lightyellow' }}
-                style={{
-                    backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : ''
-                  }}
+              <Row 
+              key={index} 
+              className='rounded p-3 mt-2' 
+              style={{
+                backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : '',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.classList.add('border', 'border-1', 'bg-light');
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.classList.remove('border', 'border-1', 'bg-light');
+              }}
             >
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
                 <Col>{application.description}</Col>
                 <Col>24/10/23</Col>
                 <Col>Baharu</Col>
+                <Col>
+                  <ApplicationStatus status={application?.application_approval_by_manager?.status} />
+                </Col>
                 <Col className='text-center'>
                 <ShowModal />
                 {' '}
@@ -70,11 +81,7 @@ const Application = () => {
                 {' '}
                 <DeleteModal id={application.id} />
                 </Col>
-                {/* <Row>
-                    <Col className='mt-3'>
-                        <ProgressBar animated variant={'primary'} style={{ 'height': '25px' }} now={75} label={'Menunggu kelulusan dari Penyelaras'} />
-                    </Col>
-                </Row> */}
+                <ApplicationProgress status={application?.application_approval_by_manager?.status} />
             </Row>
             ))}
 

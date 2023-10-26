@@ -8,6 +8,8 @@ import useApplicationStore from './stores/ApplicationStore'
 import DeleteModal from './modals/DeleteModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ApprovalModal from './modals/ApprovalModal'
+import ApplicationStatus from './modals/components/ApplicationStatus'
+import ApplicationProgress from './modals/components/ApplicationProgress'
 
 const Approval = () => {
     const store = useApplicationStore()
@@ -80,62 +82,12 @@ const Approval = () => {
                 <Col>24/10/23</Col>
                 <Col>Baharu</Col>
                 <Col>
-                { application?.application_approval_by_manager?.status === 'pending' && 
-                   <Button size={'sm'} variant={'warning'}>MENUNGGU</Button>
-                }
-
-                { application?.application_approval_by_manager?.status === 'approved' && 
-                   <Button size={'sm'} variant={'success'}>LULUS</Button>
-                }
-
-                { application?.application_approval_by_manager?.status === 'rejected' && 
-                   <Button size={'sm'} variant={'danger'}>GAGAL</Button>
-                }
-
-                { !application?.application_approval_by_manager?.status && 
-                   <Button size={'sm'} variant={'warning'}>MENUNGGU</Button>
-                }
-               
-  
+                  <ApplicationStatus status={application?.application_approval_by_manager?.status} />
                 </Col>
                 <Col className='text-center'>
                   <ApprovalModal id={application.id} label={<FontAwesomeIcon icon={'fa-solid fa-pencil'}/>} />
-                  {' '}
-
-                  {/* <ShowModal /> */}
-                  {' '}
-
-                  {/* <EditModal id={application.id} />
-                  {' '}
-                  <DeleteModal id={application.id} /> */}
                 </Col>
-                <Row>
-                    <Col className='mt-3'>
-                    { application?.application_approval_by_manager?.status === 'pending' && 
-
-                        <>
-                        <ProgressBar  variant={'warning'} style={{ 'height': '5px' }} now={0} />
-                        <span className='text-muted fs-6'><Badge className='bg-warning'>STATUS</Badge>{' '}-{' '}menunggu pengesahan Ketua Jabatan</span>
-                        </>
-                    }
-                 
-                    { application?.application_approval_by_manager?.status === 'approved' && 
-
-                        <>
-                        <ProgressBar  variant={'success'} style={{ 'height': '5px' }} now={50} />
-                        <span className='text-muted fs-6'><Badge className='bg-success'>STATUS</Badge>{' '}-{' '}menunggu pengesahan Penyelaras</span>
-                        </>
-                    }
-
-                    { application?.application_approval_by_manager?.status === 'rejected' && 
-
-                      <>
-                      <ProgressBar  variant={'danger'} style={{ 'height': '5px' }} now={100} />
-                      <span className='text-muted fs-6'><Badge className='bg-danger'>STATUS</Badge>{' '}-{' '}permohonan ditolak oleh Ketua Jabatan</span>
-                      </>
-                    }
-                    </Col>
-                </Row>
+                <ApplicationProgress status={application?.application_approval_by_manager?.status} />
             </Row>
             ))}
 
