@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'user_id',
-        'description',
-    ];
+
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $appends = ['deleteable', 'editable'];
 
     public function user() 
     {
@@ -46,5 +45,42 @@ class Application extends Model
         return null; // Or you can return a default status if there's no approval record.
     }
 
+    /**
+     * Determine if the application can be deleted.
+     *
+     * @return bool
+     */
+    public function getDeleteableAttribute()
+    {
+        // Define your logic to determine if the application is deleteable.
+        if ($this->applicationApproval->status === 'rejected') {
+            return true;
+        }
+
+        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the application can be deleted.
+     *
+     * @return bool
+     */
+    public function getEditableAttribute()
+    {
+        // Define your logic to determine if the application is deleteable.
+        if ($this->applicationApproval->status === 'rejected') {
+            return true;
+        }
+
+        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
+            return true;
+        }
+
+        return false;
+    }
 
 }

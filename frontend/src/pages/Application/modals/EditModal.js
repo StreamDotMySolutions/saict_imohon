@@ -4,7 +4,7 @@ import axios from '../../../libs/axios'
 import useApplicationStore from '../stores/ApplicationStore'
 import ApplicationForm from './components/ApplicationForm';
 
-export default function EditModal({id}) {
+export default function EditModal({editable,id}) {
     const store = useApplicationStore()
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -12,20 +12,20 @@ export default function EditModal({id}) {
     const handleClose = () => setShow(false);
     
     const handleShow = () => {
-
       useApplicationStore.getState().emptyData()
       setRenderedComponent(<ApplicationForm />)
       setShow(true);
       console.log(id)
       setIsLoading(true)
-      axios( `${store.show_url}/${id}`)
+      axios(`${store.show_url}/${id}`)
       .then( response => {
        
         // set fetched value to form
         if(response.data.application?.hasOwnProperty('description')){
-          useApplicationStore.getState().setValue('description', response.data.application.description)
+          store.setValue('description', response.data.application.description)
         } 
 
+        console.log(response.data.application.editable)
         setIsLoading(false)
         
       })
@@ -85,7 +85,7 @@ export default function EditModal({id}) {
   
     return (
       <>
-        <Button variant="warning" onClick={handleShow}>
+        <Button variant="warning" disabled={!editable} onClick={handleShow}>
          Edit
         </Button>
   
@@ -100,7 +100,7 @@ export default function EditModal({id}) {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="warning" disabled={isLoading} onClick={handleSubmitClick}>
+            <Button variant="warning" disabled={isLoading || !editable } onClick={handleSubmitClick}>
               Edit
             </Button>
           </Modal.Footer>

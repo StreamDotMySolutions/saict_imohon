@@ -3,7 +3,7 @@ import { Alert,Row,Col, Button, ProgressBar,Modal } from 'react-bootstrap';
 import axios from '../../../libs/axios'
 import useApplicationStore from '../stores/ApplicationStore'
 
-export default function DeleteModal({id}) {
+export default function DeleteModal({deleteable,id}) {
     const store = useApplicationStore()
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -48,7 +48,7 @@ export default function DeleteModal({id}) {
   
     return (
       <>
-        <Button variant="danger" onClick={handleShow}>
+        <Button disabled={!deleteable} variant="danger" onClick={handleShow}>
          Padam
         </Button>
   
@@ -63,7 +63,7 @@ export default function DeleteModal({id}) {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="danger" disabled={isLoading} onClick={handleSubmitClick}>
+            <Button variant="danger" disabled={isLoading || !deleteable} onClick={handleSubmitClick}>
               Padam
             </Button>
           </Modal.Footer>

@@ -17,7 +17,7 @@ const Application = () => {
     useEffect( () => {
         axios({url: store.url,})
         .then( response => {
-          //console.log(response)    
+          console.log(response)    
           setData(response)  
           useApplicationStore.setState({ refresh: false})
         })
@@ -77,9 +77,9 @@ const Application = () => {
                 <Col className='text-center'>
                 <ShowModal />
                 {' '}
-                <EditModal id={application.id} />
+                <EditModal editable={application.editable} id={application.id} />
                 {' '}
-                <DeleteModal id={application.id} />
+                <DeleteModal deleteable={application.deleteable}  id={application.id} />
                 </Col>
                 <ApplicationProgress status={application?.application_approval_by_manager?.status} />
             </Row>

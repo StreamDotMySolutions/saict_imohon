@@ -39,15 +39,32 @@ class ApplicationController extends Controller
     } 
 
     public function update(Application $application,UpdateApplicationRequest $request){
+
+        if(!$application->editable){
+            $log = ApplicationService::setApplicationLog($application,'attempt to update protected application');
+            return response()->json([
+                'message' => "Kemaskini tidak dibenarkan",
+                'id' => $application->id
+            ]);
+        }
+
         ApplicationService::update($application,$request);
         $log = ApplicationService::setApplicationLog($application,'update');
         return response()->json([
             'message' => "Permohonan  telah dikemaskini.",
-            //'id' => $application->id
+            'id' => $application->id
         ]);
     }
 
     public function delete(Application $application){
+
+        if(!$application->deleteable){
+            $log = ApplicationService::setApplicationLog($application,'attempt to delete protected application');
+            return response()->json([
+                'message' => "Padam tidak dibenarkan",
+                'id' => $application->id
+            ]);
+        }
      
         $log = ApplicationService::setApplicationLog($application,'delete');
         ApplicationService::delete($application);
