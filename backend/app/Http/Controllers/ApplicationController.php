@@ -12,7 +12,6 @@ class ApplicationController extends Controller
 {
     public function index(){
         $applications = ApplicationService::index();
-        //\Log::info($applications);
         return response()->json([
             'applications' => $applications
         ]);
@@ -79,7 +78,40 @@ class ApplicationController extends Controller
     {
         // \Log::info($application);
         // \Log::info($status);
-        ApplicationService::setApplicationApprovalStatus($application,$status,$step=1);
+        switch($status){
+            case 'approved':
+                ApplicationService::setApplicationApprovalStatus($application,'approved',$step=1);
+                ApplicationService::setApplicationApprovalStatus($application,'pending', $step=2);
+            break;
+
+            case 'rejected':
+                ApplicationService::setApplicationApprovalStatus($application,'rejected',$step=1);
+            break;
+        }
+        
+        $log = ApplicationService::setApplicationLog($application,$status);
+
+        return response()->json([
+            'message' => "Permohonan ID={$application->id} telah diproses.",
+            'id' => $application->id
+        ]);
+    }
+
+    public function approvalByAdmin(Application $application,$status)
+    {
+        // \Log::info($application);
+        // \Log::info($status);
+        switch($status){
+            case 'approved':
+                ApplicationService::setApplicationApprovalStatus($application,'approved',$step=2);
+                
+            break;
+
+            case 'rejected':
+                ApplicationService::setApplicationApprovalStatus($application,'rejected',$step=2);
+            break;
+        }
+        
         $log = ApplicationService::setApplicationLog($application,$status);
 
         return response()->json([

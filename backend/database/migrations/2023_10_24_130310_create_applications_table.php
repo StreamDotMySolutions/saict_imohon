@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('description')->nullable();
             $table->foreignId('user_id')->costrained();
+            $table->integer('current_step')->default(0);
             $table->timestamps();
         });
     }

@@ -1,15 +1,18 @@
 import {useEffect, useState } from 'react'
-import axios from '../../libs/axios'
+import axios from '../../../libs/axios'
 import { Row,Col, Button, ProgressBar,Modal, Badge,Pagination } from 'react-bootstrap'
-import CreateModal from './modals/CreateModal'
-import ShowModal from './modals/ShowModal'
-import EditModal from './modals/EditModal'
-import useApplicationStore from './stores/ApplicationStore'
-import DeleteModal from './modals/DeleteModal'
-import ApplicationStatus from '../Approval/modals/components/ApplicationStatus'
-import ApplicationProgress from '../Approval/modals/components/ApplicationProgress'
+import CreateModal from '../modals/CreateModal'
+import ShowModal from '../modals/ShowModal'
+import EditModal from '../modals/EditModal'
+import useApplicationStore from '../stores/ApplicationStore'
+import DeleteModal from '../modals/DeleteModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ApprovalModal from '../modals/ManagerApprovalModal'
+import ApplicationStatus from '../modals/components/ApplicationStatus'
+import ApplicationProgress from '../modals/components/ApplicationProgress'
+import ManagerApprovalModal from '../modals/ManagerApprovalModal'
 
-const Application = () => {
+const ApprovalByManager = () => {
     const store = useApplicationStore()
     const [data, setData] = useState([])
     const applications = data?.data?.applications
@@ -32,20 +35,14 @@ const Application = () => {
     
       },[store.refresh,store.url])
 
- 
-
     return (
         <div>
-            
-            <div className="d-flex bd-highlight mb-3">
-                <div className="ms-auto p-2 bd-highlight">
-                    <CreateModal />
-                </div>
-            </div>
             
             <Row className='bg-light border border-1 rounded p-3'>
                 <Col className='col-1 fw-bold'>Bil.</Col>
                 <Col className='fw-bold'>Tujuan</Col>
+                <Col className='fw-bold'>Nama</Col>
+                <Col className='fw-bold'>Jawatan</Col>
                 <Col className='fw-bold'>Tarikh</Col>
                 <Col className='fw-bold'>Jenis</Col>
                 <Col className='fw-bold text-center'>Status</Col>
@@ -54,34 +51,33 @@ const Application = () => {
             </Row>
             <hr />
             {applications?.data?.map((application,index) => (
-              <Row 
-              key={index} 
-              className='rounded p-3 mt-2' 
-              style={{
-                backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : '',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.classList.add('border', 'border-1', 'bg-light');
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.classList.remove('border', 'border-1', 'bg-light');
-              }}
-            >
+            <Row 
+                key={index} 
+                className='rounded p-3 mt-2' 
+                style={{
+                  backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : '',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.classList.add('border', 'border-1', 'bg-light');
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.classList.remove('border', 'border-1', 'bg-light');
+                }}
+              >
+
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
                 <Col>{application.description}</Col>
+                <Col>{application.user.user_profile.name}</Col>
+                <Col>{application.user.user_profile.occupation}</Col>
                 <Col>24/10/23</Col>
                 <Col>Baharu</Col>
                 <Col>
                   <ApplicationStatus status={application?.application_approval?.status} />
                 </Col>
                 <Col className='text-center'>
-                <ShowModal />
-                {' '}
-                <EditModal editable={application.editable} id={application.id} />
-                {' '}
-                <DeleteModal deleteable={application.deleteable}  id={application.id} />
+                  <ManagerApprovalModal editable={application?.manager_editable} id={application.id} label={<FontAwesomeIcon icon={'fa-solid fa-pencil'}/>} />
                 </Col>
-                <ApplicationProgress status={application?.application_approval?.status}  step={application?.application_approval?.step} />
+                <ApplicationProgress status={application?.application_approval?.status} step={application?.application_approval?.step}/>
             </Row>
             ))}
 
@@ -96,7 +92,7 @@ const Application = () => {
      
     );
 };
-
+export default ApprovalByManager;
 
 /**
  * Paginator Links
@@ -124,7 +120,5 @@ function PaginatorLink ({items}){
       {links}
       </Pagination>
     )
-  }
+}
   
-
-export default Application;

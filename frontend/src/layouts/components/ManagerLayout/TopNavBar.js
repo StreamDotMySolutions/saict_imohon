@@ -19,7 +19,7 @@ function TopNavbar() {
               </Nav>
 
               <Nav>
-                <Nav.Link as={NavLink} to="/approvals"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pengesahan</Nav.Link>
+                <Nav.Link as={NavLink} to="/approvals/by-manager"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
               </Nav>
 
            <Account />

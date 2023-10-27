@@ -3,7 +3,7 @@ import { Row,Col, Button, ProgressBar,Modal,Alert } from 'react-bootstrap';
 import useApplicationStore from '../../stores/ApplicationStore'
 import axios from '../../../../libs/axios'
 
-export default function ApprovalModal({id,label='Lihat'}) {
+export default function AdminApprovalModal({editable,id,label='Lihat'}) {
     const store = useApplicationStore()
     const [show, setShow] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<Default />)
@@ -54,7 +54,7 @@ export default function ApprovalModal({id,label='Lihat'}) {
       store.emptyData()
       setIsLoading(true)
 
-      axios( `${store.show_url}/approval/${id}/${status}/by-manager`)
+      axios( `${store.show_url}/approval/${id}/${status}/by-admin`)
       .then( response => {
         console.log(response)
         useApplicationStore.setState({refresh:true})
@@ -75,13 +75,13 @@ export default function ApprovalModal({id,label='Lihat'}) {
 
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
+        <Button disabled={!editable} variant="primary" onClick={handleShow}>
           {label}
         </Button>
   
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Pengesahan Permohonan</Modal.Title>
+            <Modal.Title>Pengesahan Permohonan ( Admin )</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           {renderedComponent}

@@ -17,6 +17,9 @@ function TopNavbar() {
               <Nav>
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Home</Nav.Link>
                 <Nav.Link as={NavLink} to="/users"> <FontAwesomeIcon icon="fa-solid fa-user" />{' '}Users</Nav.Link>
+   
+                <Nav.Link as={NavLink} to="/approvals/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
+   
               </Nav>
            <Account />
         </Navbar.Collapse>

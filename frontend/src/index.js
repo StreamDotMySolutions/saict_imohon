@@ -40,7 +40,8 @@ import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized/index.js';
 import SignOut from './pages/Auth/components/SignOut/index.js';
 import Application from './pages/Application';
-import Approval from './pages/Approval/index.js';
+import ApprovalByManager from './pages/Approval/ByManager/index.js';
+import ApprovalByAdmin from './pages/Approval/ByAdmin/index.js';
 
 library.add(fas)
 
@@ -79,7 +80,11 @@ export default function App() {
                 <Route path="/user-departments" element={<UserDepartment />} />
 
                 <Route path="/applications" element={<Application />} />
-                <Route path="/approvals" element={<Approval />} />
+
+                <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
+                <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
+                <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
+
               </Route>
           </Route>
 

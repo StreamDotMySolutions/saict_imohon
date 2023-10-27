@@ -1,17 +1,18 @@
 import {useEffect, useState } from 'react'
-import axios from '../../libs/axios'
+import axios from '../../../libs/axios'
 import { Row,Col, Button, ProgressBar,Modal, Badge,Pagination } from 'react-bootstrap'
-import CreateModal from './modals/CreateModal'
-import ShowModal from './modals/ShowModal'
-import EditModal from './modals/EditModal'
-import useApplicationStore from './stores/ApplicationStore'
-import DeleteModal from './modals/DeleteModal'
+import CreateModal from '../modals/CreateModal'
+import ShowModal from '../modals/ShowModal'
+import EditModal from '../modals/EditModal'
+import useApplicationStore from '../stores/ApplicationStore'
+import DeleteModal from '../modals/DeleteModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ApprovalModal from './modals/ApprovalModal'
-import ApplicationStatus from './modals/components/ApplicationStatus'
-import ApplicationProgress from './modals/components/ApplicationProgress'
+import ApprovalModal from '../modals/ManagerApprovalModal'
+import ApplicationStatus from '../modals/components/ApplicationStatus'
+import ApplicationProgress from '../modals/components/ApplicationProgress'
+import AdminApprovalModal from '../modals/AdminApprovalModal'
 
-const Approval = () => {
+const ApprovalByAdmin = () => {
     const store = useApplicationStore()
     const [data, setData] = useState([])
     const applications = data?.data?.applications
@@ -34,9 +35,6 @@ const Approval = () => {
     
       },[store.refresh,store.url])
 
-
- 
-
     return (
         <div>
             
@@ -53,14 +51,6 @@ const Approval = () => {
             </Row>
             <hr />
             {applications?.data?.map((application,index) => (
-            // <Row 
-            //     key={index} 
-            //     className='border border-1 rounded p-3 mt-2' 
-            //     //style={{ backgroundColor: 'lightyellow' }}
-            //     style={{
-            //         backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : ''
-            //       }}
-            // >
             <Row 
                 key={index} 
                 className='rounded p-3 mt-2' 
@@ -82,12 +72,12 @@ const Approval = () => {
                 <Col>24/10/23</Col>
                 <Col>Baharu</Col>
                 <Col>
-                  <ApplicationStatus status={application?.application_approval_by_manager?.status} />
+                  <ApplicationStatus status={application?.application_approval_by_admin?.status} />
                 </Col>
                 <Col className='text-center'>
-                  <ApprovalModal id={application.id} label={<FontAwesomeIcon icon={'fa-solid fa-pencil'}/>} />
+                  <AdminApprovalModal editable={application?.admin_editable} id={application.id} label={<FontAwesomeIcon icon={'fa-solid fa-pencil'}/>} />
                 </Col>
-                <ApplicationProgress status={application?.application_approval_by_manager?.status} />
+                <ApplicationProgress status={application?.application_approval?.status} step={application?.application_approval?.step}/>
             </Row>
             ))}
 
@@ -102,7 +92,7 @@ const Approval = () => {
      
     );
 };
-export default Approval;
+export default ApprovalByAdmin;
 
 /**
  * Paginator Links
