@@ -23,5 +23,28 @@ class Application extends Model
         return $this->hasOne(ApplicationApproval::class)->where('step', 1);
     }
 
+    public function applicationApproval() 
+    {
+        return $this->hasOne(ApplicationApproval::class)->where('step', 1);
+    }
+
+    public function getStatus()
+    {
+        if ($this->applicationApproval) {
+            return $this->applicationApproval->status;
+        }
+        
+        return null; // Or you can return a default status if there's no approval record.
+    }
+
+    public function getStep()
+    {
+        if ($this->applicationApproval) {
+            return $this->applicationApproval->step;
+        }
+        
+        return null; // Or you can return a default status if there's no approval record.
+    }
+
 
 }

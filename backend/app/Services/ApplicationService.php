@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
+use App\Models\ApplicationLog;
 use Illuminate\Http\Request;
 
 class ApplicationService
@@ -55,14 +56,28 @@ class ApplicationService
         return $application->where('user_id', $user->id)->where('id',$application->id)->delete();
     }
 
-    public static function setApplicationApprovalStatus($application,$status)
+    public static function setApplicationApprovalStatus($application,$status,$step)
     {
         $user =  auth('sanctum')->user();
         $matchThese = [
                         'application_id' => $application->id,
-                        'user_id' => $user->id,
-                        'step' => 1, // 1 is manager
+                        'step' => $step, // 1 is manager
                     ];
-        return ApplicationApproval::updateOrCreate($matchThese,['status' => $status]);
+        return ApplicationApproval::updateOrCreate($matchThese,['user_id' => $user->id, 'status' => $status]);
     }
+
+    public static function setApplicationLog($application,$body)
+    {
+        $user =  auth('sanctum')->user();
+        $application = Application::where('id',$application->id)->first();
+
+        ApplicationLog::create([
+            'user_id' => $user->id,
+            'application_id' => $application->id,
+            'status' => $application->getStatus(),
+            'step' => $application->getStep(),
+            'body' => $body
+        ]);
+    }
+
 }

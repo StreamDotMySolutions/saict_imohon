@@ -29,7 +29,8 @@ class ApplicationController extends Controller
     public function store(StoreApplicationRequest $request){
 
         $application = ApplicationService::store($request);
-        $status = ApplicationService::setApplicationApprovalStatus($application,'pending');
+        $status = ApplicationService::setApplicationApprovalStatus($application,'pending', $step=1);
+        $log = ApplicationService::setApplicationLog($application,'create');
 
         return response()->json([
             'message' => 'Application successfully processed',
@@ -38,7 +39,8 @@ class ApplicationController extends Controller
     } 
 
     public function update(Application $application,UpdateApplicationRequest $request){
-        $application = ApplicationService::update($application,$request);
+        ApplicationService::update($application,$request);
+        $log = ApplicationService::setApplicationLog($application,'update');
         return response()->json([
             'message' => "Permohonan  telah dikemaskini.",
             //'id' => $application->id
@@ -46,7 +48,9 @@ class ApplicationController extends Controller
     }
 
     public function delete(Application $application){
-        ApplicationService::delete( $application);
+     
+        $log = ApplicationService::setApplicationLog($application,'delete');
+        ApplicationService::delete($application);
 
         return response()->json([
             'message' => "Permohonan id={$application->id} telah dihapus.",
@@ -58,10 +62,11 @@ class ApplicationController extends Controller
     {
         // \Log::info($application);
         // \Log::info($status);
-        $status = ApplicationService::setApplicationApprovalStatus($application,$status);
+        ApplicationService::setApplicationApprovalStatus($application,$status,$step=1);
+        $log = ApplicationService::setApplicationLog($application,$status);
 
         return response()->json([
-            'message' => $status  ? "Permohonan ID={$application->id} telah diproses." : 'failed',
+            'message' => "Permohonan ID={$application->id} telah diproses.",
             'id' => $application->id
         ]);
     }
