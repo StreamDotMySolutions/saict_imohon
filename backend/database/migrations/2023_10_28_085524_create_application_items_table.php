@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('application_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->costrained();
             $table->foreignId('application_id')->costrained();
             $table->integer('pc')->default(0);
             $table->integer('nb')->default(0);

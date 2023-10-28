@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\ApplicationLog;
+use App\Models\ApplicationItem;
 use Illuminate\Http\Request;
 
 class ApplicationService
@@ -69,6 +70,19 @@ class ApplicationService
             'user_id' => $user->id,
             'description' => $request->input('description')
         ]);
+    }
+
+    public static function storeItems($application, $request)
+    {
+        \Log::info($request);
+        // update ApplicationApproval
+        $matchThese = [
+            'application_id' => $application->id,
+        ];
+        
+        $data = $request->only(['pc', 'nb', 'pbwn', 'pcn']);
+        
+       return  ApplicationItem::updateOrCreate($matchThese, $data);
     }
 
     public static function update($application,$request)

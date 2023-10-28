@@ -28,6 +28,7 @@ class ApplicationController extends Controller
     public function store(Request $request){
         \Log::info($request);
         $application = ApplicationService::store($request);
+        $items = ApplicationService::storeItems($application, $request);
         $status = ApplicationService::setApplicationApprovalStatus($application,'pending', $step=1);
         $log = ApplicationService::setApplicationLog($application,'create');
 
