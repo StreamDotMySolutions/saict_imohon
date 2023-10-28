@@ -45,11 +45,12 @@ const Application = () => {
             
             <Row className='bg-light border border-1 rounded p-3'>
                 <Col className='col-1 fw-bold'>Bil.</Col>
-                <Col className='fw-bold'>Tujuan</Col>
-                <Col className='fw-bold'>Tarikh</Col>
-                <Col className='fw-bold'>Jenis</Col>
-                <Col className='fw-bold text-center'>Status</Col>
-                <Col className='fw-bold text-center'>Tindakan</Col>
+                <Col className='fw-bold col-4'>Tujuan</Col>
+                <Col className='fw-bold col-1'>Jenis</Col>
+                <Col className='fw-bold col-1'>Peralatan</Col>
+                <Col className='fw-bold text-center col-1'>Tarikh</Col>
+                <Col className='fw-bold text-center col-1'>Status</Col>
+                <Col className='col-3 fw-bold text-center'>Tindakan</Col>
 
             </Row>
             <hr />
@@ -68,13 +69,22 @@ const Application = () => {
               }}
             >
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
-                <Col>{application.description}</Col>
-                <Col>24/10/23</Col>
-                <Col>Baharu</Col>
-                <Col>
+                <Col className='col-4'>{application.description}</Col>
+                <Col className='col-1'>{application.type === 'new' ? 'BARU' : 'GANTI'}</Col>
+                <Col className='col-1'>
+                  <Row>
+                    <Item label='PC' value={application?.application_item?.pc} />
+                    <Item label='NB' value={application?.application_item?.nb} />
+                    <Item label='PBWN' value={application?.application_item?.pbwn} />
+                    <Item label='PCN' value={application?.application_item?.pcn} />
+                  </Row>
+                </Col>
+
+                <Col className='col-1 text-center'>{application.created_at_formatted}</Col>
+                <Col className='col-1'>
                   <ApplicationStatus status={application?.application_approval?.status} />
                 </Col>
-                <Col className='text-center'>
+                <Col className='text-center col-3'>
                 <ShowModal />
                 {' '}
                 <EditModal editable={application.editable} id={application.id} />
@@ -97,7 +107,18 @@ const Application = () => {
     );
 };
 
+function Item({label,value}){
+  return (<>
 
+    {value !== 0 &&
+      <button type="button" className="btn btn-sm btn-light border border-secondary mb-1">
+      {label} <span className="badge bg-secondary float-end">
+        {value}
+      </span>
+    </button>
+    }
+  </>)
+}
 /**
  * Paginator Links
  */

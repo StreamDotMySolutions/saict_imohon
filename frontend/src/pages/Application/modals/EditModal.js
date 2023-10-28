@@ -19,13 +19,15 @@ export default function EditModal({editable,id}) {
       setIsLoading(true)
       axios(`${store.show_url}/${id}`)
       .then( response => {
+
+        console.log(response.data)
        
         // set fetched value to form
         if(response.data.application?.hasOwnProperty('description')){
           store.setValue('description', response.data.application.description)
         } 
 
-        console.log(response.data.application.editable)
+        //console.log(response.data.application.editable)
         setIsLoading(false)
         
       })
@@ -89,7 +91,7 @@ export default function EditModal({editable,id}) {
          Edit
         </Button>
   
-        <Modal show={show} onHide={handleClose}>
+        <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Edit</Modal.Title>
           </Modal.Header>

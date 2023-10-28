@@ -22,8 +22,14 @@ class StoreApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'acknowledge' => 'required',
             'type' => 'required',
             'description' => 'required',
+
+            'pc' => 'sometimes|integer',
+            'nb' => 'sometimes|integer',
+            'pbwn' => 'sometimes|integer',
+            'pcn' => 'sometimes|integer',
         ];
     }
 

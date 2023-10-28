@@ -6,6 +6,7 @@ import axios from '../../../../../libs/axios'
 
 const ItemTab = () => {
     const store = useApplicationStore()
+
     const [data,setData] = useState([])
     const [isLoading,setIsLoading] = useState(false)
 
@@ -39,7 +40,6 @@ export default ItemTab;
 function Item({label,fieldName}){
     const store = useApplicationStore()
     const errors = store.errors
-
     return(<>
                 <InputGroup hasValidation>
                     <InputGroup.Text className='fs-3' style={{'width':'100px'}}>{label}</InputGroup.Text>
@@ -58,7 +58,7 @@ function Item({label,fieldName}){
                         errors?.hasOwnProperty(fieldName) &&
                             (
                                 <Form.Control.Feedback type="invalid">   
-                                { errors.fieldName ? errors.fieldName : null }
+                                { errors[fieldName] ? errors[fieldName] : null }
                                 </Form.Control.Feedback>
                             )
                     }  

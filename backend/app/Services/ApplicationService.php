@@ -28,7 +28,7 @@ class ApplicationService
                 // only view step = 1
                 $userDepartmentId = $user->userProfile->userDepartment->id; 
                 $paginate = Application::query()
-                                        ->with(['user.userProfile','applicationApprovalByManager'])
+                                        ->with(['user.userProfile','applicationApproval','applicationItem'])
                                         ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
                                             $query->where('user_department_id', $userDepartmentId);
                                         });
@@ -68,6 +68,7 @@ class ApplicationService
         $user =  auth('sanctum')->user();
         return Application::create([
             'user_id' => $user->id,
+            'type' => $request->input('type'),
             'description' => $request->input('description')
         ]);
     }

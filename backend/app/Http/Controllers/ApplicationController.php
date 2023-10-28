@@ -25,7 +25,7 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function store(Request $request){
+    public function store(StoreApplicationRequest $request){
         \Log::info($request);
         $application = ApplicationService::store($request);
         $items = ApplicationService::storeItems($application, $request);

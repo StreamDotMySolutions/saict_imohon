@@ -10,7 +10,7 @@ class Application extends Model
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    protected $appends = ['deleteable', 'editable','manager_editable','admin_editable'];
+    protected $appends = ['deleteable', 'editable','manager_editable','admin_editable','created_at_formatted'];
 
     public function user() 
     {
@@ -31,6 +31,11 @@ class Application extends Model
     public function applicationApproval() 
     {
         return $this->hasOne(ApplicationApproval::class)->latest();
+    }
+
+    public function applicationItem() 
+    {
+        return $this->hasOne(ApplicationItem::class)->latest();
     }
 
     public function getStatus()
@@ -108,5 +113,8 @@ class Application extends Model
         return false;
     }
     
-
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->format('d/m/y');
+    }
 }

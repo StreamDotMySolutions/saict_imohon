@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal } from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import ApplicationForm from './components/ApplicationForm'
 import axios from '../../../libs/axios'
 import useApplicationStore from '../stores/ApplicationStore'
@@ -7,6 +7,7 @@ import useApplicationStore from '../stores/ApplicationStore'
 export default function CreateModal() {
 
     const store = useApplicationStore()
+    const errors = store.errors
 
 
 
@@ -27,6 +28,10 @@ export default function CreateModal() {
         setIsLoading(true)
         //console.log(store.description.value)
         const formData = new FormData()
+
+        if (store.getValue('acknowledge') != null ) {
+          formData.append('acknowledge', store.getValue('acknowledge'));
+        }
      
         if (store.getValue('type') != null ) {
           formData.append('type', store.getValue('type'));
@@ -103,6 +108,16 @@ export default function CreateModal() {
             {renderedComponent}
           </Modal.Body>
           <Modal.Footer>
+          <Form.Check
+            className='me-4'
+            isInvalid={errors?.hasOwnProperty('acknowledge')}
+            reverse
+            label="Saya mengesahkan telah memeriksa permohonan ini"
+            type="checkbox"
+            onClick={ () => useApplicationStore.setState({errors:null}) }
+            onChange={ (e) => store.setValue('acknowledge', true) }
+          />
+
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup
             </Button>
