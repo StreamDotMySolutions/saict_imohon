@@ -24,7 +24,6 @@ function Type(){
     const errors = store.errors
 
     return(<>
-    {store.getValue('type')}
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-info"></FontAwesomeIcon></InputGroup.Text>
                     <div className="mb-3 ms-3 mt-2">
