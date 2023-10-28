@@ -8,12 +8,17 @@ import DescriptionTab from './components/DescriptionTab';
 const ApplicationForm = () => {
 
     const store = useApplicationStore()
-
+     
+    const HandleTabChange = (key) => {
+        console.log(key)
+    }
+  
     return (
         
         <Tabs
             defaultActiveKey={'description-tab'}
             className='mb-3'
+            onSelect={HandleTabChange}
         >
 
             <Tab eventKey={'description-tab'} title='Tujuan'>
@@ -21,14 +26,6 @@ const ApplicationForm = () => {
             </Tab>
 
             <Tab eventKey={'item-tab'} title='Peralatan'>
-                <ItemTab />
-            </Tab>
-
-            <Tab eventKey={'status-tab'} title='Status'>
-                <ItemTab />
-            </Tab>
-
-            <Tab eventKey={'message-tab'} title='Mesej'>
                 <ItemTab />
             </Tab>
 

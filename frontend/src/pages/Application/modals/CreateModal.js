@@ -8,6 +8,8 @@ export default function CreateModal() {
 
     const store = useApplicationStore()
 
+
+
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
   
@@ -32,6 +34,22 @@ export default function CreateModal() {
         
         if (store.getValue('description') != null ) {
           formData.append('description', store.getValue('description'));
+        }
+
+        if (store.getValue('pc') != null ) {
+          formData.append('pc', store.getValue('pc'));
+        }
+
+        if (store.getValue('nb') != null ) {
+          formData.append('nb', store.getValue('nb'));
+        }
+
+        if (store.getValue('pbwn') != null ) {
+          formData.append('pbwn', store.getValue('pbwn'));
+        }
+
+        if (store.getValue('pcn') != null ) {
+          formData.append('pcn', store.getValue('pcn'));
         }
 
         axios({

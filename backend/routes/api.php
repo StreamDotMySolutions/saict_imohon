@@ -29,11 +29,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Application Related
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
+    
     Route::get('/applications', [ApplicationController::class, 'index']);
     Route::get('/applications/{application}', [ApplicationController::class, 'show']);
     Route::post('/applications', [ApplicationController::class, 'store']);
     Route::put('/applications/{application}', [ApplicationController::class, 'update']);
     Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
+
+
 
     // approval 
     Route::get('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);

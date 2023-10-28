@@ -9,6 +9,7 @@ const useApplicationStore  = create((set) => ({
     show_url:  `${base_url}/applications`,
     delete_url:  `${base_url}/applications`,
     edit_url:  `${base_url}/applications`,
+    application_items_url:  `${base_url}/applications/items`,
     refresh: false,
     errors: null,
 

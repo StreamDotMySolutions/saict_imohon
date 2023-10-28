@@ -1,42 +1,67 @@
-import React from 'react'
+import {useEffect,useState} from 'react'
 import useApplicationStore from '../../../stores/ApplicationStore'
-import { Form, InputGroup } from 'react-bootstrap'
+import { Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from '../../../../../libs/axios'
 
 const ItemTab = () => {
-
     const store = useApplicationStore()
-    const errors = store.errors
+    const [data,setData] = useState([])
+    const [isLoading,setIsLoading] = useState(false)
 
+    
     return (
         <div>
-                <InputGroup hasValidation>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-question"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='Sila nyatakan tujuan permohonan'
-                        //value={store.data.description?.value ? store.data.description?.value : '' }
-                        value={ useApplicationStore.getState().getValue('description') ? useApplicationStore.getState().getValue('description') : '' }
-                        name='description'
-                        size='md' 
-                        as="textarea" 
-                        rows={4}
-                        required 
-                        isInvalid={errors?.hasOwnProperty('description')}
-                        //onChange={ (e) => useApplicationStore.setState({ description: { value: e.target.value}} )} 
-                        onChange={ (e) => useApplicationStore.getState().setValue('description', e.target.value)  }
-                    />
 
-                    {
-                        errors?.hasOwnProperty('description') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.description ? errors.description : null }
-                                </Form.Control.Feedback>
-                            )
-                    }  
-                </InputGroup>
+            <Row className='col-6 mt-4 mb-3'>
+                <Item label={'PC'} fieldName={'pc'} />
+            </Row>
+
+            <Row className='col-6 mt-4 mb-3'>
+                <Item label={'NB'} fieldName={'nb'} />
+            </Row>
+
+            <Row className='col-6 mt-4 mb-3'>
+                <Item label={'PBWN'} fieldName={'pbwn'} />
+            </Row>
+
+            <Row className='col-6 mt-4 mb-3'>
+                <Item label={'PCN'} fieldName={'pcn'} />
+            </Row>
+
         </div>
     );
 };
 
 export default ItemTab;
+
+
+function Item({label,fieldName}){
+    const store = useApplicationStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup hasValidation>
+                    <InputGroup.Text className='fs-3' style={{'width':'100px'}}>{label}</InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Sila nyatakan jumlah unit'
+                        value={ store.getValue(fieldName) ? store.getValue(fieldName) : '' }
+                        name={fieldName}
+                        size='md' 
+                    
+                        required 
+                        isInvalid={errors?.hasOwnProperty(fieldName)}
+                        onChange={ (e) => store.setValue(fieldName, e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty(fieldName) &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.fieldName ? errors.fieldName : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}

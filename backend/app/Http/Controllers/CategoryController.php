@@ -8,7 +8,8 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         // $categories = Category::withDepth()
         //     ->with('ancestors')
@@ -79,6 +80,13 @@ class CategoryController extends Controller
         }
         return response()->json(['message' => 'success']);
         //$node->down();
+    }
+
+    public function applicationItems()
+    {
+        $node =  Category::where('name','items')->first();
+        $categories = Category::whereDescendantOf($node)->get();
+        return response()->json(['categories' => $categories]);
     }
 }
 

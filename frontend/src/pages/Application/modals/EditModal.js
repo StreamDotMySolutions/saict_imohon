@@ -15,7 +15,7 @@ export default function EditModal({editable,id}) {
       useApplicationStore.getState().emptyData()
       setRenderedComponent(<ApplicationForm />)
       setShow(true);
-      console.log(id)
+      //console.log(id)
       setIsLoading(true)
       axios(`${store.show_url}/${id}`)
       .then( response => {
