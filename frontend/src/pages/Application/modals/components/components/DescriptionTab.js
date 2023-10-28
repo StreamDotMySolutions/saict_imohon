@@ -24,12 +24,14 @@ function Type(){
     const errors = store.errors
 
     return(<>
+    {store.getValue('type')}
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-info"></FontAwesomeIcon></InputGroup.Text>
                     <div className="mb-3 ms-3 mt-2">
                         <Form.Check
                             inline
-                            defaultChecked={store.getValue('type') === 'new' ? true : false }
+                            checked={store.getValue('type') === 'new' ? true : false }
+                            
                             isInvalid={errors?.hasOwnProperty('type')}
                             label="Baharu"
                             name="type"
@@ -39,7 +41,7 @@ function Type(){
                         />
                         <Form.Check
                             inline
-                            defaultChecked={store.getValue('type') === 'replace' ? true : false }
+                            checked={store.getValue('type') === 'replace' ? true : false }
                             isInvalid={errors?.hasOwnProperty('type')}
                             label="Ganti"
                             name="type"

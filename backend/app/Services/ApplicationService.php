@@ -59,7 +59,12 @@ class ApplicationService
 
     public static function show($application)
     {
-        return Application::where('id', $application->id)->first();
+        return Application::query()
+                                ->with('user.UserProfile')
+                                ->with('applicationItem')
+                                ->with('applicationApproval')
+
+                                ->where('id', $application->id)->first();
     }
 
     public static function store($request)

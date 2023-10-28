@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     }
 
     public function show(Application $application){
-        \Log::info($application);
+        //\Log::info($application);
         $application = ApplicationService::show( $application);
         return response()->json([
             'application' => $application
@@ -26,7 +26,7 @@ class ApplicationController extends Controller
     }
 
     public function store(StoreApplicationRequest $request){
-        \Log::info($request);
+        //\Log::info($request);
         $application = ApplicationService::store($request);
         $items = ApplicationService::storeItems($application, $request);
         $status = ApplicationService::setApplicationApprovalStatus($application,'pending', $step=1);
@@ -49,6 +49,7 @@ class ApplicationController extends Controller
         }
 
         ApplicationService::update($application,$request);
+        $items = ApplicationService::storeItems($application, $request);
         $log = ApplicationService::setApplicationLog($application,'update');
         return response()->json([
             'message' => "Permohonan  telah dikemaskini.",

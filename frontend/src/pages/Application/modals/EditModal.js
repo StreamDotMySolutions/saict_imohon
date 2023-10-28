@@ -20,11 +20,31 @@ export default function EditModal({editable,id}) {
       axios(`${store.show_url}/${id}`)
       .then( response => {
 
-        console.log(response.data)
+        //console.log(response.data)
        
         // set fetched value to form
         if(response.data.application?.hasOwnProperty('description')){
           store.setValue('description', response.data.application.description)
+        } 
+
+        if(response.data.application?.hasOwnProperty('type')){
+          store.setValue('type', response.data.application.type)
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty('pc')){
+          store.setValue('pc', response.data.application.application_item.pc)
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty('nb')){
+          store.setValue('nb', response.data.application.application_item.nb)
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty('pbwn')){
+          store.setValue('pbwn', response.data.application.application_item.pbwn)
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty('pcn')){
+          store.setValue('pcn', response.data.application.application_item.pcn)
         } 
 
         //console.log(response.data.application.editable)
@@ -52,8 +72,33 @@ export default function EditModal({editable,id}) {
 
       const formData = new FormData()
       formData.append('_method', 'put')
-      if (useApplicationStore.getState().getValue('description') != null ) {
-        formData.append('description', useApplicationStore.getState().getValue('description'))
+
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+   
+      if (store.getValue('type') != null ) {
+        formData.append('type', store.getValue('type'));
+      }
+      
+      if (store.getValue('description') != null ) {
+        formData.append('description', store.getValue('description'));
+      }
+
+      if (store.getValue('pc') != null ) {
+        formData.append('pc', store.getValue('pc'));
+      }
+
+      if (store.getValue('nb') != null ) {
+        formData.append('nb', store.getValue('nb'));
+      }
+
+      if (store.getValue('pbwn') != null ) {
+        formData.append('pbwn', store.getValue('pbwn'));
+      }
+
+      if (store.getValue('pcn') != null ) {
+        formData.append('pcn', store.getValue('pcn'));
       }
       
       axios({
