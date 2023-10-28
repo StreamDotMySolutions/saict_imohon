@@ -1,41 +1,39 @@
 import React from 'react'
 import useApplicationStore from '../../stores/ApplicationStore'
-import { Form, InputGroup } from 'react-bootstrap'
+import { Form, InputGroup, Tab, Tabs } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ItemTab from './components/ItemTab';
+import DescriptionTab from './components/DescriptionTab';
 
 const ApplicationForm = () => {
 
     const store = useApplicationStore()
-    const errors = store.errors
 
     return (
-        <div>
-                <InputGroup hasValidation>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-question"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='Sila nyatakan tujuan permohonan'
-                        //value={store.data.description?.value ? store.data.description?.value : '' }
-                        value={ useApplicationStore.getState().getValue('description') ? useApplicationStore.getState().getValue('description') : '' }
-                        name='description'
-                        size='md' 
-                        as="textarea" 
-                        rows={4}
-                        required 
-                        isInvalid={errors?.hasOwnProperty('description')}
-                        //onChange={ (e) => useApplicationStore.setState({ description: { value: e.target.value}} )} 
-                        onChange={ (e) => useApplicationStore.getState().setValue('description', e.target.value)  }
-                    />
+        
+        <Tabs
+            defaultActiveKey={'description-tab'}
+            className='mb-3'
+        >
 
-                    {
-                        errors?.hasOwnProperty('description') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.description ? errors.description : null }
-                                </Form.Control.Feedback>
-                            )
-                    }  
-                </InputGroup>
-        </div>
+            <Tab eventKey={'description-tab'} title='Tujuan'>
+                <DescriptionTab />
+            </Tab>
+
+            <Tab eventKey={'item-tab'} title='Peralatan'>
+                <ItemTab />
+            </Tab>
+
+            <Tab eventKey={'status-tab'} title='Status'>
+                <ItemTab />
+            </Tab>
+
+            <Tab eventKey={'message-tab'} title='Mesej'>
+                <ItemTab />
+            </Tab>
+
+        </Tabs>
+
     );
 };
 

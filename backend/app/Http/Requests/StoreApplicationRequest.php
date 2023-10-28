@@ -22,7 +22,22 @@ class StoreApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => 'required',
             'description' => 'required',
+        ];
+    }
+
+    
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'type.required' => 'Sila pilih jenis permohonan',
+            'description.required' => 'Sila nyatakan tujuan permohonan',
         ];
     }
 }

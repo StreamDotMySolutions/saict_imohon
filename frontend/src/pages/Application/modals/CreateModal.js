@@ -15,7 +15,7 @@ export default function CreateModal() {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
-      useApplicationStore.getState().emptyData()
+      store.emptyData()
       setShow(true)
     } 
 
@@ -26,10 +26,14 @@ export default function CreateModal() {
         //console.log(store.description.value)
         const formData = new FormData()
      
-        if (useApplicationStore.getState().getValue('description') != null ) {
-          formData.append('description', useApplicationStore.getState().getValue('description'));
+        if (store.getValue('type') != null ) {
+          formData.append('type', store.getValue('type'));
         }
         
+        if (store.getValue('description') != null ) {
+          formData.append('description', store.getValue('description'));
+        }
+
         axios({
             method: 'post',
             url: store.url,
@@ -60,9 +64,9 @@ export default function CreateModal() {
     }
 
     const handleCloseClick = () => {
-      //useApplicationStore.setState(useApplicationStore.getState().reset());
+      //useApplicationStore.setState(store.reset());
       // Empty the data object
-      useApplicationStore.getState().emptyData()
+      store.emptyData()
       setRenderedComponent(<ApplicationForm />)
       handleClose()
     }
