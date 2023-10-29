@@ -17,19 +17,19 @@ return new class extends Migration
 
             $table->integer('pc')->default(0);
             $table->text('pc_description')->nullable();
-            $table->enum('pc_type', ['new', 'replace']);
+            $table->enum('pc_type', ['new', 'replace'])->nullable();
 
             $table->integer('nb')->default(0);
             $table->text('nb_description')->nullable();
-            $table->enum('nb_type', ['new', 'replace']);
+            $table->enum('nb_type', ['new', 'replace'])->nullable();
 
             $table->integer('pbwn')->default(0);
             $table->text('pbwn_description')->nullable();
-            $table->enum('pbwn_type', ['new', 'replace']);
+            $table->enum('pbwn_type', ['new', 'replace'])->nullable();
 
             $table->integer('pcn')->default(0);
             $table->text('pcn_description')->nullable();
-            $table->enum('pcn_type', ['new', 'replace']);
+            $table->enum('pcn_type', ['new', 'replace'])->nullable();
 
             $table->timestamps();
         });
