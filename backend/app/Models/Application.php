@@ -73,9 +73,7 @@ class Application extends Model
     public function getEditableAttribute()
     {
         // Define your logic to determine if the application is deleteable.
-        if ($this->applicationApproval->status === 'rejected') {
-            return true;
-        }
+
 
         if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
             return true;
@@ -97,18 +95,10 @@ class Application extends Model
     public function getAdminEditableAttribute()
     {
 
-        if ($this->applicationApproval->status === 'success' && $this->applicationApproval->step === 2) {
-            return false;
-        }
-
-        if ($this->applicationApproval->status === 'rejected' && $this->applicationApproval->step === 2) {
-            return false;
-        }
-
-        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 2) {
+        // approved by ketua-jabatan
+        if ($this->applicationApproval->status === 'approved' && $this->applicationApproval->step === 1) {
             return true;
         }
-
 
         return false;
     }
