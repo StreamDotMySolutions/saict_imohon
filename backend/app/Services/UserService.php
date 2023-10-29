@@ -23,6 +23,8 @@ class UserService
         if ($request->has('password')) {
             // If a password is provided, create a user with the provided password.
             $user = User::create([
+                'name' => $request->input('name'),
+                'is_approved' => true,
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
             ]);
@@ -30,6 +32,8 @@ class UserService
             // If no password is provided, create a user with a random password.
             //$randomPassword = Str::random(10); // Generate a random password
             $user = User::create([
+                'name' => $request->input('name'),
+                'is_approved' => true,
                 'email' => $request->input('email'),
                 'password' => Hash::make('password'),
             ]);

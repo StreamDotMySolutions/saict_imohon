@@ -13,6 +13,15 @@ const ApplicationProgress = ({status, step}) => {
                         <span className='text-muted fs-6'><Badge className='bg-warning'>STATUS</Badge>{' '}-{' '}menunggu pengesahan Ketua Jabatan</span>
                         </>
                     }
+
+                    { status === 'pending' && step === 2 &&
+
+                    <>
+                    <ProgressBar  variant={'warning'} style={{ 'height': '5px' }} now={75} />
+                    <span className='text-muted fs-6'><Badge className='bg-warning'>STATUS</Badge>{' '}-{' '}menunggu pengesahan Penyelaras</span>
+                    </>
+                    }
+
                  
 
                     { status === 'rejected' && step === 1 &&

@@ -40,7 +40,7 @@ class ApplicationService
                 // where apps approved by manager
                 // coming from step=1 ( dictated by applicationApprovalByManager )
                 $paginate = Application::query()
-                            ->with(['user.userProfile','applicationApprovalByAdmin'])
+                            ->with(['user.userProfile.userDepartment','applicationApprovalByAdmin','applicationItem'])
                             ->whereHas('applicationApprovalByManager', function ($query)  {
                                 $query->where('step', 1)->where('status', 'approved');
                                 

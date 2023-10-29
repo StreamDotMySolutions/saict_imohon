@@ -19,6 +19,8 @@ export default function CreateUserModal({role}) {
         resetStore()
     }
     const handleShow = () => {
+      console.log('create user')
+      useUserStore.setState({ user : null})
       setError(false)
       setShow(true);
     }

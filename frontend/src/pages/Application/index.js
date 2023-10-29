@@ -17,7 +17,7 @@ const Application = () => {
     useEffect( () => {
         axios({url: store.url,})
         .then( response => {
-          console.log(response)    
+          //console.log(response)    
           setData(response)  
           useApplicationStore.setState({ refresh: false})
         })

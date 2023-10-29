@@ -17,6 +17,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        \Log::info($request);
         UserService::store($request);
         return response()->json(['message' => 'User successfully created']);
     }

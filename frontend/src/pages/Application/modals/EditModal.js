@@ -57,7 +57,6 @@ export default function EditModal({editable,id}) {
       })
     }
 
-
     const handleCloseClick = () => {
       //useApplicationStore.setState(useApplicationStore.getState().reset());
       // Empty the data object

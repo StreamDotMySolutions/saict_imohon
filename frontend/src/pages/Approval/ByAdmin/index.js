@@ -40,7 +40,8 @@ const ApprovalByAdmin = () => {
             
             <Row className='bg-light border border-1 rounded p-3'>
                 <Col className='col-1 fw-bold'>Bil.</Col>
-                <Col className='fw-bold'>Tujuan</Col>
+                <Col className='fw-bold'>Peralatan</Col>
+                <Col className='col-1'></Col>
                 <Col className='fw-bold'>Nama</Col>
                 <Col className='fw-bold'>Jawatan</Col>
                 <Col className='fw-bold'>Tarikh</Col>
@@ -50,36 +51,50 @@ const ApprovalByAdmin = () => {
 
             </Row>
             <hr />
-            {applications?.data?.map((application,index) => (
+            {applications?.data?.map((application,index) => (<>
+              <Row className='col-3 bg-light mt-3 rounded p-1 fw-bold fs-6 text-muted'>
+                <Col xs={1}><FontAwesomeIcon icon={'fa-solid fa-home'}/></Col>
+                <Col>{application.user.user_profile.user_department.name.toUpperCase()}</Col>
+              </Row>
             <Row 
                 key={index} 
-                className='rounded p-3 mt-2' 
+                className='rounded p-3 mt-0 bg-light' 
                 style={{
                   backgroundColor: store.latestId !== null && store.latestId === application.id ? 'lightyellow' : '',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.classList.add('border', 'border-1', 'bg-light');
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.classList.remove('border', 'border-1', 'bg-light');
-                }}
+                // onMouseEnter={(e) => {
+                //   e.currentTarget.classList.add('border', 'border-1');
+                // }}
+                // onMouseLeave={(e) => {
+                //   e.currentTarget.classList.remove('border', 'border-1');
+                // }}
               >
 
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
-                <Col>{application.description}</Col>
+                <Col>
+                <Row>
+                    <Item label='PC' value={application?.application_item?.pc} />
+                    <Item label='NB' value={application?.application_item?.nb} />
+                    <Item label='PBWN' value={application?.application_item?.pbwn} />
+                    <Item label='PCN' value={application?.application_item?.pcn} />
+                  </Row>
+                </Col>
+                <Col className='col-1'></Col>
                 <Col>{application.user.user_profile.name}</Col>
                 <Col>{application.user.user_profile.occupation}</Col>
-                <Col>24/10/23</Col>
-                <Col>Baharu</Col>
+                <Col>{application.created_at_formatted}</Col>
+                <Col>{application.type === 'new' ? 'BARU' : 'GANTI'}</Col>
                 <Col>
                   <ApplicationStatus status={application?.application_approval_by_admin?.status} />
                 </Col>
                 <Col className='text-center'>
+                  <Button><FontAwesomeIcon icon={'fa-solid fa-magnifying-glass'}/></Button>
+                  {' '}
                   <AdminApprovalModal editable={application?.admin_editable} id={application.id} label={<FontAwesomeIcon icon={'fa-solid fa-pencil'}/>} />
                 </Col>
                 <ApplicationProgress status={application?.application_approval?.status} step={application?.application_approval?.step}/>
             </Row>
-            ))}
+            </> ))}
 
             
             <div className="d-flex bd-highlight mb-3">
@@ -93,6 +108,19 @@ const ApprovalByAdmin = () => {
     );
 };
 export default ApprovalByAdmin;
+
+function Item({label,value}){
+  return (<>
+
+    {value !== 0 &&
+      <button type="button" className="btn btn-sm btn-light border border-secondary mb-1">
+      {label} <span className="badge bg-secondary float-end">
+        {value}
+      </span>
+    </button>
+    }
+  </>)
+}
 
 /**
  * Paginator Links
