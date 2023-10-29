@@ -17,6 +17,21 @@ export default function EditModal({editable,id}) {
       setShow(true);
       //console.log(id)
       setIsLoading(true)
+
+      function loadItemData(item,response){
+        if(response.data.application?.application_item?.hasOwnProperty(item)){
+          store.setValue(item, response.data.application.application_item[item])
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty(item + '_description')){
+          store.setValue( item + '_description', response.data.application.application_item[item + '_description'])
+        } 
+
+        if(response.data.application?.application_item?.hasOwnProperty(item + '_type')){
+          store.setValue( item + '_type', response.data.application.application_item[item + '_type'])
+        } 
+      }
+
       axios(`${store.show_url}/${id}`)
       .then( response => {
 
@@ -27,26 +42,11 @@ export default function EditModal({editable,id}) {
           store.setValue('description', response.data.application.description)
         } 
 
-        if(response.data.application?.hasOwnProperty('type')){
-          store.setValue('type', response.data.application.type)
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty('pc')){
-          store.setValue('pc', response.data.application.application_item.pc)
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty('nb')){
-          store.setValue('nb', response.data.application.application_item.nb)
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty('pbwn')){
-          store.setValue('pbwn', response.data.application.application_item.pbwn)
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty('pcn')){
-          store.setValue('pcn', response.data.application.application_item.pcn)
-        } 
-
+        loadItemData('pc', response)
+        loadItemData('nb', response)
+        loadItemData('pbwn', response)
+        loadItemData('pcn', response)
+        
         //console.log(response.data.application.editable)
         setIsLoading(false)
         
@@ -72,33 +72,32 @@ export default function EditModal({editable,id}) {
       const formData = new FormData()
       formData.append('_method', 'put')
 
+      function AppendToFormdata(item,formData){
+        if (store.getValue(item) != null ) {
+          formData.append(item, store.getValue(item));
+        }
+  
+        if (store.getValue(item + '_description') != null ) {
+          formData.append(item + '_description', store.getValue(item + '_description'));
+        }
+  
+        if (store.getValue(item + '_type') != null ) {
+          formData.append(item + '_type', store.getValue(item + '_type'));
+        }
+      }
+
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
-      }
-   
-      if (store.getValue('type') != null ) {
-        formData.append('type', store.getValue('type'));
       }
       
       if (store.getValue('description') != null ) {
         formData.append('description', store.getValue('description'));
       }
 
-      if (store.getValue('pc') != null ) {
-        formData.append('pc', store.getValue('pc'));
-      }
-
-      if (store.getValue('nb') != null ) {
-        formData.append('nb', store.getValue('nb'));
-      }
-
-      if (store.getValue('pbwn') != null ) {
-        formData.append('pbwn', store.getValue('pbwn'));
-      }
-
-      if (store.getValue('pcn') != null ) {
-        formData.append('pcn', store.getValue('pcn'));
-      }
+      AppendToFormdata('pc', formData)
+      AppendToFormdata('nb', formData)
+      AppendToFormdata('pbwn', formData)
+      AppendToFormdata('pcn', formData)
       
       axios({
           url: `${store.edit_url}/${id}`,

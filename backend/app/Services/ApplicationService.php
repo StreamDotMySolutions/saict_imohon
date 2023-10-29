@@ -86,7 +86,7 @@ class ApplicationService
             'application_id' => $application->id,
         ];
         
-        $data = $request->only(['pc', 'nb', 'pbwn', 'pcn']);
+        $data = $request->except(['user_id', 'description', 'application_id']);
         
        return  ApplicationItem::updateOrCreate($matchThese, $data);
     }

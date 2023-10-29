@@ -7,9 +7,6 @@ const DescriptionTab = () => {
 
     return (
         <div>
-                <Row className='mt-4 mb-3'>
-                    <Col xs={6}><Type /></Col>
-                </Row>
                 <Row>
                     <Description />
                 </Row>
@@ -77,7 +74,7 @@ function Description(){
                         name='description'
                         size='md' 
                         as="textarea" 
-                        rows={4}
+                        rows={6}
                         required 
                         isInvalid={errors?.hasOwnProperty('description')}
                         //onChange={ (e) => useApplicationStore.setState({ description: { value: e.target.value}} )} 

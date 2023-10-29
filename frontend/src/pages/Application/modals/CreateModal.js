@@ -24,6 +24,20 @@ export default function CreateModal() {
 
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
 
+    function AppendToFormdata(item,formData){
+      if (store.getValue(item) != null ) {
+        formData.append(item, store.getValue(item));
+      }
+
+      if (store.getValue(item + '_description') != null ) {
+        formData.append(item + '_description', store.getValue(item + '_description'));
+      }
+
+      if (store.getValue(item + '_type') != null ) {
+        formData.append(item + '_type', store.getValue(item + '_type'));
+      }
+    }
+
     const handleSubmitClick = () => {
         setIsLoading(true)
         //console.log(store.description.value)
@@ -32,30 +46,15 @@ export default function CreateModal() {
         if (store.getValue('acknowledge') != null ) {
           formData.append('acknowledge', store.getValue('acknowledge'));
         }
-     
-        if (store.getValue('type') != null ) {
-          formData.append('type', store.getValue('type'));
-        }
-        
+             
         if (store.getValue('description') != null ) {
           formData.append('description', store.getValue('description'));
         }
 
-        if (store.getValue('pc') != null ) {
-          formData.append('pc', store.getValue('pc'));
-        }
-
-        if (store.getValue('nb') != null ) {
-          formData.append('nb', store.getValue('nb'));
-        }
-
-        if (store.getValue('pbwn') != null ) {
-          formData.append('pbwn', store.getValue('pbwn'));
-        }
-
-        if (store.getValue('pcn') != null ) {
-          formData.append('pcn', store.getValue('pcn'));
-        }
+        AppendToFormdata('pc', formData)
+        AppendToFormdata('nb', formData)
+        AppendToFormdata('pbwn', formData)
+        AppendToFormdata('pcn', formData)
 
         axios({
             method: 'post',
@@ -77,7 +76,7 @@ export default function CreateModal() {
         })
         .catch( error => {
           setIsLoading(false)
-          //console.warn(error)
+          console.warn(error)
           if(error.response.status === 422){
             useApplicationStore.setState({ errors :error.response.data.errors })  
           }

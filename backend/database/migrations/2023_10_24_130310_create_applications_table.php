@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['new', 'replace']);
             $table->string('description')->nullable();
             $table->foreignId('user_id')->costrained();
             $table->integer('current_step')->default(0);
