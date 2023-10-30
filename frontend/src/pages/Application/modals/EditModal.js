@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Alert,Row,Col, Button, ProgressBar,Modal } from 'react-bootstrap';
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap';
 import axios from '../../../libs/axios'
 import useApplicationStore from '../stores/ApplicationStore'
 import ApplicationForm from './components/ApplicationForm';
 
 export default function EditModal({editable,id}) {
     const store = useApplicationStore()
+    const errors = store.errors
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
@@ -142,6 +143,15 @@ export default function EditModal({editable,id}) {
            {renderedComponent}
           </Modal.Body>
           <Modal.Footer>
+            <Form.Check
+              className='me-4'
+              isInvalid={errors?.hasOwnProperty('acknowledge')}
+              reverse
+              label="Saya mengesahkan telah memeriksa permohonan ini"
+              type="checkbox"
+              onClick={ () => useApplicationStore.setState({errors:null}) }
+              onChange={ (e) => store.setValue('acknowledge', true) }
+            />
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>

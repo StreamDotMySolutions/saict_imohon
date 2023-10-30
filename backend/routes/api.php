@@ -37,11 +37,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/applications/{application}', [ApplicationController::class, 'update']);
     Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
 
-
-
     // approval 
-    Route::get('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
-    Route::get('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
+    Route::post('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
+    Route::post('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
     Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
 });
 

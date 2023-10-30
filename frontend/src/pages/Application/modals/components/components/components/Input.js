@@ -70,6 +70,7 @@ export function Type({item}){
     const errors = store.errors
 
     return(<>
+    
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-info"></FontAwesomeIcon></InputGroup.Text>
                     <div className="mb-3 ms-3 mt-2">

@@ -96,7 +96,7 @@ class Application extends Model
     {
 
         // approved by ketua-jabatan
-        if ($this->applicationApproval->status === 'approved' && $this->applicationApproval->step === 1) {
+        if ($this->applicationApprovalByAdmin->status === 'pending' && $this->applicationApproval->step === 2) {
             return true;
         }
 
