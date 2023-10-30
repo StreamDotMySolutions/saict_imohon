@@ -25,7 +25,7 @@ class Application extends Model
     
     public function applicationApprovalByAdmin() 
     {
-        return $this->hasOne(ApplicationApproval::class)->where('step', 2)->latest();
+        return $this->hasOne(ApplicationApproval::class)->where('step', 2);
     }
 
     public function applicationApproval() 

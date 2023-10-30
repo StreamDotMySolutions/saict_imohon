@@ -11,12 +11,10 @@ use Illuminate\Http\Request;
 class ApplicationService
 {
 
-    public static function index()
+    public static function index($request)
     { 
-        // switch by user role
-        $user =  auth('sanctum')->user();
-
-        // Role;
+        $status = $request->query('status'); // [ pending , approved , rejected ]
+        $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
 
         switch($role){
@@ -40,10 +38,9 @@ class ApplicationService
                 // where apps approved by manager
                 // coming from step=1 ( dictated by applicationApprovalByManager )
                 $paginate = Application::query()
-                            ->with(['user.userProfile.userDepartment','applicationApprovalByAdmin','applicationItem'])
-                            ->whereHas('applicationApprovalByManager', function ($query)  {
-                                $query->where('step', 1)->where('status', 'approved');
-                                
+                            ->with(['user.userProfile.userDepartment','applicationItem'])
+                            ->whereHas('applicationApprovalByAdmin', function ($query) use ($status) {
+                                $query->where('status','=', $status);
                             });
 
     
@@ -115,10 +112,13 @@ class ApplicationService
         // update ApplicationApproval
         $matchThese = [
                         'application_id' => $application->id,
-                        'step' => $step, // 1 is manager
-                        'user_id' => $user->id
                     ];
-        return ApplicationApproval::updateOrCreate($matchThese,[ 'status' => $status]);
+        return ApplicationApproval::updateOrCreate($matchThese,
+                                                    [
+                                                        'step' => $step, // 1 is manager
+                                                        'user_id' => $user->id,
+                                                        'status' => $status
+                                                    ]);
     }
 
     public static function setApplicationLog($application,$body)

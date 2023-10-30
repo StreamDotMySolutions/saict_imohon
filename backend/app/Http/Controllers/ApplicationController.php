@@ -8,13 +8,15 @@ use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Http\Requests\ApprovalByManagerRequest;
 use App\Http\Requests\ApprovalByAdminRequest;
+use App\Http\Requests\ApplicationPaginationRequest;
 use App\Models\Application;
 
 class ApplicationController extends Controller
 {
-    public function index()
+    public function index(ApplicationPaginationRequest $request)
     {
-        $applications = ApplicationService::index();
+        //\Log::info($request->query('status'));
+        $applications = ApplicationService::index($request);
         return response()->json([
             'applications' => $applications
         ]);
