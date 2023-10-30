@@ -7,6 +7,7 @@ use App\Services\ApplicationService;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Http\Requests\ApprovalByManagerRequest;
+use App\Http\Requests\ApprovalByAdminRequest;
 use App\Models\Application;
 
 class ApplicationController extends Controller
@@ -100,7 +101,7 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function approvalByAdmin(Application $application,$status)
+    public function approvalByAdmin(ApprovalByAdminRequest $request, Application $application,$status)
     {
         // \Log::info($application);
         // \Log::info($status);
