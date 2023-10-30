@@ -10,11 +10,11 @@ export function Item({item}){
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Sila nyatakan jumlah unit'
+                        placeholder={ store.readonly === true ? '' : 'Sila nyatakan jumlah unit'}
                         value={ store.getValue(fieldName) ? store.getValue(fieldName) : '' }
                         name={fieldName}
                         size='md' 
-                    
+                        readOnly={store.readonly}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => store.setValue(fieldName, e.target.value)  }
@@ -41,10 +41,11 @@ export function Description({item}){
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-question"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Sila nyatakan tujuan permohonan'
+                        placeholder={ store.readonly === true ? '' : 'Sila nyatakan tujuan permohonan peralatan ini'}
                         //value={store.data.description?.value ? store.data.description?.value : '' }
                         value={ store.getValue(fieldName) ? store.getValue(fieldName) : '' }
                         name={fieldName}
+                        readOnly={store.readonly}
                         size='md' 
                         as="textarea" 
                         rows={4}
@@ -76,7 +77,7 @@ export function Type({item}){
                     <div className="mb-3 ms-3 mt-2">
                         <Form.Check
                             inline
-                           
+                            disabled={store.readonly}
                             checked={store.getValue(fieldName) === 'new' ? true : false }
                             
                             isInvalid={errors?.hasOwnProperty(fieldName)}
@@ -88,6 +89,7 @@ export function Type({item}){
                         />
                         <Form.Check
                             inline
+                            disabled={store.readonly}
                             checked={store.getValue(fieldName) === 'replace' ? true : false }
                             isInvalid={errors?.hasOwnProperty(fieldName)}
                             label="Ganti"

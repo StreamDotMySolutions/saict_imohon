@@ -7,9 +7,9 @@ const DescriptionTab = () => {
 
     return (
         <div>
-                <Row>
-                    <Description />
-                </Row>
+            <Row>
+                <Description />
+            </Row>
         </div>
     );
 };
@@ -27,7 +27,7 @@ function Type(){
                         <Form.Check
                             inline
                             checked={store.getValue('type') === 'new' ? true : false }
-                            
+                            readOnly={store.readonly}
                             isInvalid={errors?.hasOwnProperty('type')}
                             label="Baharu"
                             name="type"
@@ -69,6 +69,7 @@ function Description(){
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-question"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
                         placeholder='Sila nyatakan tujuan permohonan'
+                        readOnly={store.readonly}
                         //value={store.data.description?.value ? store.data.description?.value : '' }
                         value={ store.getValue('description') ? store.getValue('description') : '' }
                         name='description'

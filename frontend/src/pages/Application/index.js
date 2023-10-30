@@ -85,7 +85,7 @@ const Application = () => {
                   <ApplicationStatus status={application?.application_approval?.status} />
                 </Col>
                 <Col className='text-center col-3'>
-                <ShowModal />
+                <ShowModal id={application.id} />
                 {' '}
                 <EditModal editable={application.editable} id={application.id} />
                 {' '}
