@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Row,Col, Button, ProgressBar,Modal,Alert } from 'react-bootstrap';
+import { Form,Row,Col, Button, ProgressBar,Modal,Alert } from 'react-bootstrap';
 import useApplicationStore from '../../stores/ApplicationStore'
 import axios from '../../../../libs/axios'
 
 export default function AdminApprovalModal({editable,id,label='Lihat'}) {
     const store = useApplicationStore()
+    const errors = store.errors
     const [show, setShow] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<Default />)
   
@@ -23,7 +24,7 @@ export default function AdminApprovalModal({editable,id,label='Lihat'}) {
     const handleShow = () => {
       setRenderedComponent(<Default />)
       setShow(true)
-      console.log('fetch data')
+      //console.log('fetch data')
       //useApplicationStore.getState().emptyData()
       store.emptyData()
       setIsLoading(true)
@@ -47,15 +48,20 @@ export default function AdminApprovalModal({editable,id,label='Lihat'}) {
   
     const handleStatusClick = (status) => {
      
-      console.log(status)
-      // url ~ /applications/approval/{application}/{status}/by-manager
-
-      //useApplicationStore.getState().emptyData()
-      store.emptyData()
+      //console.log(status)
       setIsLoading(true)
+      const formData = new FormData
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
 
-      axios( `${store.show_url}/approval/${id}/${status}/by-admin`)
+      axios({
+        'url' : `${store.show_url}/approval/${id}/${status}/by-admin`,
+        'method' : 'post',
+        'data' : formData
+       })
       .then( response => {
+        store.emptyData()
         console.log(response)
         useApplicationStore.setState({refresh:true})
         useApplicationStore.setState({latestId: id})
@@ -69,6 +75,9 @@ export default function AdminApprovalModal({editable,id,label='Lihat'}) {
       })
       .catch( error => {
         console.warn(error)
+        if(error.response.status === 422){
+          useApplicationStore.setState({ errors :error.response.data.errors })  
+        }
         setIsLoading(false)
       })
     }
@@ -79,7 +88,7 @@ export default function AdminApprovalModal({editable,id,label='Lihat'}) {
           {label}
         </Button>
   
-        <Modal show={show} onHide={handleClose}>
+        <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Pengesahan Permohonan ( Admin )</Modal.Title>
           </Modal.Header>
@@ -87,6 +96,15 @@ export default function AdminApprovalModal({editable,id,label='Lihat'}) {
           {renderedComponent}
           </Modal.Body>
           <Modal.Footer>
+          <Form.Check
+              className='me-4'
+              isInvalid={errors?.hasOwnProperty('acknowledge')}
+              reverse
+              label="Saya mengesahkan telah memeriksa permohonan ini"
+              type="checkbox"
+              onClick={ () => useApplicationStore.setState({errors:null}) }
+              onChange={ (e) => store.setValue('acknowledge', true) }
+            />
             <Button variant="secondary" onClick={handleClose}>
               Tutup
             </Button>

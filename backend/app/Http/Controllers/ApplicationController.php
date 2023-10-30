@@ -12,14 +12,16 @@ use App\Models\Application;
 
 class ApplicationController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $applications = ApplicationService::index();
         return response()->json([
             'applications' => $applications
         ]);
     }
 
-    public function show(Application $application){
+    public function show(Application $application)
+    {
         //\Log::info($application);
         $application = ApplicationService::show( $application);
         return response()->json([
@@ -27,7 +29,8 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function store(StoreApplicationRequest $request){
+    public function store(StoreApplicationRequest $request)
+    {
         //\Log::info($request);
         $application = ApplicationService::store($request);
         $items = ApplicationService::storeItems($application, $request);
@@ -40,7 +43,8 @@ class ApplicationController extends Controller
         ]);
     } 
 
-    public function update(Application $application,UpdateApplicationRequest $request){
+    public function update(Application $application,UpdateApplicationRequest $request)
+    {
 
         if(!$application->editable){
             $log = ApplicationService::setApplicationLog($application,'attempt to update protected application');

@@ -97,7 +97,7 @@ export default function ManagerApprovalModal({editable,id,label='Lihat'}) {
           {label}
         </Button>
   
-        <Modal show={show} onHide={handleClose}>
+        <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Pengesahan Permohonan ( Manager )</Modal.Title>
           </Modal.Header>
