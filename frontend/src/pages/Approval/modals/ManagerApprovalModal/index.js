@@ -6,7 +6,6 @@ import axios from '../../../../libs/axios'
 export default function ManagerApprovalModal({editable,id,label='Lihat'}) {
     const store = useApplicationStore()
     const errors = store.errors
-    console.log(errors)
     const [show, setShow] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<Default />)
   
@@ -25,7 +24,7 @@ export default function ManagerApprovalModal({editable,id,label='Lihat'}) {
     const handleShow = () => {
       setRenderedComponent(<Default />)
       setShow(true)
-      console.log('fetch data')
+      //console.log('fetch data')
       //useApplicationStore.getState().emptyData()
       store.emptyData()
       setIsLoading(true)
@@ -44,18 +43,13 @@ export default function ManagerApprovalModal({editable,id,label='Lihat'}) {
       .catch( error => {
        
         console.warn(error)
-
         setIsLoading(false)
       })
     }
   
     const handleStatusClick = (status) => {
      
-      console.log(status)
-      // url ~ /applications/approval/{application}/{status}/by-manager
-
-      //useApplicationStore.getState().emptyData()
- 
+      //console.log(status)
       setIsLoading(true)
 
       const formData = new FormData
@@ -63,7 +57,6 @@ export default function ManagerApprovalModal({editable,id,label='Lihat'}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
       
-
       axios({
        'url' : `${store.show_url}/approval/${id}/${status}/by-manager`,
        'method' : 'post',
