@@ -41,12 +41,21 @@ export default function ShowModal({editable,id}) {
       axios(`${store.show_url}/${id}`)
       .then( response => {
 
-        //console.log(response.data)
+        //console.log(response.data.application.user)
        
         // set fetched value to form
-        if(response.data.application?.hasOwnProperty('description')){
+        if(response.data.application.hasOwnProperty('description')){
           store.setValue('description', response.data.application.description)
         } 
+
+        if(response.data.application.hasOwnProperty('created_at_formatted')){
+          store.setValue('created_at_formatted', response.data.application.created_at_formatted)
+        } 
+
+        // user data
+        if(response.data.application.hasOwnProperty('user')){
+          store.setValue('user', response.data.application.user)
+        }
 
         loadItemData('pc', response)
         loadItemData('nb', response)
@@ -62,6 +71,7 @@ export default function ShowModal({editable,id}) {
         setIsLoading(false)
       })
     }
+
 
     const handleCloseClick = () => {
       //useApplicationStore.setState(useApplicationStore.getState().reset());
@@ -87,11 +97,11 @@ export default function ShowModal({editable,id}) {
           <Modal.Footer>
             <Form.Check
               className='me-4'
-              disabled
+              // disabled
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
               checked={true}
-              label="Saya mengesahkan telah memeriksa permohonan ini"
+              label="Pemohon mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useApplicationStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }

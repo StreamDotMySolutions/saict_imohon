@@ -51,7 +51,7 @@ const Account = () => {
 }
 
 function fetchData(store){
-    console.log('fetch')
+    //console.log('fetch')
     useAccountStore.setState({account: null})
     axios({
         url: store.show_url

@@ -42,8 +42,6 @@ class ApplicationService
                             ->whereHas('applicationApprovalByAdmin', function ($query) use ($status) {
                                 $query->where('status','=', $status);
                             });
-
-    
             break;
             
             case 'boss':
@@ -57,7 +55,7 @@ class ApplicationService
     public static function show($application)
     {
         return Application::query()
-                                ->with('user.UserProfile')
+                                ->with('user.UserProfile.UserDepartment')
                                 ->with('applicationItem')
                                 ->with('applicationApproval')
 

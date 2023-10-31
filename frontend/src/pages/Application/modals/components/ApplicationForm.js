@@ -22,7 +22,7 @@ const ApplicationForm = () => {
             onSelect={HandleTabChange}
         >
 
-            <Tab eventKey={'description-tab'} title='Tujuan'>
+            <Tab eventKey={'description-tab'} title='Maklumat'>
                 <DescriptionTab />
             </Tab>
 

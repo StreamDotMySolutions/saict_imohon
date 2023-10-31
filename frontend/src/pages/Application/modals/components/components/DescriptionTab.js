@@ -1,12 +1,29 @@
 import React from 'react'
 import useApplicationStore from '../../../stores/ApplicationStore'
+import useAccountStore from '../../../../Account/stores/AccountStore'
 import { Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const DescriptionTab = () => {
-
+    const store = useApplicationStore()
+    // const account = useAccountStore()
+    // console.log(account)
     return (
         <div>
+           {store.readonly && (
+                <div>
+                    <Row className='mb-3'>
+                        <Date />
+                    </Row>
+                    <Row className='mb-3'>
+                        <User />
+                    </Row>
+                    <Row className='mb-3'>
+                        <Department />
+                    </Row>
+                </div>
+            )}
+
             <Row>
                 <Description />
             </Row>
@@ -58,6 +75,48 @@ function Type(){
                     }  
                 </InputGroup>
             </>)
+}
+function Date(){
+    const store = useApplicationStore()
+
+    return (<>
+            <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calendar"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control
+                            value={store.getValue('created_at_formatted') ?  store.getValue('created_at_formatted')  : '' }
+                            readonly 
+                    />
+            </InputGroup>
+    </>)
+}
+
+function User(){
+    const store = useApplicationStore()
+    const user = store.getValue('user')
+    //console.log(user)
+    return (<>
+            <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control
+                            value={user?.user_profile?.name ? user?.user_profile?.name : '' }
+                            readonly 
+                    />
+            </InputGroup>
+    </>)
+}
+
+function Department(){
+    const store = useApplicationStore()
+    const user = store.getValue('user')
+    return (<>
+            <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-home"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control
+                            value={user?.user_profile?.user_department?.name ? user?.user_profile?.user_department?.name : ''}
+                            readonly 
+                    />
+            </InputGroup>
+    </>)
 }
 
 function Description(){
