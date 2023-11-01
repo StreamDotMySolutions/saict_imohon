@@ -82,7 +82,7 @@ export default function CreateModal() {
           }
         })
 
-        handleClose()
+        //handleClose()
     }
 
     const handleCloseClick = () => {

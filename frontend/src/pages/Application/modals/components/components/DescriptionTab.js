@@ -27,6 +27,8 @@ const DescriptionTab = () => {
             <Row>
                 <Description />
             </Row>
+
+
         </div>
     );
 };

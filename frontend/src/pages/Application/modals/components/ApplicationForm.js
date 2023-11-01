@@ -1,6 +1,6 @@
 import React from 'react'
 import useApplicationStore from '../../stores/ApplicationStore'
-import { Form, InputGroup, Tab, Tabs } from 'react-bootstrap'
+import { Row, Form, InputGroup, Tab, Tabs } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ItemTab from './components/ItemTab.js.bckp.1';
 import DescriptionTab from './components/DescriptionTab';
@@ -16,6 +16,7 @@ const ApplicationForm = () => {
   
     return (
         
+        <Row className='p-1'>
         <Tabs
             defaultActiveKey={'description-tab'}
             className='mb-3'
@@ -43,6 +44,7 @@ const ApplicationForm = () => {
             </Tab>
 
         </Tabs>
+        </Row>
 
     );
 };

@@ -45,8 +45,8 @@ const Application = () => {
             
             <Row className='bg-light border border-1 rounded p-3'>
                 <Col className='col-1 fw-bold'>Bil.</Col>
-                <Col className='fw-bold col-4'>Tujuan</Col>
-                <Col className='fw-bold col-1'>Jenis</Col>
+                <Col className='fw-bold col-5'>Tujuan</Col>
+                {/* <Col className='fw-bold col-1'>Jenis</Col> */}
                 <Col className='fw-bold col-1'>Peralatan</Col>
                 <Col className='fw-bold text-center col-1'>Tarikh</Col>
                 <Col className='fw-bold text-center col-1'>Status</Col>
@@ -69,8 +69,8 @@ const Application = () => {
               }}
             >
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
-                <Col className='col-4'>{application.description}</Col>
-                <Col className='col-1'>{application.type === 'new' ? 'BARU' : 'GANTI'}</Col>
+                <Col className='col-5'>{application.description}</Col>
+                {/* <Col className='col-1'>{application.type === 'new' ? 'BARU' : 'GANTI'}</Col> */}
                 <Col className='col-1'>
                   <Row>
                     <Item label='PC' value={application?.application_item?.pc} />
