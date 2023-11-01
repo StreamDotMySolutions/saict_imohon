@@ -83,8 +83,7 @@ function Date(){
             <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calendar"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control
-                            defaultValue={store.getValue('created_at_formatted') ?  store.getValue('created_at_formatted')  : '' }
-               
+                        defaultValue={store.getValue('created_at_formatted') ? store.getValue('created_at_formatted')  : '' }
                     />
             </InputGroup>
     </>)
@@ -98,9 +97,7 @@ function User(){
             <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control
-                            defaultValue={user?.user_profile?.name ? user?.user_profile?.name : '' }
-           
-                            
+                        defaultValue={user?.user_profile?.name ? user?.user_profile?.name : '' }       
                     />
             </InputGroup>
     </>)
@@ -113,8 +110,7 @@ function Department(){
             <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-home"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control
-                            defaultValue={user?.user_profile?.user_department?.name ? user?.user_profile?.user_department?.name : ''}
-                   
+                        defaultValue={user?.user_profile?.user_department?.name ? user?.user_profile?.user_department?.name : ''}
                     />
             </InputGroup>
     </>)

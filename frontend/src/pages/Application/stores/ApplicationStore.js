@@ -43,6 +43,26 @@ const useApplicationStore  = create((set) => ({
         const field = useApplicationStore.getState().data[fieldName];
         return field ? field.value : null;
     },
+
+
+    items: {},
+    
+    addItem: (type, name, value) => {
+      set((state) => ({
+        items: {
+          ...state.items,
+          [type] :  {
+                      [name]: { value },
+                    }
+        },
+      }));
+    },
+
+
+    getItem: (type) => {
+        const item = useApplicationStore.getState().items[type];
+        return item ? item.value : null;
+    },
 }));
 
 export default useApplicationStore;
