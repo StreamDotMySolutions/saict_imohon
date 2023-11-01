@@ -25,12 +25,16 @@ export default function CreateModal() {
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
 
     function AppendToFormdata(item,formData){
+
+      
       if (store.getValue(item + '_total') != null ) {
-        formData.append(item + '_total', store.getValue(item + '_total'));
+        formData.append('item' , item);
+        formData.append(item , store.getValue(item + '_requested'));
       }
 
-      if (store.getValue(item + '_items') != null ) {
-        formData.append(item + '_items', JSON.stringify(store.getValue(item + '_items')));
+      if (store.getValue('details') != null ) {
+        console.log(store.getValue('details'))
+        formData.append('items', JSON.stringify(store.getValue('details')));
       }
     }
 

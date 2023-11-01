@@ -28,14 +28,14 @@ class StoreApplicationRequest extends FormRequest
             'acknowledge' => 'required',
             'description' => 'required',
 
-            'pc_total' => 'sometimes|integer',
-            'pc_description' =>[
-                Rule::requiredIf( function () {
-                    return !empty($this->input('pc'));
-                }),
-                'filled'
+            'pc_requested' => 'sometimes|integer',
+            // 'pc_description' =>[
+            //     Rule::requiredIf( function () {
+            //         return !empty($this->input('pc'));
+            //     }),
+            //     'filled'
 
-            ],
+            // ],
             // 'pc_type' => [
             //                 Rule::requiredIf( function () {
             //                     return !empty($this->input('pc'));
@@ -43,14 +43,14 @@ class StoreApplicationRequest extends FormRequest
             //                 Rule::in(['new','replace'])
             //             ],
 
-            'nb_total' => 'sometimes|integer',
-            'nb_description' =>[
-                Rule::requiredIf( function () {
-                    return !empty($this->input('nb'));
-                }),
-                'filled'
+            'nb_requested' => 'sometimes|integer',
+            // 'nb_description' =>[
+            //     Rule::requiredIf( function () {
+            //         return !empty($this->input('nb'));
+            //     }),
+            //     'filled'
 
-            ],
+            // ],
             // 'nb_type' => [
             //                 Rule::requiredIf( function () {
             //                     return !empty($this->input('nb'));
@@ -59,14 +59,14 @@ class StoreApplicationRequest extends FormRequest
             //             ],
 
 
-            'pbwn_total' => 'sometimes|integer',
-            'pbwn_description' =>[
-                Rule::requiredIf( function () {
-                    return !empty($this->input('pbwn'));
-                }),
-                'filled'
+            'pbwn_requested' => 'sometimes|integer',
+            // 'pbwn_description' =>[
+            //     Rule::requiredIf( function () {
+            //         return !empty($this->input('pbwn'));
+            //     }),
+            //     'filled'
 
-            ],
+            // ],
             // 'pbwn_type' => [
             //                 Rule::requiredIf( function () {
             //                     return !empty($this->input('pbwn'));
@@ -74,14 +74,14 @@ class StoreApplicationRequest extends FormRequest
             //                 Rule::in(['new','replace'])
             //             ],
 
-            'pcn_total' => 'sometimes|integer',
-            'pcn_description' =>[
-                Rule::requiredIf( function () {
-                    return !empty($this->input('pcn'));
-                }),
-                'filled'
+            'pcn_requested' => 'sometimes|integer',
+            // 'pcn_description' =>[
+            //     Rule::requiredIf( function () {
+            //         return !empty($this->input('pcn'));
+            //     }),
+            //     'filled'
 
-            ],
+            // ],
             // 'pcn_type' => [
             //                 Rule::requiredIf( function () {
             //                     return !empty($this->input('pcn'));

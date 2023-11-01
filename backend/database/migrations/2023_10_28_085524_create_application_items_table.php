@@ -15,21 +15,21 @@ return new class extends Migration
             $table->id();
             $table->foreignId('application_id')->costrained();
 
-            $table->integer('pc')->default(0);
-            $table->text('pc_description')->nullable();
-            $table->enum('pc_type', ['new', 'replace'])->nullable();
+            $table->integer('pc_requested')->default(0);
+            $table->integer('pc_approved')->default(0);
+            $table->integer('pc_received')->default(0);
+            
+            $table->integer('nb_requested')->default(0);
+            $table->integer('nb_approved')->default(0);
+            $table->integer('nb_received')->default(0);
 
-            $table->integer('nb')->default(0);
-            $table->text('nb_description')->nullable();
-            $table->enum('nb_type', ['new', 'replace'])->nullable();
+            $table->integer('pbwn_requested')->default(0);
+            $table->integer('pbwn_approved')->default(0);
+            $table->integer('pbwn_received')->default(0);
 
-            $table->integer('pbwn')->default(0);
-            $table->text('pbwn_description')->nullable();
-            $table->enum('pbwn_type', ['new', 'replace'])->nullable();
-
-            $table->integer('pcn')->default(0);
-            $table->text('pcn_description')->nullable();
-            $table->enum('pcn_type', ['new', 'replace'])->nullable();
+            $table->integer('pcn_requested')->default(0);
+            $table->integer('pcn_approved')->default(0);
+            $table->integer('pcn_received')->default(0);
 
             $table->timestamps();
         });

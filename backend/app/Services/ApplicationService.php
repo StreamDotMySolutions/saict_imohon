@@ -6,6 +6,7 @@ use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\ApplicationLog;
 use App\Models\ApplicationItem;
+use App\Models\ApplicationItemDetail;
 use Illuminate\Http\Request;
 
 class ApplicationService
@@ -77,13 +78,81 @@ class ApplicationService
     {
         \Log::info($request);
         // update ApplicationApproval
-        $matchThese = [
-            'application_id' => $application->id,
-        ];
+        $matchThese = ['application_id' => $application->id ];
         
         $data = $request->except(['user_id', 'description', 'application_id']);
-        
-       return  ApplicationItem::updateOrCreate($matchThese, $data);
+        $applicationItem = ApplicationItem::updateOrCreate($matchThese, $data);
+
+        $items = ['pc','nb','pbwm','pcn'];
+
+        if( $request->has('pc_items') ){
+
+            // $items = $request->only('pc_items');
+            // ApplicationService::storeItemDetails($items,$applicationItem->id);
+            //$item = $request->input('item');
+            
+            // foreach( $items as $item ){
+
+ 
+            //     // Convert the JSON string to an associative array
+            //     $item = json_decode($item, true);
+
+            //     $i = 1;
+            //     foreach( $item['description'] as $description ){
+            //         $i++;
+            //         $matchThese = [ 
+            //             'application_item_id' => $applicationItem->id,
+            //             'number' =>  $i
+            //         ];
+            //         ApplicationItemDetail::updateOrCreate(
+            //             $matchThese, 
+            //             [
+            //                 'item' => $item['item'],
+            //                 'description' => $description
+            //             ]
+            //         );
+            //     }
+
+            // }
+     
+        } // pc_items
+
+        // $items = ['pc', 'nb', 'pbwm', 'pcn'];
+
+        // foreach ($items as $item) {
+        //     if ($request->has($item . '_items')) {
+        //         // Perform the action you want for the specific item
+        //         // For example, you can access the value using $request->input($item . '_items')
+        //         $itemValue = $request->input($item . '_items');
+        //         // Your action code here
+        //     }
+        // }
+    }
+
+    public static function storeItemDetails($items, $applicationItemId){
+        foreach( $items as $item ){
+
+ 
+            // Convert the JSON string to an associative array
+            $item = json_decode($item, true);
+
+            $i = 0;
+            foreach( $item['description'] as $description ){
+                $i++;
+                $matchThese = [ 
+                    'application_item_id' => $applicationItemId,
+                    'number' =>  $i
+                ];
+                ApplicationItemDetail::updateOrCreate(
+                    $matchThese, 
+                    [
+                        'item' => $item['item'],
+                        'description' => $description
+                    ]
+                );
+            }
+
+        }
     }
 
     public static function update($application,$request)

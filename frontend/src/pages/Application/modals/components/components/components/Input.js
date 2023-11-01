@@ -117,13 +117,15 @@ export function Type({item}){
 }
 
 export function  ItemDetail ({ item })  {
+
+   
     const store = useApplicationStore();
     const total = store.getValue( item + '_total')
  
     // Initialize an array of state variables named 'description'
-    const [description, setDescription] = useState(new Array(store.getValue(item + '_total')).fill(''));
-    //store.setValue(description)
-    //console.log(description)
+   // const [description, setDescription] = useState(new Array(store.getValue(item + '_total')).fill(''));
+    const details = store.getValue('details')
+    console.log(details)
   
     const elements = [];
     for (let i = 0; i < total; i++) {
@@ -140,14 +142,42 @@ export function  ItemDetail ({ item })  {
                 rows={2}
                 //value={description[i]}
                 onChange={(e) => {
-                  const newDescription = [...description];
-                  newDescription[i] = e.target.value;
-                  setDescription(newDescription);
-                  const data = {
-                            'type' : item,
-                            'description' : description
-                  }
-                  store.setValue(item + '_items',data)
+                //   const newDescription = [...description];
+                //   newDescription[i] = e.target.value;
+                //   setDescription(newDescription);
+                //   const data = {
+                //             'item' : item,
+                //             'description' : description
+                //   }
+                 
+                //   store.setValue(item + '_items',data)
+
+                //   const details = {
+                //         'pc' : {
+                //             [i+1] : e.target.value 
+                //         }
+                //   }
+                //   store.setValue('details',details)
+
+                let updatedDetails;
+                if (details === null) {
+                  updatedDetails = {
+                    [item]: {
+                      [i + 1]:  { 'description' : e.target.value}
+                    }
+                  };
+                } else {
+                  updatedDetails = {
+                    ...details,
+                    [item]: {
+                      ...(details[item] || {}),
+                      [i + 1]: { 'description' : e.target.value}
+                    }
+                  };
+                }
+                
+                store.setValue('details', updatedDetails);
+
                 }}
               />
             </Col>
