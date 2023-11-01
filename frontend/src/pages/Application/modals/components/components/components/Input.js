@@ -1,16 +1,19 @@
 import useApplicationStore from '../../../../stores/ApplicationStore'
-import { Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Badge,Button,Row,Col,Form, InputGroup } from 'react-bootstrap'
+import { React, useState } from 'react';
+
 
 export function Item({item}){
     const store = useApplicationStore()
     const errors = store.errors
-    const fieldName = item
+    const fieldName = item + '_total'
+
     return(<>
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder={ store.readonly === true ? '' : 'Sila nyatakan jumlah unit'}
+                        placeholder={ store.readonly === true ? '' : 'jumlah ?'}
                         value={ store.getValue(fieldName) ? store.getValue(fieldName) : '' }
                         name={fieldName}
                         size='md' 
@@ -74,7 +77,7 @@ export function Type({item}){
     
                 <InputGroup hasValidation>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-info"></FontAwesomeIcon></InputGroup.Text>
-                    <div className="mb-3 ms-3 mt-2">
+                    <div className="ms-3 mt-2">
                         <Form.Check
                             inline
                             disabled={store.readonly}
@@ -111,4 +114,51 @@ export function Type({item}){
                     } 
                 </InputGroup>
             </>)
+}
+
+export function  ItemDetail ({ item })  {
+    const store = useApplicationStore();
+    const total = store.getValue( item + '_total')
+ 
+    // Initialize an array of state variables named 'description'
+    const [description, setDescription] = useState(new Array(store.getValue(item + '_total')).fill(''));
+    //store.setValue(description)
+    //console.log(description)
+  
+    const elements = [];
+    for (let i = 0; i < total; i++) {
+      elements.push(
+        <div key={i} className='mb-2'>
+          <Row>
+            <Col className='col-1'>
+              <Badge className='fs-3'>{i + 1}</Badge>
+            </Col>
+            <Col className='col-7'>
+              <Form.Control
+                as="textarea"
+                placeholder={'Detail untuk item no #' + (i+1) }
+                rows={2}
+                //value={description[i]}
+                onChange={(e) => {
+                  const newDescription = [...description];
+                  newDescription[i] = e.target.value;
+                  setDescription(newDescription);
+                  const data = {
+                            'type' : item,
+                            'description' : description
+                  }
+                  store.setValue(item + '_items',data)
+                }}
+              />
+            </Col>
+          </Row>
+        </div>
+      );
+    }
+  
+    return (
+      <>
+        {elements}
+      </>
+    );
 }

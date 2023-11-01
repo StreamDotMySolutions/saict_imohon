@@ -45,24 +45,24 @@ const useApplicationStore  = create((set) => ({
     },
 
 
-    items: {},
+    // items: {},
     
-    addItem: (type, name, value) => {
-      set((state) => ({
-        items: {
-          ...state.items,
-          [type] :  {
-                      [name]: { value },
-                    }
-        },
-      }));
-    },
+    // addItem: (type, name, value) => {
+    //   set((state) => ({
+    //     items: {
+    //       ...state.items,
+    //       [type] :  {
+    //                   [name]: { value },
+    //                 }
+    //     },
+    //   }));
+    // },
 
 
-    getItem: (type) => {
-        const item = useApplicationStore.getState().items[type];
-        return item ? item.value : null;
-    },
+    // getItem: (type) => {
+    //     const item = useApplicationStore.getState().items[type];
+    //     return item ? item.value : null;
+    // },
 }));
 
 export default useApplicationStore;

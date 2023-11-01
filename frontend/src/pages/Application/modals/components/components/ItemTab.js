@@ -1,6 +1,7 @@
-import { Badge,Button,Row,Col } from 'react-bootstrap'
-import { Item,Description ,Type} from './components/Input'
-import { useState } from 'react';
+import { Badge,Button,Row,Col,Form } from 'react-bootstrap'
+import { Item,Description ,Type, ItemDetail} from './components/Input'
+import { React, useState } from 'react';
+import useApplicationStore from '../../../stores/ApplicationStore';
 
 const ItemPCTab = ({fieldName}) => {
     return (
@@ -8,36 +9,23 @@ const ItemPCTab = ({fieldName}) => {
 
             <Row className='mt-4 mb-3'>
                
-                <Col>
+                <Col className='col-3'>
                     <Item item={fieldName} />
                 </Col>
 
                 <Col>
-                    <Type item={fieldName} />
+                    {/* <Type item={fieldName} /> */}
                 </Col>
             </Row>
 
-            <Row className='mt-4 mb-3'>
+            {/* <Row className='mt-4 mb-3'>
                 <Description item={fieldName} />
-            </Row>
+            </Row> */}
             <hr />
-            <h2>Maklumat lanjut</h2>
-            <ItemDetail />
+            <h3>Maklumat lanjut</h3>
+            <ItemDetail item={fieldName}/>
         </div>
     );
 };
 
 export default ItemPCTab;
-
-
-const ItemDetail = () => {
-
-
-  return (
-    <>
-    item detailS
-    </>
-  );
-};
-
-// export default ItemPCTab;
