@@ -59,11 +59,10 @@ class Application extends Model
     public function getDeleteableAttribute()
     {
         // Define your logic to determine if the application is deleteable.
-        if ($this->applicationApproval->status === 'rejected') {
+        if (isset($this->applicationApproval->status) && $this->applicationApproval->status === 'rejected') {
             return true;
         }
-
-        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
+        if (isset($this->applicationApproval->status) && $this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
             return true;
         }
 
@@ -75,7 +74,7 @@ class Application extends Model
         // Define your logic to determine if the application is deleteable.
 
 
-        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
+        if ( isset($this->applicationApproval->status) && $this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
             return true;
         }
 
@@ -85,7 +84,7 @@ class Application extends Model
     public function getManagerEditableAttribute()
     {
 
-        if ($this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
+        if ( isset($this->applicationApproval->status) && $this->applicationApproval->status === 'pending' && $this->applicationApproval->step === 1) {
             return true;
         }
 

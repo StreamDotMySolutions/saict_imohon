@@ -74,18 +74,71 @@ class ApplicationService
         ]);
     }
 
+
+
+
+
     public static function storeItems($application, $request)
     {
-        \Log::info($request);
-        // update ApplicationApproval
-        $matchThese = ['application_id' => $application->id ];
+        if( $request->has('items') ){
+
+            // insert into ApplicationItem
+            $matchThese = ['application_id' => $application->id ];
+            $data = $request->except(['application_id','items','acknowledge']);
+            $applicationItem = ApplicationItem::updateOrCreate($matchThese, $data);
+            unset($matchThese);
+            unset($data);
+
+            $items = json_decode($request->input('items'), true);
+
+            foreach($items as $item => $itemDetails){
+                //\Log::info($item); // jenis peralatan
+
+                foreach( $itemDetails as $number => $itemDetail ){ 
+                    // store in ApplicationItemDetail
+ 
+                    $matchThese = [
+                            'application_item_id' => $applicationItem->id,
+                            'item' => $item,
+                            'number' => $number,
+                        ];
+
+                    $data = [
+                 
+                        'description' => $itemDetail['description']
+                    ];
+
+                    ApplicationItemDetail::updateOrCreate($matchThese, $data);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // // update ApplicationApproval
+        // $matchThese = ['application_id' => $application->id ];
         
-        $data = $request->except(['user_id', 'description', 'application_id']);
-        $applicationItem = ApplicationItem::updateOrCreate($matchThese, $data);
+        // $data = $request->except(['user_id', 'description', 'application_id']);
+        // $applicationItem = ApplicationItem::updateOrCreate($matchThese, $data);
 
-        $items = ['pc','nb','pbwm','pcn'];
+        // $items = ['pc','nb','pbwm','pcn'];
 
-        if( $request->has('pc_items') ){
+        //if( $request->has('pc_items') ){
 
             // $items = $request->only('pc_items');
             // ApplicationService::storeItemDetails($items,$applicationItem->id);
@@ -115,7 +168,7 @@ class ApplicationService
 
             // }
      
-        } // pc_items
+        //} // pc_items
 
         // $items = ['pc', 'nb', 'pbwm', 'pcn'];
 

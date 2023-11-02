@@ -118,14 +118,10 @@ export function Type({item}){
 
 export function  ItemDetail ({ item })  {
 
-   
     const store = useApplicationStore();
     const total = store.getValue( item + '_total')
- 
-    // Initialize an array of state variables named 'description'
-   // const [description, setDescription] = useState(new Array(store.getValue(item + '_total')).fill(''));
     const details = store.getValue('details')
-    console.log(details)
+    //console.log(details)
   
     const elements = [];
     for (let i = 0; i < total; i++) {

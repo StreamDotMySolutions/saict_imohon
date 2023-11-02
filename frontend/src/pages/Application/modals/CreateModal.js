@@ -25,17 +25,13 @@ export default function CreateModal() {
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
 
     function AppendToFormdata(item,formData){
-
+      console.log('load for item ' + item)
       
-      if (store.getValue(item + '_total') != null ) {
-        formData.append('item' , item);
-        formData.append(item , store.getValue(item + '_requested'));
+      if (store.getValue( item + '_total') != null ) {
+        formData.append(item + '_requested' , store.getValue(item + '_total'));
       }
 
-      if (store.getValue('details') != null ) {
-        console.log(store.getValue('details'))
-        formData.append('items', JSON.stringify(store.getValue('details')));
-      }
+  
     }
 
     const handleSubmitClick = () => {
@@ -49,6 +45,11 @@ export default function CreateModal() {
              
         if (store.getValue('description') != null ) {
           formData.append('description', store.getValue('description'));
+        }
+
+        if (store.getValue('details') != null ) {
+          console.log(store.getValue('details'))
+          formData.append('items', JSON.stringify(store.getValue('details')));
         }
 
         AppendToFormdata('pc', formData)
