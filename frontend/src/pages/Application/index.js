@@ -87,8 +87,8 @@ const Application = () => {
                 <Col className='text-center col-3'>
                 <ShowModal id={application.id} />
                 {' '}
-                <EditModal editable={application.editable} id={application.id} />
-                {' '}
+                {/* <EditModal editable={application.editable} id={application.id} />
+                {' '} */}
                 <DeleteModal deleteable={application.deleteable}  id={application.id} />
                 </Col>
                 <ApplicationProgress status={application?.application_approval?.status}  step={application?.application_approval?.step} />

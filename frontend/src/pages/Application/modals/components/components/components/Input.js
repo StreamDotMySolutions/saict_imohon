@@ -235,7 +235,7 @@ export function ItemDetail ({ item })  {
           <Col>
             <Form.Check
               type="radio"
-              label="New"
+              label="Baru"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="new"
               checked={details?.[item]?.[i + 1]?.type === 'new'}
@@ -254,7 +254,7 @@ export function ItemDetail ({ item })  {
             />
             <Form.Check
               type="radio"
-              label="Replace"
+              label="Ganti"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="replace"
               checked={details?.[item]?.[i + 1]?.type === 'replace'}
@@ -331,6 +331,23 @@ export function FilterItemBy({ itemToFilter }) {
                 as="textarea"
                 readOnly={'true'}
               />
+            </Col>
+            <Col>
+              <Form.Check
+                type="radio"
+                readOnly={'true'}
+                label="Baru"
+                value="new"
+                checked={item.type === 'new'}
+              />
+              <Form.Check
+                type="radio"
+                label="Ganti"
+                value="replace"
+                readOnly={'true'}
+                checked={item.type === 'replace'}
+              />
+
             </Col>
           </Row>
         ))}
