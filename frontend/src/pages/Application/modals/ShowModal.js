@@ -31,7 +31,6 @@ export default function ShowModal({editable,id}) {
         //console.log(response.data.application.application_item)
         store.setValue('items', response.data.application.application_item)
       
-       
         // set fetched value to form
         if(response.data.application.hasOwnProperty('description')){
           store.setValue('description', response.data.application.description)

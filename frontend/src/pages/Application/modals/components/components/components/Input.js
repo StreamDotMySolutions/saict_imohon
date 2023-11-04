@@ -12,6 +12,7 @@ export function Item({item}){
     const value = items ? items[item + '_requested'] : null
 
     return(<>
+
                 <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
@@ -140,42 +141,25 @@ export function ItemDetail ({ item })  {
                 rows={2}
                 //value={description[i]}
                 onChange={(e) => {
-                //   const newDescription = [...description];
-                //   newDescription[i] = e.target.value;
-                //   setDescription(newDescription);
-                //   const data = {
-                //             'item' : item,
-                //             'description' : description
-                //   }
-                 
-                //   store.setValue(item + '_items',data)
-
-                //   const details = {
-                //         'pc' : {
-                //             [i+1] : e.target.value 
-                //         }
-                //   }
-                //   store.setValue('details',details)
-
-                let updatedDetails;
-                if (details === null) {
-                  updatedDetails = {
-                    [item]: {
-                      [i + 1]:  { 'description' : e.target.value}
-                    }
-                  };
-                } else {
-                  updatedDetails = {
-                    ...details,
-                    [item]: {
-                      ...(details[item] || {}),
-                      [i + 1]: { 'description' : e.target.value}
-                    }
-                  };
-                }
-                
-                store.setValue('details', updatedDetails);
-
+            
+                        let updatedDetails;
+                        if (details === null) {
+                          updatedDetails = {
+                            [item]: {
+                              [i + 1]:  { 'description' : e.target.value}
+                            }
+                          };
+                        } else {
+                          updatedDetails = {
+                            ...details,
+                            [item]: {
+                              ...(details[item] || {}),
+                              [i + 1]: { 'description' : e.target.value}
+                            }
+                          };
+                        }
+                        
+                        store.setValue('details', updatedDetails);
                 }}
               />
             </Col>
@@ -191,9 +175,8 @@ export function ItemDetail ({ item })  {
     );
 }
 
-
 export function FilterItemBy({ itemToFilter }) {
-  console.log(itemToFilter)
+  //console.log(itemToFilter)
   const store = useApplicationStore();
   const items = store.getValue('items');
   const data = items?.application_item_details;
@@ -224,13 +207,23 @@ export function FilterItemBy({ itemToFilter }) {
 
   return (
     <div>
-      <ul>
+
         {filteredItems?.map((item) => (
-          <li key={item.id}>
-            #{item.number} - {item.description}
-          </li>
+          <Row key={item.id} className='mb-3'>
+            <Col className='col-1'>
+              <Badge className='fs-3'>{item.number}</Badge>
+            </Col>
+            <Col className='col-7'>
+              <Form.Control
+                defaultValue={item.description}
+                rows={2}
+                as="textarea"
+                readOnly={'true'}
+              />
+            </Col>
+          </Row>
         ))}
-      </ul>
+
     </div>
   );
 }
