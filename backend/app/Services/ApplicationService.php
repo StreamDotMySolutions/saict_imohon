@@ -76,6 +76,8 @@ class ApplicationService
 
     public static function storeItems($application, $request)
     {
+       
+        //\Log::info($request);
         if( $request->has('items') ){
 
             // insert into ApplicationItem
@@ -101,7 +103,8 @@ class ApplicationService
 
                     $data = [
                  
-                        'description' => $itemDetail['description']
+                        'description' => $itemDetail['description'],
+                        'type' => $itemDetail['type']
                     ];
 
                     ApplicationItemDetail::updateOrCreate($matchThese, $data);

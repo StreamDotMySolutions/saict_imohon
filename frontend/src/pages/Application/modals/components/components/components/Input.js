@@ -129,42 +129,153 @@ export function ItemDetail ({ item })  {
     const elements = [];
     for (let i = 0; i < total; i++) {
       elements.push(
-        <div key={i} className='mb-2'>
-          <Row>
-            <Col className='col-1'>
-              <Badge className='fs-3'>{i + 1}</Badge>
-            </Col>
-            <Col className='col-7'>
-              <Form.Control
-                as="textarea"
-                placeholder={'Detail untuk item no #' + (i+1) }
-                rows={2}
-                //value={description[i]}
-                onChange={(e) => {
+        // <div key={i} className='mb-2'>
+        //   <Row>
+        //     <Col className='col-1'>
+        //       <Badge className='fs-3'>{i + 1}</Badge>
+        //     </Col>
+        //     <Col className='col-7'>
+        //       <Form.Control
+        //         as="textarea"
+        //         placeholder={'Detail untuk item no #' + (i+1) }
+        //         rows={2}
+        //         //value={description[i]}
+        //         onChange={(e) => {
             
-                        let updatedDetails;
-                        if (details === null) {
-                          updatedDetails = {
-                            [item]: {
-                              [i + 1]:  { 'description' : e.target.value}
-                            }
-                          };
-                        } else {
-                          updatedDetails = {
-                            ...details,
-                            [item]: {
-                              ...(details[item] || {}),
-                              [i + 1]: { 'description' : e.target.value}
-                            }
-                          };
-                        }
+        //                 let updatedDetails;
+        //                 if (details === null) {
+        //                   updatedDetails = {
+        //                     [item]: {
+        //                       [i + 1]:  { 
+                                        
+        //                                   'description' : e.target.value ,
+        //                                   'type' : 'new' 
+                                      
+        //                                 }
+        //                     }
+        //                   };
+        //                 } else {
+        //                   updatedDetails = {
+        //                     ...details,
+        //                     [item]: {
+        //                       ...(details[item] || {}),
+        //                       [i + 1]: { 
+        //                         'description' : e.target.value,
+        //                         'type' : 'new' 
+                              
+        //                       }
+        //                     }
+        //                   };
+        //                 }
                         
-                        store.setValue('details', updatedDetails);
-                }}
-              />
-            </Col>
-          </Row>
-        </div>
+        //                 store.setValue('details', updatedDetails);
+        //         }}
+        //       />
+        //     </Col>
+        //     <Col>
+        //     <Form.Control
+        //         onChange={(e) => {
+                            
+        //           let updatedDetails;
+        //           if (details === null) {
+        //             updatedDetails = {
+        //               [item]: {
+        //                 [i + 1]:  { 
+                                  
+                         
+        //                             'type' :  e.target.value
+                                
+        //                           }
+        //               }
+        //             };
+        //           } else {
+        //             updatedDetails = {
+        //               ...details,
+        //               [item]: {
+        //                 ...(details[item] || {}),
+        //                 [i + 1]: { 
+                         
+        //                   'type' :  e.target.value 
+                        
+        //                 }
+        //               }
+        //             };
+        //           }
+                  
+        //           store.setValue('details', updatedDetails);
+        //         }}
+        //     />
+        //     </Col>
+        //   </Row>
+        // </div>
+        <div key={i} className='mb-2'>
+        <Row>
+          <Col className='col-1'>
+            <Badge className='fs-3'>{i + 1}</Badge>
+          </Col>
+          <Col className='col-7'>
+            <Form.Control
+              as="textarea"
+              placeholder={'Detail untuk item no #' + (i + 1)}
+              rows={2}
+              onChange={(e) => {
+                let updatedDetails = {
+                  [item]: {
+                    ...(details?.[item] || {}),
+                    [i + 1]: {
+                      'description': e.target.value,
+                      'type': details?.[item]?.[i + 1]?.type || 'new',
+                    },
+                  },
+                };
+                store.setValue('details', updatedDetails);
+              }}
+            />
+          </Col>
+          <Col>
+            <Form.Check
+              type="radio"
+              label="New"
+              name={`type-${i}`} // Provide a unique name for each radio button
+              value="new"
+              checked={details?.[item]?.[i + 1]?.type === 'new'}
+              onChange={(e) => {
+                let updatedDetails = {
+                  [item]: {
+                    ...(details?.[item] || {}),
+                    [i + 1]: {
+                      'description': details?.[item]?.[i + 1]?.description || '',
+                      'type': 'new',
+                    },
+                  },
+                };
+                store.setValue('details', updatedDetails);
+              }}
+            />
+            <Form.Check
+              type="radio"
+              label="Replace"
+              name={`type-${i}`} // Provide a unique name for each radio button
+              value="replace"
+              checked={details?.[item]?.[i + 1]?.type === 'replace'}
+              onChange={(e) => {
+                let updatedDetails = {
+                  [item]: {
+                    ...(details?.[item] || {}),
+                    [i + 1]: {
+                      'description': details?.[item]?.[i + 1]?.description || '',
+                      'type': 'replace',
+                    },
+                  },
+                };
+                store.setValue('details', updatedDetails);
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
+      
+
       );
     }
   

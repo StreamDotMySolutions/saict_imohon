@@ -47,6 +47,7 @@ export default function CreateModal() {
           formData.append('description', store.getValue('description'));
         }
 
+        // item details
         if (store.getValue('details') != null ) {
           console.log(store.getValue('details'))
           formData.append('items', JSON.stringify(store.getValue('details')));
