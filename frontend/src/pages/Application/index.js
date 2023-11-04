@@ -17,7 +17,7 @@ const Application = () => {
     useEffect( () => {
         axios({url: store.url,})
         .then( response => {
-          //console.log(response)    
+          console.log(response)    
           setData(response)  
           useApplicationStore.setState({ refresh: false})
         })
@@ -73,10 +73,10 @@ const Application = () => {
                 {/* <Col className='col-1'>{application.type === 'new' ? 'BARU' : 'GANTI'}</Col> */}
                 <Col className='col-1'>
                   <Row>
-                    <Item label='PC' value={application?.application_item?.pc} />
-                    <Item label='NB' value={application?.application_item?.nb} />
-                    <Item label='PBWN' value={application?.application_item?.pbwn} />
-                    <Item label='PCN' value={application?.application_item?.pcn} />
+                    <Item label='PC' value={application?.application_item?.pc_requested} />
+                    <Item label='NB' value={application?.application_item?.nb_requested} />
+                    <Item label='PBWN' value={application?.application_item?.pbwn_requested} />
+                    <Item label='PCN' value={application?.application_item?.pcn_requested} />
                   </Row>
                 </Col>
 

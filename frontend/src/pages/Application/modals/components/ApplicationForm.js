@@ -16,7 +16,7 @@ const ApplicationForm = () => {
   
     return (
         
-        <Row className='p-1'>
+        <Row className='p-2'>
         <Tabs
             defaultActiveKey={'description-tab'}
             className='mb-3'

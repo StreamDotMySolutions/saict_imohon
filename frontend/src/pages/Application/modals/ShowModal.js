@@ -21,27 +21,16 @@ export default function ShowModal({editable,id}) {
       useApplicationStore.getState().emptyData()
       setRenderedComponent(<ApplicationForm />)
       setShow(true);
-      //console.log(id)
+      console.log(id)
       setIsLoading(true)
-
-      function loadItemData(item,response){
-        if(response.data.application?.application_item?.hasOwnProperty(item)){
-          store.setValue(item, response.data.application.application_item[item])
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty(item + '_description')){
-          store.setValue( item + '_description', response.data.application.application_item[item + '_description'])
-        } 
-
-        if(response.data.application?.application_item?.hasOwnProperty(item + '_type')){
-          store.setValue( item + '_type', response.data.application.application_item[item + '_type'])
-        } 
-      }
 
       axios(`${store.show_url}/${id}`)
       .then( response => {
 
-        //console.log(response.data.application.user)
+        //console.log(response)
+        //console.log(response.data.application.application_item)
+        store.setValue('items', response.data.application.application_item)
+      
        
         // set fetched value to form
         if(response.data.application.hasOwnProperty('description')){
@@ -56,11 +45,6 @@ export default function ShowModal({editable,id}) {
         if(response.data.application.hasOwnProperty('user')){
           store.setValue('user', response.data.application.user)
         }
-
-        loadItemData('pc', response)
-        loadItemData('nb', response)
-        loadItemData('pbwn', response)
-        loadItemData('pcn', response)
         
         //console.log(response.data.application.editable)
         setIsLoading(false)

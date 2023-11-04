@@ -1,20 +1,22 @@
 import useApplicationStore from '../../../../stores/ApplicationStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge,Button,Row,Col,Form, InputGroup } from 'react-bootstrap'
-import { React, useState } from 'react';
+import { React, useState, useEffect} from 'react';
 
 
 export function Item({item}){
     const store = useApplicationStore()
     const errors = store.errors
     const fieldName = item + '_total'
+    const items = store.getValue('items')
+    const value = items ? items[item + '_requested'] : null
 
     return(<>
-                <InputGroup hasValidation>
+                <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
                         placeholder={ store.readonly === true ? '' : 'jumlah ?'}
-                        value={ store.getValue(fieldName) ? store.getValue(fieldName) : '' }
+                        value={ value ? value : store.getValue( item + '_total') }
                         name={fieldName}
                         size='md' 
                         readOnly={store.readonly}
@@ -116,7 +118,7 @@ export function Type({item}){
             </>)
 }
 
-export function  ItemDetail ({ item })  {
+export function ItemDetail ({ item })  {
 
     const store = useApplicationStore();
     const total = store.getValue( item + '_total')
@@ -188,3 +190,48 @@ export function  ItemDetail ({ item })  {
       </>
     );
 }
+
+
+export function FilterItemBy({ itemToFilter }) {
+  console.log(itemToFilter)
+  const store = useApplicationStore();
+  const items = store.getValue('items');
+  const data = items?.application_item_details;
+
+  const [filteredItems, setFilteredItems] = useState(data); // Initially, show all items
+
+  const handleFilter = (itemToFilter) => {
+    if (itemToFilter) {
+      const filteredData = data?.filter((item) => item.item === itemToFilter);
+      setFilteredItems(filteredData);
+    } else {
+      // If no filter value is provided, show all items
+      setFilteredItems(data);
+    }
+  };
+
+  // Call the handleFilter function with the provided itemToFilter
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleFilter(itemToFilter);
+    }, 1000); // Delay for 1 second (1000 milliseconds)
+  
+    return () => {
+      clearTimeout(timer); // Clear the timer if the component unmounts or if itemToFilter changes before the delay completes
+    };
+  }, [itemToFilter]);
+  
+
+  return (
+    <div>
+      <ul>
+        {filteredItems?.map((item) => (
+          <li key={item.id}>
+            #{item.number} - {item.description}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+

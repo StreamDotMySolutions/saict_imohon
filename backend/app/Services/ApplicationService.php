@@ -57,7 +57,7 @@ class ApplicationService
     {
         return Application::query()
                                 ->with('user.UserProfile.UserDepartment')
-                                ->with('applicationItem')
+                                ->with('applicationItem.applicationItemDetails')
                                 ->with('applicationApproval')
 
                                 ->where('id', $application->id)->first();
@@ -73,10 +73,6 @@ class ApplicationService
             'description' => $request->input('description')
         ]);
     }
-
-
-
-
 
     public static function storeItems($application, $request)
     {
@@ -180,32 +176,6 @@ class ApplicationService
         //         // Your action code here
         //     }
         // }
-    }
-
-    public static function storeItemDetails($items, $applicationItemId){
-        foreach( $items as $item ){
-
- 
-            // Convert the JSON string to an associative array
-            $item = json_decode($item, true);
-
-            $i = 0;
-            foreach( $item['description'] as $description ){
-                $i++;
-                $matchThese = [ 
-                    'application_item_id' => $applicationItemId,
-                    'number' =>  $i
-                ];
-                ApplicationItemDetail::updateOrCreate(
-                    $matchThese, 
-                    [
-                        'item' => $item['item'],
-                        'description' => $description
-                    ]
-                );
-            }
-
-        }
     }
 
     public static function update($application,$request)
