@@ -266,6 +266,7 @@ export function ItemDetail ({ item })  {
           <Col>
             <Form.Check
               type="radio"
+              isInvalid={ details?.[item]?.[i + 1]?.error }
               label="Baru"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="new"
@@ -285,6 +286,7 @@ export function ItemDetail ({ item })  {
             />
             <Form.Check
               type="radio"
+              isInvalid={ details?.[item]?.[i + 1]?.error }
               label="Ganti"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="replace"
