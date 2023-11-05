@@ -34,7 +34,7 @@ export default function CreateModal() {
         
         const details = store.getValue('details');
    
-         console.log(details)
+        //console.log(details)
 
         if(  store.getValue(item + '_total') != null && details === null ){
           setError('Sila lengkapkan maklumat peralatan')

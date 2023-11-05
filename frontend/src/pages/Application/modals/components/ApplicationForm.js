@@ -2,9 +2,8 @@ import React from 'react'
 import useApplicationStore from '../../stores/ApplicationStore'
 import { Row, Form, InputGroup, Tab, Tabs } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ItemTab from './components/ItemTab.js.bckp.1';
 import DescriptionTab from './components/DescriptionTab';
-import ItemPCTab from './components/ItemTab';
+import ItemTab from './components/ItemTab';
 
 const ApplicationForm = () => {
 
@@ -28,19 +27,19 @@ const ApplicationForm = () => {
             </Tab>
 
             <Tab eventKey={'item-pc-tab'} title='PC'>
-                <ItemPCTab fieldName={'pc'} />
+                <ItemTab fieldName={'pc'} />
             </Tab>
 
             <Tab eventKey={'item-nb-tab'} title='NB'>
-                <ItemPCTab fieldName={'nb'} />
+                <ItemTab fieldName={'nb'} />
             </Tab>
 
             <Tab eventKey={'item-pbwn-tab'} title='PBWN'>
-                <ItemPCTab fieldName={'pbwn'} />
+                <ItemTab fieldName={'pbwn'} />
             </Tab>
 
             <Tab eventKey={'item-pcn-tab'} title='PCN'>
-                <ItemPCTab fieldName={'pcn'} />
+                <ItemTab fieldName={'pcn'} />
             </Tab>
 
         </Tabs>

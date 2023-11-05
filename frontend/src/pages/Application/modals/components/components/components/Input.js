@@ -9,7 +9,7 @@ export function Item({item}){
     const errors = store.errors
     const fieldName = item + '_total'
     const items = store.getValue('items')
-    const value = items ? items[item + '_requested'] : null
+    const value = items ? items[item + '_requested'] : ''
 
     return(<>
 
