@@ -38,42 +38,8 @@ export default function CreateModal() {
 
         if(  store.getValue(item + '_total') != null && details === null ){
           setError('Sila lengkapkan maklumat peralatan')
-        }
+         }
 
-        // let submitted = Object.keys(details[item]).length;
-        // if(  store.getValue(item + '_total') != submitted ){
-        //   setError('Sila lengkapkan maklumat peralatan')
-        // }
-
-        
-
-      //   for (let i = 0; i <= total; i++) {
-      //     console.log(details?.[item]?.[i + 1]?.description)
-      //     const description = details?.[item]?.[i + 1]?.description;
-      //     if (!description) {
-      //       // Append an error for this item
-      //       details[item][i + 1].error = 'Description is required.';
-      //     }
-      //   }
-      //   store.setValue('details', details);
-
-
-        // let updatedDetails = { ...details };
-        
-        // if (!updatedDetails.hasOwnProperty(item)) {
-        //   updatedDetails[item] = {};
-        // }
-        
-        // // track by number so we know which item is giving error
-        // if (!updatedDetails[item][3]) {
-        //   updatedDetails[item][3] = {};
-        // }
-        
-        // updatedDetails[item][3].error = 'Your error message here';
-        
-        // store.setValue('details', updatedDetails);
-
-        
         
       }
   
@@ -100,6 +66,11 @@ export default function CreateModal() {
         } else {
 
           setError('Sila lengkapkan maklumat peralatan  ')
+          // Add a delay of 1 second before closing
+          setTimeout(() => {
+            setError(null)
+          }, 2000);
+            
           setIsLoading(false)
           return
         }
@@ -120,8 +91,6 @@ export default function CreateModal() {
           useApplicationStore.setState({refresh:true})
           useApplicationStore.setState({latestId: response.data.id})
           setRenderedComponent(<SuccessMessage message={response.data.message} />)
-
-
           
           // Add a delay of 1 second before closing
           setTimeout(() => {
@@ -144,6 +113,7 @@ export default function CreateModal() {
       //useApplicationStore.setState(store.reset());
       // Empty the data object
       store.emptyData()
+      setError(null)
       setRenderedComponent(<ApplicationForm />)
       handleClose()
     }
@@ -182,7 +152,7 @@ export default function CreateModal() {
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup
             </Button>
-            <Button  disabled={isLoading} variant="primary" onClick={handleSubmitClick}>
+            <Button  disabled={isLoading } variant="primary" onClick={handleSubmitClick}>
               Hantar
             </Button>
           </Modal.Footer>
