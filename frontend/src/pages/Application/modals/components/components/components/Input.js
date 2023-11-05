@@ -141,89 +141,14 @@ export function ItemDetail ({ item })  {
 
     const elements = [];
     for (let i = 0; i < total; i++) {
-      // console.log(details?.[item]?.[i + 1]?.description)
-      // console.log(details?.[item]?.[i + 1]?.error)
-      
+
+      // Initialize description if it's null or undefined
+      const initialDescription = details?.[item]?.[i + 1]?.description || '';
+      const initialType = details?.[item]?.[i + 1]?.type || '';
+      const initialError = details?.[item]?.[i + 1]?.error || '';
+
       elements.push(
-        // <div key={i} className='mb-2'>
-        //   <Row>
-        //     <Col className='col-1'>
-        //       <Badge className='fs-3'>{i + 1}</Badge>
-        //     </Col>
-        //     <Col className='col-7'>
-        //       <Form.Control
-        //         as="textarea"
-        //         placeholder={'Detail untuk item no #' + (i+1) }
-        //         rows={2}
-        //         //value={description[i]}
-        //         onChange={(e) => {
-            
-        //                 let updatedDetails;
-        //                 if (details === null) {
-        //                   updatedDetails = {
-        //                     [item]: {
-        //                       [i + 1]:  { 
-                                        
-        //                                   'description' : e.target.value ,
-        //                                   'type' : 'new' 
-                                      
-        //                                 }
-        //                     }
-        //                   };
-        //                 } else {
-        //                   updatedDetails = {
-        //                     ...details,
-        //                     [item]: {
-        //                       ...(details[item] || {}),
-        //                       [i + 1]: { 
-        //                         'description' : e.target.value,
-        //                         'type' : 'new' 
-                              
-        //                       }
-        //                     }
-        //                   };
-        //                 }
-                        
-        //                 store.setValue('details', updatedDetails);
-        //         }}
-        //       />
-        //     </Col>
-        //     <Col>
-        //     <Form.Control
-        //         onChange={(e) => {
-                            
-        //           let updatedDetails;
-        //           if (details === null) {
-        //             updatedDetails = {
-        //               [item]: {
-        //                 [i + 1]:  { 
-                                  
-                         
-        //                             'type' :  e.target.value
-                                
-        //                           }
-        //               }
-        //             };
-        //           } else {
-        //             updatedDetails = {
-        //               ...details,
-        //               [item]: {
-        //                 ...(details[item] || {}),
-        //                 [i + 1]: { 
-                         
-        //                   'type' :  e.target.value 
-                        
-        //                 }
-        //               }
-        //             };
-        //           }
-                  
-        //           store.setValue('details', updatedDetails);
-        //         }}
-        //     />
-        //     </Col>
-        //   </Row>
-        // </div>
+       
         <div key={i} className='mb-2'>
         <Row>
           <Col className='col-1'>
@@ -233,7 +158,7 @@ export function ItemDetail ({ item })  {
             <Form.Control
               as="textarea"
               isInvalid={ !details?.[item]?.[i + 1]?.description }
-              value={details?.[item]?.[i + 1]?.description}
+              value={initialDescription}
               placeholder={'Detail untuk item no #' + (i + 1)}
               rows={2}
               onChange={(e) => {
