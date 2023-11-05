@@ -40,10 +40,10 @@ export default function CreateModal() {
           setError('Sila lengkapkan maklumat peralatan')
         }
 
-        let submitted = Object.keys(details[item]).length;
-        if(  store.getValue(item + '_total') != submitted ){
-          setError('Sila lengkapkan maklumat peralatan')
-        }
+        // let submitted = Object.keys(details[item]).length;
+        // if(  store.getValue(item + '_total') != submitted ){
+        //   setError('Sila lengkapkan maklumat peralatan')
+        // }
 
         
 

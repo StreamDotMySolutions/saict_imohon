@@ -238,6 +238,7 @@ export function ItemDetail ({ item })  {
               rows={2}
               onChange={(e) => {
                 let updatedDetails = {
+                  ...details,
                   [item]: {
                     ...(details?.[item] || {}),
                     [i + 1]: {
