@@ -99,6 +99,8 @@ export default function CreateModal() {
           formData.append('items', JSON.stringify(store.getValue('details')));
         } else {
           setError('Sila lengkapkan maklumat peralatan  ')
+          setIsLoading(false)
+          return
         }
 
         AppendToFormdata('pc', formData)
@@ -163,7 +165,6 @@ export default function CreateModal() {
           { error ?
                
                <Row className='text-danger'>{error}</Row>
-               
                :
               <Form.Check
                 className='me-4'
