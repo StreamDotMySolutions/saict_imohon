@@ -24,23 +24,52 @@ export default function CreateModal() {
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
 
     function AppendToFormdata(item,formData){
-      console.log('load for item ' + item)
+      console.log('formData for item ' + item)
       
       if (store.getValue( item + '_total') != null ) {
+        //console.log(details)
+        let total = store.getValue( item + '_total')
+        console.log(total)
+        const details = store.getValue('details');
+        console.log(details)
+
+        if(total && ! details[item]){
+          setError(`Sila lengkapkan maklumat peralatan`)
+          setTimeout(() => {
+            setError(null)
+            setIsLoading(false)
+          }, 2000);
+        }
+        
+   
+        if(details && details[item]){ 
+          let submitted = Object.keys(details[item])?.length
+          let requested = store.getValue(item + '_total')
+
+          if( submitted != requested){
+            setError(`Sila lengkapkan maklumat peralatan`)
+            setTimeout(() => {
+              setError(null)
+              setIsLoading(false)
+            }, 2000);
+          }
+          
+          // Check if the number of elements in "data" matches the "total" value
+          const dataCount = Object.keys(details[item])?.length
+
+          if (dataCount !== total) {
+            setError(`Sila lengkapkan maklumat peralatan ( data tak sama dengan permintaan )`)
+            setTimeout(() => {
+              setError(null)
+              setIsLoading(false)
+            }, 2000);
+            console.log(`The number of elements in "data" is not equal to ${total}`);
+          } 
+
+        }
+         
         formData.append(item + '_requested' , store.getValue(item + '_total'));
 
-
-      //  let total = store.getValue( item + '_total')
-        
-        const details = store.getValue('details');
-   
-         console.log(details)
-
-        if(  store.getValue(item + '_total') != null && details === null ){
-          setError('Sila lengkapkan maklumat peralatan')
-         }
-
-        
       }
   
     }
@@ -61,7 +90,7 @@ export default function CreateModal() {
 
         // item details
         if (store.getValue('details') != null ) {
-          //console.log(store.getValue('details'))
+          console.log(store.getValue('details'))
           formData.append('items', JSON.stringify(store.getValue('details')));
         } else {
 
@@ -112,6 +141,7 @@ export default function CreateModal() {
     const handleCloseClick = () => {
       //useApplicationStore.setState(store.reset());
       // Empty the data object
+      setIsLoading(false)
       store.emptyData()
       setError(null)
       setRenderedComponent(<ApplicationForm />)
