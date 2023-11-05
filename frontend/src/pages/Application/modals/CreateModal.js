@@ -38,10 +38,10 @@ export default function CreateModal() {
 
       //console.log( store.getValue(item + '_total'))
       //console.log( Object.keys(details[item]).length )
-      let submitted = Object.keys(details[item]).length;
-      if(  store.getValue(item + '_total') != submitted ){
-        setError('Sila lengkapkan maklumat peralatan  ')
-      }
+      // let submitted = Object.keys(details[item]).length;
+      // if(  store.getValue(item + '_total') != submitted ){
+      //   setError('Sila lengkapkan maklumat peralatan  ')
+      // }
 
 
       function addErrorsIfEmpty(data) {

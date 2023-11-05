@@ -26,19 +26,19 @@ export function Item({item}){
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
                           store.setValue(fieldName, e.target.value)        
-                          let updatedDetails = {
-                            [item]: {}
-                          };
+                          // let updatedDetails = {
+                          //   [item]: {}
+                          // };
                           
-                          for (let i = 1; i <= e.target.value; i++) {
-                            updatedDetails[item][i] = {
-                              'description': '',
-                              'type': '',
-                              'error': ''
-                            };
-                          }
+                          // for (let i = 1; i <= e.target.value; i++) {
+                          //   updatedDetails[item][i] = {
+                          //     'description': '',
+                          //     'type': '',
+                          //     'error': ''
+                          //   };
+                          // }
                           
-                          store.setValue('details', updatedDetails);
+                          //store.setValue('details', updatedDetails);
                       }}
                     />
 
@@ -250,17 +250,20 @@ export function ItemDetail ({ item })  {
               placeholder={'Detail untuk item no #' + (i + 1)}
               rows={2}
               onChange={(e) => {
-                let updatedDetails = {
+                const updatedDetails = {
+                  ...details,
                   [item]: {
                     ...(details?.[item] || {}),
-                    [i + 1]: {
+                    [i]: {
                       'description': e.target.value,
-                      'type': details?.[item]?.[i + 1]?.type || 'new',
+                      'type': details?.[item]?.[i]?.type || 'new',
                     },
                   },
                 };
                 store.setValue('details', updatedDetails);
+                console.log(updatedDetails);
               }}
+              
             />
           </Col>
           <Col>
