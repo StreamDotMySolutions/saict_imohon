@@ -30,52 +30,21 @@ export default function CreateModal() {
         formData.append(item + '_requested' , store.getValue(item + '_total'));
 
 
-      //  let total = store.getValue( item + '_total')
-        
+      let total = store.getValue( item + '_total')
+      console.log(total)  
       const details = store.getValue('details');
 
       console.log(details)
 
-      //console.log( store.getValue(item + '_total'))
-      //console.log( Object.keys(details[item]).length )
-      // let submitted = Object.keys(details[item]).length;
-      // if(  store.getValue(item + '_total') != submitted ){
-      //   setError('Sila lengkapkan maklumat peralatan  ')
-      // }
-
-
-      function addErrorsIfEmpty(data) {
-        const updatedData = { ...data };
-      
-        for (const item in updatedData) {
-          if (updatedData.hasOwnProperty(item)) {
-            for (const key in updatedData[item]) {
-              if (updatedData[item].hasOwnProperty(key)) {
-                const itemData = updatedData[item][key];
-      
-                if (!itemData.description || !itemData.type) {
-                  itemData.error = 'Description or type is missing';
-                }
-              }
-            }
-          }
+        for (let i = 0; i <= total; i++) {
+          console.log(details?.[item]?.[i + 1]?.description)
+          // const description = details?.[item]?.[i + 1]?.description;
+          // if (!description) {
+          //   // Append an error for this item
+          //   details[item][i + 1].error = 'Description is required.';
+          // }
         }
-      
-        return updatedData;
-      }
-
-      const updatedDetails = addErrorsIfEmpty(details);
-      
-
-      //   for (let i = 0; i <= total; i++) {
-      //     console.log(details?.[item]?.[i + 1]?.description)
-      //     const description = details?.[item]?.[i + 1]?.description;
-      //     if (!description) {
-      //       // Append an error for this item
-      //       details[item][i + 1].error = 'Description is required.';
-      //     }
-      //   }
-      //   store.setValue('details', details);
+        store.setValue('details', details);
 
 
         // let updatedDetails = { ...details };
@@ -117,6 +86,8 @@ export default function CreateModal() {
         if (store.getValue('details') != null ) {
           console.log(store.getValue('details'))
           formData.append('items', JSON.stringify(store.getValue('details')));
+        } else {
+          setError('Sila lengkapkan maklumat peralatan  ')
         }
 
         AppendToFormdata('pc', formData)

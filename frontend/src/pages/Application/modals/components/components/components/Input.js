@@ -245,7 +245,7 @@ export function ItemDetail ({ item })  {
           <Col className='col-7'>
             <Form.Control
               as="textarea"
-              isInvalid={ details?.[item]?.[i + 1]?.error }
+              isInvalid={ !details?.[item]?.[i + 1]?.description }
               value={details?.[item]?.[i + 1]?.description}
               placeholder={'Detail untuk item no #' + (i + 1)}
               rows={2}
@@ -269,7 +269,7 @@ export function ItemDetail ({ item })  {
           <Col>
             <Form.Check
               type="radio"
-              isInvalid={ details?.[item]?.[i + 1]?.error }
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
               label="Baru"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="new"
@@ -289,7 +289,7 @@ export function ItemDetail ({ item })  {
             />
             <Form.Check
               type="radio"
-              isInvalid={ details?.[item]?.[i + 1]?.error }
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
               label="Ganti"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="replace"
