@@ -3,7 +3,7 @@ import { Item,Description ,Type, ItemDetail, FilterItemBy} from './components/In
 import { React, useState } from 'react';
 import useApplicationStore from '../../../stores/ApplicationStore';
 
-const ItemPCTab = ({fieldName}) => {
+const ItemTab = ({fieldName}) => {
     const store = useApplicationStore()
     const items = store.getValue('items')
 
@@ -48,4 +48,4 @@ const ItemPCTab = ({fieldName}) => {
     );
 };
 
-export default ItemPCTab;
+export default ItemTab;

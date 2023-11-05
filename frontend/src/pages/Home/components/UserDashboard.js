@@ -3,7 +3,7 @@ import { Row,Col } from 'react-bootstrap';
 
 const UserDashboard = () => {
     return (<>
-        <h3>Peralatan</h3>
+        {/* <h3>Peralatan</h3>
         <div className="d-flex">
             <div className="card text-dark bg-light mb-3 col-1 ms-3" >
                 <div className="card-header text-center">PC</div>
@@ -32,14 +32,14 @@ const UserDashboard = () => {
                     <h1>109</h1>
                 </div>
             </div>
-        </div>
+        </div> */}
 
 
         <hr />
-        <h3>Permohonan</h3>
+        <h3>Dashboard</h3>
         
         <Row className='bg-light'>
-            <Col>test</Col>
+            <Col>Dashboard untuk role User</Col>
         </Row>
 
 

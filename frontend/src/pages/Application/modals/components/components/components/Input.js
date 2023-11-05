@@ -9,7 +9,8 @@ export function Item({item}){
     const errors = store.errors
     const fieldName = item + '_total'
     const items = store.getValue('items')
-    const value = items ? items[item + '_requested'] : null
+    const details = store.getValue('details')
+    const value = items ? items[item + '_requested'] : ''
 
     return(<>
 
@@ -24,8 +25,21 @@ export function Item({item}){
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
-                          store.setValue(fieldName, e.target.value)                         
-                        } }
+                          store.setValue(fieldName, e.target.value)        
+                          let updatedDetails = {
+                            [item]: {}
+                          };
+                          
+                          for (let i = 1; i <= e.target.value; i++) {
+                            updatedDetails[item][i] = {
+                              'description': '',
+                              'type': '',
+                              'error': ''
+                            };
+                          }
+                          
+                          store.setValue('details', updatedDetails);
+                      }}
                     />
 
                     {
@@ -143,7 +157,6 @@ export function ItemDetail ({ item })  {
     for (let i = 0; i < total; i++) {
       // console.log(details?.[item]?.[i + 1]?.description)
       // console.log(details?.[item]?.[i + 1]?.error)
-      
       elements.push(
         // <div key={i} className='mb-2'>
         //   <Row>
@@ -241,19 +254,22 @@ export function ItemDetail ({ item })  {
                   ...details,
                   [item]: {
                     ...(details?.[item] || {}),
-                    [i + 1]: {
+                    [i]: {
                       'description': e.target.value,
-                      'type': details?.[item]?.[i + 1]?.type || 'new',
+                      'type': details?.[item]?.[i]?.type || 'new',
                     },
                   },
                 };
                 store.setValue('details', updatedDetails);
+                console.log(updatedDetails);
               }}
+              
             />
           </Col>
           <Col>
             <Form.Check
               type="radio"
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
               label="Baru"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="new"
@@ -273,6 +289,7 @@ export function ItemDetail ({ item })  {
             />
             <Form.Check
               type="radio"
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
               label="Ganti"
               name={`type-${i}`} // Provide a unique name for each radio button
               value="replace"
