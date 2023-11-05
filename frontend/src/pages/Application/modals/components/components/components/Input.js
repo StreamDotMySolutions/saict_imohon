@@ -238,6 +238,7 @@ export function ItemDetail ({ item })  {
               rows={2}
               onChange={(e) => {
                 let updatedDetails = {
+                  ...details,
                   [item]: {
                     ...(details?.[item] || {}),
                     [i + 1]: {
@@ -259,6 +260,7 @@ export function ItemDetail ({ item })  {
               checked={details?.[item]?.[i + 1]?.type === 'new'}
               onChange={(e) => {
                 let updatedDetails = {
+                  ...details,
                   [item]: {
                     ...(details?.[item] || {}),
                     [i + 1]: {
@@ -278,6 +280,7 @@ export function ItemDetail ({ item })  {
               checked={details?.[item]?.[i + 1]?.type === 'replace'}
               onChange={(e) => {
                 let updatedDetails = {
+                  ...details,
                   [item]: {
                     ...(details?.[item] || {}),
                     [i + 1]: {
