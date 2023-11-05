@@ -9,8 +9,7 @@ export default function CreateModal() {
     const store = useApplicationStore()
     const errors = store.errors
 
-
-
+    const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
   
@@ -29,12 +28,59 @@ export default function CreateModal() {
       
       if (store.getValue( item + '_total') != null ) {
         formData.append(item + '_requested' , store.getValue(item + '_total'));
-      }
 
+
+      //  let total = store.getValue( item + '_total')
+        
+        const details = store.getValue('details');
+   
+         console.log(details)
+
+        if(  store.getValue(item + '_total') != null && details === null ){
+          setError('Sila lengkapkan maklumat peralatan')
+        }
+
+        let submitted = Object.keys(details[item]).length;
+        if(  store.getValue(item + '_total') != submitted ){
+          setError('Sila lengkapkan maklumat peralatan')
+        }
+
+        
+
+      //   for (let i = 0; i <= total; i++) {
+      //     console.log(details?.[item]?.[i + 1]?.description)
+      //     const description = details?.[item]?.[i + 1]?.description;
+      //     if (!description) {
+      //       // Append an error for this item
+      //       details[item][i + 1].error = 'Description is required.';
+      //     }
+      //   }
+      //   store.setValue('details', details);
+
+
+        // let updatedDetails = { ...details };
+        
+        // if (!updatedDetails.hasOwnProperty(item)) {
+        //   updatedDetails[item] = {};
+        // }
+        
+        // // track by number so we know which item is giving error
+        // if (!updatedDetails[item][3]) {
+        //   updatedDetails[item][3] = {};
+        // }
+        
+        // updatedDetails[item][3].error = 'Your error message here';
+        
+        // store.setValue('details', updatedDetails);
+
+        
+        
+      }
   
     }
 
     const handleSubmitClick = () => {
+        setError(null)
         setIsLoading(true)
         //console.log(store.description.value)
         const formData = new FormData()
@@ -69,6 +115,8 @@ export default function CreateModal() {
           useApplicationStore.setState({refresh:true})
           useApplicationStore.setState({latestId: response.data.id})
           setRenderedComponent(<SuccessMessage message={response.data.message} />)
+
+
           
           // Add a delay of 1 second before closing
           setTimeout(() => {
@@ -109,15 +157,23 @@ export default function CreateModal() {
             {renderedComponent}
           </Modal.Body>
           <Modal.Footer>
-          <Form.Check
-            className='me-4'
-            isInvalid={errors?.hasOwnProperty('acknowledge')}
-            reverse
-            label="Saya mengesahkan telah memeriksa permohonan ini"
-            type="checkbox"
-            onClick={ () => useApplicationStore.setState({errors:null}) }
-            onChange={ (e) => store.setValue('acknowledge', true) }
-          />
+          
+          { error ?
+               
+               <Row className='text-danger'>{error}</Row>
+               
+               :
+              <Form.Check
+                className='me-4'
+                isInvalid={errors?.hasOwnProperty('acknowledge')}
+                reverse
+                label="Saya mengesahkan telah memeriksa permohonan ini"
+                type="checkbox"
+                onClick={ () => useApplicationStore.setState({errors:null}) }
+                onChange={ (e) => store.setValue('acknowledge', true) }
+              />
+
+            }
 
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup

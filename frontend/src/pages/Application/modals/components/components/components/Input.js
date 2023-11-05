@@ -23,7 +23,9 @@ export function Item({item}){
                         readOnly={store.readonly}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
-                        onChange={ (e) => store.setValue(fieldName, e.target.value)  }
+                        onChange={ (e) => { 
+                          store.setValue(fieldName, e.target.value)                         
+                        } }
                     />
 
                     {
@@ -124,10 +126,24 @@ export function ItemDetail ({ item })  {
     const store = useApplicationStore();
     const total = store.getValue( item + '_total')
     const details = store.getValue('details')
-    //console.log(details)
-  
+    //console.log(details)  
+   
+
+    // // Create a copy of the details object
+    // let updatedDetails = { ...details };
+    // // Check if the item exists and add an "error" property to it
+    // if (updatedDetails.hasOwnProperty(item)) {
+    //   updatedDetails[item][3] = { ...updatedDetails[item][3], error: 'Your error message here' };
+    // }
+
+    // // Update the 'details' with the modified object
+    // store.setValue('details', updatedDetails);
+
     const elements = [];
     for (let i = 0; i < total; i++) {
+      // console.log(details?.[item]?.[i + 1]?.description)
+      // console.log(details?.[item]?.[i + 1]?.error)
+      
       elements.push(
         // <div key={i} className='mb-2'>
         //   <Row>
@@ -216,6 +232,8 @@ export function ItemDetail ({ item })  {
           <Col className='col-7'>
             <Form.Control
               as="textarea"
+              isInvalid={ !details?.[item]?.[i + 1]?.description }
+              value={details?.[item]?.[i + 1]?.description}
               placeholder={'Detail untuk item no #' + (i + 1)}
               rows={2}
               onChange={(e) => {
@@ -273,9 +291,14 @@ export function ItemDetail ({ item })  {
             />
           </Col>
         </Row>
+        <Row>
+          <Col className='text-danger'>
+            {details?.[item]?.[i + 1]?.error}
+          </Col>
+        </Row>
       </div>
       
-
+  
       );
     }
   
