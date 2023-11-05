@@ -68,10 +68,10 @@ const ApprovalByManager = () => {
                 <Col className='col-1'><Badge className='bg-dark'>{application.id}</Badge></Col>
                 <Col>
                   <Row>
-                    <Item label='PC' value={application?.application_item?.pc} />
-                    <Item label='NB' value={application?.application_item?.nb} />
-                    <Item label='PBWN' value={application?.application_item?.pbwn} />
-                    <Item label='PCN' value={application?.application_item?.pcn} />
+                    <Item label='PC' value={application?.application_item?.pc_requested} />
+                    <Item label='NB' value={application?.application_item?.nb_requested} />
+                    <Item label='PBWN' value={application?.application_item?.pbwn_requested} />
+                    <Item label='PCN' value={application?.application_item?.pcn_requested} />
                   </Row>
                 </Col>
                 <Col className='col-1'></Col>
