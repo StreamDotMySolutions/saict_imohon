@@ -26,19 +26,20 @@ export function Item({item}){
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
                           store.setValue(fieldName, e.target.value)        
-                          for (let i = 0; i < e.target.value; i++) {
-                            let updatedDetails = {
-                              [item]: {
-                                //...(details?.[item] || {}),
-                                [i + 1]: {
-                                  'description': '',
-                                  'type': '',
-                                },
-                              },
+                          let updatedDetails = {
+                            [item]: {}
+                          };
+                          
+                          for (let i = 1; i <= e.target.value; i++) {
+                            updatedDetails[item][i] = {
+                              'description': '',
+                              'type': '',
+                              'error': ''
                             };
+                          }
+                          
                           store.setValue('details', updatedDetails);
-                                 
-                        } }}
+                      }}
                     />
 
                     {
@@ -244,7 +245,7 @@ export function ItemDetail ({ item })  {
           <Col className='col-7'>
             <Form.Control
               as="textarea"
-              isInvalid={ !details?.[item]?.[i + 1]?.description }
+              isInvalid={ details?.[item]?.[i + 1]?.error }
               value={details?.[item]?.[i + 1]?.description}
               placeholder={'Detail untuk item no #' + (i + 1)}
               rows={2}

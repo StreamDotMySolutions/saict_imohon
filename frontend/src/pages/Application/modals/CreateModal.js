@@ -33,6 +33,9 @@ export default function CreateModal() {
       //  let total = store.getValue( item + '_total')
         
       const details = store.getValue('details');
+
+      console.log(details)
+
       //console.log( store.getValue(item + '_total'))
       //console.log( Object.keys(details[item]).length )
       let submitted = Object.keys(details[item]).length;
@@ -40,6 +43,28 @@ export default function CreateModal() {
         setError('Sila lengkapkan maklumat peralatan  ')
       }
 
+
+      function addErrorsIfEmpty(data) {
+        const updatedData = { ...data };
+      
+        for (const item in updatedData) {
+          if (updatedData.hasOwnProperty(item)) {
+            for (const key in updatedData[item]) {
+              if (updatedData[item].hasOwnProperty(key)) {
+                const itemData = updatedData[item][key];
+      
+                if (!itemData.description || !itemData.type) {
+                  itemData.error = 'Description or type is missing';
+                }
+              }
+            }
+          }
+        }
+      
+        return updatedData;
+      }
+
+      const updatedDetails = addErrorsIfEmpty(details);
       
 
       //   for (let i = 0; i <= total; i++) {
