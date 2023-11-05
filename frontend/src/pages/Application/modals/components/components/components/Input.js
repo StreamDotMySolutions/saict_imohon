@@ -9,6 +9,7 @@ export function Item({item}){
     const errors = store.errors
     const fieldName = item + '_total'
     const items = store.getValue('items')
+    const details = store.getValue('details')
     const value = items ? items[item + '_requested'] : ''
 
     return(<>
@@ -24,8 +25,20 @@ export function Item({item}){
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
-                          store.setValue(fieldName, e.target.value)                         
-                        } }
+                          store.setValue(fieldName, e.target.value)        
+                          for (let i = 0; i < e.target.value; i++) {
+                            let updatedDetails = {
+                              [item]: {
+                                //...(details?.[item] || {}),
+                                [i + 1]: {
+                                  'description': '',
+                                  'type': '',
+                                },
+                              },
+                            };
+                          store.setValue('details', updatedDetails);
+                                 
+                        } }}
                     />
 
                     {
@@ -143,7 +156,6 @@ export function ItemDetail ({ item })  {
     for (let i = 0; i < total; i++) {
       // console.log(details?.[item]?.[i + 1]?.description)
       // console.log(details?.[item]?.[i + 1]?.error)
-      
       elements.push(
         // <div key={i} className='mb-2'>
         //   <Row>

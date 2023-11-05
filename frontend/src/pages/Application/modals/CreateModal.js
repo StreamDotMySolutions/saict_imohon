@@ -32,20 +32,15 @@ export default function CreateModal() {
 
       //  let total = store.getValue( item + '_total')
         
-        const details = store.getValue('details');
-   
-        //console.log(details)
+      const details = store.getValue('details');
+      //console.log( store.getValue(item + '_total'))
+      //console.log( Object.keys(details[item]).length )
+      let submitted = Object.keys(details[item]).length;
+      if(  store.getValue(item + '_total') != submitted ){
+        setError('Sila lengkapkan maklumat peralatan  ')
+      }
 
-        if(  store.getValue(item + '_total') != null && details === null ){
-          setError('Sila lengkapkan maklumat peralatan')
-        }
-
-        let submitted = Object.keys(details[item]).length;
-        if(  store.getValue(item + '_total') != submitted ){
-          setError('Sila lengkapkan maklumat peralatan')
-        }
-
-        
+      
 
       //   for (let i = 0; i <= total; i++) {
       //     console.log(details?.[item]?.[i + 1]?.description)
