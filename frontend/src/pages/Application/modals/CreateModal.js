@@ -65,9 +65,26 @@ export default function CreateModal() {
               setError(null)
               setIsLoading(false)
             }, 2000);
-           
- 
           } 
+
+          // Check if description and type are not equal to ''
+          console.log(details.pc)
+
+          const itemArray = details?.pc ? Object.values(details.pc) : [];
+
+          itemArray.forEach(item => {
+            console.log(item.description);
+          
+            if (item.description === '') {
+              setError(`Sila lengkapkan maklumat peralatan ( empty string )`)
+              console.log(`The number of elements in "data" is not equal to ${total}`);
+              setTimeout(() => {
+                setError(null)
+                setIsLoading(false)
+              }, 2000);
+            }
+          });
+          
 
         }
          
