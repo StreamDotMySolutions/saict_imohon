@@ -26,19 +26,19 @@ export function Item({item}){
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
                           store.setValue(fieldName, e.target.value)        
-                          // let updatedDetails = {
-                          //   [item]: {}
-                          // };
+                          let updatedDetails = {
+                            [item]: {}
+                          };
                           
-                          // for (let i = 1; i <= e.target.value; i++) {
-                          //   updatedDetails[item][i] = {
-                          //     'description': '',
-                          //     'type': '',
-                          //     'error': ''
-                          //   };
-                          // }
+                          for (let i = 1; i <= e.target.value; i++) {
+                            updatedDetails[item][i] = {
+                              'description': '',
+                              'type': '',
+                              'error': ''
+                            };
+                          }
                           
-                          //store.setValue('details', updatedDetails);
+                          store.setValue('details', updatedDetails);
                       }}
                     />
 
