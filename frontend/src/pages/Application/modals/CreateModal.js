@@ -95,9 +95,10 @@ export default function CreateModal() {
 
         // item details
         if (store.getValue('details') != null ) {
-          console.log(store.getValue('details'))
+          //console.log(store.getValue('details'))
           formData.append('items', JSON.stringify(store.getValue('details')));
         } else {
+
           setError('Sila lengkapkan maklumat peralatan  ')
           setIsLoading(false)
           return

@@ -126,18 +126,6 @@ export function ItemDetail ({ item })  {
     const store = useApplicationStore();
     const total = store.getValue( item + '_total')
     const details = store.getValue('details')
-    //console.log(details)  
-   
-
-    // // Create a copy of the details object
-    // let updatedDetails = { ...details };
-    // // Check if the item exists and add an "error" property to it
-    // if (updatedDetails.hasOwnProperty(item)) {
-    //   updatedDetails[item][3] = { ...updatedDetails[item][3], error: 'Your error message here' };
-    // }
-
-    // // Update the 'details' with the modified object
-    // store.setValue('details', updatedDetails);
 
     const elements = [];
     for (let i = 0; i < total; i++) {
@@ -181,7 +169,8 @@ export function ItemDetail ({ item })  {
               type="radio"
               label="Baru"
               name={`type-${i}`} // Provide a unique name for each radio button
-              value="new"
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
+              value={initialType}
               checked={details?.[item]?.[i + 1]?.type === 'new'}
               onChange={(e) => {
                 let updatedDetails = {
@@ -201,7 +190,8 @@ export function ItemDetail ({ item })  {
               type="radio"
               label="Ganti"
               name={`type-${i}`} // Provide a unique name for each radio button
-              value="replace"
+              isInvalid={ !details?.[item]?.[i + 1]?.type }
+              value={initialType}
               checked={details?.[item]?.[i + 1]?.type === 'replace'}
               onChange={(e) => {
                 let updatedDetails = {
