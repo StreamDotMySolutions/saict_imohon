@@ -56,14 +56,17 @@ export default function CreateModal() {
           
           // Check if the number of elements in "data" matches the "total" value
           const dataCount = Object.keys(details[item])?.length
+          console.log(dataCount)
 
-          if (dataCount !== total) {
+          if (dataCount != total) {
             setError(`Sila lengkapkan maklumat peralatan ( data tak sama dengan permintaan )`)
+            console.log(`The number of elements in "data" is not equal to ${total}`);
             setTimeout(() => {
               setError(null)
               setIsLoading(false)
             }, 2000);
-            console.log(`The number of elements in "data" is not equal to ${total}`);
+           
+ 
           } 
 
         }
