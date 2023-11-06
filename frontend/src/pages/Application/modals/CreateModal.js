@@ -24,14 +24,14 @@ export default function CreateModal() {
     const [renderedComponent, setRenderedComponent] = useState(<ApplicationForm />)
 
     function AppendToFormdata(item,formData){
-      console.log('formData for item ' + item)
+      //console.log('formData for item ' + item)
       
       if (store.getValue( item + '_total') != null ) {
         //console.log(details)
         let total = store.getValue( item + '_total')
-        console.log(total)
+        //console.log(total)
         const details = store.getValue('details');
-        console.log(details)
+        //console.log(details)
 
         if(total && ! details[item]){
           setError(`Sila lengkapkan maklumat peralatan`)
@@ -56,11 +56,11 @@ export default function CreateModal() {
           
           // Check if the number of elements in "data" matches the "total" value
           const dataCount = Object.keys(details[item])?.length
-          console.log(dataCount)
+          //console.log(dataCount)
 
           if (dataCount != total) {
             setError(`Sila lengkapkan maklumat peralatan ( data tak sama dengan permintaan )`)
-            console.log(`The number of elements in "data" is not equal to ${total}`);
+            //console.log(`The number of elements in "data" is not equal to ${total}`);
             setTimeout(() => {
               setError(null)
               setIsLoading(false)
@@ -68,15 +68,16 @@ export default function CreateModal() {
           } 
 
           // Check if description and type are not equal to ''
-          console.log(details.pc)
+          //console.log(details.pc)
 
-          const itemArray = details?.pc ? Object.values(details.pc) : [];
+          const itemArray = details[item] ? Object.values(details[item]) : [];
+          //const itemArray = details?.item ? Object.values(details.item) : [];
 
-          itemArray.forEach(item => {
-            console.log(item.description);
+          itemArray.forEach( (item,index) => {
+            //console.log(item.description);
           
             if (item.description === '') {
-              setError(`Sila lengkapkan maklumat peralatan ( empty string )`)
+              setError(`Sila lengkapkan maklumat peralatan ( empty string ${index} )`)
               console.log(`The number of elements in "data" is not equal to ${total}`);
               setTimeout(() => {
                 setError(null)
@@ -85,7 +86,6 @@ export default function CreateModal() {
             }
           });
           
-
         }
          
         formData.append(item + '_requested' , store.getValue(item + '_total'));
@@ -110,7 +110,7 @@ export default function CreateModal() {
 
         // item details
         if (store.getValue('details') != null ) {
-          console.log(store.getValue('details'))
+          //console.log(store.getValue('details'))
           formData.append('items', JSON.stringify(store.getValue('details')));
         } else {
 
