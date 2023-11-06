@@ -12,7 +12,7 @@ class ApplicationItem extends Model
 
     public function applicationItemDetails() 
     {
-        return $this->hasMany(applicationItemDetail::class);
+        return $this->hasMany(ApplicationItemDetail::class);
     }
 
 }
