@@ -75,7 +75,7 @@ const SignInByNricForm = () => {
     // JSX return
     return (
         <>
-  <h1>NRIC</h1>
+        <h1>Log in guna NRIC</h1>
         <form  onSubmit={handleSubmit}>
           <div className="form-outline mb-4">
             <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-id-card" /> No Kad Pengenalan</label>
@@ -128,7 +128,9 @@ const SignInByNricForm = () => {
             {' '}
             
             <span className='fs-6 ms-4'>
-                <Link to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
+            <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-envelope" />{' '}Log In Guna Email</Link>
+
+                <Link className='ms-3' to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
                 
                 <Link className='ms-3' to='/sign-up'><FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pendaftaran</Link>
             </span>     
