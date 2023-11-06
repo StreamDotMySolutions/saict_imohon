@@ -24,6 +24,7 @@ class UserService
             // If a password is provided, create a user with the provided password.
             $user = User::create([
                 'name' => $request->input('name'),
+                'nric' => $request->input('nric'),
                 'is_approved' => true,
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
@@ -33,6 +34,7 @@ class UserService
             //$randomPassword = Str::random(10); // Generate a random password
             $user = User::create([
                 'name' => $request->input('name'),
+                'nric' => $request->input('nric'),
                 'is_approved' => true,
                 'email' => $request->input('email'),
                 'password' => Hash::make('password'),
@@ -76,6 +78,18 @@ class UserService
         if ($request->has('email')) {
             // if change role
              User::where('id', $user->id)->update($request->only(['email']));
+        }
+
+        // Name
+        if ($request->has('name')) {
+            // if change role
+                User::where('id', $user->id)->update($request->only(['name']));
+        }
+
+        // NRIC
+        if ($request->has('nric')) {
+            // if change role
+                User::where('id', $user->id)->update($request->only(['nric']));
         }
 
         // User Profile

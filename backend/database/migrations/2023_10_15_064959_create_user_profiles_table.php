@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('user_department_id')->nullable();
-            $table->string('name')->nullable();
+            //$table->string('name')->nullable();
             $table->string('occupation')->nullable();
-            $table->string('nric')->nullable();
+            //$table->string('nric')->nullable();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->softDeletes();

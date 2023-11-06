@@ -50,14 +50,17 @@ function EditUserModal({id}) {
                   email:{
                           value: response.data?.user?.email
                         },
+                  // name: {
+                  //         value: response.data?.user?.profile?.name
+                  //       },
                   name: {
-                          value: response.data?.user?.profile?.name
+                          value: response.data?.user?.name
                         },
             occupation: {
                           value: response.data?.user?.profile?.occupation
                         },     
                   nric: {
-                          value: response.data?.user?.profile?.nric
+                          value: response.data?.user?.nric
                         },      
                 phone: {
                           value: response.data?.user?.profile?.phone

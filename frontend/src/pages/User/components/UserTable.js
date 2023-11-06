@@ -96,9 +96,9 @@ function RenderTable({items}) {
       <tbody>
         {items?.data?.map((user, index) => (
           <tr key={index}>
-            <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
-            <td className='px-5 col-2'>{user.email}</td>
-            <td className='px-5'>{user.profile?.user_department?.name}</td>
+            <td className='px-5'>{user?.name?.toUpperCase()}</td>
+            <td className='px-5 col-2'>{user?.email}</td>
+            <td className='px-5'>{user?.profile?.user_department?.name}</td>
             <td className='col-4 px-5 text-center'>
               {/* <ShowUserModal id={user.id} /> */}
               <Button 

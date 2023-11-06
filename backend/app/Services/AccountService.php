@@ -25,6 +25,7 @@ class AccountService
 
     public static function update($request)
     {
+        \Log::info($request);
         
         $user = User::where('id', auth('sanctum')->user()->id)->first();
         
@@ -37,7 +38,8 @@ class AccountService
         }
 
         if($request->has('name')){
-            $user->profile->update($request->only('name'));
+            $user->update($request->only('name'));
+            //$user->profile->update($request->only('name'));
         }
 
         if($request->has('occupation')){
@@ -45,7 +47,8 @@ class AccountService
         }
 
         if($request->has('nric')){
-            $user->profile->update($request->only('nric'));
+            $user->update($request->only('nric'));
+            //$user->profile->update($request->only('nric'));
         }
 
         if($request->has('phone')){

@@ -17,7 +17,7 @@ const ProfileTab = () => {
                     label='Nama penuh'
                     placeholder='Sila letakkan nama anda'
                     fieldName='name' 
-                    fieldValue={store?.account?.profile?.name}
+                    fieldValue={store?.account?.name}
                 />
 
                 <InlineEditing 
@@ -33,7 +33,8 @@ const ProfileTab = () => {
                     label='No kad pengenalan'
                     placeholder='Sila letakkan no kad pengenalan anda'
                     fieldName='nric' 
-                    fieldValue={store?.account?.profile?.nric}
+                    //fieldValue={store?.account?.profile?.nric}
+                    fieldValue={store?.account?.nric}
                 />
 
                 <InlineEditing 

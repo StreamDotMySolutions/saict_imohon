@@ -44,7 +44,7 @@ class UpdateAccountRequest extends FormRequest
                 'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
 
                 // different table, need to provide pk
-                Rule::unique('user_profiles')->ignore($user->id,'user_id')->whereNull('deleted_at'),
+                Rule::unique('users')->ignore($user->id,'id')->whereNull('deleted_at'),
             ],
             'phone' => 'sometimes|required',
             'address' => 'sometimes|required',
