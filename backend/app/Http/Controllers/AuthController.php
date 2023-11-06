@@ -38,21 +38,56 @@ class AuthController extends Controller
         return response()->json(['message' => 'success']);
     }
 
-    public function loginNric(Request $request)
+    public function loginByNric(Request $request)
     {
         \Log::info($request);
 
+        // make attempt
+        $credentials = [
+            'nric' => $request->input('nric'), // or 'nric' if you're using 'nric' for authentication
+            'password' => $request->input('password'),
+        ];
+
+        if (Auth::attempt($credentials)) {
+            // Authentication was successful
+            //\Log::info('success');
+
+            $user = User::where('id', Auth::user()->id)
+                        ->where('is_approved', true) // only is_approved=true
+                        ->with(['profile.userDepartment'])
+                        ->first();
+
+            // create token in User Model
+            $token = Auth::user()->createToken('API Token')->plainTextToken;
+            $user['role'] = $user->roles->pluck('name')[0];
+
+            if ($user) {
+                // create token in User Model
+                $token = Auth::user()->createToken('API Token')->plainTextToken;
+                $user['role'] = $user->roles->pluck('name')[0];
+    
+                return response()->json([
+                    'message' => 'Authentication Success',
+                    'token' => $token,
+                    'user' => $user
+                ]);
+    
+            } else {
+                return response()->json([
+                    'message' => 'User not approved or not found',
+                ], 401);
+            }
+
+        } else {
+            // Authentication failed
+            return response()->json([
+                'message' => 'Invalid credentials',
+            ], 401);
+        }
         
+    
 
-        // // create token in User Model
-        // $token = Auth::user()->createToken('API Token')->plainTextToken;
-        // $user['role'] = $user->roles->pluck('name')[0];
-
-        // return response()->json([
-        //     'message' => 'Authentication Success',
-        //     'token' => $token,
-        //     'user' => $user
-        // ]);
+ 
 
 
     }

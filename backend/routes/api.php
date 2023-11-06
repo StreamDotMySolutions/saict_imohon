@@ -17,7 +17,7 @@ Auth::routes();
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/login-nric', [AuthController::class, 'loginNric']);
+Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 Route::post('/password/email', [AuthController::class, 'email']);
