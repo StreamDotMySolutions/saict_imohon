@@ -194,8 +194,32 @@ class ApplicationService
     }
 
     public static function delete($application){
-        $user =  auth('sanctum')->user();
-        return $application->where('user_id', $user->id)->where('id',$application->id)->delete();
+        // Delete ApplicationItem if it exists
+        if ($application->applicationItem) {
+            $application->applicationItem->delete();
+        }
+
+        // Check if ApplicationItemDetails relationship exists and then delete ApplicationItemDetails
+        if ($application->applicationItem && $application->applicationItem->applicationItemDetails) {
+            $application->applicationItem->applicationItemDetails()->delete();
+        }
+
+        // Check if ApplicationMessages relationship exists and then delete ApplicationMessages
+        if ($application->applicationMessages) {
+            $application->applicationMessages()->delete();
+        }
+
+        // Check if ApplicationApproval relationship exists and then delete ApplicationApproval
+        if ($application->applicationApproval) {
+            $application->applicationApproval()->delete();
+        }
+
+        // Delete the Application record if it belongs to the authenticated user
+        $user = auth('sanctum')->user();
+        if ($user && $application->user_id === $user->id) {
+            $application->delete();
+        }
+
     }
 
     public static function setApplicationApprovalStatus($application,$status,$step)

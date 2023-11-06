@@ -38,6 +38,11 @@ class Application extends Model
         return $this->hasOne(ApplicationItem::class)->latest();
     }
 
+    public function applicationMessages() 
+    {
+        return $this->hasMany(ApplicationMessage::class)->latest();
+    }
+
     public function getStatus()
     {
         if ($this->applicationApproval) {
