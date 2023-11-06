@@ -16,6 +16,9 @@ Auth::routes();
 // Auth-related routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/login-nric', [AuthController::class, 'loginNric']);
+
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 Route::post('/password/email', [AuthController::class, 'email']);
 Route::post('/password/reset', [AuthController::class, 'resetPassword']);

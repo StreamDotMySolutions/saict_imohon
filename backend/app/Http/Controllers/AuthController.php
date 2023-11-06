@@ -38,6 +38,25 @@ class AuthController extends Controller
         return response()->json(['message' => 'success']);
     }
 
+    public function loginNric(Request $request)
+    {
+        \Log::info($request);
+
+        
+
+        // // create token in User Model
+        // $token = Auth::user()->createToken('API Token')->plainTextToken;
+        // $user['role'] = $user->roles->pluck('name')[0];
+
+        // return response()->json([
+        //     'message' => 'Authentication Success',
+        //     'token' => $token,
+        //     'user' => $user
+        // ]);
+
+
+    }
+
     public function login(AuthRequest $request)
     {
         // attempt to authenticate
