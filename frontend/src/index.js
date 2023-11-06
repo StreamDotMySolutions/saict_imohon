@@ -35,6 +35,7 @@ import UserDepartment from './pages/UserDepartment'
 import Account from './pages/Account'
 import ResetPassword from './pages/Auth/components/ResetPassword'
 import SignInForm from './pages/Auth/components/SignIn'
+import SignInByNricForm from './pages/Auth/components/SignInByNric'
 import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized/index.js';
@@ -57,6 +58,7 @@ export default function App() {
 
             <Route element={<AuthLayout />}>
               <Route path="/sign-in" element={<SignInForm />} />
+              <Route path="/sign-in-by-nric" element={<SignInByNricForm />} />
               <Route path="/sign-up" element={<SignUpForm />} />
               <Route path="/sign-out" element={<SignOut />} />
             
