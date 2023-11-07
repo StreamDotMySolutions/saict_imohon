@@ -19,7 +19,6 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/users"> <FontAwesomeIcon icon="fa-solid fa-user" />{' '}Users</Nav.Link>
                 <Nav.Link as={NavLink} to="/approvals/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
                 <Nav.Link as={NavLink} to="/inventories"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Inventori</Nav.Link>
-   
               </Nav>
            <Account />
         </Navbar.Collapse>

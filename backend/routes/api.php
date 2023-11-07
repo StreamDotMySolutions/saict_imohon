@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     CategoryController,
     AuthController,
     AccountController,
-    ApplicationController
+    ApplicationController,
+    InventoryController,
 };
 Auth::routes();
 
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
+
     // User-related routes
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
@@ -55,6 +57,15 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::patch('/users/{user}/approve', [UserController::class, 'approve']);
     Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
+
+    // Inventory Related routes
+    Route::get('/inventories', [InventoryController::class, 'index']);
+    Route::post('/inventories', [InventoryController::class, 'store']);
+    Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
+    Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
+    Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
+
+
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {

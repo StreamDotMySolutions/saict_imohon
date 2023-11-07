@@ -1,9 +1,10 @@
 import React from 'react';
+import InventoryList from './components/InventoryList';
 
 const Inventory = () => {
     return (
         <div>
-            sistem inventori
+            <InventoryList />
         </div>
     );
 };
