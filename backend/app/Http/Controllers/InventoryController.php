@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\ApplicationService;
+use App\Services\InventoryService;
+use App\Http\Requests\StoreInventoryRequest;
+use App\Http\Requests\UpdateInventoryRequest;
 
 class InventoryController extends Controller
 {
