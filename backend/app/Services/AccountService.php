@@ -25,7 +25,7 @@ class AccountService
 
     public static function update($request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         
         $user = User::where('id', auth('sanctum')->user()->id)->first();
         

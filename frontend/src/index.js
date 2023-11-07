@@ -43,6 +43,7 @@ import SignOut from './pages/Auth/components/SignOut/index.js';
 import Application from './pages/Application';
 import ApprovalByManager from './pages/Approval/ByManager/index.js';
 import ApprovalByAdmin from './pages/Approval/ByAdmin/index.js';
+import Inventory from './pages/Inventory/index.js';
 
 library.add(fas)
 
@@ -86,6 +87,8 @@ export default function App() {
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
                 <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
+
+                <Route path="/inventories" element={<Inventory />} />
 
               </Route>
           </Route>

@@ -20,6 +20,7 @@ const Profile = () => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [passwordConfirmation, setPasswordConfirmation] = useState(null)
+    
 
     const handleClickSubmit = () => {}
 
@@ -102,7 +103,7 @@ const Profile = () => {
                 <InputGroup hasValidation className='mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='No telefon'
+                        placeholder='No telefon ( pejabat / peribadi )'
                         name='phone'
                          
                         type="text" 
@@ -123,16 +124,10 @@ const Profile = () => {
             </Row>
 
 
-                
-
-
-
-
-
                 <InputGroup hasValidation className='mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-address-card"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Alamat'
+                        placeholder='Alamat pejabat'
                         name='address'
                         as='textarea'
                         rows={5}

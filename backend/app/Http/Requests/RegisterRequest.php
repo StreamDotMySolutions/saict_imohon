@@ -39,7 +39,7 @@ class RegisterRequest extends FormRequest
                 'string',
                 'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
                 //'unique:user_profiles,nric'
-                Rule::unique('user_profiles')->whereNull('deleted_at')
+                Rule::unique('users')->whereNull('deleted_at')
             ],
             'phone' => 'required',
             'address' => 'required',

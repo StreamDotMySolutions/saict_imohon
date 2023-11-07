@@ -14,6 +14,17 @@ const SignInByNricForm = () => {
     const [unauthorized, setUnauthorized] = useState(false)
     const [errors, setErrors] = useState([]); // validation errors
     const [isLoading, setIsLoading] = useState(false)
+    const [nric, setNRIC] = useState('');
+  
+    const handleNRICChange = (event) => {
+      const input = event.target.value;
+      const formattedNRIC = input
+        .replace(/\D/g, '') // Remove non-numeric characters
+        .slice(0, 12) // Keep the first 12 digits (ignoring any extras)
+        .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
+  
+      setNRIC(formattedNRIC);
+    };
     
     // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
     // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
@@ -86,6 +97,8 @@ const SignInByNricForm = () => {
                 id="nric" 
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('nric') ? ' is-invalid' : '')}
                 placeholder="masukkan no kad pengenalan ( baharu ) anda" 
+                value={nric}
+                onChange={handleNRICChange}
             />
             {errors?.hasOwnProperty('nric') ? <span className="invalid-feedback" >
                 <strong>
@@ -104,6 +117,7 @@ const SignInByNricForm = () => {
                 id="password" 
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('password') ? ' is-invalid' : '')}
                 placeholder="masukkan katalaluan anda" />
+            
             {errors?.hasOwnProperty('password') ? <span className="invalid-feedback" >
                 <strong>
                     { errors.password ? errors.password : null }
@@ -146,3 +160,17 @@ const SignInByNricForm = () => {
 }
 
 export default SignInByNricForm
+
+function NRICInput() {
+    const [nric, setNRIC] = useState('');
+  
+    const handleNRICChange = (event) => {
+      const input = event.target.value;
+      const formattedNRIC = input
+        .replace(/\D/g, '') // Remove non-numeric characters
+        .slice(0, 12) // Keep the first 12 digits (ignoring any extras)
+        .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
+  
+      setNRIC(formattedNRIC);
+    };
+}

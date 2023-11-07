@@ -28,13 +28,15 @@ class AuthController extends Controller
     {
         //\Log::info($request);
         $user = User::create([
+            'name' => $request->input('name'),
+            'nric' => $request->input('nric'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);
 
         $user->assignRole('user');
         $profile = $request->merge(['user_id' => $user->id]);
-        UserProfile::create($profile->except(['email','password']));
+        UserProfile::create($profile->except(['email','password','name','nric']));
 
         return response()->json(['message' => 'success']);
     }
