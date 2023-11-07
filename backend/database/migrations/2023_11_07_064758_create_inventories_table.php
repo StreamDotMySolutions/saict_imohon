@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->costrained();
-            $table->string('vendor')->nullable();
-            $table->string('item')->nullable();
-            $table->integer('total')->nullable();
-            $table->date('date_start')->nullable();
-            $table->string('date_end')->nullable();
-            $table->string('received_by')->nullable();
-            $table->date('received_on')->nullable();
+            $table->foreignId('user_id')->costrained(); // user yang terima
+            $table->string('vendor')->nullable(); // vendor yg bekalkan
+            $table->string('item')->nullable(); // peralatan
+            $table->integer('total')->nullable(); // jumlah
+            $table->date('date_start')->nullable(); // tender mula
+            $table->string('date_end')->nullable(); // tender tamat
+            $table->date('received_on')->nullable(); // bila barang masuk stor
             $table->timestamps();
         });
     }
