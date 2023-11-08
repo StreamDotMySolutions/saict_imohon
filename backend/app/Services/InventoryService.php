@@ -1,12 +1,21 @@
 <?php 
 namespace App\Services;
 
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class InventoryService
 {
-    public static function index(){}
+    public static function index()
+    {
+        $paginate = Inventory::query();
+        $inventories = $paginate->orderBy('id','DESC')
+                                ->paginate(25)
+                                ->withQueryString();
+    
+        return $inventories;
+    }
 
     public static function store(){}
 
