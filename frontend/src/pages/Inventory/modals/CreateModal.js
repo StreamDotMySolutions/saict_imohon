@@ -59,6 +59,10 @@ export default function CreateModal({id}) {
             <Button variant="secondary" onClick={handleClose}>
               Tutup
             </Button>
+
+            <Button variant="primary" onClick={handleClose}>
+              Tambah
+            </Button>
           </Modal.Footer>
         </Modal>
       </>
