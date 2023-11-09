@@ -83,7 +83,7 @@ const InventoryList = () => {
 
         //store = useInventoryStore()
         const inventories = store.getValue('inventories')
-        console.log(inventories)
+        //console.log(inventories)
         return (
           <>
             {inventories.map((item) => (
@@ -146,7 +146,13 @@ const InventoryList = () => {
                 </thead>
                 <InventoryItems />
             </Table>
-            <Paginator />
+        </div>
+        
+           
+        <div className="d-flex bd-highlight mb-3">
+            <div className="ms-auto p-2 bd-highlight">
+                <Paginator />
+            </div>
         </div>
     </>);
 };
