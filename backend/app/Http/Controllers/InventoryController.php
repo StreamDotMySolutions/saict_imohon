@@ -12,7 +12,10 @@ class InventoryController extends Controller
     public function index()
     {
         $inventories = InventoryService::index();
-        return response()->json(['inventories', $inventories]);
+
+        return response()->json([
+            'inventories' => $inventories
+        ]);
     }
 
     public function store(StoreInventoryRequest $request)
