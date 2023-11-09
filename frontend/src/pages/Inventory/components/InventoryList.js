@@ -115,9 +115,7 @@ const InventoryList = () => {
             <Table className='table'>
                 <InventoryItems />
             </Table>
-        </div>
-        
-           
+        </div>   
         <div className="d-flex bd-highlight mb-3">
             <div className="ms-auto p-2 bd-highlight">
                 <Paginator />
