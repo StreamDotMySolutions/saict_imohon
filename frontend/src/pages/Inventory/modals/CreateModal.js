@@ -33,6 +33,9 @@ export default function CreateModal({id}) {
       })
     }
 
+    const handleSubmitClick = () => {
+      console.log('submit action')
+    }
 
     const handleCloseClick = () => {
       store.emptyData()
@@ -42,7 +45,7 @@ export default function CreateModal({id}) {
 
     return (
       <>
-        <Button variant="primary"  onClick={handleShow}>
+        <Button variant="primary" onClick={handleShow}>
          Tambah
         </Button>
   
@@ -60,7 +63,7 @@ export default function CreateModal({id}) {
               Tutup
             </Button>
 
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleSubmitClick}>
               Submit
             </Button>
           </Modal.Footer>

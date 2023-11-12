@@ -17,9 +17,15 @@ class InventoryService
         return $inventories;
     }
 
-    public static function store(){}
+    public static function store()
+    {
 
-    public static function show(){}
+    }
+
+    public static function show(Inventory $inventory)
+    {
+        return $inventory;
+    }
 
     public static function update(){}
 

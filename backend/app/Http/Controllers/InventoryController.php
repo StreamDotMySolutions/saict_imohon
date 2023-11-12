@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\InventoryService;
+use App\Models\Inventory;
 use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 
@@ -26,7 +27,7 @@ class InventoryController extends Controller
     public function show(Inventory $inventory)
     {
         $inventory = InventoryService::show($inventory);
-        return response()->json(['inventory', $inventory]);
+        return response()->json(['inventory' => $inventory]);
     }
 
     public function update(Inventory $inventory, UpdateInventoryRequest $request)
