@@ -17,13 +17,16 @@ export default function CreateModal({id}) {
     
     const handleShow = () => {
 
+      store.setValue('inventory', null)
       setRenderedComponent(<InventoryForm />)
       setShow(true);
       setIsLoading(true)
 
       axios(`${store.show_url}/${id}`)
       .then( response => {
-        console.log(response)
+        //console.log(response.data.inventory.vendor)
+        // we get response from server from given id
+        store.setValue('vendor', response.data.data.inventory.vendor)
         setIsLoading(false)
         
       })
