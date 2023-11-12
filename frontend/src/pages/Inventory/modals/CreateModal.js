@@ -61,7 +61,7 @@ export default function CreateModal({id}) {
             </Button>
 
             <Button variant="primary" onClick={handleClose}>
-              Tambah
+              Submit
             </Button>
           </Modal.Footer>
         </Modal>
