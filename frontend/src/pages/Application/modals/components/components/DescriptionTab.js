@@ -99,7 +99,7 @@ function User(){
             <InputGroup>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control
-                        defaultValue={user?.user_profile?.name ? user?.user_profile?.name : '' }       
+                        defaultValue={user?.name ? user?.name : '' }       
                     />
             </InputGroup>
     </>)

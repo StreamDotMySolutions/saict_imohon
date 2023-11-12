@@ -1,37 +1,41 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge, Table, Pagination, Button } from 'react-bootstrap';
 import InventoryDashboard from './InventoryDashboard';
 import useInventoryStore from '../stores/InventoryStore';
-import useItemStore from '../stores/ItemStore';
 import axios from '../../../libs/axios'
 import ShowModal from '../modals/ShowModal';
 import EditModal from '../modals/EditModal';
 import CreateModal from '../modals/CreateModal';
 import DeleteModal from '../modals/DeleteModal';
+import useItemStore from '../stores/ItemStore';
 
 const InventoryList = () => {
 
     const store = useInventoryStore()
-
+    //const itemStore = useItemStore()
+    const [data,setData] = useState([])
+    console.log( useItemStore.getState().refresh)
     useEffect( () => {
         axios({url: `${store.url}`})
         .then( response => {
-            useInventoryStore.setState({ 'links' : response.data.inventories.links })
-            useInventoryStore.setState({ 'inventories' : response.data.inventories.data })
             useInventoryStore.setState({ refresh: false})
+
+            setData({
+                'inventories': response.data.inventories.data,
+                'links': response.data.inventories.links
+              });
+
         })
         .catch( error => {
           console.warn(error)
         })
     
-      },[store.refresh,store.url])
+      },[store.refresh,store.url, useItemStore.getState().refresh])
 
     function InventoryItems() {
 
-        //store = useInventoryStore()
-        //const inventories = store.getValue('inventories')
-        const inventories = store.inventories
-        //console.log(inventories)
+        const inventories = data.inventories
+
         return (
           <>
             <thead>
@@ -73,7 +77,7 @@ const InventoryList = () => {
             useInventoryStore.setState({url: url})
         }
 
-        const items = store.links
+        const items =  data.links
         const links = items?.map( (page,index) => 
             
             <Pagination.Item
