@@ -112,7 +112,7 @@ export function DateStart(){
     return(<>
                 <InputGroup>
               
-                    <InputGroup.Text>
+                    <InputGroup.Text style={{'width':'130px'}}>
                         Tarikh Mula
                     </InputGroup.Text>
                    
@@ -148,7 +148,7 @@ export function DateEnd(){
 
     return(<>
                 <InputGroup>
-                    <InputGroup.Text>
+                    <InputGroup.Text style={{'width':'130px'}}>
                         Tarikh Tamat
                     </InputGroup.Text>
                    
@@ -183,7 +183,7 @@ export function ReceivedOn(){
 
     return(<>
                 <InputGroup>
-                    <InputGroup.Text>
+                    <InputGroup.Text style={{'width':'130px'}}>
                         Tarikh Terima
                     </InputGroup.Text>
                    

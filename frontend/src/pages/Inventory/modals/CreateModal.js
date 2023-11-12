@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Alert,Button,Modal,Form} from 'react-bootstrap';
 import axios from '../../../libs/axios'
-import useInventoryStore from '../stores/InventoryStore'
+import useItemStore from '../stores/ItemStore';
 import InventoryForm from './components/InventoryForm';
 
 export default function CreateModal() {
-    const store = useInventoryStore()
+    const store = useItemStore()
 
     const errors = store.errors
     const [show, setShow] = useState(false);
@@ -16,8 +16,8 @@ export default function CreateModal() {
     }
     
     const handleShow = () => {
+      store.emptyData()
       setRenderedComponent(<InventoryForm />)
-      store.setValue('test','test')
       setShow(true);
       setIsLoading(true)
     }
