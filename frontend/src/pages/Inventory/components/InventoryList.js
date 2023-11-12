@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Badge, Table, Pagination, Button } from 'react-bootstrap';
 import InventoryDashboard from './InventoryDashboard';
 import useInventoryStore from '../stores/InventoryStore';
+import useItemStore from '../stores/ItemStore';
 import axios from '../../../libs/axios'
 import ShowModal from '../modals/ShowModal';
 import EditModal from '../modals/EditModal';
@@ -11,32 +12,25 @@ import DeleteModal from '../modals/DeleteModal';
 const InventoryList = () => {
 
     const store = useInventoryStore()
+
     useEffect( () => {
         axios({url: `${store.url}`})
         .then( response => {
-            store.emptyData()
-            //setData(response.data)  
-            //console.log(response.data.inventories)
-            store.setValue('links', response.data.inventories.links)
-            store.setValue('inventories', response.data.inventories.data)
-            //store.setValue('pages', response.data.inventories.data)
+            useInventoryStore.setState({ 'links' : response.data.inventories.links })
+            useInventoryStore.setState({ 'inventories' : response.data.inventories.data })
             useInventoryStore.setState({ refresh: false})
         })
         .catch( error => {
           console.warn(error)
         })
-
-        // Add a delay of 1 second before closing
-        // setTimeout(() => {
-        //     useInventoryStore.setState({ latestId: null})
-        // }, 4000);
     
       },[store.refresh,store.url])
 
     function InventoryItems() {
 
         //store = useInventoryStore()
-        const inventories = store.getValue('inventories')
+        //const inventories = store.getValue('inventories')
+        const inventories = store.inventories
         //console.log(inventories)
         return (
           <>
@@ -75,15 +69,11 @@ const InventoryList = () => {
     }
 
     function Paginator (){
-        //console.log(items.links)
         const handlePaginationClick = (url) => {
-            //console.log(url)
             useInventoryStore.setState({url: url})
         }
 
-        //const pages = 
-        const items = store.getValue('links')
-        //console.log(items)
+        const items = store.links
         const links = items?.map( (page,index) => 
             
             <Pagination.Item

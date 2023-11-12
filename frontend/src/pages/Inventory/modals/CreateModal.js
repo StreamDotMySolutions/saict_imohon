@@ -4,7 +4,7 @@ import axios from '../../../libs/axios'
 import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from './components/InventoryForm';
 
-export default function CreateModal({id}) {
+export default function CreateModal() {
     const store = useInventoryStore()
 
     const errors = store.errors
@@ -16,24 +16,10 @@ export default function CreateModal({id}) {
     }
     
     const handleShow = () => {
-
-      store.setValue('inventory', null)
       setRenderedComponent(<InventoryForm />)
+      store.setValue('test','test')
       setShow(true);
       setIsLoading(true)
-
-      axios(`${store.show_url}/${id}`)
-      .then( response => {
-        //console.log(response.data.inventory.vendor)
-        // we get response from server from given id
-        store.setValue('vendor', response.data.data.inventory.vendor)
-        setIsLoading(false)
-        
-      })
-      .catch( error => {
-        console.warn(error)
-        setIsLoading(false)
-      })
     }
 
     const handleSubmitClick = () => {
@@ -41,7 +27,6 @@ export default function CreateModal({id}) {
     }
 
     const handleCloseClick = () => {
-      store.emptyData()
       setRenderedComponent()
       handleClose()
     }
@@ -57,7 +42,6 @@ export default function CreateModal({id}) {
             <Modal.Title>Tambah</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {id}
            {renderedComponent}
           </Modal.Body>
           <Modal.Footer>

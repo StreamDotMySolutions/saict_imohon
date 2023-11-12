@@ -1,10 +1,10 @@
-import useInventoryStore from '../../stores/InventoryStore'
+import useItemStore from '../../stores/ItemStore'
 import { Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Vendor(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -35,7 +35,7 @@ export function Vendor(){
 
 export function Item(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -44,7 +44,7 @@ export function Item(){
                     <Form.Select 
              
                         readOnly={store.readonly}
-                        defaultValue={ store.getValue('item') ? store.getValue('item') : '' }
+                        value={ store.getValue('item') ? store.getValue('item') : '' }
                         name='item'
                         size='md' 
                         required 
@@ -74,7 +74,7 @@ export function Item(){
 
 export function Total(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -106,7 +106,7 @@ export function Total(){
 
 export function DateStart(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -143,7 +143,7 @@ export function DateStart(){
 
 export function DateEnd(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -176,9 +176,9 @@ export function DateEnd(){
             </>)
 }
 
-export function DateReceived(){
+export function ReceivedOn(){
 
-    const store = useInventoryStore()
+    const store = useItemStore()
     const errors = store.errors
 
     return(<>
@@ -190,20 +190,20 @@ export function DateReceived(){
                     <Form.Control 
                         placeholder='Tarikh terima'
                         readOnly={store.readonly}
-                        value={ store.getValue('date_received') ? store.getValue('date_received') : '' }
-                        name='date_received'
+                        value={ store.getValue('received_on') ? store.getValue('received_on') : '' }
+                        name='received_on'
                         size='md' 
                         type='date'
                         required 
-                        isInvalid={errors?.hasOwnProperty('date_received')}
-                        onChange={ (e) => store.setValue('date_received', e.target.value)  }
+                        isInvalid={errors?.hasOwnProperty('received_on')}
+                        onChange={ (e) => store.setValue('received_on', e.target.value)  }
                     />
 
                     {
-                        errors?.hasOwnProperty('date_received') &&
+                        errors?.hasOwnProperty('received_on') &&
                             (
                                 <Form.Control.Feedback type="invalid">   
-                                { errors.date_received ? errors.date_received : null }
+                                { errors.received_on ? errors.received_on : null }
                                 </Form.Control.Feedback>
                             )
                     }  

@@ -1,5 +1,5 @@
 import { Row,Col } from 'react-bootstrap'
-import { Vendor,Item, Total, DateStart,DateEnd,DateReceived} from './Input';
+import { Vendor,Item, Total, DateStart,DateEnd,ReceivedOn} from './Input';
 
 const InventoryForm = () => {
 
@@ -29,7 +29,7 @@ const InventoryForm = () => {
 
         <Row className='p-2'>
             <Col className='col-6'>
-                <DateReceived />
+                <ReceivedOn />
             </Col>
         </Row>
 

@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Alert,Button,Modal,Form} from 'react-bootstrap';
 import axios from '../../../libs/axios'
-import useInventoryStore from '../stores/InventoryStore'
+import useItemStore from '../stores/ItemStore'
 import InventoryForm from './components/InventoryForm';
 
 export default function EditModal({id}) {
-    const store = useInventoryStore()
-
+    const store = useItemStore()
     const errors = store.errors
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -20,16 +19,19 @@ export default function EditModal({id}) {
       setRenderedComponent(<InventoryForm />)
       setShow(true);
       setIsLoading(true)
-
+      store.emptyData()
+      console.log(store.getValue('vendor'))
       axios(`${store.show_url}/${id}`)
       .then( response => {
-        console.log(response)
+        //console.log(response)
+        store.setValue('vendor',response.data.inventory.vendor)
+        store.setValue('item',response.data.inventory.item)
+        store.setValue('total',response.data.inventory.total)
+        store.setValue('date_start',response.data.inventory.date_start)
+        store.setValue('date_end',response.data.inventory.date_end)
+        store.setValue('received_on',response.data.inventory.received_on)
         setIsLoading(false)
         
-      })
-      .catch( error => {
-        console.warn(error)
-        setIsLoading(false)
       })
     }
 
