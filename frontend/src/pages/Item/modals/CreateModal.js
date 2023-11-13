@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert,Row, Button,Modal,Form} from 'react-bootstrap';
+import { Alert, Button,Modal,Form, Badge} from 'react-bootstrap';
 import axios from '../../../libs/axios'
 import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
@@ -7,7 +7,6 @@ import InventoryForm from '../components/InventoryForm';
 export default function CreateModal() {
     const store = useInventoryStore()
     const errors = store.errors
-
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<InventoryForm />)
@@ -89,6 +88,14 @@ export default function CreateModal() {
       handleClose()
     }
 
+    const SuccessMessage = ({message='success'}) => {
+      return (
+        <Alert variant={'success'}>
+          {message}
+        </Alert>
+      )
+    }
+  
     return (
       <>
         <Button variant="primary"  onClick={handleShow}>
@@ -97,7 +104,9 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Tambah</Modal.Title>
+            <Modal.Title>
+              <Badge>Tambah</Badge>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
            {renderedComponent}
@@ -126,11 +135,3 @@ export default function CreateModal() {
     );
   }
 
-  function SuccessMessage({message='success'}) {
-    return (
-      <Alert variant={'success'}>
-        {message}
-      </Alert>
-    )
-  }
-  

@@ -28,7 +28,7 @@ class InventoryController extends Controller
         ]);
     }
 
-    
+
     public function show(Inventory $inventory)
     {
         $inventory = InventoryService::show($inventory);
@@ -38,13 +38,13 @@ class InventoryController extends Controller
     public function update(Inventory $inventory, UpdateInventoryRequest $request)
     {
         InventoryService::update($inventory, $request);
-        return response()->json([]);
+        return response()->json(['message' => 'Peralatan telah dikemaskini']);
     }
 
     public function delete(Inventory $inventory)
     {
         InventoryService::delete($inventory);
-        return response()->json([]);
+        return response()->json([ 'message' => 'Peralatan telah berjaya dipadam dari rekod']);
     }
 
 }

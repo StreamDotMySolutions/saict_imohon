@@ -38,7 +38,21 @@ class InventoryService
         return $inventory;
     }
 
-    public static function update(){}
+    public static function update($inventory,$request)
+    {
+        $user =  auth('sanctum')->user();
+        return Inventory::query()
+                            ->where('user_id', $user->id)
+                            ->where('id',$inventory->id)
+                            ->update([
+                                'vendor'  => $request->vendor,
+                                'item'  => $request->item,
+                                'total'  => $request->total,
+                                'date_start'  => $request->date_start,
+                                'date_end'  => $request->date_end,
+                                'received_on'  => $request->received_on,
+                                ]);
+    }
 
     public static function delete(){}
 

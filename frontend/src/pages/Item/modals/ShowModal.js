@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert,Row,Col, Button,Modal,Form} from 'react-bootstrap';
+import { Alert,Row,Col, Button,Modal,Form, Badge} from 'react-bootstrap';
 import axios from '../../../libs/axios'
 import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
@@ -62,7 +62,7 @@ export default function ShowModal({id}) {
   
         <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Lihat</Modal.Title>
+            <Modal.Title><Badge>Lihat ID:{id}</Badge></Modal.Title>
           </Modal.Header>
           <Modal.Body>
            {renderedComponent}

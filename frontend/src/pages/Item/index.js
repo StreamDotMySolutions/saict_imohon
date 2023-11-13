@@ -4,6 +4,7 @@ import { Row,Col, Table, Badge,Pagination } from 'react-bootstrap'
 import ShowModal from './modals/ShowModal'
 import useInventoryStore from './stores/InventoryStore'
 import CreateModal from './modals/CreateModal'
+import EditModal from './modals/EditModal'
 
 const Inventories = () => {
     const store = useInventoryStore()
@@ -86,6 +87,8 @@ const Inventories = () => {
                 <td className='text-center'>{item.received_on}</td>
                 <td className='text-center'>
                   <ShowModal id={item.id} />
+                  {' '}
+                  <EditModal id={item.id} />
                 </td>
               </tr>
             ))}
