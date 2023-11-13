@@ -69,6 +69,7 @@ export default function CreateModal() {
         // Add a delay of 1 second before closing
         setTimeout(() => {
           setIsLoading(false)
+          useInventoryStore.setState({ refresh: true })
           handleCloseClick();
         }, 1000);
 
