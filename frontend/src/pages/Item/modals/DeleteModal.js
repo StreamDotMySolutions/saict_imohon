@@ -9,6 +9,7 @@ export default function DeleteModal({id}) {
     const errors = store.errors
 
     const [show, setShow] = useState(false);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
     const [renderedComponent, setRenderedComponent] = useState(<InventoryForm />)
 
@@ -45,14 +46,62 @@ export default function DeleteModal({id}) {
       })
     }
 
+    const handleDeleteClick = () => {
+      setError(null)
+      const formData = new FormData()
+      formData.append('_method','delete')
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
+      axios({
+        url: `${store.delete_url}/${id}`,
+        data: formData,
+        method: 'post'
+      }).then( response => {
+        setRenderedComponent(<SuccessMessage message={response.data.message} />)
+        setTimeout(() => {
+          setIsLoading(false)
+          useInventoryStore.setState({ refresh: true })
+          handleCloseClick();
+        }, 1000);
+      }).catch( error => {
+        console.warn(error)
+        if(error.response.status === 422){
+          useInventoryStore.setState({ errors :error.response.data.errors })  
+
+        if(error.response.data?.hasOwnProperty('message')){
+          //console.log(error.response.data.message)
+          setError(error.response.data.message)
+          setRenderedComponent(<ErrorMessage  message={error.response.data.message} />)
+        }
+
+        }
+      })
+    }
 
     const handleCloseClick = () => {
-
-      // Empty the data object
       useInventoryStore.getState().emptyData()
       setRenderedComponent()
       handleClose()
     }
+
+    function SuccessMessage({message='success'}) {
+      return (
+        <Alert variant={'success'}>
+          {message}
+        </Alert>
+      )
+    }
+  
+    function ErrorMessage({message='success'}) {
+      return (
+        <Alert variant={'danger'}>
+          {message}
+        </Alert>
+      )
+    }
+    
 
     return (
       <>
@@ -70,12 +119,11 @@ export default function DeleteModal({id}) {
           <Modal.Footer>
             <Form.Check
               className='me-4'
-              disabled
-              readonly
+
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              checked={true}
-              label="Data ini telah disahkan"
+       
+              label="Saya sahkan data ini untuk dipadam"
               type="checkbox"
               onClick={ () =>useInventoryStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }
@@ -83,7 +131,7 @@ export default function DeleteModal({id}) {
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup
             </Button>
-            <Button variant="danger" onClick={handleCloseClick}>
+            <Button variant="danger" onClick={handleDeleteClick}>
               Padam
             </Button>
           </Modal.Footer>
@@ -92,19 +140,3 @@ export default function DeleteModal({id}) {
     );
   }
 
-  function DefaultMessage({id}){
-    return (
-      <Alert variant={'warning'}>
-        Padam permohonan id={id} ?
-      </Alert>
-    )
-  }
-
-  function SuccessMessage({message='success'}) {
-    return (
-      <Alert variant={'success'}>
-        {message}
-      </Alert>
-    )
-  }
-  

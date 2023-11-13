@@ -7,6 +7,7 @@ use App\Services\InventoryService;
 use App\Models\Inventory;
 use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
+use App\Http\Requests\DeleteInventoryRequest;
 
 class InventoryController extends Controller
 {
@@ -41,10 +42,15 @@ class InventoryController extends Controller
         return response()->json(['message' => 'Peralatan telah dikemaskini']);
     }
 
-    public function delete(Inventory $inventory)
+    public function delete(DeleteInventoryRequest $request,Inventory $inventory)
     {
-        InventoryService::delete($inventory);
-        return response()->json([ 'message' => 'Peralatan telah berjaya dipadam dari rekod']);
+        $deleted = InventoryService::delete($inventory);
+        if($deleted){
+            return response()->json([ 'message' => 'Peralatan telah berjaya dipadam dari rekod']); 
+        } else {
+            return response()->json([ 'message' => 'Peralatan gagal dipadam dari rekod'],422);
+        }
+        
     }
 
 }

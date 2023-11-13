@@ -54,7 +54,14 @@ class InventoryService
                                 ]);
     }
 
-    public static function delete(){}
+    public static function delete($inventory)
+    {
+        $user =  auth('sanctum')->user();
+        $inventory = Inventory::query()
+                            ->where('user_id', $user->id)
+                            ->where('id',$inventory->id)
+                            ->delete();
+    }
 
     public static function search(){}
 
