@@ -5,6 +5,7 @@ import ShowModal from './modals/ShowModal'
 import useInventoryStore from './stores/InventoryStore'
 import CreateModal from './modals/CreateModal'
 import EditModal from './modals/EditModal'
+import DeleteModal from './modals/DeleteModal'
 
 const Inventories = () => {
     const store = useInventoryStore()
@@ -89,6 +90,8 @@ const Inventories = () => {
                   <ShowModal id={item.id} />
                   {' '}
                   <EditModal id={item.id} />
+                  {' '}
+                  <DeleteModal id={item.id} />
                 </td>
               </tr>
             ))}

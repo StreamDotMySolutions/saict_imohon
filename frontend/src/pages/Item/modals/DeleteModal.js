@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Alert,Row,Col, Button,Modal,Form} from 'react-bootstrap';
+import { Alert,Row,Col,Badge, Button,Modal,Form} from 'react-bootstrap';
 import axios from '../../../libs/axios'
 import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
 
-export default function ShowModal({id}) {
+export default function DeleteModal({id}) {
     const store = useInventoryStore()
     const errors = store.errors
 
@@ -56,13 +56,13 @@ export default function ShowModal({id}) {
 
     return (
       <>
-        <Button variant="secondary"  onClick={handleShow}>
-         Lihat
+        <Button variant="danger"  onClick={handleShow}>
+         Padam
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Lihat</Modal.Title>
+          <Modal.Title><Badge bg='danger'>Padam ID:{id}</Badge></Modal.Title>
           </Modal.Header>
           <Modal.Body>
            {renderedComponent}
@@ -82,6 +82,9 @@ export default function ShowModal({id}) {
             />
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup
+            </Button>
+            <Button variant="danger" onClick={handleCloseClick}>
+              Padam
             </Button>
           </Modal.Footer>
         </Modal>
