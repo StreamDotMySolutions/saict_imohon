@@ -21,8 +21,11 @@ class InventoryController extends Controller
 
     public function store(StoreInventoryRequest $request)
     {
-        InventoryService::store();
-        return response()->json(['message' => 'Peralatan telah ditambah']);
+        $inventory = InventoryService::store($request);
+        return response()->json([
+            'message' => 'Peralatan telah ditambah',
+            'id' => $inventory->id
+        ]);
     }
     public function show(Inventory $inventory)
     {

@@ -39,6 +39,7 @@ class StoreInventoryRequest extends FormRequest
     public function messages()
     {
         return [
+            'total.required' => 'Sila masukkan jumlah peralatan',
             'acknowledge.required' => 'Sila sahkan data',
             'vendor.required' => 'Sila masukkan nama vendor peralatan',
             'item.required' => 'Sila pilih peralatan',

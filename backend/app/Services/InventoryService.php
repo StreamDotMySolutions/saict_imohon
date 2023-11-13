@@ -17,9 +17,20 @@ class InventoryService
         return $inventories;
     }
 
-    public static function store()
+    public static function store(Request $request)
     {
-
+        //\Log::info($request);
+        $user =  auth('sanctum')->user();
+        $inventory = Inventory::create([
+            'user_id' => $user->id,
+            'vendor'  => $request->vendor,
+            'item'  => $request->item,
+            'total'  => $request->total,
+            'date_start'  => $request->date_start,
+            'date_end'  => $request->date_end,
+            'received_on'  => $request->received_on,
+        ]);
+        return $inventory;
     }
 
     public static function show(Inventory $inventory)
