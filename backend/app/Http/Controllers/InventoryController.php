@@ -27,6 +27,8 @@ class InventoryController extends Controller
             'id' => $inventory->id
         ]);
     }
+
+    
     public function show(Inventory $inventory)
     {
         $inventory = InventoryService::show($inventory);
