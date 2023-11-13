@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreInventoryRequest extends FormRequest
 {
@@ -23,6 +24,15 @@ class StoreInventoryRequest extends FormRequest
     {
         return [
                 'acknowledge' => 'required',
+                'vendor' => 'required',
+                'item' => [
+                    'required',
+                    Rule::in(['pc', 'nb', 'pbwn', 'pcn' , 'projektor', 'webcam']),
+                ],
+                'total' => 'required',
+                'date_start' => 'required',
+                'date_end' => 'required',
+                'received_on' => 'required',
         ];
     }
 
@@ -30,6 +40,12 @@ class StoreInventoryRequest extends FormRequest
     {
         return [
             'acknowledge.required' => 'Sila sahkan data',
+            'vendor.required' => 'Sila masukkan nama vendor peralatan',
+            'item.required' => 'Sila pilih peralatan',
+            'item.in' => 'Peralatan yang anda pilih tidak sah',
+            'date_start.required' => 'Sila pilih tarikh mula kontrak',
+            'date_end.required' => 'Sila pilih tarikh tamat kontrak',
+            'received_on.required' => 'Sila pilih tarikh terima peralatan',
         ];
     }
 }

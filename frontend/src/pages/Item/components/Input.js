@@ -128,7 +128,6 @@ export function DateStart(){
                         isInvalid={errors?.hasOwnProperty('date_start')}
                         onChange={ (e) => store.setValue('date_start', e.target.value)  }
                     />
-                    </InputGroup>
                     {
                         errors?.hasOwnProperty('date_start') &&
                             (
@@ -137,6 +136,8 @@ export function DateStart(){
                                 </Form.Control.Feedback>
                             )
                     }  
+                    </InputGroup>
+       
         
             </>)
 }

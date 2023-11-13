@@ -32,6 +32,30 @@ export default function CreateModal() {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
       
+      if (store.getValue('vendor') != null ) {
+        formData.append('vendor', store.getValue('vendor'));
+      }
+
+      if (store.getValue('item') != null ) {
+        formData.append('item', store.getValue('item'));
+      }
+
+      if (store.getValue('total') != null ) {
+        formData.append('total', store.getValue('total'));
+      }
+
+      if (store.getValue('date_start') != null ) {
+        formData.append('date_start', store.getValue('date_start'));
+      }
+
+      if (store.getValue('date_end') != null ) {
+        formData.append('date_end', store.getValue('date_end'));
+      }
+
+      if (store.getValue('received_on') != null ) {
+        formData.append('received_on', store.getValue('received_on'));
+      }
+
       axios({
         'url' : store.store_url,
         'method' : 'post',
