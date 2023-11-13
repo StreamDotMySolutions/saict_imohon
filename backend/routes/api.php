@@ -62,14 +62,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     // Inventory Related routes
     Route::get('/inventories', [InventoryController::class, 'index']);
     Route::post('/inventories', [InventoryController::class, 'store']);
-
-    // Route::get('/inventories/{inventory}', function ($inventory) {
-    //     \Log::info($inventory);
-    // });
-
     Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
-    
-    
     Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 

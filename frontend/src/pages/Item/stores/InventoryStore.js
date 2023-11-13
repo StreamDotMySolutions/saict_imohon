@@ -6,6 +6,7 @@ const useInventoryStore  = create((set) => ({
 
     url: `${base_url}/inventories`,
     index_url:  `${base_url}/inventories`,
+    store_url:  `${base_url}/inventories`,
     show_url:  `${base_url}/inventories`,
     delete_url:  `${base_url}/inventories`,
     edit_url:  `${base_url}/inventories`,

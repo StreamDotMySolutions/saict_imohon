@@ -11,7 +11,7 @@ class StoreInventoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+                'acknowledge' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'acknowledge.required' => 'Sila sahkan data',
         ];
     }
 }

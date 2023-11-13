@@ -22,7 +22,7 @@ class StoreApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-        \Log::info(\Request::input('pc_items'));
+        //\Log::info(\Request::input('pc_items'));
         $request = $this->request;
         return [
             'acknowledge' => 'required',
