@@ -17,14 +17,15 @@ export default function CreateModal() {
     }
     
     const handleShow = () => {
+      setIsLoading(false)
       useInventoryStore.getState().emptyData()
       setRenderedComponent(<InventoryForm />)
       setShow(true);
-      setIsLoading(true)
     }
 
     const handleSubmitClick = () => {
 
+      setIsLoading(true)
       const formData = new FormData()
 
       if (store.getValue('acknowledge') != null ) {
@@ -37,16 +38,19 @@ export default function CreateModal() {
         'data' : formData
       })
       .then( response => {
+        
         console.log(response)
         setRenderedComponent(<SuccessMessage message={response.data.message} />)
 
         // Add a delay of 1 second before closing
         setTimeout(() => {
+          setIsLoading(false)
           handleCloseClick();
         }, 1000);
 
       })
       .catch( error => {
+        setIsLoading(false)
         console.warn(error)
         if(error.response.status === 422){
           useInventoryStore.setState({ errors :error.response.data.errors })  
@@ -83,11 +87,11 @@ export default function CreateModal() {
               onClick={ () =>useInventoryStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>
               Tutup
             </Button>
 
-            <Button variant="primary" onClick={handleSubmitClick}>
+            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
               Tambah
             </Button>
 
