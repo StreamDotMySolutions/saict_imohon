@@ -1,11 +1,12 @@
 import React from 'react';
+import RequestedDashboard from '../../Application/RequestedDashboard';
 
 const ManagerDashboard = () => {
-    return (
-        <div>
-            Dashboard for Manager
-        </div>
-    );
+    return (<>
+        <h3>Mohon</h3>
+        <hr />
+        <RequestedDashboard />
+        </>);
 };
 
 export default ManagerDashboard;

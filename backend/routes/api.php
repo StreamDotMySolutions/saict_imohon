@@ -13,6 +13,7 @@ use App\Http\Controllers\{
     InventoryController,
     ItemController,
     RequestController,
+    StatisticsController,
 };
 Auth::routes();
 
@@ -37,6 +38,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('requests', RequestController::class);
+
+    Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
     Route::get('/applications', [ApplicationController::class, 'index']);

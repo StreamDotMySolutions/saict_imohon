@@ -1,16 +1,12 @@
 import React from 'react';
-import { Row,Col } from 'react-bootstrap';
-import Dashboard from '../../Application/Dashboard';
+import RequestedDashboard from '../../Application/RequestedDashboard';
 
 const UserDashboard = () => {
     return (<>
         <h3>Mohon</h3>
         <hr />
-        <Dashboard />
+        <RequestedDashboard />
 
-        <h3>Terima</h3>
-        <hr />
-        <Dashboard />
         </>);
 };
 

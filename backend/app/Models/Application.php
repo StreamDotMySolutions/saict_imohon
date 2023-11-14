@@ -22,7 +22,6 @@ class Application extends Model
         return $this->hasOne(ApplicationApproval::class)->where('step', 1)->latest();
     }
 
-    
     public function applicationApprovalByAdmin() 
     {
         return $this->hasOne(ApplicationApproval::class)->where('step', 2);
@@ -36,6 +35,11 @@ class Application extends Model
     public function applicationItem() 
     {
         return $this->hasOne(ApplicationItem::class)->latest();
+    }
+
+    public function applicationItems() 
+    {
+        return $this->hasMany(ApplicationItem::class);
     }
 
     public function applicationMessages() 
