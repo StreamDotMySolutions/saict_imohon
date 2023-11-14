@@ -15,7 +15,7 @@ class StoreDistributionRequest extends FormRequest
                 'required',
                 Rule::in(['pc', 'nb', 'pbwn', 'pcn' , 'projektor', 'webcam']),
             ],
-            'total' => 'required',
+            'total' => 'required|integer',
             'description' => 'required'
     
         ];
@@ -28,6 +28,7 @@ class StoreDistributionRequest extends FormRequest
             'item.required' => 'Sila pilih peralatan',
             'item.in' => 'Peralatan yang anda pilih tidak sah',
             'total.required' => 'Sila nyatakan jumlah peralatan',
+            'total.integer' => 'Sila nyatakan jumlah dalam integer',
             'description.required' => 'Sila isi mesej',
         ];
     }

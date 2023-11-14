@@ -26,6 +26,7 @@ class DistributionController extends Controller
         \Log::info($request);
         $created = DistributionService::store($request);
 
+
         if($created){
             return response()->json(['message' => 'Agihan berjaya dilakukan']);
         } else {

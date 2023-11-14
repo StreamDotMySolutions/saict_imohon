@@ -67,7 +67,7 @@ export default function CreateModal() {
         if(error.response.status === 422){
           useStore.setState({ errors :error.response.data.errors })  
 
-          if(error.response.data.hasOwnProperty('message') ){
+          if(error.response.data.hasOwnProperty('message') && !error.response.data.errors  ){
             setRenderedComponent(<ErrorMessage message={error.response.data.message} />)
             setTimeout(() => {
               setIsLoading(false)
