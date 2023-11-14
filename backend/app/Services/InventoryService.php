@@ -43,7 +43,7 @@ class InventoryService
         $user =  auth('sanctum')->user();
         return Inventory::query()
                             ->where('user_id', $user->id)
-                            ->where('id',$inventory->id)
+                            //->where('id',$inventory->id)
                             ->update([
                                 'vendor'  => $request->vendor,
                                 'item'  => $request->item,
@@ -58,9 +58,10 @@ class InventoryService
     {
         $user =  auth('sanctum')->user();
         $inventory = Inventory::query()
-                            ->where('user_id', $user->id)
+                            //->where('user_id', $user->id)
                             ->where('id',$inventory->id)
                             ->delete();
+        return $inventory;
     }
 
     public static function search(){}

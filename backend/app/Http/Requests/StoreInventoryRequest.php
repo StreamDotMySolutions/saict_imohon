@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 
 class StoreInventoryRequest extends FormRequest
 {
-
     public function rules()
     {
         return [
