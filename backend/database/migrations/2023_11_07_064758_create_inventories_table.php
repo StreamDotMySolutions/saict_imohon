@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->costrained(); // user yang terima
             $table->string('vendor')->nullable(); // vendor yg bekalkan
+            $table->string('email')->nullable(); // email vendor
+            $table->string('phone')->nullable(); // phone vendor
+            $table->string('model')->nullable(); // model
             $table->string('item')->nullable(); // peralatan
             $table->integer('total')->nullable(); // jumlah
             $table->date('date_start')->nullable(); // tender mula

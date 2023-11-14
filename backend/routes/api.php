@@ -14,6 +14,7 @@ use App\Http\Controllers\{
     ItemController,
     RequestController,
     StatisticsController,
+    DistributionController,
 };
 Auth::routes();
 
@@ -72,7 +73,8 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 
-
+    // Distribution Related routes
+    Route::resource('distributions', DistributionController::class);
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
