@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Distribution;
 use Illuminate\Http\Request;
 use App\Services\DistributionService;
+use App\Http\Requests\StoreDistributionRequest;
 
 class DistributionController extends Controller
 {
@@ -20,7 +21,7 @@ class DistributionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDistributionRequest $request)
     {
         \Log::info($request);
         return response()->json(['message' => 'Agihan berjaya dilakukan']);

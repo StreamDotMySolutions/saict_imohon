@@ -30,6 +30,18 @@ export default function CreateModal() {
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
+
+      if (store.getValue('item') != null ) {
+        formData.append('item', store.getValue('item'));
+      }
+
+      if (store.getValue('total') != null ) {
+        formData.append('total', store.getValue('total'));
+      }
+
+      if (store.getValue('description') != null ) {
+        formData.append('description', store.getValue('description'));
+      }
       
       axios({
         'url' : store.store_url,
