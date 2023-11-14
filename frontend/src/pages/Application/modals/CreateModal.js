@@ -128,6 +128,8 @@ export default function CreateModal() {
         AppendToFormdata('nb', formData)
         AppendToFormdata('pbwn', formData)
         AppendToFormdata('pcn', formData)
+        AppendToFormdata('projektor', formData)
+        AppendToFormdata('webcam', formData)
 
         axios({
             method: 'post',

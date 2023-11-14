@@ -1,10 +1,10 @@
-import useItemStore from '../../stores/ItemStore'
+import useInventoryStore from '../stores/InventoryStore'
 import { Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Vendor(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>
@@ -35,7 +35,7 @@ export function Vendor(){
 
 export function Item(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>
@@ -74,7 +74,7 @@ export function Item(){
 
 export function Total(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>
@@ -106,7 +106,7 @@ export function Total(){
 
 export function DateStart(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>
@@ -128,7 +128,6 @@ export function DateStart(){
                         isInvalid={errors?.hasOwnProperty('date_start')}
                         onChange={ (e) => store.setValue('date_start', e.target.value)  }
                     />
-                    </InputGroup>
                     {
                         errors?.hasOwnProperty('date_start') &&
                             (
@@ -137,13 +136,15 @@ export function DateStart(){
                                 </Form.Control.Feedback>
                             )
                     }  
+                    </InputGroup>
+       
         
             </>)
 }
 
 export function DateEnd(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>
@@ -178,7 +179,7 @@ export function DateEnd(){
 
 export function ReceivedOn(){
 
-    const store = useItemStore()
+    const store = useInventoryStore()
     const errors = store.errors
 
     return(<>

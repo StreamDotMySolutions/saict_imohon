@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('application_item_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_item_id')->costrained();
-            $table->enum('item', ['pc','nb','pbwn','pcn'])->nullable;
+            $table->enum('item', ['pc','nb','pbwn','pcn','projektor','webcam'])->nullable;
             $table->integer('number')->default(0);
             $table->text('description')->nullable;
             $table->enum('type', ['new','replace'])->default('new');

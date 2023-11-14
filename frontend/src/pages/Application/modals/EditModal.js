@@ -47,6 +47,8 @@ export default function EditModal({editable,id}) {
         loadItemData('nb', response)
         loadItemData('pbwn', response)
         loadItemData('pcn', response)
+        loadItemData('projektor', response)
+        loadItemData('webcam', response)
         
         //console.log(response.data.application.editable)
         setIsLoading(false)

@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     ApplicationController,
     InventoryController,
     ItemController,
+    RequestController,
 };
 Auth::routes();
 
@@ -34,8 +35,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Application Related
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::resource('requests', RequestController::class);
+
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
-    
     Route::get('/applications', [ApplicationController::class, 'index']);
     Route::get('/applications/{application}', [ApplicationController::class, 'show']);
     Route::post('/applications', [ApplicationController::class, 'store']);

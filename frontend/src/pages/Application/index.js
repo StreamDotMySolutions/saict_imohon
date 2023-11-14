@@ -77,6 +77,8 @@ const Application = () => {
                     <Item label='NB' value={application?.application_item?.nb_requested} />
                     <Item label='PBWN' value={application?.application_item?.pbwn_requested} />
                     <Item label='PCN' value={application?.application_item?.pcn_requested} />
+                    <Item label='Projektor' value={application?.application_item?.projektor_requested} />
+                    <Item label='Webcam' value={application?.application_item?.webcam_requested} />
                   </Row>
                 </Col>
 

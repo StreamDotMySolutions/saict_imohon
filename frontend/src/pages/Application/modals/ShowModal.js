@@ -56,14 +56,6 @@ export default function ShowModal({editable,id}) {
     }
 
 
-    const handleCloseClick = () => {
-      //useApplicationStore.setState(useApplicationStore.getState().reset());
-      // Empty the data object
-      useApplicationStore.getState().emptyData()
-      setRenderedComponent()
-      handleClose()
-    }
-
     return (
       <>
         <Button variant="secondary"  onClick={handleShow}>
@@ -97,20 +89,3 @@ export default function ShowModal({editable,id}) {
       </>
     );
   }
-
-  function DefaultMessage({id}){
-    return (
-      <Alert variant={'warning'}>
-        Padam permohonan id={id} ?
-      </Alert>
-    )
-  }
-
-  function SuccessMessage({message='success'}) {
-    return (
-      <Alert variant={'success'}>
-        {message}
-      </Alert>
-    )
-  }
-  

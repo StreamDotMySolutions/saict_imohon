@@ -6,20 +6,7 @@ import useApplicationStore from '../../../stores/ApplicationStore';
 const ItemTab = ({fieldName}) => {
     const store = useApplicationStore()
     const items = store.getValue('items')
-
     const details = items?.application_item_details ? items?.application_item_details : null
-    //console.log(details)
-    // const ShowItemDetails = () => {
-    //     return (
-    //       <div>
-    //         {items?.application_item_details?.map((item, index) => (
-    //           <div key={index}>
-    //             {item.item}-{item.description}
-    //           </div>
-    //         ))}
-    //       </div>
-    //     );
-    //   }
       
     return (
         <div>

@@ -18,6 +18,10 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Home</Nav.Link>
               </Nav>
 
+              {/* <Nav>
+                <Nav.Link as={NavLink} to="/requests"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Request</Nav.Link>
+              </Nav> */}
+
               <Nav>
                 <Nav.Link as={NavLink} to="/applications"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon</Nav.Link>
               </Nav>

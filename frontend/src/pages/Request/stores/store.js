@@ -2,14 +2,14 @@ import { create } from 'zustand'
 
 const base_url = process.env.REACT_APP_BACKEND_URL
 
-const useInventoryStore  = create((set) => ({
+const useStore  = create((set) => ({
 
-    url: `${base_url}/inventories`,
-    index_url:  `${base_url}/inventories`,
-    store_url:  `${base_url}/inventories`,
-    show_url:  `${base_url}/inventories`,
-    delete_url:  `${base_url}/inventories`,
-    edit_url:  `${base_url}/inventories`,
+    url: `${base_url}/requests`,
+    index_url:  `${base_url}/requests`,
+    store_url:  `${base_url}/requests`,
+    show_url:  `${base_url}/requests`,
+    delete_url:  `${base_url}/requests`,
+    edit_url:  `${base_url}/requests`,
 
     refresh: false,
     errors: null,
@@ -41,10 +41,10 @@ const useInventoryStore  = create((set) => ({
     },
 
     getValue: (fieldName) => {
-        const field = useInventoryStore.getState().data[fieldName];
+        const field = useStore.getState().data[fieldName];
         return field ? field.value : null;
     },
 
 }));
 
-export default useInventoryStore;
+export default useStore;

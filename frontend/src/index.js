@@ -38,13 +38,13 @@ import SignInForm from './pages/Auth/components/SignIn'
 import SignInByNricForm from './pages/Auth/components/SignInByNric'
 import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
-import Unauthorized from './pages/Auth/components/Unauthorized/index.js';
-import SignOut from './pages/Auth/components/SignOut/index.js';
-import Application from './pages/Application';
-import ApprovalByManager from './pages/Approval/ByManager/index.js';
-import ApprovalByAdmin from './pages/Approval/ByAdmin/index.js';
-import Inventory from './pages/Inventory/index.js';
-import Item from './pages/Item/index.js';
+import Unauthorized from './pages/Auth/components/Unauthorized'
+import SignOut from './pages/Auth/components/SignOut'
+import Application from './pages/Application'
+import ApprovalByManager from './pages/Approval/ByManager'
+import ApprovalByAdmin from './pages/Approval/ByAdmin'
+import Inventory from './pages/Inventory'
+// import Request from './pages/Request'
 
 library.add(fas)
 
@@ -85,13 +85,13 @@ export default function App() {
 
                 <Route path="/applications" element={<Application />} />
 
+                {/* <Route path="/requests" element={<Request />} /> */}
+
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
                 <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
 
                 <Route path="/inventories" element={<Inventory />} />
-
-                <Route path="/items" element={<Item />} />
 
               </Route>
           </Route>

@@ -8,6 +8,7 @@ import ItemTab from './components/ItemTab';
 const ApplicationForm = () => {
 
     const store = useApplicationStore()
+    
      
     const HandleTabChange = (key) => {
         console.log(key)
@@ -40,6 +41,14 @@ const ApplicationForm = () => {
 
             <Tab eventKey={'item-pcn-tab'} title='PCN'>
                 <ItemTab fieldName={'pcn'} />
+            </Tab>
+
+            <Tab eventKey={'item-projektor-tab'} title='Projektor'>
+                <ItemTab fieldName={'projektor'} />
+            </Tab>
+
+            <Tab eventKey={'item-webcam-tab'} title='Webcam'>
+                <ItemTab fieldName={'webcam'} />
             </Tab>
 
         </Tabs>

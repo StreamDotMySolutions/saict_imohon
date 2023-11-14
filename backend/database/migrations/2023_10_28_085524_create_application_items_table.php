@@ -31,6 +31,14 @@ return new class extends Migration
             $table->integer('pcn_approved')->default(0);
             $table->integer('pcn_received')->default(0);
 
+            $table->integer('webcam_requested')->default(0);
+            $table->integer('webcam_approved')->default(0);
+            $table->integer('webcam_received')->default(0);
+
+            $table->integer('projektor_requested')->default(0);
+            $table->integer('projektor_approved')->default(0);
+            $table->integer('projektor_received')->default(0);
+
             $table->timestamps();
         });
     }
