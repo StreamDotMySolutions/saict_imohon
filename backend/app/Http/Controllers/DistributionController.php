@@ -24,8 +24,7 @@ class DistributionController extends Controller
     public function store(StoreDistributionRequest $request)
     {
         \Log::info($request);
-        //$created = DistributionService::store($request);
-        $created = false;
+        $created = DistributionService::store($request);
 
         if($created){
             return response()->json(['message' => 'Agihan berjaya dilakukan']);

@@ -17,4 +17,13 @@ class DistributionService
         return $distributions;
     }
 
+    public static function store(Request $request)
+    {
+        $user =  auth('sanctum')->user();
+        $distribution = new Distribution($request->except('acknowledge'));
+        $distribution->user_id = $user->id;
+        $distribution->save();
+        return $distribution;
+    }
+
 }
