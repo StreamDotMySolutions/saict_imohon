@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 
     // Distribution Related routes
-    Route::resource('distributions', DistributionController::class);
+    Route::resource('distributions', DistributionController::class)->except(['create','edit']);
 });
     
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {

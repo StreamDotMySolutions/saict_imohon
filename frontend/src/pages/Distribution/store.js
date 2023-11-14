@@ -26,6 +26,11 @@ const useStore  = create((set) => ({
       }));
     },
 
+    getValue: (fieldName) => {
+      const field = useStore.getState().data[fieldName];
+      return field ? field.value : null;
+  },
+
     setError: (fieldName, error) => {
         set((state) => ({
           data: {
@@ -40,10 +45,7 @@ const useStore  = create((set) => ({
         set({ errors: {} });
     },
 
-    getValue: (fieldName) => {
-        const field = useStore.getState().data[fieldName];
-        return field ? field.value : null;
-    },
+
 
 }));
 

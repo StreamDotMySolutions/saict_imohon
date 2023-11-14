@@ -3,22 +3,22 @@ import axios from '../../libs/axios'
 import useStore from './store';
 import { Table, Badge,Pagination } from 'react-bootstrap'
 
-// import ShowModal from './modals/ShowModal'
+import ShowModal from './modals/ShowModal'
 import CreateModal from './modals/CreateModal'
-// import EditModal from './modals/EditModal'
-// import DeleteModal from './modals/DeleteModal'
+import EditModal from './modals/EditModal'
+import DeleteModal from './modals/DeleteModal'
 
 const Distribution = () => {
     const store = useStore()
     const [data, setData] = useState([])
 
-    console.log(store.url)
+    //console.log(store.url)
 
     useEffect( () => {
         axios({url: store.url})
         .then( response => {
 
-            console.log(response)
+           // console.log(response)
             
             if (response.data.distributions && response.data.distributions.data) {
                 setData({
@@ -93,13 +93,12 @@ const Distribution = () => {
                 <td className='text-center'>{item.item}</td>
                 <td className='text-center'>{item.total}</td>
                 <td className='text-center'>{item.created_at_formatted}</td>
-                <td className='text-center'></td>
                 <td className='text-center'>
-                  {/* <ShowModal id={item.id} />
+                  <ShowModal id={item.id} />
                   {' '}
                   <EditModal id={item.id} />
                   {' '}
-                  <DeleteModal id={item.id} /> */}
+                  <DeleteModal id={item.id} />
                 </td>
               </tr>
             ))}

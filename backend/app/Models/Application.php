@@ -32,6 +32,11 @@ class Application extends Model
         return $this->hasOne(ApplicationApproval::class)->latest();
     }
 
+    public function distribution() 
+    {
+        return $this->hasOne(Distribution::class)->where('status', 'approved')->latest();
+    }
+
     public function applicationItem() 
     {
         return $this->hasOne(ApplicationItem::class)->latest();

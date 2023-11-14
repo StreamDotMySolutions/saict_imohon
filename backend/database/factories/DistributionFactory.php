@@ -18,7 +18,6 @@ class DistributionFactory extends Factory
     {
       return [
         'item' => $this->faker->randomElement(['pc', 'pcn', 'pbwn','nb','webcam','projektor']),
-
         'user_id' => $this->faker->numberBetween(1, 5),
         'application_id' => $this->faker->numberBetween(1, 100),
         'total' => $this->faker->numberBetween(1, 100),

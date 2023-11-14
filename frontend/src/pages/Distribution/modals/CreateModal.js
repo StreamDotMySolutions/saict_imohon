@@ -31,7 +31,6 @@ export default function CreateModal() {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
       
-
       axios({
         'url' : store.store_url,
         'method' : 'post',
@@ -57,7 +56,6 @@ export default function CreateModal() {
           useStore.setState({ errors :error.response.data.errors })  
         }
       })
-
     }
 
     const handleCloseClick = () => {

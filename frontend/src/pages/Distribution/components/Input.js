@@ -1,7 +1,6 @@
 import useStore from '../store'
-import { Row,Col,Form, InputGroup } from 'react-bootstrap'
+import { Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 
 export function Item(){
 
@@ -39,7 +38,7 @@ export function Item(){
                             )
                     }  
                 </InputGroup>
-            </>)
+         </>)
 }
 
 export function Total(){
@@ -70,6 +69,39 @@ export function Total(){
                             )
                     }  
                 </InputGroup>
-            </>)
+        </>)
+}
+
+export function Description(){
+
+    const store = useStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-pencil"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Mesej'
+                        as='textarea'
+                        rows='5'
+                        readOnly={store.readonly}
+                        value={ store.getValue('description') ? store.getValue('description') : '' }
+                        name='description'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('description')}
+                        onChange={ (e) => store.setValue('description', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('description') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.description ? errors.description : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+        </>)
 }
 

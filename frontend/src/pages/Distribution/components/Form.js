@@ -1,5 +1,5 @@
 import { Row,Col } from 'react-bootstrap'
-import { Vendor,Item, Total, DateStart,DateEnd,ReceivedOn} from './Input';
+import { Item, Total, Description } from './Input';
 
 const DistributionForm = () => {
 
@@ -9,6 +9,10 @@ const DistributionForm = () => {
         <Row  className='p-2 mb-3'>
             <Col><Item /></Col>
             <Col><Total /></Col>
+        </Row>
+        <Row  className='p-2 mb-3'>
+            <Col><Description/></Col>
+    
         </Row>
 
     </>);

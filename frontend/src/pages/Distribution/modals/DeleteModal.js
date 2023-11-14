@@ -1,92 +1,71 @@
 import { useState } from 'react';
-import { Alert,Row,Col,Badge, Button,Modal,Form} from 'react-bootstrap';
+import { Alert, Button,Modal,Form, Badge} from 'react-bootstrap';
 import axios from '../../../libs/axios'
-import useInventoryStore from '../stores/InventoryStore'
-import InventoryForm from '../components/InventoryForm';
+import useStore from '../store';
+import DistributionForm from '../components/Form';
 
-export default function DeleteModal({id}) {
-    const store = useInventoryStore()
+export default function DeleteModal() {
+    const store = useStore()
     const errors = store.errors
-
     const [show, setShow] = useState(false);
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
-    const [renderedComponent, setRenderedComponent] = useState(<InventoryForm />)
+    const [renderedComponent, setRenderedComponent] = useState(<DistributionForm />)
 
     const handleClose = () => { 
       setShow(false);
-     useInventoryStore.setState({readonly:false})
     }
     
     const handleShow = () => {
-     useInventoryStore.setState({readonly:true})
-     useInventoryStore.getState().emptyData()
-      setRenderedComponent(<InventoryForm />)
+      setIsLoading(false)
+      useStore.getState().emptyData()
+      setRenderedComponent(<DistributionForm />)
       setShow(true);
-      console.log(id)
-      setIsLoading(true)
-
-      axios(`${store.show_url}/${id}`)
-      .then( response => {
-
-        //console.log(response)
-        store.setValue('vendor', response.data.inventory.vendor)
-        store.setValue('item',response.data.inventory.item)
-        store.setValue('total',response.data.inventory.total)
-        store.setValue('date_start',response.data.inventory.date_start)
-        store.setValue('date_end',response.data.inventory.date_end)
-        store.setValue('created_at',response.data.inventory.created_at)
-        store.setValue('received_on',response.data.inventory.received_on)
-        setIsLoading(false)
-        
-      })
-      .catch( error => {
-        console.warn(error)
-        setIsLoading(false)
-      })
     }
 
-    const handleDeleteClick = () => {
-      setError(null)
+    const handleSubmitClick = () => {
+
+      setIsLoading(true)
       const formData = new FormData()
-      formData.append('_method','delete')
+
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
+      
 
       axios({
-        url: `${store.delete_url}/${id}`,
-        data: formData,
-        method: 'post'
-      }).then( response => {
+        'url' : store.store_url,
+        'method' : 'post',
+        'data' : formData
+      })
+      .then( response => {
+        
+        console.log(response)
         setRenderedComponent(<SuccessMessage message={response.data.message} />)
+
+        // Add a delay of 1 second before closing
         setTimeout(() => {
           setIsLoading(false)
-          useInventoryStore.setState({ refresh: true })
+          useStore.setState({ refresh: true })
           handleCloseClick();
         }, 1000);
-      }).catch( error => {
+
+      })
+      .catch( error => {
+        setIsLoading(false)
         console.warn(error)
         if(error.response.status === 422){
-          useInventoryStore.setState({ errors :error.response.data.errors })  
-
-        if(error.response.data?.hasOwnProperty('message')){
-          //console.log(error.response.data.message)
-          setError(error.response.data.message)
-          setRenderedComponent(<ErrorMessage  message={error.response.data.message} />)
-        }
-
+          useStore.setState({ errors :error.response.data.errors })  
         }
       })
+
     }
 
     const handleCloseClick = () => {
-      useInventoryStore.getState().emptyData()
-      setRenderedComponent()
+      useStore.getState().emptyData()
       handleClose()
     }
 
-    function SuccessMessage({message='success'}) {
+    const SuccessMessage = ({message='success'}) => {
       return (
         <Alert variant={'success'}>
           {message}
@@ -94,15 +73,6 @@ export default function DeleteModal({id}) {
       )
     }
   
-    function ErrorMessage({message='success'}) {
-      return (
-        <Alert variant={'danger'}>
-          {message}
-        </Alert>
-      )
-    }
-    
-
     return (
       <>
         <Button variant="danger"  onClick={handleShow}>
@@ -111,7 +81,9 @@ export default function DeleteModal({id}) {
   
         <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-          <Modal.Title><Badge bg='danger'>Padam ID:{id}</Badge></Modal.Title>
+            <Modal.Title>
+              <Badge>Padam</Badge>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
            {renderedComponent}
@@ -119,21 +91,21 @@ export default function DeleteModal({id}) {
           <Modal.Footer>
             <Form.Check
               className='me-4'
-
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-       
-              label="Saya sahkan data ini untuk dipadam"
+              label="Saya telah mengesahkan data ini"
               type="checkbox"
-              onClick={ () =>useInventoryStore.setState({errors:null}) }
+              onClick={ () =>useStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>
               Tutup
             </Button>
-            <Button variant="danger" onClick={handleDeleteClick}>
-              Padam
+
+            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
+              Tambah
             </Button>
+
           </Modal.Footer>
         </Modal>
       </>
