@@ -66,6 +66,15 @@ export default function CreateModal() {
         console.warn(error)
         if(error.response.status === 422){
           useStore.setState({ errors :error.response.data.errors })  
+
+          if(error.response.data.hasOwnProperty('message') ){
+            setRenderedComponent(<ErrorMessage message={error.response.data.message} />)
+            setTimeout(() => {
+              setIsLoading(false)
+              useStore.setState({ refresh: true })
+              handleCloseClick();
+            }, 1000);
+          }
         }
       })
     }
@@ -78,6 +87,14 @@ export default function CreateModal() {
     const SuccessMessage = ({message='success'}) => {
       return (
         <Alert variant={'success'}>
+          {message}
+        </Alert>
+      )
+    }
+
+    const ErrorMessage = ({message='success'}) => {
+      return (
+        <Alert variant={'danger'}>
           {message}
         </Alert>
       )
