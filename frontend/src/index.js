@@ -44,6 +44,7 @@ import Application from './pages/Application'
 import ApprovalByManager from './pages/Approval/ByManager'
 import ApprovalByAdmin from './pages/Approval/ByAdmin'
 import Inventory from './pages/Inventory'
+import Distribution from './pages/Distribution';
 // import Request from './pages/Request'
 
 library.add(fas)
@@ -92,6 +93,7 @@ export default function App() {
                 <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
 
                 <Route path="/inventories" element={<Inventory />} />
+                <Route path="/distributions" element={<Distribution />} />
 
               </Route>
           </Route>

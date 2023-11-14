@@ -17,7 +17,7 @@ class DistributionFactory extends Factory
     public function definition(): array
     {
       return [
-        'item' => $this->faker->randomElement(['pc', 'pcn', 'pbwn','nb','webcam','projector']),
+        'item' => $this->faker->randomElement(['pc', 'pcn', 'pbwn','nb','webcam','projektor']),
 
         'user_id' => $this->faker->numberBetween(1, 5),
         'application_id' => $this->faker->numberBetween(1, 100),
