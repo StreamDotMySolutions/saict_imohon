@@ -88,8 +88,8 @@ const Distribution = () => {
               {data?.distributions?.map((item,index) => (
               <tr key={item.id}>
                 <td className='text-center'><Badge>{item.id}</Badge></td>
-                <td className='text-center'>Cik Nita</td>
-                <td className='text-center'>Jab. Penyiaran Sarawak</td>
+                <td className='text-center'>{item?.application?.user?.name}</td>
+                <td className='text-center'>{item?.application?.user?.user_profile?.user_department?.name}</td>
                 <td className='text-center'>{item.item}</td>
                 <td className='text-center'>{item.total}</td>
                 <td className='text-center'>{item.created_at_formatted}</td>
