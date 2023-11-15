@@ -16,4 +16,9 @@ class Distribution extends Model
     {
         return $this->created_at->format('d/m/y');
     }
+
+    public function application() 
+    {
+        return $this->belongsTo(Application::class)->latest();
+    }
 }

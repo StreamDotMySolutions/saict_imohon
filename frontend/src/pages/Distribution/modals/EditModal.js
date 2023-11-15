@@ -17,6 +17,7 @@ export default function ShowModal({id}) {
 
     const setDistributionValues = (data) => {
       const valueMappings = {
+        'application_id': 'application_id',
         'item': 'item',
         'total': 'total',
         'description': 'description',
@@ -65,6 +66,10 @@ export default function ShowModal({id}) {
 
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
+      if (store.getValue('application_id') != null ) {
+        formData.append('application_id', store.getValue('application_id'));
       }
       
       if (store.getValue('item') != null ) {

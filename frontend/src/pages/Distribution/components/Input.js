@@ -41,6 +41,37 @@ export function Item(){
          </>)
 }
 
+export function ApplicationId(){
+
+    const store = useStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='No Rujukan Permohonan'
+                        readOnly={store.readonly}
+                        value={ store.getValue('application_id') ? store.getValue('application_id') : '' }
+                        name='application_id'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('application_id')}
+                        onChange={ (e) => store.setValue('application_id', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('application_id') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.application_id ? errors.application_id : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+        </>)
+}
+
 export function Total(){
 
     const store = useStore()

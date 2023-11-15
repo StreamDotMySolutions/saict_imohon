@@ -9,7 +9,7 @@ class DistributionService
 {
     public static function index()
     {
-        $paginate = Distribution::query();
+        $paginate = Distribution::query()->with('application.user.userProfile.userDepartment');
         $distributions = $paginate->orderBy('id','DESC')
                                 ->paginate(10)
                                 ->withQueryString();

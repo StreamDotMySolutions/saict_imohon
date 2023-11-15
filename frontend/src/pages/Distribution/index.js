@@ -18,7 +18,7 @@ const Distribution = () => {
         axios({url: store.url})
         .then( response => {
 
-           // console.log(response)
+           console.log(response)
             
             if (response.data.distributions && response.data.distributions.data) {
                 setData({

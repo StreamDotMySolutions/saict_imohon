@@ -10,6 +10,7 @@ class StoreDistributionRequest extends FormRequest
 
     public function rules(){
         return [
+            'application_id' => 'required|exists:applications,id',
             'acknowledge' => 'required',
             'item' => [
                 'required',
@@ -24,6 +25,8 @@ class StoreDistributionRequest extends FormRequest
     public function messages()
     {
         return [
+            'application_id.required' => 'No rujukan permohonan diperlukan',
+            'application_id.exists' => 'No rujukan permohonan diperlukan',
             'acknowledge.required' => 'Sila sahkan data',
             'item.required' => 'Sila pilih peralatan',
             'item.in' => 'Peralatan yang anda pilih tidak sah',
