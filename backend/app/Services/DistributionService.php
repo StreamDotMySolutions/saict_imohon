@@ -41,4 +41,14 @@ class DistributionService
         return $distribution;
     }
 
+    public static function destroy($distribution)
+    {
+        $user =  auth('sanctum')->user();
+        $distribution = Distribution::query()
+                            //->where('user_id', $user->id)
+                            ->where('id',$distribution->id)
+                            ->delete();
+        return $distribution;
+    }
+
 }

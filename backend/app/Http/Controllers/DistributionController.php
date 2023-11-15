@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\DistributionService;
 use App\Http\Requests\StoreDistributionRequest;
 use App\Http\Requests\UpdateDistributionRequest;
+use App\Http\Requests\DeleteDistributionRequest;
 
 class DistributionController extends Controller
 {
@@ -50,15 +51,24 @@ class DistributionController extends Controller
      */
     public function update(UpdateDistributionRequest $request, Distribution $distribution)
     {
-        DistributionService::update($distribution, $request);
-        return response()->json(['message' => 'Peralatan telah dikemaskini']);
+        $updated = DistributionService::update($distribution, $request);
+        if($updated){
+            return response()->json([ 'message' => 'Agihan telah berjaya dikemaskini']); 
+        } else {
+            return response()->json([ 'message' => 'Agihan gagal dikemaskini'],422);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Distribution $distribution)
+    public function destroy(DeleteDistributionRequest $request, Distribution $distribution)
     {
-        //
+        $destroyed = DistributionService::destroy($distribution);
+        if($destroyed){
+            return response()->json([ 'message' => 'Agihan telah berjaya dipadam dari rekod']); 
+        } else {
+            return response()->json([ 'message' => 'Agihan gagal dipadam dari rekod'],422);
+        }
     }
 }
