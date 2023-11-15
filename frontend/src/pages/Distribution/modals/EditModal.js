@@ -4,7 +4,7 @@ import axios from '../../../libs/axios'
 import useStore from '../store';
 import DistributionForm from '../components/Form';
 
-export default function EditModal() {
+export default function ShowModal({id}) {
     const store = useStore()
     const errors = store.errors
     const [show, setShow] = useState(false);
@@ -14,10 +14,45 @@ export default function EditModal() {
     const handleClose = () => { 
       setShow(false);
     }
+
+    const setDistributionValues = (data) => {
+      const valueMappings = {
+        'item': 'item',
+        'total': 'total',
+        'description': 'description',
+      };
+    
+      for (const key in valueMappings) {
+        if (data.distribution.hasOwnProperty(key)) {
+          store.setValue(valueMappings[key], data.distribution[key]);
+        }
+      }
+    }
     
     const handleShow = () => {
       setIsLoading(false)
       useStore.getState().emptyData()
+      axios({
+        'url' : `${store.show_url}/${id}`,
+      })
+      .then( response => {
+        console.log(response)
+        setDistributionValues(response.data);
+      })
+      .catch( error => {
+        setIsLoading(false)
+        console.warn(error)
+        if(error.response.status === 422){
+          if(error.response.data.hasOwnProperty('message') && !error.response.data.errors  ){
+            setRenderedComponent(<ErrorMessage message={error.response.data.message} />)
+            setTimeout(() => {
+              setIsLoading(false)
+              useStore.setState({ refresh: true })
+              handleCloseClick();
+            }, 1000);
+          }
+        }
+      })
       setRenderedComponent(<DistributionForm />)
       setShow(true);
     }
@@ -25,39 +60,29 @@ export default function EditModal() {
     const handleSubmitClick = () => {
 
       setIsLoading(true)
-      const formData = new FormData()
-
-      if (store.getValue('acknowledge') != null ) {
-        formData.append('acknowledge', store.getValue('acknowledge'));
-      }
       
-
       axios({
-        'url' : store.store_url,
-        'method' : 'post',
-        'data' : formData
+        'url' : store.show_url,
       })
       .then( response => {
         
         console.log(response)
-        setRenderedComponent(<SuccessMessage message={response.data.message} />)
-
-        // Add a delay of 1 second before closing
-        setTimeout(() => {
-          setIsLoading(false)
-          useStore.setState({ refresh: true })
-          handleCloseClick();
-        }, 1000);
 
       })
       .catch( error => {
         setIsLoading(false)
         console.warn(error)
         if(error.response.status === 422){
-          useStore.setState({ errors :error.response.data.errors })  
+          if(error.response.data.hasOwnProperty('message') && !error.response.data.errors  ){
+            setRenderedComponent(<ErrorMessage message={error.response.data.message} />)
+            setTimeout(() => {
+              setIsLoading(false)
+              useStore.setState({ refresh: true })
+              handleCloseClick();
+            }, 1000);
+          }
         }
       })
-
     }
 
     const handleCloseClick = () => {
@@ -72,17 +97,25 @@ export default function EditModal() {
         </Alert>
       )
     }
+
+    const ErrorMessage = ({message='success'}) => {
+      return (
+        <Alert variant={'danger'}>
+          {message}
+        </Alert>
+      )
+    }
   
     return (
       <>
         <Button variant="primary"  onClick={handleShow}>
-         Edit
+         Edit 
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <Badge>Edit</Badge>
+              <Badge>Edit ID:{id}</Badge>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

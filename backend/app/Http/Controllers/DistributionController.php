@@ -6,6 +6,7 @@ use App\Models\Distribution;
 use Illuminate\Http\Request;
 use App\Services\DistributionService;
 use App\Http\Requests\StoreDistributionRequest;
+use App\Http\Requests\UpdateDistributionRequest;
 
 class DistributionController extends Controller
 {
@@ -23,7 +24,7 @@ class DistributionController extends Controller
      */
     public function store(StoreDistributionRequest $request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         $created = DistributionService::store($request);
 
 
@@ -40,7 +41,8 @@ class DistributionController extends Controller
      */
     public function show(Distribution $distribution)
     {
-        //
+        $distribution = DistributionService::show($distribution);
+        return response()->json(['distribution' => $distribution]);
     }
 
     /**
