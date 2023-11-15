@@ -38,8 +38,12 @@ class InventoryController extends Controller
 
     public function update(Inventory $inventory, UpdateInventoryRequest $request)
     {
-        InventoryService::update($inventory, $request);
-        return response()->json(['message' => 'Peralatan telah dikemaskini']);
+        $updated = InventoryService::update($inventory, $request);
+        if($updated){
+            return response()->json([ 'message' => 'Peralatan telah berjaya dikemaskini']); 
+        } else {
+            return response()->json([ 'message' => 'Peralatan gagal dikemaskini'],422);
+        }
     }
 
     public function delete(DeleteInventoryRequest $request,Inventory $inventory)

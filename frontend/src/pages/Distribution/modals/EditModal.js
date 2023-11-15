@@ -60,19 +60,51 @@ export default function ShowModal({id}) {
     const handleSubmitClick = () => {
 
       setIsLoading(true)
+
+      const formData = new FormData()
+
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+      
+      if (store.getValue('item') != null ) {
+        formData.append('item', store.getValue('item'));
+      }
+
+      if (store.getValue('total') != null ) {
+        formData.append('total', store.getValue('total'));
+      }
+
+      if (store.getValue('description') != null ) {
+        formData.append('description', store.getValue('description'));
+      }
+
+      formData.append('_method', 'put');
       
       axios({
-        'url' : store.show_url,
+        'url' : `${store.update_url}/${id}`,
+        'method' : 'post',
+        'data' : formData
       })
       .then( response => {
         
         console.log(response)
+        setRenderedComponent(<SuccessMessage message={response.data.message} />)
+        
+        // Add a delay of 1 second before closing
+        setTimeout(() => {
+          setIsLoading(false)
+          useStore.setState({ refresh: true })
+          handleCloseClick();
+        }, 1000);
 
       })
       .catch( error => {
         setIsLoading(false)
         console.warn(error)
         if(error.response.status === 422){
+          useStore.setState({ errors :error.response.data.errors })  
+          
           if(error.response.data.hasOwnProperty('message') && !error.response.data.errors  ){
             setRenderedComponent(<ErrorMessage message={error.response.data.message} />)
             setTimeout(() => {
@@ -136,7 +168,7 @@ export default function ShowModal({id}) {
             </Button>
 
             <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
-              Tambah
+              Edit
             </Button>
 
           </Modal.Footer>

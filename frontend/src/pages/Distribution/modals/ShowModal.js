@@ -20,6 +20,7 @@ export default function ShowModal({id}) {
         'item': 'item',
         'total': 'total',
         'description': 'description',
+        'created_at_formatted': 'created_at_formatted',
       };
     
       for (const key in valueMappings) {
@@ -129,7 +130,7 @@ export default function ShowModal({id}) {
               disabled
               readonly
               checked
-              label="Data telah disahkan"
+              label={`Data disahkan pada ${store.getValue('created_at_formatted')}`}
               type="checkbox"
               onClick={ () =>useStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }

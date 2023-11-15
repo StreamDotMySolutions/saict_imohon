@@ -8,8 +8,8 @@ const useStore  = create((set) => ({
     index_url:  `${base_url}/distributions`,
     store_url:  `${base_url}/distributions`,
     show_url:  `${base_url}/distributions`,
-    delete_url:  `${base_url}/distributions`,
-    edit_url:  `${base_url}/distributions`,
+    destroy_url:  `${base_url}/distributions`,
+    update_url:  `${base_url}/distributions`,
 
     refresh: false,
     errors: null,

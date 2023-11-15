@@ -48,9 +48,10 @@ class DistributionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Distribution $distribution)
+    public function update(UpdateDistributionRequest $request, Distribution $distribution)
     {
-        //
+        DistributionService::update($distribution, $request);
+        return response()->json(['message' => 'Peralatan telah dikemaskini']);
     }
 
     /**

@@ -29,15 +29,15 @@ class DistributionService
     public static function update($distribution,Request $request)
     {
         $user =  auth('sanctum')->user();
-        return Inventory::query()
+        return Distribution::query()
                             //->where('user_id', $user->id)
                             ->where('id',$distribution->id)
-                            ->update($request->except('acknowledge'));
+                            ->update($request->except('acknowledge','_method'));
     }
 
     public static function show(Distribution $distribution)
     {
-        \Log::info($distribution);
+        //\Log::info($distribution);
         return $distribution;
     }
 
