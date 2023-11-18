@@ -17,6 +17,7 @@ class DistributionController extends Controller
     public function index()
     {
         $distributions = DistributionService::index();
+        //\Log::info(\Request::all());
         return response()->json(['distributions' => $distributions]);
     }
 

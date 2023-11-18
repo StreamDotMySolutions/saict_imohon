@@ -20,7 +20,10 @@ export default function EditModal({id}) {
     const setInventoryValues = (data) => {
       const valueMappings = {
         'vendor': 'vendor',
+        'email': 'email',
+        'phone': 'phone',
         'item': 'item',
+        'model': 'model',
         'total': 'total',
         'date_start': 'date_start',
         'date_end': 'date_end',

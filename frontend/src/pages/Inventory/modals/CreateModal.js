@@ -35,6 +35,18 @@ export default function CreateModal() {
         formData.append('vendor', store.getValue('vendor'));
       }
 
+      if (store.getValue('email') != null ) {
+        formData.append('email', store.getValue('email'));
+      }
+
+      if (store.getValue('phone') != null ) {
+        formData.append('phone', store.getValue('phone'));
+      }
+
+      if (store.getValue('model') != null ) {
+        formData.append('model', store.getValue('model'));
+      }
+
       if (store.getValue('item') != null ) {
         formData.append('item', store.getValue('item'));
       }

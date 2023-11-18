@@ -211,3 +211,98 @@ export function ReceivedOn(){
                 </InputGroup>
             </>)
 }
+
+
+export function Email(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-envelope"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Email Vendor'
+                        readOnly={store.readonly}
+                        value={ store.getValue('email') ? store.getValue('email') : '' }
+                        name='email'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('email')}
+                        onChange={ (e) => store.setValue('email', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('email') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.email ? errors.email : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+
+
+export function Phone(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='No Telefon Vendor'
+                        readOnly={store.readonly}
+                        value={ store.getValue('phone') ? store.getValue('phone') : '' }
+                        name='phone'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('phone')}
+                        onChange={ (e) => store.setValue('phone', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('phone') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.phone ? errors.phone : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+
+export function Model(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-question"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Model'
+                        readOnly={store.readonly}
+                        value={ store.getValue('model') ? store.getValue('model') : '' }
+                        name='model'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('model')}
+                        onChange={ (e) => store.setValue('model', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('model') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.model ? errors.model : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}

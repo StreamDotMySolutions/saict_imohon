@@ -30,6 +30,9 @@ export default function ShowModal({id}) {
 
         //console.log(response)
         store.setValue('vendor', response.data.inventory.vendor)
+        store.setValue('email', response.data.inventory.email)
+        store.setValue('phone', response.data.inventory.phone)
+        store.setValue('model', response.data.inventory.model)
         store.setValue('item',response.data.inventory.item)
         store.setValue('total',response.data.inventory.total)
         store.setValue('date_start',response.data.inventory.date_start)

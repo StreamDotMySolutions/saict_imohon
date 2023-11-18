@@ -12,6 +12,9 @@ class StoreInventoryRequest extends FormRequest
         return [
                 'acknowledge' => 'required',
                 'vendor' => 'required',
+                'email' => 'required|email',
+                'phone' => 'required',
+                'model' => 'required',
 
                 'item' => [
                     'required',

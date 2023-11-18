@@ -24,6 +24,9 @@ class InventoryService
         $inventory = Inventory::create([
             'user_id' => $user->id,
             'vendor'  => $request->vendor,
+            'model'  => $request->model,
+            'phone'  => $request->phone,
+            'email'  => $request->email,
             'item'  => $request->item,
             'total'  => $request->total,
             'date_start'  => $request->date_start,
