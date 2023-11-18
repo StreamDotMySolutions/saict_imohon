@@ -18,6 +18,7 @@ export default function ShowModal({id}) {
     const setDistributionValues = (data) => {
       const valueMappings = {
         'application_id': 'application_id',
+        'application': 'application',
         'item': 'item',
         'total': 'total',
         'description': 'description',

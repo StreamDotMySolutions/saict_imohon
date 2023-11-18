@@ -22,7 +22,7 @@ class DistributionService
         $distribution = new Distribution($request->except('acknowledge'));
         $distribution->user_id = $user->id;
         $distribution->save();
-        \Cache::forget('cached_distribution'); 
+        \Cache::forget('cached_distribution_' . $distribution->id); 
         return $distribution;
     }
 
@@ -33,14 +33,17 @@ class DistributionService
                             //->where('user_id', $user->id)
                             ->where('id',$distribution->id)
                             ->update($request->except('acknowledge','_method'));
-        \Cache::forget('cached_distribution');    
+        \Cache::forget('cached_distribution_' . $updated->id);    
         return $updated;                
     }
 
     public static function show(Distribution $distribution)
     {
-        //\Cache::forget('cached_distribution'); 
-        $cached = \Cache::rememberForever('cached_distribution', function () use ($distribution) {
+        //\Cache::forget('cached_distribution_' . $distribution->id); 
+        $cached = \Cache::rememberForever('cached_distribution_' . $distribution->id , function () use ($distribution) {
+            // with('application.user.userProfile.userDepartment')
+            // Load relationships before caching
+            $distribution->load(['application.user.userProfile.userDepartment']);
             return $distribution;
         });
 

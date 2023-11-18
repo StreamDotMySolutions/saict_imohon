@@ -45,10 +45,11 @@ export function ApplicationId(){
 
     const store = useStore()
     const errors = store.errors
-
+    const application = store.getValue('application')
+    console.log(application)
     return(<>
                 <InputGroup>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-calculator"></FontAwesomeIcon></InputGroup.Text>
+                    <InputGroup.Text style={{'width': '100px'}}>ID Mohon</InputGroup.Text>
                     <Form.Control 
                         placeholder='No Rujukan Permohonan'
                         readOnly={store.readonly}
@@ -68,8 +69,31 @@ export function ApplicationId(){
                                 </Form.Control.Feedback>
                             )
                     }  
-                </InputGroup>
+                </InputGroup>  
         </>)
+}
+
+export function Department(){
+    const store = useStore()
+    const errors = store.errors
+    const application = store.getValue('application')
+    if (application) return (<>
+    
+        <InputGroup>
+            <InputGroup.Text style={{'width': '100px'}}>Nama</InputGroup.Text>
+            <Form.Control
+                disabled readonly value={ application?.user?.name}
+            />
+        </InputGroup>
+
+        <InputGroup className='mt-3'>
+            <InputGroup.Text style={{'width': '100px'}}>Jabatan</InputGroup.Text>
+            <Form.Control
+                disabled readonly value={ application?.user?.user_profile?.user_department?.name }
+            />
+        </InputGroup>
+    
+    </>)
 }
 
 export function Total(){
