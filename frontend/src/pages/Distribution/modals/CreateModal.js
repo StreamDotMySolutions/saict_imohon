@@ -31,6 +31,11 @@ export default function CreateModal() {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
+      if (store.getValue('application_id') != null ) {
+        formData.append('application_id', store.getValue('application_id'));
+      }
+
+
       if (store.getValue('item') != null ) {
         formData.append('item', store.getValue('item'));
       }
