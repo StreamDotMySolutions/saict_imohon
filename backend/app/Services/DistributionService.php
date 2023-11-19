@@ -10,9 +10,9 @@ class DistributionService
     {
       
         $page = \Request::input('page');
-        \Log::info($page);
+        //\Log::info($page);
 
-       $cached = \Cache::rememberForever('cached_distribution_index_' . $page , function () {
+        $cached = \Cache::rememberForever('cached_distribution_index_' . $page , function () {
             $paginate = Distribution::query()->with('application.user.userProfile.userDepartment');
             $distributions = $paginate->orderBy('id','DESC')
                                     ->paginate(10)
@@ -70,6 +70,7 @@ class DistributionService
                             //->where('user_id', $user->id)
                             ->where('id',$distribution->id)
                             ->delete();
+        \Cache::flush();
         return $distribution;
     }
 
