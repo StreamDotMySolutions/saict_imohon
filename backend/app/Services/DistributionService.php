@@ -33,7 +33,7 @@ class DistributionService
                             //->where('user_id', $user->id)
                             ->where('id',$distribution->id)
                             ->update($request->except('acknowledge','_method'));
-        \Cache::forget('cached_distribution_' . $updated->id);    
+        \Cache::forget('cached_distribution_' . $distribution->id);    
         return $updated;                
     }
 
