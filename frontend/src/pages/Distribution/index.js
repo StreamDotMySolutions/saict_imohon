@@ -37,29 +37,53 @@ const Distribution = () => {
     
       },[store.refresh,store.url])
 
-      function Paginator (){
-        const handlePaginationClick = (url) => {
-            useStore.setState({url: url})
-        }
+    function Paginator (){
+    const handlePaginationClick = (url) => {
+        useStore.setState({url: url})
+    }
 
-        const items =  data?.links
-        const links = items?.map( (page,index) => 
-            
-            <Pagination.Item
-                key={index} 
-                active={page.active}
-                disabled={page.url === null}
-                onClick={() => handlePaginationClick(page.url)}
-                >
-                    <span dangerouslySetInnerHTML={{__html: page.label}} />
-            </Pagination.Item>
-        )
-    
-        return  (
-            <Pagination className='mt-3'>
-            {links}
-            </Pagination>
-        )
+    const items =  data?.links
+    const links = items?.map( (page,index) => 
+        
+        <Pagination.Item
+            key={index} 
+            active={page.active}
+            disabled={page.url === null}
+            onClick={() => handlePaginationClick(page.url)}
+            >
+                <span dangerouslySetInnerHTML={{__html: page.label}} />
+        </Pagination.Item>
+    )
+
+    return  (
+        <Pagination className='mt-3'>
+        {links}
+        </Pagination>
+    )
+    }
+
+    function Status({ status }) {
+        let badgeColor;
+      
+        switch (status) {
+          case 'approved':
+            badgeColor = 'success';
+            break;
+          case 'pending':
+            badgeColor = 'warning';
+            break;
+          case 'rejected':
+            badgeColor = 'danger';
+            break;
+          default:
+            badgeColor = 'secondary';
+        }
+      
+        return (
+          <>
+            <Badge bg={badgeColor}>{status.toUpperCase()}</Badge>
+          </>
+        );
     }
 
  
@@ -80,6 +104,7 @@ const Distribution = () => {
                       <th className='text-center'>JABATAN</th>
                       <th className='text-center'>PERALATAN</th>
                       <th className='text-center'>JUMLAH</th>
+                      <th className='text-center'>KELULUSAN</th>
                       <th className='text-center'>TARIKH</th>
                       <th className='text-center'></th>
                   </tr>
@@ -92,7 +117,9 @@ const Distribution = () => {
                 <td className='text-center'>{item?.application?.user?.user_profile?.user_department?.name}</td>
                 <td className='text-center'>{item.item}</td>
                 <td className='text-center'>{item.total}</td>
+                <td className='text-center'><Status status={item.status} /></td>
                 <td className='text-center'>{item.created_at_formatted}</td>
+                
                 <td className='text-center'>
                   <ShowModal id={item.id} />
                   {' '}
