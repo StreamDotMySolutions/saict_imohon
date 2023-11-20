@@ -22,11 +22,11 @@ class DistributionAcceptanceService
             $userDepartmentId = $user->userProfile->userDepartment->id; 
                  
             $paginate = Distribution::query()
-                                        ->where('status','approved')
-                                        ->with('application.user.userProfile.userDepartment')
-                                        ->whereHas('application.user.userProfile', function ($query) use ($userDepartmentId) {
-                                            $query->where('user_department_id', $userDepartmentId);
-                                        });
+                                    ->whereIn('status', ['approved', 'received'])
+                                    ->with('application.user.userProfile.userDepartment')
+                                    ->whereHas('application.user.userProfile', function ($query) use ($userDepartmentId) {
+                                        $query->where('user_department_id', $userDepartmentId);
+                                    });
 
 
             $distributions = $paginate->orderBy('id','DESC')

@@ -169,16 +169,10 @@ export default function ShowModal({id}) {
             </Button>
 
             <Button 
-              disabled={isLoading || store.getValue('status') === 'rejected' } 
-              variant="danger" 
-              onClick={ () => handleStatusClick('rejected')}>
-              Gagal
-            </Button>
-            <Button 
-              disabled={isLoading || store.getValue('status') === 'approved' } 
+              disabled={isLoading || store.getValue('status') === 'received' } 
               variant="success" 
-              onClick={ () => handleStatusClick('approved') }>
-              Lulus
+              onClick={ () => handleStatusClick('received') }>
+              Sahkan Penerimaan
             </Button>
 
           </Modal.Footer>

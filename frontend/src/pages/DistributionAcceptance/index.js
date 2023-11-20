@@ -80,6 +80,9 @@ const App = () => {
           case 'rejected':
             badgeColor = 'danger';
             break;
+          case 'received':
+            badgeColor = 'primary';
+            break;
           default:
             badgeColor = 'secondary';
         }
