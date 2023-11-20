@@ -21,6 +21,7 @@ export default function ShowModal({id}) {
         'item': 'item',
         'total': 'total',
         'description': 'description',
+        'status': 'status',
       };
     
       for (const key in valueMappings) {
@@ -37,7 +38,7 @@ export default function ShowModal({id}) {
         'url' : `${store.show_url}/${id}`,
       })
       .then( response => {
-        console.log(response)
+        //console.log(response)
         setDistributionValues(response.data);
       })
       .catch( error => {
@@ -164,13 +165,19 @@ export default function ShowModal({id}) {
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
             <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>
-              Tutup
+              Tutup 
             </Button>
 
-            <Button disabled={isLoading} variant="danger" onClick={ () => handleStatusClick('rejected')}>
+            <Button 
+              disabled={isLoading || store.getValue('status') === 'rejected' } 
+              variant="danger" 
+              onClick={ () => handleStatusClick('rejected')}>
               Gagal
             </Button>
-            <Button disabled={isLoading} variant="success" onClick={ () => handleStatusClick('approved') }>
+            <Button 
+              disabled={isLoading || store.getValue('status') === 'approved' } 
+              variant="success" 
+              onClick={ () => handleStatusClick('approved') }>
               Lulus
             </Button>
 

@@ -46,7 +46,7 @@ export function ApplicationId(){
     const store = useStore()
     const errors = store.errors
     const application = store.getValue('application')
-    console.log(application)
+    //console.log(application)
     return(<>
                 <InputGroup>
                     <InputGroup.Text style={{'width': '100px'}}>ID Mohon</InputGroup.Text>

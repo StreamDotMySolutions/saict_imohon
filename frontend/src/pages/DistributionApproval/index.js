@@ -23,7 +23,7 @@ const App = () => {
         axios({url: store.url})
         .then( response => {
 
-           console.log(response)
+           //console.log(response)
             
             if (response.data.distributions && response.data.distributions.data) {
                 setData({
@@ -94,12 +94,12 @@ const App = () => {
  
     return (
         <div>
-
+{/* 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
                     <CreateModal />
                 </div>
-            </div>
+            </div> */}
 
             <Table style={{ lineHeight: '2.5' }}>
               <thead>
@@ -109,7 +109,7 @@ const App = () => {
                       <th className='text-center'>JABATAN</th>
                       <th className='text-center'>PERALATAN</th>
                       <th className='text-center'>JUMLAH</th>
-                      <th className='text-center'>KELULUSAN</th>
+                      <th className='text-center'>STATUS</th>
                       <th className='text-center'>TARIKH</th>
                       <th className='text-center'></th>
                   </tr>

@@ -39,7 +39,7 @@ export default function ShowModal({id}) {
         'url' : `${store.show_url}/${id}`,
       })
       .then( response => {
-        console.log(response)
+        //console.log(response)
         setDistributionValues(response.data);
       })
       .catch( error => {
