@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Distribution;
 use Illuminate\Http\Request;
 use App\Services\DistributionApprovalService;
+use App\Http\Requests\DistributionApprovalRequest;
 
 class DistributionApprovalController extends Controller
 {
@@ -20,10 +21,13 @@ class DistributionApprovalController extends Controller
         return response()->json(['distribution' => $distribution]);
     }
 
-    public function update(Request $request, $distribution)
+    public function update(DistributionApprovalRequest $request, $distribution)
     {
-        \Log::info($request);
-        \Log::info($distribution);
-        return response()->json(['request' => $request]);
+        $updated = DistributionApprovalService::update($distribution, $request);
+        if($updated){
+            return response()->json([ 'message' => 'Agihan telah berjaya dikemaskini']); 
+        } else {
+            return response()->json([ 'message' => 'Agihan gagal dikemaskini'],422);
+        }
     }
 }

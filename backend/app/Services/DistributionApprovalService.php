@@ -17,7 +17,7 @@ class DistributionApprovalService
         // cache key ~ cached_distribution_index_1, cached_distribution_index_2
         $cached = \Cache::rememberForever('cached_distribution_approval_index_' . $page , function () {
             $paginate = Distribution::query()
-                                        ->where('status','pending')
+                                        //->where('status','pending')
                                         ->with('application.user.userProfile.userDepartment');
             $distributions = $paginate->orderBy('id','DESC')
                                     ->paginate(10)
@@ -49,5 +49,14 @@ class DistributionApprovalService
         // The $cached variable now contains the cached Distribution instance.
     }
 
+    public static function update($distribution,$request)
+    {
 
+        $distribution = Distribution::query()
+                            ->where('id',$distribution)
+                            ->first();
+        $updated = $distribution->update($request->only('status'));  // trigger LogActivity
+        \Cache::flush();  
+        return $updated;                
+    }
 }
