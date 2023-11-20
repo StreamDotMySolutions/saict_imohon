@@ -11,9 +11,6 @@ use App\Http\Requests\DeleteDistributionRequest;
 
 class DistributionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $distributions = DistributionService::index();
@@ -21,9 +18,6 @@ class DistributionController extends Controller
         return response()->json(['distributions' => $distributions]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreDistributionRequest $request)
     {
         //\Log::info($request);
@@ -38,18 +32,12 @@ class DistributionController extends Controller
        
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Distribution $distribution)
     {
         $distribution = DistributionService::show($distribution);
         return response()->json(['distribution' => $distribution]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateDistributionRequest $request, Distribution $distribution)
     {
         $updated = DistributionService::update($distribution, $request);
@@ -60,9 +48,6 @@ class DistributionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(DeleteDistributionRequest $request, Distribution $distribution)
     {
         $destroyed = DistributionService::destroy($distribution);

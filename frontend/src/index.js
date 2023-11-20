@@ -44,7 +44,8 @@ import Application from './pages/Application'
 import ApprovalByManager from './pages/Approval/ByManager'
 import ApprovalByAdmin from './pages/Approval/ByAdmin'
 import Inventory from './pages/Inventory'
-import Distribution from './pages/Distribution';
+import Distribution from './pages/Distribution'
+import DistributionApproval from './pages/DistributionApproval'
 // import Request from './pages/Request'
 
 library.add(fas)
@@ -94,6 +95,7 @@ export default function App() {
 
                 <Route path="/inventories" element={<Inventory />} />
                 <Route path="/distributions" element={<Distribution />} />
+                <Route path="/distribution-approvals" element={<DistributionApproval />} />
 
               </Route>
           </Route>

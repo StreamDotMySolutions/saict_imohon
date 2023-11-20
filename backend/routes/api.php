@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,29 +14,28 @@ use App\Http\Controllers\{
     RequestController,
     StatisticsController,
     DistributionController,
+    DistributionApprovalController,
 };
 Auth::routes();
 
-// Auth-related routes
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
-
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
-Route::post('/password/email', [AuthController::class, 'email']);
-Route::post('/password/reset', [AuthController::class, 'resetPassword']);
-Route::get('/user-departments', [UserDepartmentController::class, 'index']);
-
-// Account Related
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/account', [AccountController::class, 'show']);
-    Route::put('/account', [AccountController::class, 'update']);
+// Role guest
+Route::group(['middleware' => ['guest']], function () {
+    // Auth-related routes
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
+    Route::post('/password/email', [AuthController::class, 'email']);
+    Route::post('/password/reset', [AuthController::class, 'resetPassword']);
+    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 });
 
-// Application Related
+// Role user
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+
+    Route::get('/account', [AccountController::class, 'show']);
+    Route::put('/account', [AccountController::class, 'update']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
     Route::resource('requests', RequestController::class);
 
     Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
@@ -55,6 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
 });
 
+// Role system|admin 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
 
     // User-related routes
@@ -73,10 +72,20 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 
-    // Distribution Related routes
+
+});
+
+// Role boss
+Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], function () {
+
+    // DistributionApproval Related routes
+    Route::apiResource('distribution-approvals', DistributionApprovalController::class);
     Route::resource('distributions', DistributionController::class)->except(['create','edit']);
+
+
 });
     
+// Role system
 Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
     
     // User Department-related routes
