@@ -19,7 +19,14 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->integer('total')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected']);
+            
+            // pending - when created
+            // approved - by pelulus2
+            // rejected - by pelulus2
+            // received - by applicant
+            $table->enum('status', ['pending', 'approved', 'rejected','received']);
+            $table->date('status_date')->nullable();
+
             $table->timestamps();
         });
     }
