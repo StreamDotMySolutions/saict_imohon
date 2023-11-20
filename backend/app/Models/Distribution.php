@@ -1,14 +1,21 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Distribution extends Model
 {
     use HasFactory;
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    use SoftDeletes;
+    use LogsActivity;
+
+    protected static $logEvents = ['created', 'updated', 'deleted'];
+
+    protected $guarded = ['id'];
     protected $appends = ['created_at_formatted'];
 
 
@@ -21,4 +28,11 @@ class Distribution extends Model
     {
         return $this->belongsTo(Application::class)->latest();
     }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
+    
 }

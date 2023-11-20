@@ -26,7 +26,7 @@ return new class extends Migration
             // received - by applicant
             $table->enum('status', ['pending', 'approved', 'rejected','received']);
             $table->date('status_date')->nullable();
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }
