@@ -1,8 +1,3 @@
-/**
- * This Component is for user with role = 'admin'
- * To create Distribution Request for each Application
- */
-
 import {useEffect, useState } from 'react'
 import axios from '../../libs/axios'
 import useStore from './store';
@@ -13,7 +8,7 @@ import CreateModal from './modals/CreateModal'
 import EditModal from './modals/EditModal'
 import DeleteModal from './modals/DeleteModal'
 
-const App = () => {
+const Distribution = () => {
     const store = useStore()
     const [data, setData] = useState([])
 
@@ -149,4 +144,4 @@ const App = () => {
      
     );
 };
-export default App;
+export default Distribution;

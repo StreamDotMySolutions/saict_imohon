@@ -1,6 +1,6 @@
 /**
- * This Component is for user with role = 'admin'
- * To create Distribution Request for each Application
+ * This Component is for user with role = 'boss'
+ * To approve Distribution Request
  */
 
 import {useEffect, useState } from 'react'
