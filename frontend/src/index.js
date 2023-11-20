@@ -46,7 +46,7 @@ import ApprovalByAdmin from './pages/Approval/ByAdmin'
 import Inventory from './pages/Inventory'
 import Distribution from './pages/Distribution'
 import DistributionApproval from './pages/DistributionApproval'
-// import Request from './pages/Request'
+import DistributionAcceptance from './pages/DistributionAcceptance'
 
 library.add(fas)
 
@@ -56,10 +56,8 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>            
-          
           <Route path="*" element={<Error404 />} />
-         
-
+        
             <Route element={<AuthLayout />}>
               <Route path="/sign-in" element={<SignInForm />} />
               <Route path="/sign-in-by-nric" element={<SignInByNricForm />} />
@@ -84,19 +82,14 @@ export default function App() {
                 <Route path="/categories" element={<CategoryIndex />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/user-departments" element={<UserDepartment />} />
-
                 <Route path="/applications" element={<Application />} />
-
-                {/* <Route path="/requests" element={<Request />} /> */}
-
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
                 <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
-
                 <Route path="/inventories" element={<Inventory />} />
                 <Route path="/distributions" element={<Distribution />} />
                 <Route path="/distribution-approvals" element={<DistributionApproval />} />
-
+                <Route path="/distribution-acceptances" element={<DistributionAcceptance />} />
               </Route>
           </Route>
 

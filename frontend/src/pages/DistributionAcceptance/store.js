@@ -4,12 +4,12 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/distributions`,
-    index_url:  `${base_url}/distributions`,
-    store_url:  `${base_url}/distributions`,
-    show_url:  `${base_url}/distributions`,
-    destroy_url:  `${base_url}/distributions`,
-    update_url:  `${base_url}/distributions`,
+    url: `${base_url}/distribution-acceptances`,
+    index_url:  `${base_url}/distribution-acceptances`,
+    store_url:  `${base_url}/distribution-acceptances`,
+    show_url:  `${base_url}/distribution-acceptances`,
+    destroy_url:  `${base_url}/distribution-acceptances`,
+    update_url:  `${base_url}/distribution-acceptances`,
 
     refresh: false,
     errors: null,

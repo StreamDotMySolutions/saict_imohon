@@ -15,6 +15,7 @@ use App\Http\Controllers\{
     StatisticsController,
     DistributionController,
     DistributionApprovalController,
+    DistributionAcceptanceController,
 };
 Auth::routes();
 
@@ -51,6 +52,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
     Route::post('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
     Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
+
+    // distribution-acceptances
+    Route::apiResource('distribution-acceptances', DistributionAcceptanceController::class);
 });
 
 // Role system|admin 
@@ -71,8 +75,6 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
     Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
-
-
 });
 
 // Role boss
@@ -80,9 +82,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], functi
 
     // DistributionApproval Related routes
     Route::apiResource('distribution-approvals', DistributionApprovalController::class);
-    Route::resource('distributions', DistributionController::class)->except(['create','edit']);
-
-
+    Route::apiResource('distributions', DistributionController::class);
 });
     
 // Role system

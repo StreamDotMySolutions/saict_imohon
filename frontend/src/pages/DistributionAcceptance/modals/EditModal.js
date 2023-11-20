@@ -21,6 +21,7 @@ export default function ShowModal({id}) {
         'item': 'item',
         'total': 'total',
         'description': 'description',
+        'status': 'status',
       };
     
       for (const key in valueMappings) {
@@ -37,7 +38,7 @@ export default function ShowModal({id}) {
         'url' : `${store.show_url}/${id}`,
       })
       .then( response => {
-        console.log(response)
+        //console.log(response)
         setDistributionValues(response.data);
       })
       .catch( error => {
@@ -68,21 +69,10 @@ export default function ShowModal({id}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
-      if (store.getValue('application_id') != null ) {
-        formData.append('application_id', store.getValue('application_id'));
+      if (store.getValue('updated_status') != null ) {
+        formData.append('status', store.getValue('updated_status'));
       }
       
-      if (store.getValue('item') != null ) {
-        formData.append('item', store.getValue('item'));
-      }
-
-      if (store.getValue('total') != null ) {
-        formData.append('total', store.getValue('total'));
-      }
-
-      if (store.getValue('description') != null ) {
-        formData.append('description', store.getValue('description'));
-      }
 
       formData.append('_method', 'put');
       
@@ -120,6 +110,12 @@ export default function ShowModal({id}) {
           }
         }
       })
+    }
+
+    const handleStatusClick =(status) => {
+      console.log(status)
+      store.setValue('updated_status',status)
+      handleSubmitClick()
     }
 
     const handleCloseClick = () => {
@@ -169,11 +165,20 @@ export default function ShowModal({id}) {
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
             <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>
-              Tutup
+              Tutup 
             </Button>
 
-            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
-              Edit
+            <Button 
+              disabled={isLoading || store.getValue('status') === 'rejected' } 
+              variant="danger" 
+              onClick={ () => handleStatusClick('rejected')}>
+              Gagal
+            </Button>
+            <Button 
+              disabled={isLoading || store.getValue('status') === 'approved' } 
+              variant="success" 
+              onClick={ () => handleStatusClick('approved') }>
+              Lulus
             </Button>
 
           </Modal.Footer>

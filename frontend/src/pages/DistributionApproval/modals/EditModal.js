@@ -69,8 +69,8 @@ export default function ShowModal({id}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
-      if (store.getValue('status') != null ) {
-        formData.append('status', store.getValue('status'));
+      if (store.getValue('updated_status') != null ) {
+        formData.append('status', store.getValue('updated_status'));
       }
       
 
@@ -114,7 +114,7 @@ export default function ShowModal({id}) {
 
     const handleStatusClick =(status) => {
       console.log(status)
-      store.setValue('status',status)
+      store.setValue('updated_status',status)
       handleSubmitClick()
     }
 
