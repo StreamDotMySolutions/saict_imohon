@@ -68,21 +68,10 @@ export default function ShowModal({id}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
-      if (store.getValue('application_id') != null ) {
-        formData.append('application_id', store.getValue('application_id'));
+      if (store.getValue('status') != null ) {
+        formData.append('status', store.getValue('status'));
       }
       
-      if (store.getValue('item') != null ) {
-        formData.append('item', store.getValue('item'));
-      }
-
-      if (store.getValue('total') != null ) {
-        formData.append('total', store.getValue('total'));
-      }
-
-      if (store.getValue('description') != null ) {
-        formData.append('description', store.getValue('description'));
-      }
 
       formData.append('_method', 'put');
       
@@ -120,6 +109,12 @@ export default function ShowModal({id}) {
           }
         }
       })
+    }
+
+    const handleStatusClick =(status) => {
+      console.log(status)
+      store.setValue('status',status)
+      handleSubmitClick()
     }
 
     const handleCloseClick = () => {
@@ -172,8 +167,11 @@ export default function ShowModal({id}) {
               Tutup
             </Button>
 
-            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
-              Edit
+            <Button disabled={isLoading} variant="danger" onClick={ () => handleStatusClick('rejected')}>
+              Gagal
+            </Button>
+            <Button disabled={isLoading} variant="success" onClick={ () => handleStatusClick('approved') }>
+              Lulus
             </Button>
 
           </Modal.Footer>

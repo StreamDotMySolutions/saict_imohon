@@ -19,4 +19,11 @@ class DistributionApprovalController extends Controller
         $distribution = DistributionApprovalService::show($distribution);
         return response()->json(['distribution' => $distribution]);
     }
+
+    public function update(Request $request, $distribution)
+    {
+        \Log::info($request);
+        \Log::info($distribution);
+        return response()->json(['request' => $request]);
+    }
 }

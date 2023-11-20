@@ -129,8 +129,7 @@ const App = () => {
                   <ShowModal id={item.id} />
                   {' '}
                   <EditModal id={item.id} />
-                  {' '}
-                  <DeleteModal id={item.id} />
+    
                 </td>
               </tr>
             ))}

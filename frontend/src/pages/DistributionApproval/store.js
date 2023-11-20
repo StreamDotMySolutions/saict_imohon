@@ -6,10 +6,10 @@ const useStore  = create((set) => ({
 
     url: `${base_url}/distribution-approvals`,
     index_url:  `${base_url}/distribution-approvals`,
-    store_url:  `${base_url}/distributions`,
+    store_url:  `${base_url}/distribution-approvals`,
     show_url:  `${base_url}/distribution-approvals`,
-    destroy_url:  `${base_url}/distributions`,
-    update_url:  `${base_url}/distributions`,
+    destroy_url:  `${base_url}/distribution-approvals`,
+    update_url:  `${base_url}/distribution-approvals`,
 
     refresh: false,
     errors: null,

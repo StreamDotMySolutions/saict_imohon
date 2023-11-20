@@ -19,12 +19,12 @@ class Distribution extends Model
     protected $appends = ['created_at_formatted'];
 
 
-    public function getCreatedAtFormattedAttribute()
+    public function getCreatedAtFormattedAttribute(): string
     {
         return $this->created_at->format('d/m/y');
     }
 
-    public function application()
+    public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class)->latest();
     }
