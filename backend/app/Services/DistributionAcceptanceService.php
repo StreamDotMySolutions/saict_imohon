@@ -15,7 +15,7 @@ class DistributionAcceptanceService
             \Cache::flush();
         }
         // cache key ~ cached_distribution_index_1, cached_distribution_index_2
-        $cached = \Cache::rememberForever('cached_distribution_approval_index_' . $page , function () {
+        $cached = \Cache::rememberForever('cached_distribution_acceptance_index_' . $page , function () {
 
 
             $user =  auth('sanctum')->user(); // user auth
