@@ -103,7 +103,7 @@ function RenderTable({items}) {
           
           {items?.data?.map((user, index) => (
             <tr key={index}>
-              <td className='px-5'>{user.profile?.name.toUpperCase()}</td>
+              <td className='px-5'>{user.name.toUpperCase()}</td>
               <td className='px-5 col-1'>{user.email}</td>
               <td className='px-5'>{user.profile?.user_department?.name}</td>
               <td className='col-6  text-center'>

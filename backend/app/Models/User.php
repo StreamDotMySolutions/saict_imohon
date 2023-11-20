@@ -9,13 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,HasRoles, SoftDeletes;
-
+    use LogsActivity;
     /**
      * The attributes that are mass assignable.
      *
@@ -58,5 +58,11 @@ class User extends Authenticatable
     public function applications() {
         return $this->hasMany(Application::class);
     }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
 
 }

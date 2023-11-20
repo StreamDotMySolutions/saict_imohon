@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
+
 
 class Application extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $appends = ['deleteable', 'editable','manager_editable','admin_editable','created_at_formatted'];
@@ -119,5 +124,10 @@ class Application extends Model
     public function getCreatedAtFormattedAttribute()
     {
         return $this->created_at->format('d/m/y');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
     }
 }

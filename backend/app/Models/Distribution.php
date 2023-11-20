@@ -14,17 +14,16 @@ class Distribution extends Model
     use LogsActivity;
 
     protected static $logEvents = ['created', 'updated', 'deleted'];
-
     protected $guarded = ['id'];
     protected $appends = ['created_at_formatted'];
 
 
-    public function getCreatedAtFormattedAttribute()
+    public function getCreatedAtFormattedAttribute(): string
     {
         return $this->created_at->format('d/m/y');
     }
 
-    public function application() 
+    public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class)->latest();
     }
@@ -33,6 +32,4 @@ class Distribution extends Model
     {
         return LogOptions::defaults()->logAll();
     }
-
-    
 }
