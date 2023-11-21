@@ -12,7 +12,7 @@ class DistributionService
         $page = \Request::input('page'); // cache by page
 
         // cache key ~ cached_distribution_index_1, cached_distribution_index_2
-        $cached = \Cache::rememberForever('cached_distribution_index_' . $page , function () {
+        $cached =  \Cache::tags(['distributions'])->rememberForever('cached_distribution_index_' . $page , function () {
             $paginate = Distribution::query()->with('application.user.userProfile.userDepartment');
             $distributions = $paginate->orderBy('id','DESC')
                                     ->paginate(10)
@@ -26,11 +26,11 @@ class DistributionService
 
     public static function store(Request $request)
     {
-        $user =  auth('sanctum')->user();
+        $user = auth('sanctum')->user();
         $distribution = new Distribution($request->except('acknowledge'));
         $distribution->user_id = $user->id; 
         $distribution->save(); // trigger logActivity
-        \Cache::flush(); // rebuild Cache
+        \Cache::tags(['distributions'])->flush(); // rebuild Cache
         //\Cache::forget('cached_distribution_' . $distribution->id); 
         return $distribution;
     }
@@ -43,7 +43,7 @@ class DistributionService
                             ->where('id',$distribution->id)
                             ->first();
         $updated = $distribution->update($request->except('acknowledge','_method'));  // trigger LogActivity
-        \Cache::flush(); 
+        \Cache::tags(['distributions'])->flush(); 
         //\Cache::forget('cached_distribution_' . $distribution->id);    
         return $updated;                
     }
@@ -56,14 +56,14 @@ class DistributionService
                             ->where('id',$distribution->id)
                             ->first();
         $distribution->delete(); // this will trigger logActivity()
-        \Cache::flush();
+        \Cache::tags(['distributions'])->flush();
         return $distribution;
     }
 
     public static function show(Distribution $distribution)
     {
         //\Cache::forget('cached_distribution_' . $distribution->id); 
-        $cached = \Cache::rememberForever('cached_distribution_' . $distribution->id , function () use ($distribution) {
+        $cached = \Cache::tags(['distributions'])->rememberForever('cached_distribution_' . $distribution->id , function () use ($distribution) {
             // with('application.user.userProfile.userDepartment')
             // Load relationships before caching
             $distribution->load(['application.user.userProfile.userDepartment']);
