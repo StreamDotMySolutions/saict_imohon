@@ -10,6 +10,7 @@ const useStore  = create((set) => ({
     show_url:  `${base_url}/distributions`,
     destroy_url:  `${base_url}/distributions`,
     update_url:  `${base_url}/distributions`,
+    application_url:  `${base_url}/applications`,
 
     refresh: false,
     errors: null,

@@ -51,7 +51,7 @@ export function ApplicationId(){
                 <InputGroup>
                     <InputGroup.Text style={{'width': '100px'}}>ID Mohon</InputGroup.Text>
                     <Form.Control 
-                        placeholder='No Rujukan Permohonan'
+                        //placeholder='No Rujukan Permohonan'
                         readOnly={store.readonly}
                         value={ store.getValue('application_id') ? store.getValue('application_id') : '' }
                         name='application_id'

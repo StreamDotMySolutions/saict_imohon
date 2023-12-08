@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 });
 
-// Role boss
+// Distribution
 Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], function () {
 
     // DistributionApproval Related routes
