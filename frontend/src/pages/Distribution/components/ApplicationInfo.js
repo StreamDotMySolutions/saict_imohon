@@ -53,6 +53,7 @@ const ApplicationInfo = () => {
                             <td>{data?.application?.created_at_formatted}</td>
                         </tr>
                     </Table>
+                    test
                 </Col>
             </>
             :
