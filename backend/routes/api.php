@@ -19,6 +19,11 @@ use App\Http\Controllers\{
 };
 Auth::routes();
 
+Route::get('/welcome', function () {
+    return response()->json(['message' => 'welcome']);
+});
+
+
 // Role guest
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
