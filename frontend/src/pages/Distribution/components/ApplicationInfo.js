@@ -20,7 +20,7 @@ const ApplicationInfo = () => {
         axios(`${store.application_url}/${applicationId}`)
         .then( response => {
             setIsLoading(false)
-            //console.log(response)
+            console.log(response)
             setData(response.data)
         })
         .catch ( error => {
@@ -53,7 +53,15 @@ const ApplicationInfo = () => {
                             <td>{data?.application?.created_at_formatted}</td>
                         </tr>
                     </Table>
-                    test
+                    <ol>                   
+                    {data?.application?.application_item?.application_item_details?.map(item => (
+                        <li key={item.id}>
+                            {/* Your JSX code goes here */}
+                            {item.item} ~ {item.description}
+                        </li>
+                    ))}
+                    </ol>
+
                 </Col>
             </>
             :
