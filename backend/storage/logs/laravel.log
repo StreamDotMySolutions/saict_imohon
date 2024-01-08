@@ -56,3 +56,5 @@
 [2024-01-03 07:49:46] local.INFO: logout-user@local  
 [2024-01-03 07:49:55] local.INFO: login-admin@local  
 [2024-01-03 08:06:40] local.INFO: login-admin@local  
+[2024-01-03 08:24:03] local.INFO: logout-admin@local  
+[2024-01-04 07:29:37] local.INFO: login-admin@local  

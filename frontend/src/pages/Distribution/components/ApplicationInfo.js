@@ -53,6 +53,7 @@ const ApplicationInfo = () => {
                             <td>{data?.application?.created_at_formatted}</td>
                         </tr>
                     </Table>
+                    
                     <ol>                   
                     {data?.application?.application_item?.application_item_details?.map(item => (
                         <li key={item.id}>
