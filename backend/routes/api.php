@@ -19,6 +19,11 @@ use App\Http\Controllers\{
 };
 Auth::routes();
 
+Route::get('/welcome', function () {
+    return response()->json(['message' => 'welcome']);
+});
+
+
 // Role guest
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
@@ -77,7 +82,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 });
 
-// Role boss
+// Distribution
 Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], function () {
 
     // DistributionApproval Related routes

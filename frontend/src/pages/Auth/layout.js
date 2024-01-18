@@ -19,7 +19,7 @@ return (
         />
       </div>
       <div className="col-6 offset-xs-3">
-        <h2 className="text-muted mb-3"> <img src={rtm} width="100px" /> i Mohon </h2>
+        <h2 className="text-muted mb-3"> <img src={rtm} width="100px" /> iMOHON </h2>
         <Outlet />
       </div>
       

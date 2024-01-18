@@ -23,13 +23,11 @@ class DistributionController extends Controller
         //\Log::info($request);
         $created = DistributionService::store($request);
 
-
         if($created){
             return response()->json(['message' => 'Agihan berjaya dilakukan']);
         } else {
             return response()->json(['message' => 'Agihan gagal dilaksanakan'],422);
         }
-       
     }
 
     public function show(Distribution $distribution)
@@ -56,5 +54,10 @@ class DistributionController extends Controller
         } else {
             return response()->json([ 'message' => 'Agihan gagal dipadam dari rekod'],422);
         }
+    }
+
+    public function applicationInfo($applicationId)
+    {
+        \Log::info($applicationId);
     }
 }
