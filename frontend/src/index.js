@@ -91,7 +91,7 @@ export default function App() {
                 <Route path="/distribution-approvals" element={<DistributionApproval />} />
                 <Route path="/distribution-acceptances" element={<DistributionAcceptance />} />
               </Route>
-          </Route>
+            </Route>
 
         </Routes>
       </BrowserRouter>
