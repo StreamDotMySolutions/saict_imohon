@@ -27,6 +27,10 @@ function TopNavbar() {
               </Nav>
 
               <Nav>
+                <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon v2</Nav.Link>
+              </Nav>
+
+              <Nav>
                 <Nav.Link as={NavLink} to="/distribution-acceptances"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Agihan</Nav.Link>
               </Nav>
 
