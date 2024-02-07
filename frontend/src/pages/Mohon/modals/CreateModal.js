@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-
+import { Title } from './components/Inputs'
 
 export default function CreateModal() {
 
@@ -31,6 +31,7 @@ export default function CreateModal() {
           </Modal.Header>
 
           <Modal.Body>
+            <Title />
           </Modal.Body>
           
           <Modal.Footer>
