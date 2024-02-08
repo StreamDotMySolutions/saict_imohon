@@ -3,9 +3,10 @@ import { Badge,Button,Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { React, useState, useEffect} from 'react'
 import useMohonStore from '../../store'
 
-export function InputText({fieldName, placeholder, icon}){
+export function InputText({fieldName, placeholder, icon, isLoading}){
     const store = useMohonStore()
-    const errors = store.errors
+    //const errors = store.errors
+    const errors = store.getValue('errors')
 
     return(<>
                 <InputGroup>
@@ -15,7 +16,7 @@ export function InputText({fieldName, placeholder, icon}){
                         value={store.getValue(fieldName)}
                         name={fieldName}
                         size='md' 
-                        readOnly={store.readonly}
+                        readOnly={isLoading}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
@@ -34,9 +35,10 @@ export function InputText({fieldName, placeholder, icon}){
             </>)
 }
 
-export function InputTextarea({fieldName, placeholder, icon, rows}){
+export function InputTextarea({fieldName, placeholder, icon, rows, isLoading}){
     const store = useMohonStore()
-    const errors = store.errors
+    //const errors = store.errors
+    const errors = store.getValue('errors')
 
     return(<>
                 <InputGroup>
@@ -48,7 +50,7 @@ export function InputTextarea({fieldName, placeholder, icon, rows}){
                         value={store.getValue(fieldName)}
                         name={fieldName}
                         size='md' 
-                        readOnly={store.readonly}
+                        readOnly={isLoading}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 

@@ -26,6 +26,7 @@ export default function CreateModal() {
     }
 
     const handleSubmitClick = () => {
+      setIsLoading(true)
       const formData = new FormData()
 
       // title
@@ -46,13 +47,20 @@ export default function CreateModal() {
         .then( response => {
           console.log(response)
 
+          setIsLoading(false)
           // Add a delay of 1 second before closing
           setTimeout(() => {
             handleCloseClick();
           }, 500);
         })
         .catch( error => {
-          console.log(error)
+          //console.warn(error)
+          setIsLoading(false)
+          if(error.response.status === 422){
+            //console.log(error.response.data.errors )
+            //useMohonStore.setState({ errors : error.response.data.errors })  
+            store.setValue('errors',  error.response.data.errors )
+          }
         })
     }
   
@@ -72,6 +80,7 @@ export default function CreateModal() {
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
+              isLoading={isLoading}
             />
             <br />
             <InputTextarea
@@ -79,6 +88,7 @@ export default function CreateModal() {
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-question'
               rows='6'
+              isLoading={isLoading}
             />
 
             <hr />
