@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { Title } from './components/Inputs'
+import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
@@ -28,9 +28,14 @@ export default function CreateModal() {
     const handleSubmitClick = () => {
       const formData = new FormData()
 
-      // submit title
+      // title
       if (store.getValue('title') != null ) {
         formData.append('title', store.getValue('title'));
+      }
+
+      // description
+      if (store.getValue('description') != null ) {
+        formData.append('description', store.getValue('description'));
       }
 
       axios({ 
@@ -63,7 +68,20 @@ export default function CreateModal() {
           </Modal.Header>
 
           <Modal.Body>
-            <Title />
+            <InputText 
+              fieldName='title' 
+              placeholder='Tajuk permohonan'  
+              icon='fa-solid fa-pencil'
+            />
+            <br />
+            <InputTextarea
+              fieldName='description' 
+              placeholder='Maklumat tambahan'  
+              icon='fa-solid fa-question'
+              rows='6'
+            />
+
+            <hr />
             {store.getValue('title')}
           </Modal.Body>
           
