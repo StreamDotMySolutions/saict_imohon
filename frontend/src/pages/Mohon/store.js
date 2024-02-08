@@ -4,15 +4,7 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useMohonStore  = create((set) => ({
 
-    url: `${base_url}/applications`,
-    index_url:  `${base_url}/applications`,
-    show_url:  `${base_url}/applications`,
-    delete_url:  `${base_url}/applications`,
-    edit_url:  `${base_url}/applications`,
-    application_items_url:  `${base_url}/applications/items`,
-
-    statistics_url:  `${base_url}/statistics`,
-
+    url: `${base_url}/mohon`,
     refresh: false,
     errors: null,
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\{
     DistributionController,
     DistributionApprovalController,
     DistributionAcceptanceController,
+    MohonController,
 };
 Auth::routes();
 
@@ -46,6 +47,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
+    // mohon
+    Route::post('/mohon', [MohonController::class, 'store']);
+
+    // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
     Route::get('/applications', [ApplicationController::class, 'index']);
     Route::get('/applications/{application}', [ApplicationController::class, 'show']);

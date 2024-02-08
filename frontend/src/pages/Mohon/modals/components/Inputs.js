@@ -23,7 +23,6 @@ export function Title(){
                           store.setValue(fieldName, e.target.value)                         
                         } }
                     />
-
                     {
                         errors?.hasOwnProperty(fieldName) &&
                             (
