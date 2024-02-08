@@ -45,8 +45,7 @@ export default function CreateModal() {
           data: formData
         })
         .then( response => {
-          console.log(response)
-
+          //console.log(response)
           setIsLoading(false)
           // Add a delay of 1 second before closing
           setTimeout(() => {
@@ -57,8 +56,6 @@ export default function CreateModal() {
           //console.warn(error)
           setIsLoading(false)
           if(error.response.status === 422){
-            //console.log(error.response.data.errors )
-            //useMohonStore.setState({ errors : error.response.data.errors })  
             store.setValue('errors',  error.response.data.errors )
           }
         })
@@ -96,11 +93,17 @@ export default function CreateModal() {
           </Modal.Body>
           
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button 
+              disabled={isLoading}
+              variant="secondary" 
+              onClick={handleCloseClick}>
               Tutup
             </Button>
 
-            <Button variant="primary" onClick={handleSubmitClick}>
+            <Button 
+              disabled={isLoading}
+              variant="primary" 
+              onClick={handleSubmitClick}>
               Hantar
             </Button>
 
