@@ -1,6 +1,7 @@
 import React from 'react'
 import CreateModal from './modals/CreateModal'
 import { Col, Row, Table } from 'react-bootstrap';
+import MohonIndex from './components/MohonIndex';
 
 const Mohon = () => {
     return (
@@ -12,19 +13,7 @@ const Mohon = () => {
                 </div>
             </div>
 
-            <Table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                </tbody>
-            </Table>
+            <MohonIndex />
     
         </div>
     );
