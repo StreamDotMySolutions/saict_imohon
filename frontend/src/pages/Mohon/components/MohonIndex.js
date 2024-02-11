@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Table,Pagination } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
+import EditModal from '../modals/EditModal';
+import DeleteModal from '../modals/DeleteModal';
+import ViewModal from '../modals/ViewModal';
+import CreateModal from '../modals/CreateModal';
 
 
 const MohonIndex = () => {
@@ -35,6 +39,14 @@ const MohonIndex = () => {
 
     return (
         <div>
+
+            <div className="d-flex bd-highlight mb-3">
+                <div className="ms-auto p-2 bd-highlight">
+                    <CreateModal />
+                </div>
+            </div>
+
+
             <Table>
                 <thead>
                     <tr>
@@ -46,20 +58,20 @@ const MohonIndex = () => {
                 </thead>
 
                 <tbody>
-                {mohons?.data?.map((mohon,index) => (
-                    <tr key={index}>
-                        <td>{mohon.id}</td>
-                        <td>{mohon.title}</td>
-                        <td>{mohon.description}</td>
-                        <td className='text-center' >
-                            View 
-                            |
-                            Edit
-                            |
-                            Delete
-                        </td>
-                    </tr>
-                ))}
+                    {mohons?.data?.map((mohon,index) => (
+                        <tr key={index}>
+                            <td>{mohon.id}</td>
+                            <td>{mohon.title}</td>
+                            <td>{mohon.description}</td>
+                            <td className='text-center' >
+                                <ViewModal />
+                                {' '}
+                                <EditModal />
+                                {' '}
+                                <DeleteModal />
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
 
