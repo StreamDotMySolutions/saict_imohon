@@ -11,6 +11,16 @@ use App\Http\Requests\StoreMohonRequest;
 
 class MohonController extends Controller
 {
+
+    public function index()
+    {
+        $mohons = MohonService::index();
+
+        return response()->json([
+            'mohons' => $mohons
+        ]);
+    }
+
     public function store(StoreMohonRequest $request)
     {
         \Log::info($request);

@@ -13,7 +13,7 @@ export function InputText({fieldName, placeholder, icon, isLoading}){
                     <InputGroup.Text><FontAwesomeIcon icon={icon}></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
                         placeholder={placeholder}
-                        value={store.getValue(fieldName)}
+                        value={store.getValue(fieldName) ||  ''}
                         name={fieldName}
                         size='md' 
                         readOnly={isLoading}
@@ -47,7 +47,7 @@ export function InputTextarea({fieldName, placeholder, icon, rows, isLoading}){
                         as="textarea" 
                         rows={rows}
                         placeholder={placeholder}
-                        value={store.getValue(fieldName)}
+                        value={store.getValue(fieldName) ||  ''}
                         name={fieldName}
                         size='md' 
                         readOnly={isLoading}

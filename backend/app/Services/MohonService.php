@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 class MohonService
 {
 
+    public static function index()
+    {
+        $paginate = MohonRequest::query();
+        $requests = $paginate->orderBy('id','DESC')
+                                ->paginate(10)
+                                ->withQueryString();
+    
+        return $requests;
+    }
+
     public static function store($request)
     {
         //\Log::info($request);
