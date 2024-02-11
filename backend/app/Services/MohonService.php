@@ -27,4 +27,13 @@ class MohonService
             'description' => $request->input('description')
         ]);
     }
+
+    public static function show($id)
+    {
+        $request = MohonRequest::query()
+                    ->where('id', $id)
+                    //->with(['application.user.userProfile.userDepartment'])
+                    ->first();
+        return $request;
+    }
 }

@@ -1,11 +1,10 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import {  Button,Modal} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
-import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function EditModal() {
+export default function EditModal({id}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -14,16 +13,28 @@ export default function EditModal() {
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
   
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
-
     const handleShowClick = () =>{
       store.emptyData() // empty store data
-      setShow(true)
-    } 
+      //console.log(id)
 
+        axios({
+            'method' : 'get',
+            'url' : `${store.url}/${id}`
+        })
+        .then( response => {
+          let mohon = response.data.mohon
+          store.setValue('title', mohon.title) // set formValue
+          store.setValue('description', mohon.description) // set formValue
+        })
+        .catch ( error => {
+          console.warn(error)
+        })
+
+        setShow(true) // show the modal
+    }
+      
     const handleCloseClick = () => {
-      handleClose()
+      setShow(false)
     }
 
     const handleSubmitClick = () => {
@@ -74,7 +85,7 @@ export default function EditModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title>Permohonan {id}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -107,12 +118,14 @@ export default function EditModal() {
               disabled={isLoading}
               variant="primary" 
               onClick={handleSubmitClick}>
-              Hantar
+              Kemaskini
             </Button>
 
           </Modal.Footer>
         </Modal>
       </>
-    );
-  }
+    )
+}
+
+
 

@@ -23,7 +23,7 @@ class MohonController extends Controller
 
     public function store(StoreMohonRequest $request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         /**
          * To store request from Mohon
          * title ~ varchar
@@ -36,4 +36,14 @@ class MohonController extends Controller
             'id' => $mohonRequest->id
         ]);
     }
+
+    public function show($id)
+    {
+        $mohon = MohonService::show($id);
+
+        return response()->json([
+            'mohon' => $mohon
+        ]);
+    }
+
 }
