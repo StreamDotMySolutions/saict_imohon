@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
+import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
@@ -87,9 +88,29 @@ export default function CreateModal() {
               rows='6'
               isLoading={isLoading}
             />
+            <br />
+            {/* <Row>
+              <Col xs={6}>
+                <InputText 
+                  fieldName='item_number' 
+                  placeholder='Jenis'  
+                  icon='fa-solid fa-computer'
+                  isLoading={isLoading}
+                />
+              </Col>
+              <Col xs={3}>
+                <InputText 
+                  fieldName='item_number' 
+                  placeholder='Jumlah'  
+                  icon='fa-solid fa-calculator'
+                  isLoading={isLoading}
+                />
+              </Col>
+            </Row> */}
 
-            <hr />
-            {store.getValue('title')}
+            {/* <br />
+            <DynamicInputForm /> */}
+
           </Modal.Body>
           
           <Modal.Footer>
