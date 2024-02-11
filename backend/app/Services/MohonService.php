@@ -11,7 +11,7 @@ class MohonService
     {
         $paginate = MohonRequest::query();
         $requests = $paginate->orderBy('id','DESC')
-                                ->paginate(10)
+                                ->paginate(2) // 2 items per page
                                 ->withQueryString();
     
         return $requests;
