@@ -48,6 +48,10 @@ export default function CreateModal() {
         .then( response => {
           //console.log(response)
           setIsLoading(false)
+
+          // set MohonIndex listener to true
+          store.setValue('refresh', true)
+
           // Add a delay of 1 second before closing
           setTimeout(() => {
             handleCloseClick();
