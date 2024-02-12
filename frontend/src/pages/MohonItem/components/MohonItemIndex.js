@@ -21,7 +21,7 @@ const MohonItemIndex = ({mohonRequestId}) => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
+                console.log(response.data.items)   // output to console  
                 setItems(response.data.items) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -51,7 +51,6 @@ const MohonItemIndex = ({mohonRequestId}) => {
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th>Item</th>
-                        <th>Total</th>
                         <th>Type</th>
                         <th>Description</th>
                         <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
@@ -62,8 +61,7 @@ const MohonItemIndex = ({mohonRequestId}) => {
                     {items?.data?.map((item,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.item}</td>
-                            <td>{item.total}</td>
+                            <td>{item.category?.name}</td>
                             <td>{item.type}</td>
                             <td>{item.description}</td>
                             <td className='text-center' >

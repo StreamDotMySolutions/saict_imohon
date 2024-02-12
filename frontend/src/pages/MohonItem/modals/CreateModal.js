@@ -47,9 +47,14 @@ export default function CreateModal() {
       setIsLoading(true)
       const formData = new FormData()
 
-      // title
-      if (store.getValue('title') != null ) {
-        formData.append('title', store.getValue('title'));
+      // category_id
+      if (store.getValue('category_id') != null ) {
+        formData.append('category_id', store.getValue('category_id'));
+      }
+
+      // type
+      if (store.getValue('type') != null ) {
+        formData.append('type', store.getValue('type'));
       }
 
       // description
@@ -59,11 +64,11 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: store.url,
+          url: `${store.submitUrl}/${mohonRequestId}`,
           data: formData
         })
         .then( response => {
-          //console.log(response)
+          console.log(response)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
@@ -90,7 +95,7 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Item {mohonRequestId}</Modal.Title>
+            <Modal.Title>Tambah Item</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

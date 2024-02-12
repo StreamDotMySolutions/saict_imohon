@@ -6,35 +6,28 @@ use Illuminate\Http\Request;
 use App\Models\MohonItem;
 use App\Models\Category;
 use App\Services\MohonItemService;
-use App\Http\Requests\MohonItem\StoreMohonRequest;
-use App\Http\Requests\MohonItem\UpdateMohonRequest;
+use App\Http\Requests\MohonItem\StoreRequest;
+use App\Http\Requests\MohonItem\UpdateRequest;
 // use App\Http\Requests\DeleteMohonRequest;
 
 class MohonItemController extends Controller
 {
 
-    public function index()
+    public function index($mohonRequestId)
     {
-        $items = MohonItemService::index();
+        $items = MohonItemService::index($mohonRequestId);
 
         return response()->json([
             'items' => $items
         ]);
     }
 
-    public function store(StoreMohonRequest $request)
+    public function store(StoreRequest $request, $mohonRequestId)
     {
-        //\Log::info($request);
-        /**
-         * To store request from Mohon
-         * title ~ varchar
-         * description ~ text
-         */
-        $mohonRequest = MohonService::store($request);
+        $mohonItem = MohonItemService::store($request, $mohonRequestId);
 
         return response()->json([
-            'message' => 'Permohonan disimpan',
-            'id' => $mohonRequest->id
+            'message' => 'Item berjaya disimpan',
         ]);
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mohon_request_id')->costrained();
             $table->foreignId('category_id')->costrained();
-            $table->integer('type')->nullable(); // baharu or ganti
+            $table->string('type')->nullable(); // baharu or ganti
             $table->text('description')->nullable(); // description
             $table->timestamps();
         });

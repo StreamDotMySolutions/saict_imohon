@@ -14,4 +14,9 @@ class MohonItem extends Model
     {
         return $this->belongsTo(MohonRequest::class);
     }
+
+    public function category() 
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

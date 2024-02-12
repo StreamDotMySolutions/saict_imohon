@@ -56,12 +56,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
     // mohon item
-    Route::get('/mohon-items', [MohonItemController::class, 'index']);
-    Route::post('/mohon-items', [MohonItemController::class, 'store']);
     Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
-    Route::get('/mohon-items/{id}', [MohonItemController::class, 'show']);
-    Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
-    Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
+    Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
+    Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store']);
+    // Route::get('/mohon-items/{id}', [MohonItemController::class, 'show']);
+    // Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
+    // Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
 
 
     // application

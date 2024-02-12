@@ -42,7 +42,7 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: store.url,
+          url: store.submitUrl,
           data: formData
         })
         .then( response => {

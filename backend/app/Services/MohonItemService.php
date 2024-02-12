@@ -7,23 +7,27 @@ use Illuminate\Http\Request;
 class MohonItemService
 {
 
-    public static function index()
+    public static function index($mohonRequestId)
     {
         $paginate = MohonItem::query();
         $items = $paginate->orderBy('id','DESC')
+                                ->with(['category'])
+                                ->where('mohon_request_id', $mohonRequestId)
                                 ->paginate(10) // 10 items per page
                                 ->withQueryString();
     
         return $items;
     }
 
-    public static function store($request)
+    public static function store($request, $mohonRequestId)
     {
         //\Log::info($request);
         $user =  auth('sanctum')->user();
-        return MohonRequest::create([
+        return MohonItem::create([
+            'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id,
-            'title' => $request->input('title'),
+            'category_id' => $request->input('category_id'),
+            'type' => $request->input('type'),
             'description' => $request->input('description')
         ]);
     }

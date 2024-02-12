@@ -33,8 +33,7 @@ const MohonItem = () => {
                     <li class="breadcrumb-item">{title}</li>
                 </ol>
             </nav>
-    
-            <MohonItemIndex mohonRequestid={mohonRequestId} /> 
+            <MohonItemIndex mohonRequestId={mohonRequestId} /> 
         </div>
     );
 };
