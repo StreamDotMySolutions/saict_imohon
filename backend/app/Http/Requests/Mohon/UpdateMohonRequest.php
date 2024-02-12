@@ -1,15 +1,15 @@
 <?php
-namespace App\Http\Requests;
+namespace App\Http\Requests\Mohon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMohonRequest extends FormRequest
+class UpdateMohonRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             //'acknowledge' => 'required',
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'sometimes|required',
+            'description' => 'sometimes|required',
         ];
     }
 

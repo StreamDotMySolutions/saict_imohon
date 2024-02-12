@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
 use App\Services\MohonService;
-use App\Http\Requests\StoreMohonRequest;
-// use App\Http\Requests\UpdateMohonRequest;
+use App\Http\Requests\Mohon\StoreMohonRequest;
+use App\Http\Requests\Mohon\UpdateMohonRequest;
 // use App\Http\Requests\DeleteMohonRequest;
 
 class MohonController extends Controller
@@ -46,12 +46,11 @@ class MohonController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateMohonRequest $request, $id)
     {
         \Log::info($id);
         \Log::info($request);
 
-        // check ownership before update
         $updated = MohonService::update($request,$id);
 
         if($updated){
