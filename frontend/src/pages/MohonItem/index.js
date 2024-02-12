@@ -2,13 +2,14 @@ import { Link, useParams, useNavigate} from 'react-router-dom'
 import useMohonStore from '../Mohon/store'
 import { useState } from 'react'
 import axios from '../../libs/axios'
-//import MohonIndex from './components/MohonIndex';
+import MohonItemIndex from './components/MohonItemIndex'
 
 const MohonItem = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const store = useMohonStore()
   const [title, setTitle] = useState('')
+
   axios({
     'method' : 'get',
     'url' : `${store.submitUrl}/${id}`
@@ -28,12 +29,12 @@ const MohonItem = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link  onClick={() => navigate(-1)} >Mohon</Link></li>
+                    <li class="breadcrumb-item"><Link onClick={() => navigate(-1)} >Mohon</Link></li>
                     <li class="breadcrumb-item">{title}</li>
                 </ol>
             </nav>
-            {id}
-            {/* <MohonIndex /> */}
+    
+            <MohonItemIndex id={id} /> 
         </div>
     );
 };

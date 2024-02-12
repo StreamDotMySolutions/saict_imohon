@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
-import useMohonStore from '../store'
+import useMohonItemStore from '../store'
 import axios from '../../../libs/axios'
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
-import ViewModal from '../modals/ViewModal';
-import CreateModal from '../modals/CreateModal';
+import EditModal from '../modals/EditModal'
+import DeleteModal from '../modals/DeleteModal'
+import ViewModal from '../modals/ViewModal'
+import CreateModal from '../modals/CreateModal'
 
-
-const MohonIndex = () => {
-    const store = useMohonStore()
-    const [mohons, setMohons] = useState([])
+const MohonItemIndex = ({id}) => {
+    const store = useMohonItemStore()
+    const [items, setItems] = useState([])
 
     useEffect( () => 
         {
@@ -18,12 +17,12 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${store.url}/${id}` // eg GET http://localhost:8000/api/mohon-items/123
                 } 
             )
             .then( response => { // response block
                 //console.log(response.data.mohons.data)   // output to console  
-                setMohons(response.data.mohons) // assign data to const = mohons
+                setItems(response.data.items) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
             .catch( error => { // error block
@@ -51,26 +50,29 @@ const MohonIndex = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '400px'}}>Title</th>
+                        <th>Item</th>
+                        <th>Total</th>
+                        <th>Type</th>
                         <th>Description</th>
                         <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {mohons?.data?.map((mohon,index) => (
+                    {items?.data?.map((item,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
-                            <td>{mohon.title}</td>
-                            <td>{mohon.description}</td>
+                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td>{item.item}</td>
+                            <td>{item.total}</td>
+                            <td>{item.type}</td>
+                            <td>{item.description}</td>
                             <td className='text-center' >
-                                <Button size='sm' variant='outline-success'>Items</Button>
+                               
+                                <ViewModal id={item.id} />
                                 {' '}
-                                <ViewModal id={mohon.id} />
+                                <EditModal id={item.id} />
                                 {' '}
-                                <EditModal id={mohon.id} />
-                                {' '}
-                                <DeleteModal id={mohon.id} />
+                                <DeleteModal id={item.id} />
                             </td>
                         </tr>
                     ))}
@@ -79,13 +81,13 @@ const MohonIndex = () => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    <PaginatorLink items={mohons} />
+                    <PaginatorLink items={items} />
                 </div>
             </div>
         </div>
     );
 };
-export default MohonIndex;
+export default MohonItemIndex;
 
 
 /**
@@ -95,7 +97,7 @@ function PaginatorLink ({items}){
     //console.log(items.links)
     const handlePaginationClick = (url) => {
       //console.log(url)
-      useMohonStore.setState({url: url}) // update the url state in store
+      useMohonItemStore.setState({url: url}) // update the url state in store
       
     }
 

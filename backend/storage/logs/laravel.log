@@ -1,0 +1,4 @@
+[2024-02-12 06:55:09] local.ERROR: Cannot declare class App\Http\Controllers\MohonController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\MohonController, because the name is already in use at C:\\laragon\\www\\imohon\\backend\\app\\Http\\Controllers\\MohonItemController.php:12)
+[stacktrace]
+#0 {main}
+"} 

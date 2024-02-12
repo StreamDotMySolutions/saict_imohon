@@ -68,12 +68,12 @@ export default function CreateModal() {
     return (
       <>
         <Button variant="primary" onClick={handleShowClick}>
-          Mohon
+          Tambah
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title>Item</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
