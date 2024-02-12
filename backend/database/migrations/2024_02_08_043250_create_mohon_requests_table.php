@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mohon_requests', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('user_id')->costrained();
             $table->timestamps();
         });

@@ -5,19 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MohonRequest extends Model
+class MohonItem extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function user() 
+    public function mohonRequest() 
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function mohonItems() 
-    {
-        return $this->hasMany(MohonItem::class);
+        return $this->belongsTo(MohonRequest::class);
     }
 }
