@@ -69,7 +69,7 @@ const MohonIndex = () => {
                                     <Button size='sm' variant='outline-success'>Items</Button>
                                 </Link>
                                 {' '}
-                                <ViewModal id={mohon.id} />
+                                {/* <ViewModal id={mohon.id} /> */}
                                 {' '}
                                 <EditModal id={mohon.id} />
                                 {' '}

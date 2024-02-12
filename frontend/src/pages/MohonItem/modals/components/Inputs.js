@@ -89,7 +89,11 @@ export function InputSelect({fieldName, placeholder, icon, isLoading, options}){
                     >
                         <option>{placeholder}</option>
                         {options?.map((option,index) => (
-                            <option value={option.id}>{option.name}</option>
+                            <option 
+                                value={option.id}
+                                key={index}
+                                selected={option.id === store.getValue(fieldName)}  
+                            >{option.name}</option>
                         ))}
              
                     </Form.Select>

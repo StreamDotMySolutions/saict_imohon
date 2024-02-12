@@ -34,30 +34,29 @@ class MohonItemService
 
     public static function show($id)
     {
-        $request = MohonRequest::query()
+        $item = MohonItem::query()
                     ->where('id', $id)
                     //->with(['application.user.userProfile.userDepartment'])
                     ->first();
-        return $request;
+        return $item;
     }
 
     public static function update($request, $id)
     {
-        $user =  auth('sanctum')->user();
-        return MohonRequest::query()
-                            ->where('user_id', $user->id)
+   
+        return MohonItem::query()
                             ->where('id',$id)
                             ->update([
-                                'title'  => $request->input('title'),
-                                'description'  => $request->input('description'),
+                                'category_id' => $request->input('category_id'),
+                                'type' => $request->input('type'),
+                                'description' => $request->input('description')
                                 ]);
     }
 
     public static function delete($id)
     {
-        $user =  auth('sanctum')->user();
-        return MohonRequest::query()
-                            ->where('user_id', $user->id)
+ 
+        return MohonItem::query()
                             ->where('id',$id)
                             ->delete();
     }

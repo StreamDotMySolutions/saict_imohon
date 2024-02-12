@@ -62,12 +62,9 @@ const MohonItemIndex = ({mohonRequestId}) => {
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{item.id}</span></td>
                             <td>{item.category?.name}</td>
-                            <td>{item.type}</td>
+                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
                             <td className='text-center' >
-                               
-                                <ViewModal id={item.id} />
-                                {' '}
                                 <EditModal id={item.id} />
                                 {' '}
                                 <DeleteModal id={item.id} />

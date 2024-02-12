@@ -33,44 +33,40 @@ class MohonItemController extends Controller
 
     public function show($id)
     {
-        $mohon = MohonService::show($id);
+        $item = MohonItemService::show($id);
 
         return response()->json([
-            'mohon' => $mohon
+            'item' => $item
         ]);
     }
 
-    public function update(UpdateMohonRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        // \Log::info($id);
-        // \Log::info($request);
-
-        $updated = MohonService::update($request,$id);
+        $updated = MohonItemService::update($request,$id);
 
         if($updated){
             return response()->json([
-                'message' => 'Permohonan berjaya dikemaskini',
-                'id' => $id
+                'message' => 'Item berjaya dikemaskini',
             ]);
         } else {
             return response()->json([
-                'message' => 'Permohonan gagal dikemaskini',
+                'message' => 'Item gagal dikemaskini',
             ],422);
         }
     }
 
     public function delete($id)
     {
-        $deleted = MohonService::delete($id);
+        $deleted = MohonItemService::delete($id);
 
         if($deleted){
             return response()->json([
-                'message' => 'Permohonan berjaya dipadam',
-                'id' => $id
+                'message' => 'Item berjaya dipadam',
+         
             ]);
         } else {
             return response()->json([
-                'message' => 'Permohonan gagal dipadam',
+                'message' => 'Item gagal dipadam',
             ],422);
         }
     }
