@@ -64,7 +64,7 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center' >
-                                <ViewModal />
+                                <ViewModal id={mohon.id} />
                                 {' '}
                                 <EditModal id={mohon.id} />
                                 {' '}
