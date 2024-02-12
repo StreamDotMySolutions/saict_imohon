@@ -60,7 +60,7 @@ const MohonIndex = () => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td>{mohon.id}</td>
+                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center' >
@@ -68,7 +68,7 @@ const MohonIndex = () => {
                                 {' '}
                                 <EditModal id={mohon.id} />
                                 {' '}
-                                <DeleteModal />
+                                <DeleteModal id={mohon.id} />
                             </td>
                         </tr>
                     ))}

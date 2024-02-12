@@ -48,8 +48,8 @@ class MohonController extends Controller
 
     public function update(UpdateMohonRequest $request, $id)
     {
-        \Log::info($id);
-        \Log::info($request);
+        // \Log::info($id);
+        // \Log::info($request);
 
         $updated = MohonService::update($request,$id);
 
@@ -63,7 +63,22 @@ class MohonController extends Controller
                 'message' => 'Permohonan gagal dikemaskini',
             ],422);
         }
- 
+    }
+
+    public function delete($id)
+    {
+        $deleted = MohonService::delete($id);
+
+        if($deleted){
+            return response()->json([
+                'message' => 'Permohonan berjaya dipadam',
+                'id' => $id
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan gagal dipadam',
+            ],422);
+        }
     }
 
 }

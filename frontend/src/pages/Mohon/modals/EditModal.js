@@ -61,7 +61,7 @@ export default function EditModal({id}) {
       
       axios({ 
           method: 'post',
-          'url' : `${store.submitUrl}/${id}`,
+          url : `${store.submitUrl}/${id}`,
           data: formData
         })
         .then( response => {
@@ -93,7 +93,7 @@ export default function EditModal({id}) {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Kemaskini Permohonan <span class="badge bg-primary">{id}</span></Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Kemaskini Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

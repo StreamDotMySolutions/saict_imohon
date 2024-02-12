@@ -48,4 +48,13 @@ class MohonService
                                 'description'  => $request->input('description'),
                                 ]);
     }
+
+    public static function delete($id)
+    {
+        $user =  auth('sanctum')->user();
+        return MohonRequest::query()
+                            ->where('user_id', $user->id)
+                            ->where('id',$id)
+                            ->delete();
+    }
 }
