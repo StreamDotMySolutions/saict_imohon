@@ -7,7 +7,7 @@ import DeleteModal from '../modals/DeleteModal'
 import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 
-const MohonItemIndex = ({id}) => {
+const MohonItemIndex = ({mohonRequestId}) => {
     const store = useMohonItemStore()
     const [items, setItems] = useState([])
 
@@ -17,7 +17,7 @@ const MohonItemIndex = ({id}) => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${store.url}/${id}` // eg GET http://localhost:8000/api/mohon-items/123
+                    url: `${store.url}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-items/123
                 } 
             )
             .then( response => { // response block

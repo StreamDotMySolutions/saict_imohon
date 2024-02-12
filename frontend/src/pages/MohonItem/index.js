@@ -5,14 +5,14 @@ import axios from '../../libs/axios'
 import MohonItemIndex from './components/MohonItemIndex'
 
 const MohonItem = () => {
-  const { id } = useParams()
+  const { mohonRequestId } = useParams()
   const navigate = useNavigate()
   const store = useMohonStore()
   const [title, setTitle] = useState('')
 
   axios({
     'method' : 'get',
-    'url' : `${store.submitUrl}/${id}`
+    'url' : `${store.submitUrl}/${mohonRequestId}`
     })
     .then( response => {
         //console.log(response.data)
@@ -34,7 +34,7 @@ const MohonItem = () => {
                 </ol>
             </nav>
     
-            <MohonItemIndex id={id} /> 
+            <MohonItemIndex mohonRequestid={mohonRequestId} /> 
         </div>
     );
 };

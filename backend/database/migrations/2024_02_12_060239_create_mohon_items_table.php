@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('mohon_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mohon_request_id')->costrained();
-            $table->string('item')->nullable(); // pc printer
-            $table->string('type')->nullable(); // baharu or ganti
-            $table->integer('total')->nullable(); // how many
+            $table->foreignId('category_id')->costrained();
+            $table->integer('type')->nullable(); // baharu or ganti
             $table->text('description')->nullable(); // description
             $table->timestamps();
         });

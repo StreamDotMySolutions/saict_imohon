@@ -69,3 +69,39 @@ export function InputTextarea({fieldName, placeholder, icon, rows, isLoading}){
             </>)
 }
 
+export function InputSelect({fieldName, placeholder, icon, isLoading, options}){
+    const store = useMohonStore()
+    //const errors = store.errors
+    const errors = store.getValue('errors')
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon={icon}></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Select
+                        name={fieldName}
+                        size='md' 
+                        readOnly={isLoading}
+                        required 
+                        isInvalid={errors?.hasOwnProperty(fieldName)}
+                        onChange={ (e) => { 
+                          store.setValue(fieldName, e.target.value)                         
+                        } }
+                    >
+                        <option>{placeholder}</option>
+                        {options?.map((option,index) => (
+                            <option value={option.id}>{option.name}</option>
+                        ))}
+             
+                    </Form.Select>
+                    {
+                        errors?.hasOwnProperty(fieldName) &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors[fieldName] ? errors[fieldName] : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+

@@ -86,7 +86,7 @@ export default function App() {
                 <Route path="/user-departments" element={<UserDepartment />} />
 
                 <Route path="/mohon" element={<Mohon />} />
-                <Route path="/mohon-items/:id" element={<MohonItem/>} />
+                <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
                 <Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
