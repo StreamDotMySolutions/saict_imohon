@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MohonItem;
+use App\Models\Category;
 use App\Services\MohonItemService;
 use App\Http\Requests\MohonItem\StoreMohonRequest;
 use App\Http\Requests\MohonItem\UpdateMohonRequest;
 // use App\Http\Requests\DeleteMohonRequest;
 
-class MohonController extends Controller
+class MohonItemController extends Controller
 {
 
     public function index()
@@ -79,6 +80,15 @@ class MohonController extends Controller
                 'message' => 'Permohonan gagal dipadam',
             ],422);
         }
+    }
+
+    public function categories()
+    {
+
+        $node =  Category::where('name','items')->first(); // where name = items
+        $categories = Category::whereDescendantOf($node)->get();
+        return response()->json(['categories' => $categories]);
+        
     }
 
 }

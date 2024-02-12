@@ -1,7 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
-import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
@@ -13,11 +12,21 @@ export default function CreateModal() {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [categories, setCategories] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
+      // get item categories from /mohon-items/categories
+      axios({
+        'method' : 'get',
+        'url' : `${store.submitUrl}/categories`
+      })
+      .then( response => {
+        console.log(response.data)
+      })
+
       store.emptyData() // empty store data
       setShow(true)
     } 

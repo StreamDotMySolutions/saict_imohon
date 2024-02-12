@@ -88,5 +88,7 @@ class CategoryController extends Controller
         $categories = Category::whereDescendantOf($node)->get();
         return response()->json(['categories' => $categories]);
     }
+
+    
 }
 
