@@ -66,7 +66,7 @@ const MohonIndex = () => {
                             <td>{mohon.description}</td>
                             <td className='text-center' >
                                 <Link to={`/mohon-items/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Items</Button>
+                                    <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                 {' '}
                                 {/* <ViewModal id={mohon.id} /> */}
