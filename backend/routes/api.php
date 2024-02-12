@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon', [MohonController::class, 'index']);
     Route::post('/mohon', [MohonController::class, 'store']);
     Route::get('/mohon/{id}', [MohonController::class, 'show']);
+    Route::put('/mohon/{id}', [MohonController::class, 'update']);
 
     // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);

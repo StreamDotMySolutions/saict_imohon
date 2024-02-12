@@ -14,20 +14,25 @@ export default function EditModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
   
     const handleShowClick = () =>{
+      setIsLoading(true)
       store.emptyData() // empty store data
       //console.log(id)
 
+        console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
-            'url' : `${store.url}/${id}`
+            'url' : `${store.submitUrl}/${id}`
         })
         .then( response => {
+          console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
+          setIsLoading(false)
         })
         .catch ( error => {
           console.warn(error)
+          setIsLoading(false)
         })
 
         setShow(true) // show the modal
@@ -51,20 +56,23 @@ export default function EditModal({id}) {
         formData.append('description', store.getValue('description'));
       }
 
+      // method PUT ( to simulate PUT in Laravel )
+      formData.append('_method', 'put');
+      
       axios({ 
           method: 'post',
-          url: store.url,
+          'url' : `${store.submitUrl}/${id}`,
           data: formData
         })
         .then( response => {
           //console.log(response)
-          setIsLoading(false)
 
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
           // Add a delay of 1 second before closing
           setTimeout(() => {
+            setIsLoading(false)
             handleCloseClick();
           }, 500);
         })
@@ -85,7 +93,7 @@ export default function EditModal({id}) {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan {id}</Modal.Title>
+            <Modal.Title>Kemaskini Permohonan <span class="badge bg-primary">{id}</span></Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

@@ -46,4 +46,25 @@ class MohonController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        \Log::info($id);
+        \Log::info($request);
+
+        // check ownership before update
+        $updated = MohonService::update($request,$id);
+
+        if($updated){
+            return response()->json([
+                'message' => 'Permohonan berjaya dikemaskini',
+                'id' => $id
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan gagal dikemaskini',
+            ],422);
+        }
+ 
+    }
+
 }

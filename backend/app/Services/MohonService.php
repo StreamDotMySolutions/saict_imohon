@@ -36,4 +36,16 @@ class MohonService
                     ->first();
         return $request;
     }
+
+    public static function update($request, $id)
+    {
+        $user =  auth('sanctum')->user();
+        return MohonRequest::query()
+                            ->where('user_id', $user->id)
+                            ->where('id',$id)
+                            ->update([
+                                'title'  => $request->input('title'),
+                                'description'  => $request->input('description'),
+                                ]);
+    }
 }

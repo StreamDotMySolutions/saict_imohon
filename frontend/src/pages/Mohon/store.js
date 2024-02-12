@@ -5,6 +5,7 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 const useMohonStore  = create((set) => ({
 
     url: `${base_url}/mohon`,
+    submitUrl: `${base_url}/mohon`,
     refresh: false,
     errors: null,
     latestId: null,
@@ -37,8 +38,6 @@ const useMohonStore  = create((set) => ({
         const field = useMohonStore.getState().data[fieldName];
         return field ? field.value : null;
     },
-
-
 
 }));
 

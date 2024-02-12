@@ -1,12 +1,12 @@
-[2024-02-11 12:08:29] local.INFO: array (
-  'title' => 'test',
-  'description' => 'test123',
+[2024-02-12 02:38:41] local.INFO: 12  
+[2024-02-12 02:38:41] local.INFO: array (
+  'title' => 'test sampai',
+  'description' => 'test sampai',
+  '_method' => 'put',
 )  
-[2024-02-11 12:10:57] local.INFO: array (
-  'title' => 'test',
-  'description' => 'test123',
-)  
-[2024-02-11 12:11:11] local.INFO: array (
-  'title' => 'tajuk',
-  'description' => 'isi penting',
+[2024-02-12 02:39:04] local.INFO: 12  
+[2024-02-12 02:39:04] local.INFO: array (
+  'title' => 'test sampai lebam biji mata',
+  'description' => 'test sampai lebam biji mata',
+  '_method' => 'put',
 )  
