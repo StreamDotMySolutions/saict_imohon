@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination } from 'react-bootstrap'
+import { Table,Pagination, Button } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
 import EditModal from '../modals/EditModal';
@@ -53,7 +53,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th style={{ 'width': '400px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Actions</th>
+                        <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
                     </tr>
                 </thead>
 
@@ -64,6 +64,8 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center' >
+                                <Button size='sm' variant='outline-success'>Items</Button>
+                                {' '}
                                 <ViewModal id={mohon.id} />
                                 {' '}
                                 <EditModal id={mohon.id} />
