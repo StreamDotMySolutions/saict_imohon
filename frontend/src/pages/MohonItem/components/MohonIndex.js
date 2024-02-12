@@ -6,7 +6,6 @@ import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
 import ViewModal from '../modals/ViewModal';
 import CreateModal from '../modals/CreateModal';
-import { Link } from 'react-router-dom';
 
 
 const MohonIndex = () => {
@@ -65,9 +64,7 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center' >
-                                <Link to={`/mohon-items/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Items</Button>
-                                </Link>
+                                <Button size='sm' variant='outline-success'>Items</Button>
                                 {' '}
                                 <ViewModal id={mohon.id} />
                                 {' '}
