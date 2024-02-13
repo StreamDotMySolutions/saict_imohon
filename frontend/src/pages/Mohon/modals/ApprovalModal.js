@@ -4,7 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function CreateModal() {
+export default function ApprovalModal({id}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -17,9 +17,29 @@ export default function CreateModal() {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
+      setIsLoading(true)
       store.emptyData() // empty store data
-      setShow(true)
-    } 
+      //console.log(id)
+
+        console.log( `${store.submitUrl}/${id}`)
+        axios({
+            'method' : 'get',
+            'url' : `${store.submitUrl}/${id}`
+        })
+        .then( response => {
+          console.log(response.data)
+          let mohon = response.data.mohon
+          store.setValue('title', mohon.title) // set formValue
+          store.setValue('description', mohon.description) // set formValue
+          setIsLoading(false)
+        })
+        .catch ( error => {
+          console.warn(error)
+          setIsLoading(false)
+        })
+
+        setShow(true) // show the modal
+    }
 
     const handleCloseClick = () => {
       handleClose()
@@ -29,29 +49,23 @@ export default function CreateModal() {
       setIsLoading(true)
       const formData = new FormData()
 
-      // title
-      if (store.getValue('title') != null ) {
-        formData.append('title', store.getValue('title'));
-      }
-
-      // description
-      if (store.getValue('description') != null ) {
-        formData.append('description', store.getValue('description'));
-      }
+      // method PUT ( to simulate PUT in Laravel )
+      formData.append('_method', 'post');
 
       axios({ 
           method: 'post',
-          url: store.submitUrl,
+          url : `${store.mohonApproval}/${id}`,
           data: formData
         })
         .then( response => {
           //console.log(response)
+          setIsLoading(false)
+
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
           // Add a delay of 1 second before closing
           setTimeout(() => {
-            setIsLoading(false)
             handleCloseClick();
           }, 500);
         })
@@ -63,16 +77,17 @@ export default function CreateModal() {
           }
         })
     }
+
   
     return (
       <>
-        <Button variant="primary" onClick={handleShowClick}>
-          Tambah
+        <Button size="sm" variant="info" onClick={handleShowClick}>
+          Mohon
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -80,7 +95,7 @@ export default function CreateModal() {
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
-              isLoading={isLoading}
+              isLoading={'true'}
             />
             <br />
             <InputTextarea
@@ -88,25 +103,26 @@ export default function CreateModal() {
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-question'
               rows='6'
-              isLoading={isLoading}
+              isLoading={'true'}
             />
-           
+            <br />
 
           </Modal.Body>
           
           <Modal.Footer>
-            <Button 
+
+          <Button 
               disabled={isLoading}
               variant="secondary" 
               onClick={handleCloseClick}>
               Tutup
-            </Button>
+          </Button>
 
-            <Button 
+          <Button 
               disabled={isLoading}
               variant="primary" 
               onClick={handleSubmitClick}>
-              Hantar
+              Mohon
             </Button>
 
           </Modal.Footer>

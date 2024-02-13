@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\MohonRequest;
+use App\Models\MohonApproval;
 use Illuminate\Http\Request;
 
 class MohonService
@@ -21,11 +22,22 @@ class MohonService
     {
         //\Log::info($request);
         $user =  auth('sanctum')->user();
-        return MohonRequest::create([
+        $mohonRequest = MohonRequest::create([
             'user_id' => $user->id,
             'title' => $request->input('title'),
             'description' => $request->input('description')
         ]);
+
+        // create MohonApproval
+        $mohonApproval = MohonApproval::create([
+            'mohon_request_id' => $mohonRequest->id,
+            'user_id' => $user->id,
+            'step' => 0,
+            'status' => 'pending',
+        ]);
+
+    
+        
     }
 
     public static function show($id)

@@ -7,6 +7,7 @@ import DeleteModal from '../modals/DeleteModal';
 import ViewModal from '../modals/ViewModal';
 import CreateModal from '../modals/CreateModal';
 import { Link } from 'react-router-dom';
+import ApprovalModal from '../modals/ApprovalModal';
 
 
 const MohonIndex = () => {
@@ -54,7 +55,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th style={{ 'width': '400px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
+                        <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
                     </tr>
                 </thead>
 
@@ -65,11 +66,12 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center' >
+                                <ApprovalModal id={mohon.id} />
+                                {' '}
                                 <Link to={`/mohon-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
-                                {' '}
-                                {/* <ViewModal id={mohon.id} /> */}
+                               
                                 {' '}
                                 <EditModal id={mohon.id} />
                                 {' '}

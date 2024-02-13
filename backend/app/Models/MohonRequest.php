@@ -26,7 +26,7 @@ class MohonRequest extends Model
         /*
         * Pelulus 1
         */
-        return $this->hasOne(ApplicationApproval::class)
+        return $this->hasOne(MohonApproval::class)
                     ->where('step', 1)->latest();
     }
 
@@ -35,7 +35,7 @@ class MohonRequest extends Model
         /*
         * Pelulus 2
         */
-        return $this->hasOne(ApplicationApproval::class)
+        return $this->hasOne(MohonApproval::class)
                     ->where('step', 2)->latest();
     }
 }

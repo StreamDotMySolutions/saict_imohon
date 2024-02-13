@@ -1,7 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
-import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 

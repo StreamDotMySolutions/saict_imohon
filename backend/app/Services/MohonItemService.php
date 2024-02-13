@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\MohonItem;
+use App\Models\MohonApproval;
 use Illuminate\Http\Request;
 
 class MohonItemService
@@ -30,6 +31,9 @@ class MohonItemService
             'type' => $request->input('type'),
             'description' => $request->input('description')
         ]);
+
+        // create MohonApproval
+        
     }
 
     public static function show($id)
