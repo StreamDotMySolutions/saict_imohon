@@ -20,4 +20,22 @@ class MohonRequest extends Model
     {
         return $this->hasMany(MohonItem::class);
     }
+
+    public function approvalByPelulus1() 
+    {
+        /*
+        * Pelulus 1
+        */
+        return $this->hasOne(ApplicationApproval::class)
+                    ->where('step', 1)->latest();
+    }
+
+    public function approvalByPelulus2() 
+    {
+        /*
+        * Pelulus 2
+        */
+        return $this->hasOne(ApplicationApproval::class)
+                    ->where('step', 2)->latest();
+    }
 }
