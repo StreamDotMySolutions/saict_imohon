@@ -22,8 +22,16 @@ use App\Http\Controllers\{
 Auth::routes();
 
 Route::get('/welcome', function () {
-    return response()->json(['message' => 'welcome']);
+    return response()->json(['message' => 'hello']);
 });
+
+Route::get('/cuba', function () {
+    return response()->json(['message' => 'hello']);
+});
+
+//Route::get('/cuba',  [MohonItemController::class, 'categories']);
+
+Route::get('/items', [MohonItemController::class, 'categories']);
 
 
 // Role guest
@@ -128,3 +136,4 @@ Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
     Route::patch('/categories/ordering/{category}/{direction}', [CategoryController::class, 'ordering']);
 
 });
+
