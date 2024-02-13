@@ -81,7 +81,6 @@ class MohonItemController extends Controller
         }else{
             return response()->json(['message' => 'Please insert items category'],422);
         }
-
     }
 
 }
