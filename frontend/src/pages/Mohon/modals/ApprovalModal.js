@@ -49,6 +49,9 @@ export default function ApprovalModal({id}) {
       setIsLoading(true)
       const formData = new FormData()
 
+      // step = 1 ( user submitted to Pelulus 1)
+      formData.append('step', 1 );
+
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'post');
 
