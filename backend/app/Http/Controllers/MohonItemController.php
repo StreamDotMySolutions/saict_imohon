@@ -76,10 +76,10 @@ class MohonItemController extends Controller
         $node =  Category::where('name','items')->first(); // where name = items
         $categories = Category::whereDescendantOf($node)->get();
         
-        if($categories){
+        if($categories->isNotEmpty()){
             return response()->json(['categories' => $categories]);
         }else{
-            return response()->json(['message' => 'Please insert items category'],422);
+            return response()->json(['message' => 'Please insert item in Category Model'],422);
         }
     }
 
