@@ -55,8 +55,9 @@ const MohonIndex = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '400px'}}>Title</th>
+                        <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
+                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
                         <th style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
                     </tr>
@@ -68,6 +69,13 @@ const MohonIndex = () => {
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
+                            <td className='text-center'>
+                                <small>
+                                Peringkat : {mohon.mohon_approval.step}
+                                <br />
+                                Status : {mohon.mohon_approval.status}
+                                </small>
+                            </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
                                 
