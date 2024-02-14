@@ -15,7 +15,6 @@ import Layout from './layouts/Layout';
 /** Protected Route */
 import ProtectedRoute from './libs/ProtectedRoute';
 
-
 /** Error */
 import Error404 from "./pages/Error404"
 
@@ -47,8 +46,9 @@ import Inventory from './pages/Inventory'
 import Distribution from './pages/Distribution'
 import DistributionApproval from './pages/DistributionApproval'
 import DistributionAcceptance from './pages/DistributionAcceptance'
-import Mohon from './pages/Mohon';
-import MohonItem from './pages/MohonItem/index.js';
+import Mohon from './pages/Mohon'
+import MohonItem from './pages/MohonItem'
+import MohonApprovalByManager from './pages/MohonApproval/Manager'
 
 library.add(fas)
 
@@ -87,6 +87,9 @@ export default function App() {
 
                 <Route path="/mohon" element={<Mohon />} />
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
+
+                <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
+
                 <Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
