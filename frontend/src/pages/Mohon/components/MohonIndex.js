@@ -24,7 +24,9 @@ const MohonIndex = () => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
+                console.log(response.data.mohons.data)   // output to console  
+
+      
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -55,6 +57,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th style={{ 'width': '400px'}}>Title</th>
                         <th>Description</th>
+                        <th style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
                     </tr>
                 </thead>
@@ -65,17 +68,19 @@ const MohonIndex = () => {
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
-                            <td className='text-center' >
-                                <ApprovalModal id={mohon.id} />
+                            <td className='text-center'>{mohon.mohon_items_count}</td>
+                            <td className='text-center'>
+                                
+                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
                                 {' '}
                                 <Link to={`/mohon-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                
                                 {' '}
-                                <EditModal id={mohon.id} />
+                                <EditModal id={mohon.id} step={mohon.mohon_approval.step}/>
                                 {' '}
-                                <DeleteModal id={mohon.id} />
+                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
                             </td>
                         </tr>
                     ))}

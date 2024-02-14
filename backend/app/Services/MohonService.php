@@ -12,6 +12,8 @@ class MohonService
     {
         $paginate = MohonRequest::query();
         $requests = $paginate->orderBy('id','DESC')
+                                ->with(['mohonApproval'])
+                                ->withCount(['mohonItems'])
                                 ->paginate(10) // 10 items per page
                                 ->withQueryString();
     

@@ -4,7 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function ApprovalModal({id}) {
+export default function ApprovalModal({id,count,step}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -84,10 +84,16 @@ export default function ApprovalModal({id}) {
   
     return (
       <>
-        <Button size="sm" variant="info" onClick={handleShowClick}>
-          Mohon
-        </Button>
-  
+        {count === 0 ? (
+          <Button disabled size="sm" variant="info" onClick={handleShowClick}>
+            Mohon
+          </Button>
+        ) : (
+          <Button disabled={step !== 0} size="sm" variant="info" onClick={handleShowClick}>
+            Mohon
+          </Button>
+        )}
+          
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>

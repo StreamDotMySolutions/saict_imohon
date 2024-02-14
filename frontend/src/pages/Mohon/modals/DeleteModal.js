@@ -4,7 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id}) {
+export default function DeleteModal({id, step = 0 }) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -80,8 +80,8 @@ export default function DeleteModal({id}) {
   
     return (
       <>
-        <Button size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Delete
+        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
+          Padam
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
