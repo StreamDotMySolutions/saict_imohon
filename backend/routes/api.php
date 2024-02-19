@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     // mohon approval
     Route::post('/mohon-approval/{mohonRequestId}', [MohonApprovalController::class, 'store']);
-    
+    Route::put('/mohon-approval/by-manager/{mohonRequestId}', [MohonApprovalController::class, 'update']);
 
     // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);

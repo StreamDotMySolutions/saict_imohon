@@ -7,7 +7,7 @@ use App\Services\MohonApprovalService;
 
 class MohonApprovalController extends Controller
 {
-    //
+    // List all MohonRequest by role
     public function store(Request $request, $mohonRequestId){
 
         $mohonApprovalService = MohonApprovalService::store($request, $mohonRequestId);
@@ -22,6 +22,10 @@ class MohonApprovalController extends Controller
                 'message' => 'Permohonan ke Pelulus 1 gagal',
             ],422);
         }
+    }
 
+    public function update(Request $request)
+    {
+        \Log::info($request);
     }
 }
