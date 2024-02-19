@@ -21,13 +21,13 @@ export default function ApprovalModal({id,count,step}) {
       store.emptyData() // empty store data
       //console.log(id)
 
-        console.log( `${store.submitUrl}/${id}`)
+        //console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
             'url' : `${store.submitUrl}/${id}`
         })
         .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue

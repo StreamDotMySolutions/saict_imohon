@@ -10,7 +10,24 @@ class MohonService
 
     public static function index()
     {
-        $user =  auth('sanctum')->user(); // get loggedIn user data
+        $user =  auth('sanctum')->user(); // user auth
+        $role = $user->roles->pluck('name')[0]; // User only have 1 role
+   
+        switch($role){
+            case 'user':
+            case 'manager':
+                $mohons = self::getMohonDataAsUser($user);
+            break;
+            default:
+                $mohons = [];
+            break;
+        }
+
+        return $mohons;
+    }
+
+    public static function getMohonDataAsUser($user)
+    {
 
         # User hasOne UserProfile
         # UserProfile belongsTo UserDepartment
@@ -18,19 +35,19 @@ class MohonService
 
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
-                                //->with(['mohonApproval'])
-                                ->with(['user.userProfile','mohonApproval'])
+                    //->with(['mohonApproval'])
+                    ->with(['user.userProfile','mohonApproval'])
 
-                                // to list requests from same department
-                                // based on User Department ID
-                                ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
-                                    $query->where('user_department_id', $userDepartmentId);
-                                })
+                    // to list requests from same department
+                    // based on User Department ID
+                    ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
+                        $query->where('user_department_id', $userDepartmentId);
+                    })
 
-                                ->withCount(['mohonItems']) // to calculate how many items
-                               
-                                ->paginate(10) // 10 items per page
-                                ->withQueryString(); // with GET Query String
+                    ->withCount(['mohonItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
                                
     
         return $mohons;
