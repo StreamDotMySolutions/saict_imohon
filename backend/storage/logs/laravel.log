@@ -16,3 +16,7 @@
   'status' => 'approved',
   '_method' => 'put',
 )  
+[2024-02-19 09:30:48] local.INFO: logout-manager@local  
+[2024-02-19 09:31:01] local.INFO: login-user@local  
+[2024-02-19 09:34:27] local.INFO: logout-user@local  
+[2024-02-19 09:34:38] local.INFO: login-manager@local  

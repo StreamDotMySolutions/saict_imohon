@@ -21,13 +21,13 @@ function TopNavbar() {
               {/* <Nav>
                 <Nav.Link as={NavLink} to="/requests"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Request</Nav.Link>
               </Nav> */}
-
+{/* 
               <Nav>
                 <Nav.Link as={NavLink} to="/applications"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon</Nav.Link>
-              </Nav>
+              </Nav> */}
 
               <Nav>
-                <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon v2</Nav.Link>
+                <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon</Nav.Link>
               </Nav>
 
               <Nav>

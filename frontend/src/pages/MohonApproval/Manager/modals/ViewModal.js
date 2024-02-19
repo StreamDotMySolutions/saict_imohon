@@ -13,7 +13,8 @@ export default function ViewModal({id}) {
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
-  
+    const [step, setStep] = useState('') // Step
+
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
@@ -32,6 +33,7 @@ export default function ViewModal({id}) {
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
           setItems(mohon.mohon_items)
+          setStep(mohon.mohon_approval.step)
 
           // items
           setIsLoading(false)
@@ -161,6 +163,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
+              disabled={step !== 1}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
@@ -168,14 +171,14 @@ export default function ViewModal({id}) {
             />
 
           <Button 
-              disabled={isLoading}
+              disabled={ isLoading || step !== 1}
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
-              disabled={isLoading}
+              disabled={ isLoading || step !== 1}
               variant="danger" 
               onClick={handleRejectClick}>
               Gagal
