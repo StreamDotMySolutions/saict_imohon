@@ -5,7 +5,7 @@ import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id}) {
+export default function DeleteModal({id, step}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -34,7 +34,7 @@ export default function DeleteModal({id}) {
         'url' : `${store.submitUrl}/categories`
       })
       .then( response => {
-        console.log(response.data.categories)
+        //console.log(response.data.categories)
         setCategories(response.data.categories)
       })
 
@@ -44,7 +44,7 @@ export default function DeleteModal({id}) {
           'url' : `${store.submitUrl}/show/${id}`
       })
       .then( response => {
-        console.log(response.data)
+        //console.log(response.data)
         let item = response.data.item
         store.setValue('category_id',  item.category_id) // set formValue
         store.setValue('type', item.type) // set formValue
@@ -99,7 +99,7 @@ export default function DeleteModal({id}) {
   
     return (
       <>
-        <Button size="sm" variant="outline-danger" onClick={handleShowClick}>
+        <Button size="sm" disabled={ step !== 0 } variant="outline-danger" onClick={handleShowClick}>
           Delete
         </Button>
   

@@ -9,16 +9,19 @@ const MohonItem = () => {
   const navigate = useNavigate()
   const store = useMohonStore()
   const [title, setTitle] = useState('')
+  const [step, setStep] = useState('')
 
   axios({
     'method' : 'get',
     'url' : `${store.submitUrl}/${mohonRequestId}`
     })
     .then( response => {
+        //console.log('get mohon_approval')
         //console.log(response.data)
         let mohon = response.data.mohon
         //store.setValue('title', mohon.title) // set formValue
         setTitle(mohon.title)
+        setStep(mohon.mohon_approval.step)
         //store.setValue('description', mohon.description) // set formValue
     })
     .catch ( error => {
@@ -33,7 +36,7 @@ const MohonItem = () => {
                     <li class="breadcrumb-item">{title}</li>
                 </ol>
             </nav>
-            <MohonItemIndex mohonRequestId={mohonRequestId} /> 
+            <MohonItemIndex mohonRequestId={mohonRequestId} step={step} /> 
         </div>
     );
 };

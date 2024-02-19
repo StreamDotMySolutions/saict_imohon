@@ -7,10 +7,11 @@ import DeleteModal from '../modals/DeleteModal'
 import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 
-const MohonItemIndex = ({mohonRequestId}) => {
+const MohonItemIndex = ({mohonRequestId, step}) => {
     const store = useMohonItemStore()
     const [items, setItems] = useState([])
 
+    // to get items data
     useEffect( () => 
         {
             // modified axios to prepend Bearer Token on header
@@ -41,7 +42,7 @@ const MohonItemIndex = ({mohonRequestId}) => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    <CreateModal />
+                    {step === 0 && <CreateModal /> }
                 </div>
             </div>
 
@@ -65,9 +66,9 @@ const MohonItemIndex = ({mohonRequestId}) => {
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
                             <td className='text-center' >
-                                <EditModal id={item.id} />
+                                <EditModal id={item.id} step={step} />
                                 {' '}
-                                <DeleteModal id={item.id} />
+                                <DeleteModal id={item.id} step={step} />
                             </td>
                         </tr>
                     ))}

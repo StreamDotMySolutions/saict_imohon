@@ -6,6 +6,7 @@ const useMohonItemStore  = create((set) => ({
 
     url: `${base_url}/mohon-items`,
     submitUrl: `${base_url}/mohon-items`,
+    mohonUrl: `${base_url}/mohon`,
     refresh: false,
     errors: null,
     latestId: null,

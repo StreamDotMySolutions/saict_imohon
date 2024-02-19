@@ -46,6 +46,7 @@ class MohonService
     {
         $request = MohonRequest::query()
                     ->where('id', $id)
+                    ->with(['mohonApproval'])
                     //->with(['application.user.userProfile.userDepartment'])
                     ->first();
         return $request;

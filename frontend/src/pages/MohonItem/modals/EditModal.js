@@ -4,7 +4,7 @@ import { InputText, InputTextarea, InputSelect } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function EditModal({id}) {
+export default function EditModal({id, step}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -109,8 +109,9 @@ export default function EditModal({id}) {
   
     return (
       <>
-        <Button size={'sm'} variant="outline-primary" onClick={handleShowClick}>
-          Edit
+
+        <Button size={'sm'} disabled={step !== 0} variant="outline-primary" onClick={handleShowClick}>
+          Edit 
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
