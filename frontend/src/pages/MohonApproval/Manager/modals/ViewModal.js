@@ -7,7 +7,7 @@ import useMohonStore from '../store'
 export default function ViewModal({id}) {
 
     const store = useMohonStore()
-    const errors = store.errors
+    const errors = store.getValue('errors')
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
@@ -93,7 +93,7 @@ export default function ViewModal({id}) {
           }, 500);
         })
         .catch( error => {
-          //console.warn(error)
+          console.warn(error)
           setIsLoading(false)
           if(error.response.status === 422){
             store.setValue('errors',  error.response.data.errors )

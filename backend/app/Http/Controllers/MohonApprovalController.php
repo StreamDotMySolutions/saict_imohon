@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\MohonApprovalService;
+use App\Http\Requests\MohonApproval\UpdateRequest;
 
 class MohonApprovalController extends Controller
 {
-    // List all MohonRequest by role
+    // User process NohonRequest from step 0 to 1 
     public function store(Request $request, $mohonRequestId){
 
         $mohonApprovalService = MohonApprovalService::store($request, $mohonRequestId);
@@ -24,7 +25,8 @@ class MohonApprovalController extends Controller
         }
     }
 
-    public function update(Request $request)
+    // Manager process MohonRequest step = 1 to step = 2
+    public function byManager(UpdateRequest $request)
     {
         \Log::info($request);
     }
