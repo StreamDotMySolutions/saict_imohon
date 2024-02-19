@@ -47,14 +47,13 @@ class MohonItemService
 
     public static function update($request, $id)
     {
-   
         return MohonItem::query()
-                            ->where('id',$id)
-                            ->update([
-                                'category_id' => $request->input('category_id'),
-                                'type' => $request->input('type'),
-                                'description' => $request->input('description')
-                                ]);
+                        ->where('id',$id)
+                        ->update([
+                            'category_id' => $request->input('category_id'),
+                            'type' => $request->input('type'),
+                            'description' => $request->input('description')
+                            ]);
     }
 
     public static function delete($id)

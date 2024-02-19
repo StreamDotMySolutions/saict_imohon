@@ -11,7 +11,7 @@ class MohonApprovalController extends Controller
     // User process NohonRequest from step 0 to 1 
     public function store(Request $request, $mohonRequestId){
 
-        $mohonApprovalService = MohonApprovalService::store($request, $mohonRequestId);
+        $mohonApprovalService = MohonApprovalService::storeStep1($request, $mohonRequestId);
 
         if($mohonApprovalService)
         {
@@ -26,8 +26,20 @@ class MohonApprovalController extends Controller
     }
 
     // Manager process MohonRequest step = 1 to step = 2
-    public function byManager(UpdateRequest $request)
+    public function byManager(UpdateRequest $request, $mohonRequestId)
     {
-        \Log::info($request);
+        //\Log::info($request);
+        $mohonApprovalService = MohonApprovalService::storeStep2($request, $mohonRequestId);
+
+        if($mohonApprovalService)
+        {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 1 berjaya diterima',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 1 gagal',
+            ],422);
+        }
     }
 }
