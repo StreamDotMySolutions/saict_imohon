@@ -1,21 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import axios from '../../../libs/axios'
-import useMohonApprovalStore from '../store'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table,Pagination, Button, Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
+import MohonIndex from './components/MohonIndex';
+
 
 const MohonApprovalByManager = () => {
-    const store = useMohonApprovalStore()
-    useEffect( () => {
-        // axios call
-    })
-
     return (
         <div>
-           hello world
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-manager'>Mohon</Link></li>
+                    <li class="breadcrumb-item">Senarai Permohonan</li>
+                </ol>
+            </nav>
+            <MohonIndex />
         </div>
     );
 };
-export default MohonApprovalByManager
+
+export default MohonApprovalByManager;

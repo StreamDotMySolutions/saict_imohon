@@ -15,8 +15,10 @@ class MohonService
    
         switch($role){
             case 'user':
-            case 'manager':
                 $mohons = self::getMohonDataAsUser($user);
+            break;
+            case 'manager':
+                $mohons = self::getMohonDataAsManager($user);
             break;
             default:
                 $mohons = [];
@@ -26,6 +28,9 @@ class MohonService
         return $mohons;
     }
 
+    /*
+    * List All MohonRequest
+    */
     public static function getMohonDataAsUser($user)
     {
 
@@ -37,6 +42,42 @@ class MohonService
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
                     ->with(['user.userProfile','mohonApproval'])
+
+                    // to list requests from same department
+                    // based on User Department ID
+                    ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
+                        $query->where('user_department_id', $userDepartmentId);
+                    })
+
+                    ->withCount(['mohonItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
+                               
+    
+        return $mohons;
+    }
+
+    /*
+    * Only list MohonRequest Step = 1
+    */
+
+    public static function getMohonDataAsManager($user)
+    {
+
+        # User hasOne UserProfile
+        # UserProfile belongsTo UserDepartment
+        $userDepartmentId = $user->userProfile->userDepartment->id; // User Department ID
+
+        $paginate = MohonRequest::query(); // Intiate Paginate
+        $mohons = $paginate->orderBy('id','DESC')
+                    //->with(['mohonApproval'])
+                    ->with(['user.userProfile','mohonApproval'])
+
+                    // only list where step = 1
+                    ->whereHas('mohonApproval', function ($query) {
+                        $query->where('step', 1);
+                    })
 
                     // to list requests from same department
                     // based on User Department ID
@@ -79,7 +120,7 @@ class MohonService
     {
         $request = MohonRequest::query()
                     ->where('id', $id)
-                    ->with(['mohonApproval'])
+                    ->with(['mohonApproval','mohonItems.category'])
                     //->with(['application.user.userProfile.userDepartment'])
                     ->first();
         return $request;
