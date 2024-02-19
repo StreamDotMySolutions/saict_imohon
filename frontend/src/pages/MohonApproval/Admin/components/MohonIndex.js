@@ -39,7 +39,6 @@ const MohonIndex = () => {
 
     return (
         <div>
-
             <Table>
                 <thead>
                     <tr>
