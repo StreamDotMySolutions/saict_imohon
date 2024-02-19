@@ -49,6 +49,7 @@ import DistributionAcceptance from './pages/DistributionAcceptance'
 import Mohon from './pages/Mohon'
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
+import MohonApprovalByAdmin from './pages/MohonApproval/Admin/index.js';
 
 library.add(fas)
 
@@ -89,6 +90,7 @@ export default function App() {
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
 
                 <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
+                <Route path="/mohon-approval/by-admin" element={<MohonApprovalByAdmin />} />         
 
                 <Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />

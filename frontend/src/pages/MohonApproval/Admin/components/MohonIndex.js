@@ -12,6 +12,7 @@ const MohonIndex = () => {
 
     useEffect( () => 
         {
+            console.log(store.url)
             // modified axios to prepend Bearer Token on header
             axios( 
                 {
@@ -20,9 +21,8 @@ const MohonIndex = () => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
+                console.log(response.data)   // output to console  
 
-      
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })

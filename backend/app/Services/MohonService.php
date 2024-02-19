@@ -20,6 +20,11 @@ class MohonService
             case 'manager':
                 $mohons = self::getMohonDataAsManager($user);
             break;
+
+            case 'admin':
+                $mohons = self::getMohonDataAsAdmin();
+            break;
+
             default:
                 $mohons = [];
             break;
@@ -61,7 +66,6 @@ class MohonService
     /*
     * Only list MohonRequest Step = 1
     */
-
     public static function getMohonDataAsManager($user)
     {
 
@@ -83,6 +87,31 @@ class MohonService
                     // based on User Department ID
                     ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
                         $query->where('user_department_id', $userDepartmentId);
+                    })
+
+                    ->withCount(['mohonItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
+                               
+    
+        return $mohons;
+    }
+
+        /*
+    * Only list MohonRequest Step = 1 && status == 'approved'
+    */
+    public static function getMohonDataAsAdmin()
+    {
+
+        $paginate = MohonRequest::query(); // Intiate Paginate
+        $mohons = $paginate->orderBy('id','DESC')
+                    //->with(['mohonApproval'])
+                    ->with(['user.userProfile','mohonApproval'])
+
+                    // only list where step = 1
+                    ->whereHas('mohonApproval', function ($query) {
+                        $query->where('status', 'approved')->where('step', 2);
                     })
 
                     ->withCount(['mohonItems']) // to calculate how many items
