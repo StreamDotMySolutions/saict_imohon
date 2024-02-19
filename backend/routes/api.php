@@ -73,8 +73,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
     
     // mohon approval
-    Route::post('/mohon-approval/{mohonRequestId}', [MohonApprovalController::class, 'store']);
+    Route::post('/mohon-approval/by-user/{mohonRequestId}', [MohonApprovalController::class, 'byUser']);
     Route::put('/mohon-approval/by-manager/{mohonRequestId}', [MohonApprovalController::class, 'byManager']);
+    Route::put('/mohon-approval/by-admin/{mohonRequestId}', [MohonApprovalController::class, 'byAdmin']);
 
     // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);

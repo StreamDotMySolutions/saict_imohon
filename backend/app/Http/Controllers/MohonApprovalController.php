@@ -9,7 +9,7 @@ use App\Http\Requests\MohonApproval\UpdateRequest;
 class MohonApprovalController extends Controller
 {
     // User process NohonRequest from step 0 to 1 
-    public function store(Request $request, $mohonRequestId){
+    public function byUser(Request $request, $mohonRequestId){
 
         $mohonApprovalService = MohonApprovalService::storeStep1($request, $mohonRequestId);
 
@@ -34,11 +34,30 @@ class MohonApprovalController extends Controller
         if($mohonApprovalService)
         {
             return response()->json([
-                'message' => 'Permohonan ke Pelulus 1 berjaya diterima',
+                'message' => 'Permohonan ke Pelulus 2 berjaya diterima',
             ]);
         } else {
             return response()->json([
-                'message' => 'Permohonan ke Pelulus 1 gagal',
+                'message' => 'Permohonan ke Pelulus 2 gagal',
+            ],422);
+        }
+    }
+
+    
+    // Admin process MohonRequest step = 2 to step = 3
+    public function byAdmin(UpdateRequest $request, $mohonRequestId)
+    {
+        //\Log::info($request);
+        $mohonApprovalService = MohonApprovalService::storeStep2($request, $mohonRequestId);
+
+        if($mohonApprovalService)
+        {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 3 berjaya diterima',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 3 gagal',
             ],422);
         }
     }

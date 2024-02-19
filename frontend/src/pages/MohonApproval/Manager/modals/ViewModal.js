@@ -28,7 +28,7 @@ export default function ViewModal({id}) {
             'url' : `${store.submitUrl}/${id}`
       })
       .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
@@ -103,8 +103,6 @@ export default function ViewModal({id}) {
         })
     }
 
-
-  
     return (
       <>
         <Button size="sm" variant="outline-info" onClick={handleShowClick}>

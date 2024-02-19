@@ -50,14 +50,14 @@ export default function ApprovalModal({id,count,step}) {
       const formData = new FormData()
 
       // step = 1 ( user submitted to Pelulus 1)
-      formData.append('step', 1 );
+      //formData.append('step', 1 );
 
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'post');
 
       axios({ 
           method: 'post',
-          url : `${store.mohonApproval}/${id}`,
+          url : `${store.userApprovalUrl}/${id}`,
           data: formData
         })
         .then( response => {
