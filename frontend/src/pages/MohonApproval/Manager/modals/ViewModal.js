@@ -44,6 +44,20 @@ export default function ViewModal({id}) {
         setShow(true) // show the modal
     }
 
+    const handleCloseClick = () => {
+      handleClose()
+    }
+
+    const handleApproveClick = () => {
+      store.setValue('status', 'approved')
+      handleSubmitClick()
+    }
+
+    const handleRejectClick = () => {
+      store.setValue('status', 'rejected')
+      handleSubmitClick()
+    }
+
     const handleSubmitClick = () => {
       setIsLoading(true)
       const formData = new FormData()
@@ -51,6 +65,11 @@ export default function ViewModal({id}) {
       // ackknowledge
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
+      // status
+      if (store.getValue('status') != null ) {
+        formData.append('status', store.getValue('status'));
       }
 
       // method PUT ( to simulate PUT in Laravel )
@@ -82,9 +101,6 @@ export default function ViewModal({id}) {
         })
     }
 
-    const handleCloseClick = () => {
-      handleClose()
-    }
 
   
     return (
@@ -154,17 +170,16 @@ export default function ViewModal({id}) {
           <Button 
               disabled={isLoading}
               variant="success" 
-              onClick={handleCloseClick}>
+              onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
               disabled={isLoading}
               variant="danger" 
-              onClick={handleCloseClick}>
-              Batal
+              onClick={handleRejectClick}>
+              Gagal
             </Button>
-
 
             <Button 
               disabled={isLoading}
