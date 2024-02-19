@@ -55,6 +55,7 @@ const MohonIndex = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
+                        <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
                         <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
@@ -67,6 +68,7 @@ const MohonIndex = () => {
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
+                            <td>{mohon.user?.email}</td>
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center'>

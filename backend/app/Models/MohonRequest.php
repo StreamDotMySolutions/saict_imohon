@@ -11,11 +11,13 @@ class MohonRequest extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    // belongsTo User
     public function user() 
     {
         return $this->belongsTo(User::class);
     }
 
+    // hasMany MohonItem
     public function mohonItems() 
     {
         return $this->hasMany(MohonItem::class);
