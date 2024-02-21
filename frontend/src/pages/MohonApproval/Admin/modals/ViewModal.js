@@ -109,7 +109,7 @@ export default function ViewModal({id}) {
           Lihat
         </Button>
   
-        <Modal size={'lg'} show={show} onHide={handleCloseClick}>
+        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
@@ -126,7 +126,7 @@ export default function ViewModal({id}) {
               fieldName='description' 
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-question'
-              rows='6'
+              rows='3'
               isLoading={'true'}
             />
             <br />
@@ -138,6 +138,7 @@ export default function ViewModal({id}) {
                         <th>Item</th>
                         <th>Type</th>
                         <th>Description</th>
+                        <th style={{ 'width': '20px'}}>Agihan</th>
                  
                     </tr>
                 </thead>
@@ -149,6 +150,11 @@ export default function ViewModal({id}) {
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
+                            <td className='text-center'>
+                              <Form.Check // prettier-ignore
+                                type='checkbox'
+                              />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
