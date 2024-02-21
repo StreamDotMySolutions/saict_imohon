@@ -28,7 +28,6 @@ class MohonController extends Controller
 
         return response()->json([
             'message' => 'Permohonan disimpan',
-
         ]);
     }
 
