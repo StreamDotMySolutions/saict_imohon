@@ -16,7 +16,8 @@ function TopNavbar() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Home</Nav.Link>
-                <Nav.Link as={NavLink} to="/distribution-approvals"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link>
+                {/* <Nav.Link as={NavLink} to="/distribution-approvals"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> */}
+                <Nav.Link as={NavLink} to="/mohon-approval/by-boss"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
           
               </Nav>
            <Account />

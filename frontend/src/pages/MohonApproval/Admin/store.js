@@ -8,6 +8,7 @@ const useMohonStore  = create((set) => ({
     submitUrl: `${base_url}/mohon`,
     mohonApproval: `${base_url}/mohon-approval`,
     managerApprovalUrl: `${base_url}/mohon-approval/by-manager`,
+    adminApprovalUrl: `${base_url}/mohon-approval/by-admin`,
     refresh: false,
     errors: null,
     latestId: null,

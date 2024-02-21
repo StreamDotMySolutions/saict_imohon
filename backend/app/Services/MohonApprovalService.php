@@ -34,8 +34,18 @@ class MohonApprovalService
         $user =  auth('sanctum')->user();
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
-            'user_id' => $user->id, // Manager
+            'user_id' => $user->id, // Admin
             'step' => 3,
+            'status' => $request->input('status')
+        ]);
+    }
+
+    public static function storeStep4($request, $mohonRequestId)
+    {
+        $user =  auth('sanctum')->user();
+        return MohonApproval::create([
+            'mohon_request_id' => $mohonRequestId,
+            'user_id' => $user->id, // Boss
             'status' => $request->input('status')
         ]);
     }

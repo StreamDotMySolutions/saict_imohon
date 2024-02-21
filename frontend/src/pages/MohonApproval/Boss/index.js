@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import MohonIndex from './components/MohonIndex';
 
 
-const MohonApprovalByManager = () => {
+const MohonApprovalByBoss = () => {
     return (
         <div>
             <nav aria-label="breadcrumb">
@@ -16,4 +16,4 @@ const MohonApprovalByManager = () => {
     );
 };
 
-export default MohonApprovalByManager;
+export default MohonApprovalByBoss;

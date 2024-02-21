@@ -64,7 +64,7 @@ export default function ViewModal({id}) {
       setIsLoading(true)
       const formData = new FormData()
 
-      // ackknowledge
+      // acknowledge
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
@@ -79,7 +79,7 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.managerApprovalUrl}/${id}`, // role = mnager approve mohon to step = 2 && status = approved
+          url : `${store.adminApprovalUrl}/${id}`, // role = admin approve mohon to step = 3 && status = approved || rejected
           data: formData
         })
         .then( response => {
@@ -109,7 +109,7 @@ export default function ViewModal({id}) {
           Lihat
         </Button>
   
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
@@ -138,7 +138,7 @@ export default function ViewModal({id}) {
                         <th>Item</th>
                         <th>Type</th>
                         <th>Description</th>
-                        <th style={{ 'width': '20px'}}>Agihan</th>
+                        {/* <th style={{ 'width': '20px'}}>Agihan</th> */}
                  
                     </tr>
                 </thead>
@@ -150,11 +150,11 @@ export default function ViewModal({id}) {
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
-                            <td className='text-center'>
+                            {/* <td className='text-center'>
                               <Form.Check // prettier-ignore
                                 type='checkbox'
                               />
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>
@@ -167,22 +167,22 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              disabled={step !== 1}
+              disabled={step !== 2}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
 
-          <Button 
-              disabled={ isLoading || step !== 1}
+            <Button 
+              disabled={ isLoading || step !== 2}
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
-              disabled={ isLoading || step !== 1}
+              disabled={ isLoading || step !== 2}
               variant="danger" 
               onClick={handleRejectClick}>
               Gagal
