@@ -3,7 +3,7 @@ namespace App\Services;
 
 use App\Models\MohonDistributionRequest;
 
-class MohonApprovalService
+class MohonDistributionRequestService
 {
     /*
     * Admin requesting approval from Boss

@@ -32,7 +32,7 @@ class MohonRequest extends Model
                     ->latest();
     }
 
-    public function mohonApproval() 
+    public function mohonDistributionRequests() 
     {
         /*
         * Latest Mohon Distribution Request Status

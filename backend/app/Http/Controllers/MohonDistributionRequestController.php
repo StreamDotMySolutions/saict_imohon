@@ -8,10 +8,10 @@ use App\Http\Requests\MohonDistributionRequest\StoreRequest;
 
 class MohonDistributionRequestController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreRequest $request, $mohonRequestId)
     {
 
-        $request = MohonDistributionRequestService::store($request);
+        $request = MohonDistributionRequestService::store($request,$mohonRequestId);
 
         if($request){
             return response()->json([
