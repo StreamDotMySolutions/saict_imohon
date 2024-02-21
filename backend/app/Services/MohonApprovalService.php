@@ -46,6 +46,7 @@ class MohonApprovalService
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Boss
+            'step' => 4,
             'status' => $request->input('status')
         ]);
     }

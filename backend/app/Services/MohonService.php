@@ -12,6 +12,7 @@ class MohonService
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
+        \Log::info($user);
    
         switch($role){
             case 'user':
@@ -97,8 +98,6 @@ class MohonService
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
-                               
-    
         return $mohons;
     }
 
@@ -130,8 +129,9 @@ class MohonService
     /*
     * Only list MohonRequest Step = 3 && status == 'approved'
     */
-    public static function getMohonDataAsAdmin()
+    public static function getMohonDataAsBoss()
     {
+        \Log::info('boss index');
 
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')

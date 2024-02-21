@@ -178,7 +178,7 @@ export default function ViewModal({id}) {
               disabled={ isLoading || step !== 2}
               variant="success" 
               onClick={handleApproveClick}>
-              Lulus
+              Mohon
             </Button>
 
             <Button 

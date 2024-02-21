@@ -35,7 +35,6 @@ class MohonController extends Controller
     public function show($id)
     {
         $mohon = MohonService::show($id);
-
         return response()->json([
             'mohon' => $mohon
         ]);

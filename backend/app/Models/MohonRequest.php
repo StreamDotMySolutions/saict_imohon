@@ -26,9 +26,18 @@ class MohonRequest extends Model
     public function mohonApproval() 
     {
         /*
-        * Latest Approval Status
+        * Latest Mohon Approval Status
         */
         return $this->hasOne(MohonApproval::class)
+                    ->latest();
+    }
+
+    public function mohonApproval() 
+    {
+        /*
+        * Latest Mohon Distribution Request Status
+        */
+        return $this->hasMany(MohonDistributionRequest::class)
                     ->latest();
     }
 

@@ -79,7 +79,7 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.managerApprovalUrl}/${id}`, // role = mnager approve mohon to step = 2 && status = approved
+          url : `${store.bossApprovalUrl}/${id}`, // role = mnager approve mohon to step = 2 && status = approved
           data: formData
         })
         .then( response => {
@@ -161,7 +161,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              disabled={step !== 1}
+              disabled={step !== 3}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
@@ -169,14 +169,14 @@ export default function ViewModal({id}) {
             />
 
           <Button 
-              disabled={ isLoading || step !== 1}
+              disabled={ isLoading || step !== 3}
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
-              disabled={ isLoading || step !== 1}
+              disabled={ isLoading || step !== 3}
               variant="danger" 
               onClick={handleRejectClick}>
               Gagal

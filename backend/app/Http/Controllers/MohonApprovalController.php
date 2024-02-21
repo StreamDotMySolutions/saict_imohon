@@ -66,7 +66,7 @@ class MohonApprovalController extends Controller
     public function byBoss(UpdateRequest $request, $mohonRequestId)
     {
         //\Log::info($request);
-        $mohonApprovalService = MohonApprovalService::storeStep2($request, $mohonRequestId);
+        $mohonApprovalService = MohonApprovalService::storeStep4($request, $mohonRequestId);
 
         if($mohonApprovalService)
         {
