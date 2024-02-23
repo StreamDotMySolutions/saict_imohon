@@ -4,9 +4,9 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/mohon-distribution-requests`,
+    url: `${base_url}/mohon-distributions-requests`,
     submitUrl: `${base_url}/mohon-distribution-requests`,
-    mohonUrl: `${base_url}/mohon`,
+    mohonRequestUrl: `${base_url}/mohon`,
     refresh: false,
     errors: null,
     latestId: null,

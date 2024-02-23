@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
 import useMohonStore from '../store'
-import axios from '../../../../libs/axios'
-import { Link } from 'react-router-dom'
-import ViewModal from '../modals/ViewModal'
+import axios from '../../../libs/axios'
+import EditModal from '../modals/EditModal';
+import DeleteModal from '../modals/DeleteModal';
+import ViewModal from '../modals/ViewModal';
+import CreateModal from '../modals/CreateModal';
+import { Link } from 'react-router-dom';
+import ApprovalModal from '../modals/ApprovalModal';
 
 
 const MohonIndex = () => {
@@ -12,7 +16,6 @@ const MohonIndex = () => {
 
     useEffect( () => 
         {
-            //console.log(store.url)
             // modified axios to prepend Bearer Token on header
             axios( 
                 {
@@ -21,7 +24,9 @@ const MohonIndex = () => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data)   // output to console  
+                //console.log(response.data.mohons.data)   // output to console  
+
+      
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -38,6 +43,14 @@ const MohonIndex = () => {
 
     return (
         <div>
+
+            <div className="d-flex bd-highlight mb-3">
+                <div className="ms-auto p-2 bd-highlight">
+                    <CreateModal />
+                </div>
+            </div>
+
+
             <Table>
                 <thead>
                     <tr>
@@ -45,9 +58,9 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan Mohon</th>
+                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
                         <th style={{ 'width': '50px'}}>Peralatan</th>
-                        <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
+                        <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
                     </tr>
                 </thead>
 
@@ -67,11 +80,15 @@ const MohonIndex = () => {
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
-                                <ViewModal id={mohon.id} />
+                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
                                 {' '}
-                                <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Agihan</Button>
+                                <Link to={`/mohon-items/${mohon.id}`}>
+                                    <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
+                                {' '}
+                                <EditModal id={mohon.id} step={mohon.mohon_approval.step}/>
+                                {' '}
+                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
                             </td>
                         </tr>
                     ))}

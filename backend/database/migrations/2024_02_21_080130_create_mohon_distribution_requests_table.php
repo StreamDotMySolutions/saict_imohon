@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->costrained();
             $table->foreignId('mohon_request_id')->costrained();
             $table->integer('step')->default(0);
-            $table->text('message')->nullable();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mohon_distributions');
+        Schema::dropIfExists('mohon_distributions_requests');
     }
 };

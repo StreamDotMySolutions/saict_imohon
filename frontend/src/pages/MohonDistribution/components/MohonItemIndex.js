@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
-import useMohonItemStore from '../store'
+import useStore from '../store'
 import axios from '../../../libs/axios'
 import EditModal from '../modals/EditModal'
 import DeleteModal from '../modals/DeleteModal'
@@ -8,8 +8,8 @@ import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 
 const MohonItemIndex = ({mohonRequestId, step}) => {
-    const store = useMohonItemStore()
-    const [items, setItems] = useState([])
+    const store = useStore()
+    const [requests, setRequests] = useState([])
 
     // to get items data
     useEffect( () => 
@@ -22,8 +22,8 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 } 
             )
             .then( response => { // response block
-                console.log(response.data.items)   // output to console  
-                setItems(response.data.items) // assign data to const = mohons
+                console.log(response.data)   // output to console  
+                setRequests(response.data.requests) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
             .catch( error => { // error block
@@ -42,7 +42,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    {step === 0 && <CreateModal /> }
+                   <CreateModal />
                 </div>
             </div>
 
@@ -51,19 +51,15 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th>Item</th>
-                        <th>Type</th>
                         <th>Description</th>
                         <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
                     </tr>
                 </thead>
 
-                <tbody>
+                {/* <tbody>
                     {items?.data?.map((item,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
                             <td className='text-center' >
                                 <EditModal id={item.id} step={step} />
@@ -72,12 +68,12 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                             </td>
                         </tr>
                     ))}
-                </tbody>
+                </tbody> */}
             </Table>
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    <PaginatorLink items={items} />
+                    <PaginatorLink items={requests} />
                 </div>
             </div>
         </div>
@@ -93,8 +89,7 @@ function PaginatorLink ({items}){
     //console.log(items.links)
     const handlePaginationClick = (url) => {
       //console.log(url)
-      useMohonItemStore.setState({url: url}) // update the url state in store
-      
+      useStore.setState({url: url}) // update the url state in store
     }
 
     // extract the data from Laravel Paginator JSON

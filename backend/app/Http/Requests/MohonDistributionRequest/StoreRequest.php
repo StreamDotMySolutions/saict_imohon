@@ -10,16 +10,16 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'acknowledge' => 'required',
-            //'message' => 'required',
+            //'acknowledge' => 'required',
+            'title' => 'required',
+            'description' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'acknowledge.required' => 'Sila sahkan permohonan',
-            //'message.required' => 'Nyatakan tujuan permohonan',
+            'title.required' => 'Sila tulis tajuk permohonan',
+            'description.required' => 'Sila nyatakan tujuan permohonan',
         ];
-    }
 }

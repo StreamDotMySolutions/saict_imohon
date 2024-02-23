@@ -3,25 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\MohonDistributionRequestService;
+use App\Models\MohonDistributionRequest;
+use App\Services\MohonDistributionRequestervice;
 use App\Http\Requests\MohonDistributionRequest\StoreRequest;
+use App\Http\Requests\MohonDistributionRequest\UpdateRequest;
+// use App\Http\Requests\DeleteMohonRequest;
 
 class MohonDistributionRequestController extends Controller
 {
+
+    public function index($mohonRequestId)
+    {
+        $mohons = MohonDistributionRequestService::index($mohonRequestId);
+
+        return response()->json([
+            'mohons' => $mohons
+        ]);
+    }
+
     public function store(StoreRequest $request, $mohonRequestId)
     {
 
-        $request = MohonDistributionRequestService::store($request,$mohonRequestId);
+        MohonDistributionRequestService::store($request, $mohonRequestId);
 
-        if($request){
+        return response()->json([
+            'message' => 'Permohonan agihan berjaya disimpan',
+        ]);
+    }
+
+    public function show($id)
+    {
+        $mohon = MohonDistributionRequestService::show($id);
+        return response()->json([
+            'mohon' => $mohon
+        ]);
+    }
+
+    public function update(UpdateRequest $request, $id)
+    {
+        // \Log::info($id);
+        // \Log::info($request);
+
+        $updated = MohonDistributionRequestService::update($request,$id);
+
+        if($updated){
             return response()->json([
-                'message' => 'Permohonan disimpan',
+                'message' => 'Permohonan agihan berjaya dikemaskini',
+                'id' => $id
             ]);
         } else {
             return response()->json([
-                'message' => 'Permohonan gagaldisimpan',
+                'message' => 'Permohonan agihan gagal dikemaskini',
             ],422);
         }
-
     }
+
+    public function delete($id)
+    {
+        $deleted = MohonDistributionRequestService::delete($id);
+
+        if($deleted){
+            return response()->json([
+                'message' => 'Permohonan agihan berjaya dipadam',
+                'id' => $id
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan agihan gagal dipadam',
+            ],422);
+        }
+    }
+
 }
