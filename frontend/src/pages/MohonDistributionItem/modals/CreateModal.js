@@ -9,7 +9,7 @@ export default function CreateModal() {
 
     const store = useMohonStore()
     const errors = store.errors
-    const { mohonRequestId } = useParams()
+    const { mohonDistributionRequestId } = useParams()
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
@@ -31,7 +31,7 @@ export default function CreateModal() {
         'url' : `${store.submitUrl}/categories`
       })
       .then( response => {
-        console.log(response.data.categories)
+        //console.log(response.data.categories)
         setCategories(response.data.categories)
       })
 
@@ -64,11 +64,11 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: `${store.submitUrl}/${mohonRequestId}`,
+          url: `${store.submitUrl}/${mohonDistributionRequestId}`,
           data: formData
         })
         .then( response => {
-          console.log(response)
+          // console.log(response)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 

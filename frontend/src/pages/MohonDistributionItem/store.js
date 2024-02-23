@@ -5,7 +5,7 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 const useMohonItemStore  = create((set) => ({
 
     url: `${base_url}/mohon-distribution-items`,
-    submitUrl: `${base_url}/mohon-distributions-items`,
+    submitUrl: `${base_url}/mohon-distribution-items`,
     mohonUrl: `${base_url}/mohon`,
     mohonDistributionUrl: `${base_url}/mohon-distribution`,
     refresh: false,

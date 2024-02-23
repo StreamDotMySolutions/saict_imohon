@@ -18,7 +18,7 @@ const MohonDistributionItem = () => {
     })
     .then( response => {
         //console.log('get mohon_approval')
-        console.log(response.data)
+        //console.log(response.data)
         let mohon = response.data.mohon
         //setMohon(mohon.mohon_)
         //store.setValue('title', mohon.title) // set formValue

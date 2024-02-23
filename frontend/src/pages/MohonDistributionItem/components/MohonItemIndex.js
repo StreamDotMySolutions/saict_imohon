@@ -22,7 +22,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 } 
             )
             .then( response => { // response block
-                console.log(response.data.items)   // output to console  
+                //console.log(response.data.items)   // output to console  
                 setItems(response.data.items) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -42,7 +42,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    {step === 0 && <CreateModal /> }
+                  step={step}  {step === 0 && <CreateModal /> }
                 </div>
             </div>
 

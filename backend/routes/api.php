@@ -22,6 +22,7 @@ use App\Http\Controllers\{
     MohonItemController,
     MohonApprovalController,
     MohonDistributionRequestController,
+    MohonDistributionItemController,
 };
 Auth::routes();
 
@@ -90,13 +91,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
     Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
 
-     // mohon distributionitem
-     Route::get('/mohon-distribution-items/categories', [MohonItemController::class, 'categories']);
-     Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonItemController::class, 'index']);
-     Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonItemController::class, 'store']);
-     Route::get('/mohon-distribution-items/show/{id}', [MohonItemController::class, 'show']);
-     Route::put('/mohon-distribution-items/{id}', [MohonItemController::class, 'update']);
-     Route::delete('/mohon-distribution-items/{id}', [MohonItemController::class, 'delete']);
+     // mohon distribution item
+     Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);
+     Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
+     Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
+     Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
+     Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
+     Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
     
     //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
     //Route::post('/mohon-distribution-request/by-admin/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);

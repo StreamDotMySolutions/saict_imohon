@@ -22,7 +22,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 } 
             )
             .then( response => { // response block
-                console.log(response.data)   // output to console  
+                //console.log(response.data)   // output to console  
                 setRequests(response.data.requests) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
