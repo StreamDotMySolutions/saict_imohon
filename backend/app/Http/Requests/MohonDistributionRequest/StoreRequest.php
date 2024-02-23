@@ -22,4 +22,5 @@ class StoreRequest extends FormRequest
             'title.required' => 'Sila tulis tajuk permohonan',
             'description.required' => 'Sila nyatakan tujuan permohonan',
         ];
+    }
 }

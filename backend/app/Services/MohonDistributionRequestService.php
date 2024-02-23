@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\MohonDistributionRequest;
+use App\Models\MohonDistributionApproval;
 
 class MohonDistributionRequestService
 {
@@ -11,15 +12,53 @@ class MohonDistributionRequestService
     * by MohonRequestId
     * MohonRequest hasMany MohonDistributionRequest
     */
-    public static function index($mohonRequestId)
+    public static function index()
     {
-        $paginate = MohonDistributionRequest::query();
-        $items = $paginate->orderBy('id','DESC')
-                            ->where('mohon_request_id', $mohonRequestId)
-                            ->paginate(10) // 10 items per page
-                            ->withQueryString(); // additional GET requests
-        return $items;
+        $user =  auth('sanctum')->user(); // user auth
+        $role = $user->roles->pluck('name')[0]; // User only have 1 role
+        \Log::info($user);
+   
+        switch($role){
+            case 'admin':
+                $requests = self::getMohonDistributionRequestAsAdmin();
+            break;
+
+            case 'boss':
+                $requests = self::getMohonDistributionRequestAsBoss();
+            break;
+
+            default:
+                $requests = [];
+            break;
+        }
+
+        return $requests;
     }
+
+    /*
+    * Only list MohonDistributionRequest Step = 0 
+    */
+    public static function getMohonDistributionRequestAsAdmin()
+    {
+
+        $paginate = MohonDistributionRequest::query(); // Intiate Paginate
+        $requests = $paginate->orderBy('id','DESC')
+                    //->with(['mohonApproval'])
+                    ->with(['user.userProfile','mohonDistributionApproval'])
+
+                    // only list where step = 1
+                    // ->whereHas('mohonApproval', function ($query) {
+                    //     $query->where('status', 'approved')->where('step', 2);
+                    // })
+
+                    ->withCount(['mohonDistributionItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
+                               
+        return $requests;
+    }
+
 
 
     /*
@@ -29,15 +68,22 @@ class MohonDistributionRequestService
 
     public static function store($request, $mohonRequestId)
     {
+
         //\Log::info($request);
         $user =  auth('sanctum')->user();
-        return MohonDistributionRequest::create([
+        $mohonDistributionRequest = MohonDistributionRequest::create([
             'mohon_request_id' => $mohonRequestId,
-            'user_id' => $user->id, // Admin
-            'step' => 1,
-            'status' => 'pending',
-            'title' => $request->input('title')
+            'user_id' => $user->id,
+            'title' => $request->input('title'),
             'description' => $request->input('description')
+        ]);
+
+        // create MohonApproval
+        $mohonDistributionApproval = MohonDistributionApproval::create([
+            'mohon_distribution_request_id' => $mohonDistributionRequest->id,
+            'user_id' => $user->id,
+            'step' => 0,
+            'status' => 'pending',
         ]);
     }
 }

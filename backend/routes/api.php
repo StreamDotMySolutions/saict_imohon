@@ -82,11 +82,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-approval/by-boss/{mohonRequestId}', [MohonApprovalController::class, 'byBoss']);
 
     // mohon distribution request
-    Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestControlle::class, 'index']);
-    Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestControlle::class, 'store']);
-    Route::get('/mohon-distribution-requests/{id}', [MohonDistributionRequestControlle::class, 'show']);
-    Route::put('/mohon-distribution-requests/{id}', [MohonDistributionRequestControlle::class, 'update']);
-    Route::delete('/mohon-distribution-requests/{id}', [MohonDistributionRequestControlle::class, 'delete']);
+    Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
+    Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
+    Route::get('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'show']);
+    Route::put('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'update']);
+    Route::delete('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'delete']);
     
     //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
     //Route::post('/mohon-distribution-request/by-admin/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);

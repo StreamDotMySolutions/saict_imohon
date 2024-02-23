@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MohonDistributionRequest;
-use App\Services\MohonDistributionRequestervice;
+use App\Services\MohonDistributionRequestService;
 use App\Http\Requests\MohonDistributionRequest\StoreRequest;
 use App\Http\Requests\MohonDistributionRequest\UpdateRequest;
 // use App\Http\Requests\DeleteMohonRequest;

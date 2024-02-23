@@ -19,4 +19,19 @@ class MohonDistributionRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // hasMany MohonDistributionItem
+    public function mohonDistributionItems() 
+    {
+        return $this->hasMany(MohonDistributionItem::class);
+    }
+
+    public function mohonDistributionApproval() 
+    {
+        /*
+        * Latest Mohon Approval Status
+        */
+        return $this->hasOne(MohonDistributionApproval::class)
+                    ->latest();
+    }
 }

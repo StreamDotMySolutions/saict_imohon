@@ -2,7 +2,7 @@ import { Link, useParams, useNavigate} from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
 import axios from '../../libs/axios'
-import MohonIndex from './components/MohonIndex'
+import Index from './components/Index'
 import useStore from './store'
 
 const MohonDistributionRequest = () => {
@@ -14,7 +14,7 @@ const MohonDistributionRequest = () => {
     const [title, setTitle] = useState('')
     const [step, setStep] = useState('')
 
-   
+
     axios({
         'method' : 'get',
         'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
@@ -36,12 +36,12 @@ const MohonDistributionRequest = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link to='/mohon'>Mohon</Link></li>
+                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-admin'>Agihan</Link></li>
                     <li class="breadcrumb-item">{title}</li>
                     <li class="breadcrumb-item">Senarai Permohonan Agihan</li>
                 </ol>
             </nav>
-            {/* <MohonIndex /> */}
+            <Index mohonRequestid={mohonRequestId} />
         </div>
     );
 };

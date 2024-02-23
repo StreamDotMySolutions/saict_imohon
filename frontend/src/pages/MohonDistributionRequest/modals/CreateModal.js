@@ -1,11 +1,12 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { Link, useParams } from 'react-router-dom'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function CreateModal() {
-
+    const { mohonRequestId } = useParams()
     const store = useMohonStore()
     const errors = store.errors
 
@@ -41,7 +42,7 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: store.submitUrl,
+          url: `${store.submitUrl}/${mohonRequestId}`,
           data: formData
         })
         .then( response => {

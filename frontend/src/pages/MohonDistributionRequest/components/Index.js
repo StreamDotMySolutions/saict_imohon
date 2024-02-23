@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
-import useMohonStore from '../store'
+import useStore from '../store'
 import axios from '../../../libs/axios'
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
-import ViewModal from '../modals/ViewModal';
-import CreateModal from '../modals/CreateModal';
-import { Link } from 'react-router-dom';
-import ApprovalModal from '../modals/ApprovalModal';
+import EditModal from '../modals/EditModal'
+import DeleteModal from '../modals/DeleteModal'
+import ViewModal from '../modals/ViewModal'
+import CreateModal from '../modals/CreateModal'
+import { Link, useParams } from 'react-router-dom'
+import ApprovalModal from '../modals/ApprovalModal'
 
-
-const MohonIndex = () => {
-    const store = useMohonStore()
+const Index = () => {
+    const { mohonRequestId } = useParams()
+    const store = useStore()
     const [mohons, setMohons] = useState([])
 
     useEffect( () => 
@@ -20,13 +20,11 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${store.url}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-distributions/index
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
-
-      
+                console.log(response.data.mohons.data)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -73,22 +71,22 @@ const MohonIndex = () => {
                             <td>{mohon.description}</td>
                             <td className='text-center'>
                                 <small>
-                                Peringkat : {mohon.mohon_approval.step}
+                                Peringkat : {mohon.mohon_distribution_approval.step}
                                 <br />
-                                Status : {mohon.mohon_approval.status}
+                                Status : {mohon.mohon_distribution_approval.status}
                                 </small>
                             </td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
+                            <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>
-                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
+                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_distribution_approval.step}/>
                                 {' '}
                                 <Link to={`/mohon-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                 {' '}
-                                <EditModal id={mohon.id} step={mohon.mohon_approval.step}/>
+                                <EditModal id={mohon.id} step={mohon.mohon_distribution_approval.step}/>
                                 {' '}
-                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
+                                <DeleteModal id={mohon.id} step={mohon.mohon_distribution_approval.step} />
                             </td>
                         </tr>
                     ))}
@@ -103,7 +101,7 @@ const MohonIndex = () => {
         </div>
     );
 };
-export default MohonIndex;
+export default Index;
 
 
 /**
@@ -113,7 +111,7 @@ function PaginatorLink ({items}){
     //console.log(items.links)
     const handlePaginationClick = (url) => {
       //console.log(url)
-      useMohonStore.setState({url: url}) // update the url state in store
+      useStore.setState({url: url}) // update the url state in store
       
     }
 
