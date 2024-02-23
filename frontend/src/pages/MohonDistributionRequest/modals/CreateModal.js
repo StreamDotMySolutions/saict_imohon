@@ -42,7 +42,7 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: `${store.submitUrl}/${mohonRequestId}`,
+          url: `${store.createUrl}/${mohonRequestId}`,
           data: formData
         })
         .then( response => {
@@ -73,7 +73,7 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title>Permohonan Agihan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

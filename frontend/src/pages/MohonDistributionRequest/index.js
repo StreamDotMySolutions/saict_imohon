@@ -15,14 +15,14 @@ const MohonDistributionRequest = () => {
     const [step, setStep] = useState('')
 
 
-    console.log( `${store.mohonUrl}/${mohonRequestId}`)
+    // console.log( `${store.mohonUrl}/${mohonRequestId}`)
     axios({
         'method' : 'get',
         'url' : `${store.mohonUrl}/${mohonRequestId}`
         })
         .then( response => {
             //console.log('get mohon_approval')
-            console.log(response.data)
+            //console.log(response.data)
             let mohon = response.data.mohon
             //store.setValue('title', mohon.title) // set formValue
             setTitle(mohon.title)

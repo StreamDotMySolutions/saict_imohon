@@ -79,7 +79,7 @@ const Index = () => {
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>
                                 
-                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_distribution_approval.step}/>
+                                <ApprovalModal id={mohon.id} count={mohon.mohon_distribution_items_count} step={mohon.mohon_distribution_approval.step}/>
                                 {' '}
                                 <Link to={`/mohon-distribution-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
