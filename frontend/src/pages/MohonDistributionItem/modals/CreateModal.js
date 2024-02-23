@@ -1,54 +1,60 @@
 import { useState, useEffect} from 'react'
-import {  Button,Modal} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { useParams} from 'react-router-dom'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { InputText, InputTextarea, InputSelect } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function EditModal({id, step = 0}) {
+export default function CreateModal() {
 
     const store = useMohonStore()
     const errors = store.errors
+    const { mohonRequestId } = useParams()
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [categories, setCategories] = useState([])
   
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+
+    const types = [
+      { id: 'new', name: 'Baharu' },
+      { id: 'replacement', name: 'Ganti' }
+    ];
+
     const handleShowClick = () =>{
-      setIsLoading(true)
+      // get item categories from /mohon-items/categories
+      axios({
+        'method' : 'get',
+        'url' : `${store.submitUrl}/categories`
+      })
+      .then( response => {
+        console.log(response.data.categories)
+        setCategories(response.data.categories)
+      })
+
       store.emptyData() // empty store data
-      //console.log(id)
+      setShow(true)
+    } 
 
-        //console.log( `${store.submitUrl}/${id}`)
-        axios({
-            'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
-        })
-        .then( response => {
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
-          setIsLoading(false)
-        })
-        .catch ( error => {
-          console.warn(error)
-          setIsLoading(false)
-        })
-
-        setShow(true) // show the modal
-    }
-      
     const handleCloseClick = () => {
-      setShow(false)
+      handleClose()
     }
 
     const handleSubmitClick = () => {
       setIsLoading(true)
       const formData = new FormData()
 
-      // title
-      if (store.getValue('title') != null ) {
-        formData.append('title', store.getValue('title'));
+      // category_id
+      if (store.getValue('category_id') != null ) {
+        formData.append('category_id', store.getValue('category_id'));
+      }
+
+      // type
+      if (store.getValue('type') != null ) {
+        formData.append('type', store.getValue('type'));
       }
 
       // description
@@ -56,17 +62,13 @@ export default function EditModal({id, step = 0}) {
         formData.append('description', store.getValue('description'));
       }
 
-      // method PUT ( to simulate PUT in Laravel )
-      formData.append('_method', 'put');
-      
       axios({ 
           method: 'post',
-          url : `${store.submitUrl}/${id}`,
+          url: `${store.submitUrl}/${mohonRequestId}`,
           data: formData
         })
         .then( response => {
-          //console.log(response)
-
+          console.log(response)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
@@ -87,31 +89,46 @@ export default function EditModal({id, step = 0}) {
   
     return (
       <>
-       <Button disabled={step !== 0} size="sm" variant="outline-primary" onClick={handleShowClick}>
-          Edit
+        <Button variant="primary" onClick={handleShowClick}>
+          Tambah
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Kemaskini Permohonan </Modal.Title>
+            <Modal.Title>Tambah Item</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={isLoading}
-            />
+            <Row>
+              <Col>
+                <InputSelect 
+                  fieldName='category_id' 
+                  options = {categories}
+                  placeholder='Sila Pilih Peralatan'  
+                  icon='fa-solid fa-computer'
+                  isLoading={isLoading}
+                />
+              </Col>
+              <Col>
+                <InputSelect 
+                  fieldName='type' 
+                  options = {types}
+                  placeholder='Sila Pilih Jenis'  
+                  icon='fa-solid fa-info'
+                  isLoading={isLoading}
+                />
+              </Col>
+            </Row>
             <br />
             <InputTextarea
               fieldName='description' 
               placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
+              icon='fa-solid fa-pencil'
               rows='6'
               isLoading={isLoading}
             />
-
+            <br />
+           
           </Modal.Body>
           
           <Modal.Footer>
@@ -126,14 +143,12 @@ export default function EditModal({id, step = 0}) {
               disabled={isLoading}
               variant="primary" 
               onClick={handleSubmitClick}>
-              Kemaskini
+              Hantar
             </Button>
 
           </Modal.Footer>
         </Modal>
       </>
-    )
-}
-
-
+    );
+  }
 

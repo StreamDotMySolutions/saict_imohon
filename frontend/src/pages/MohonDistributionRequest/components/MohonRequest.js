@@ -9,7 +9,7 @@ import CreateModal from '../modals/CreateModal'
 import { Link, useParams } from 'react-router-dom'
 import ApprovalModal from '../modals/ApprovalModal'
 
-const Index = () => {
+const MohonRequest = () => {
     const { mohonRequestId } = useParams()
     const store = useStore()
     const [mohons, setMohons] = useState([])
@@ -20,11 +20,11 @@ const Index = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${store.url}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-distributions/index
+                    url: `${store.mohonRequestUrl}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon/123
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
+                console.log(response.data.mohons.data)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -78,18 +78,15 @@ const Index = () => {
                             </td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>
-                                
                                 <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_distribution_approval.step}/>
                                 {' '}
-                                <Link to={`/mohon-distribution-items/${mohon.id}`}>
+                                <Link to={`/mohon-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                 {' '}
                                 <EditModal id={mohon.id} step={mohon.mohon_distribution_approval.step}/>
                                 {' '}
                                 <DeleteModal id={mohon.id} step={mohon.mohon_distribution_approval.step} />
-                                {' '}
-                                
                             </td>
                         </tr>
                     ))}
@@ -104,7 +101,7 @@ const Index = () => {
         </div>
     );
 };
-export default Index;
+export default MohonRequest;
 
 
 /**

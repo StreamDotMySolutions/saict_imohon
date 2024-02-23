@@ -39,19 +39,24 @@ import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized'
 import SignOut from './pages/Auth/components/SignOut'
+
 import Application from './pages/Application'
 import ApprovalByManager from './pages/Approval/ByManager'
 import ApprovalByAdmin from './pages/Approval/ByAdmin'
+
 import Inventory from './pages/Inventory'
+
 import Distribution from './pages/Distribution'
 import DistributionApproval from './pages/DistributionApproval'
 import DistributionAcceptance from './pages/DistributionAcceptance'
+
 import Mohon from './pages/Mohon'
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
 import MohonApprovalByAdmin from './pages/MohonApproval/Admin/index.js'
 import MohonApprovalByBoss from './pages/MohonApproval/Boss/index.js'
 import MohonDistributionRequest from './pages/MohonDistributionRequest'
+import MohonDistributionItem from './pages/MohonDistributionItem/index.js'
 
 library.add(fas)
 
@@ -96,6 +101,7 @@ export default function App() {
                 <Route path="/mohon-approval/by-boss" element={<MohonApprovalByBoss />} />      
 
                 <Route path="/mohon-distribution-requests/:mohonRequestId" element={<MohonDistributionRequest/>} />
+                <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
 
                 <Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />

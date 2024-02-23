@@ -1,10 +1,11 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { InputText, InputTextarea, InputSelect} from './components/Inputs'
+import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id, step = 0 }) {
+export default function DeleteModal({id, step}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -12,6 +13,12 @@ export default function DeleteModal({id, step = 0 }) {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [categories, setCategories] = useState([])
+
+    const types = [
+      { id: 'new', name: 'Baharu' },
+      { id: 'replacement', name: 'Ganti' }
+    ];
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -21,24 +28,36 @@ export default function DeleteModal({id, step = 0 }) {
       store.emptyData() // empty store data
       //console.log(id)
 
-        //console.log( `${store.submitUrl}/${id}`)
-        axios({
-            'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
-        })
-        .then( response => {
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
-          setIsLoading(false)
-        })
-        .catch ( error => {
-          console.warn(error)
-          setIsLoading(false)
-        })
+      // get item categories from /mohon-items/categories
+      axios({
+        'method' : 'get',
+        'url' : `${store.submitUrl}/categories`
+      })
+      .then( response => {
+        //console.log(response.data.categories)
+        setCategories(response.data.categories)
+      })
 
-        setShow(true) // show the modal
+      //console.log( `${store.submitUrl}/show/${id}`)
+      axios({
+          'method' : 'get',
+          'url' : `${store.submitUrl}/show/${id}`
+      })
+      .then( response => {
+        //console.log(response.data)
+        let item = response.data.item
+        store.setValue('category_id',  item.category_id) // set formValue
+        store.setValue('type', item.type) // set formValue
+        store.setValue('description', item.description) // set formValue
+        setIsLoading(false)
+      })
+      .catch ( error => {
+        console.warn(error)
+        setIsLoading(false)
+      })
+
+
+      setShow(true) // show the modal
     }
 
     const handleCloseClick = () => {
@@ -80,8 +99,8 @@ export default function DeleteModal({id, step = 0 }) {
   
     return (
       <>
-        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Padam
+        <Button size="sm" disabled={ step !== 0 } variant="outline-danger" onClick={handleShowClick}>
+          Delete
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
@@ -90,22 +109,36 @@ export default function DeleteModal({id, step = 0 }) {
           </Modal.Header>
 
           <Modal.Body>
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={'true'}
-            />
+            <Row>
+              <Col>
+                <InputSelect 
+                  fieldName='category_id' 
+                  options = {categories}
+                  placeholder='Sila Pilih Peralatan'  
+                  icon='fa-solid fa-computer'
+                  isLoading='true'
+                />
+              </Col>
+              <Col>
+                <InputSelect 
+                  fieldName='type' 
+                  options = {types}
+                  placeholder='Sila Pilih Jenis'  
+                  icon='fa-solid fa-info'
+                  isLoading={isLoading}
+                />
+              </Col>
+            </Row>
             <br />
             <InputTextarea
               fieldName='description' 
               placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
+              icon='fa-solid fa-pencil'
               rows='6'
-              isLoading={'true'}
+              isLoading={isLoading}
             />
             <br />
-
+           
           </Modal.Body>
           
           <Modal.Footer>

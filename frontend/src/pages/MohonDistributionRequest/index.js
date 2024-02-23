@@ -15,13 +15,14 @@ const MohonDistributionRequest = () => {
     const [step, setStep] = useState('')
 
 
+    console.log( `${store.mohonUrl}/${mohonRequestId}`)
     axios({
         'method' : 'get',
-        'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+        'url' : `${store.mohonUrl}/${mohonRequestId}`
         })
         .then( response => {
             //console.log('get mohon_approval')
-            //console.log(response.data)
+            console.log(response.data)
             let mohon = response.data.mohon
             //store.setValue('title', mohon.title) // set formValue
             setTitle(mohon.title)
@@ -38,10 +39,9 @@ const MohonDistributionRequest = () => {
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><Link to='/mohon-approval/by-admin'>Agihan</Link></li>
                     <li class="breadcrumb-item">{title}</li>
-                    <li class="breadcrumb-item">Senarai Permohonan Agihan</li>
                 </ol>
             </nav>
-            <Index mohonRequestid={mohonRequestId} />
+            <Index />
         </div>
     );
 };
