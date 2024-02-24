@@ -60,6 +60,29 @@ class MohonDistributionRequestService
         return $requests;
     }
 
+    /*
+    * Only list MohonDistributionRequest Step = 1 
+    */
+    public static function getMohonDistributionRequestAsBoss()
+    {
+        $paginate = MohonDistributionRequest::query(); // Intiate Paginate
+        $requests = $paginate->orderBy('id','DESC')
+                    ->with(['user.userProfile','mohonDistributionApproval'])
+
+                    // only list where step = 1
+                    // ->whereHas('mohonApproval', function ($query) {
+                    //     $query->where('status', 'approved')->where('step', 2);
+                    // })
+
+                    ->withCount(['mohonDistributionItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
+                               
+        return $requests;
+
+    }
+
 
 
     /*

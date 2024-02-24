@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // mohon distribution request
     Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
     Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
-   
+
     // mohon-distribution
     Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
     Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
