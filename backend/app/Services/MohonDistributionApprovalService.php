@@ -50,4 +50,18 @@ class MohonDistributionApprovalService
         ]);
     }
 
+    public static function storeStep2($request, $mohonDistributionRequestId)
+    {
+
+        if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
+  
+        $user =  auth('sanctum')->user();
+        return MohonDistributionApproval::create([
+            'mohon_distribution_request_id' => $mohonDistributionRequestId,
+            'user_id' => $user->id, // role is Admin
+            'step' => 2, // upgrade from 0 to 1
+            'status' => $request->input('status') // status
+        ]);
+    }
+
 }

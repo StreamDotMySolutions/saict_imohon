@@ -95,14 +95,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // mohon-distribution from admin to boss ( requesting approval )
     Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
    
+    // mohon distribution approval from boss to approve request agihan from admin
+    Route::put('/mohon-distribution-approval/by-boss/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byBoss']);
 
-     // mohon distribution item
-     Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);
-     Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
-     Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
-     Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
-     Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
-     Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
+
+    // mohon distribution item
+    Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);
+    Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
+    Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
+    Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
+    Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
+    Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
+    
+    
+
     
     //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
     //Route::post('/mohon-distribution-request/by-admin/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
