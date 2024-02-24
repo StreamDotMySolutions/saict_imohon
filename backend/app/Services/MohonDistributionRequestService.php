@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\MohonDistributionRequest;
 use App\Models\MohonDistributionApproval;
+use App\Services\MohonDistributionApprovalService;
 
 class MohonDistributionRequestService
 {
@@ -16,7 +17,7 @@ class MohonDistributionRequestService
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
-        \Log::info($user);
+        //\Log::info($user);
    
         switch($role){
             case 'admin':
@@ -79,12 +80,13 @@ class MohonDistributionRequestService
         ]);
 
         // create MohonApproval
-        $mohonDistributionApproval = MohonDistributionApproval::create([
-            'mohon_distribution_request_id' => $mohonDistributionRequest->id,
-            'user_id' => $user->id,
-            'step' => 0,
-            'status' => 'pending',
-        ]);
+        // $mohonDistributionApproval = MohonDistributionApproval::create([
+        //     'mohon_distribution_request_id' => $mohonDistributionRequest->id,
+        //     'user_id' => $user->id,
+        //     'step' => 0,
+        //     'status' => 'pending',
+        // ]);
+        MohonDistributionApprovalService::storeStep0($mohonDistributionRequest->id);
     }
 
     public static function show($id)

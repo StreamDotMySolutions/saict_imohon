@@ -23,6 +23,7 @@ use App\Http\Controllers\{
     MohonApprovalController,
     MohonDistributionRequestController,
     MohonDistributionItemController,
+    MohonDistributionApprovalController,
 };
 Auth::routes();
 
@@ -90,6 +91,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
     Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
     Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
+
+    // mohon-distribution from admin to boss ( requesting approval )
+    Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
+   
 
      // mohon distribution item
      Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);

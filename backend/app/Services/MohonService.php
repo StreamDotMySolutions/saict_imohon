@@ -12,7 +12,7 @@ class MohonService
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
-        \Log::info($user);
+        //\Log::info($user);
    
         switch($role){
             case 'user':
