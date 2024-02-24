@@ -22,13 +22,13 @@ class MohonDistributionApprovalService
 
     public static function storeStep0($mohonDistributionRequestId)
     {
-        //\Log::info($request);
+    
         if ( self::checkIfExists($mohonDistributionRequestId)){
-        $user =  auth('sanctum')->user();
+            $user =  auth('sanctum')->user();
             return MohonDistributionApproval::create([
-                'mohon_distribution_request_id' => $mohonDistributionRequestId,
+                'mohon_distribution_request_id' => $mohonDistributionRequestId, // belongsTo MohonDistributionRequest
                 'user_id' => $user->id, // role is User
-                'step' => 0, // initial steap
+                'step' => 0, // initial step is 0
                 'status' => 'pending' // status is pending
             ]);
         } else {
@@ -38,7 +38,9 @@ class MohonDistributionApprovalService
 
     public static function storeStep1($mohonDistributionRequestId)
     {
-        //\Log::info($request);
+
+        if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
+  
         $user =  auth('sanctum')->user();
         return MohonDistributionApproval::create([
             'mohon_distribution_request_id' => $mohonDistributionRequestId,
