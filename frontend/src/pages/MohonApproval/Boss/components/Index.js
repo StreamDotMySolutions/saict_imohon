@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
-import useMohonStore from '../store'
+import useStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 
 
-const MohonIndex = () => {
-    const store = useMohonStore()
-    const [mohons, setMohons] = useState([])
+const Index = () => {
+    const store = useStore()
+    const [responses, setResponses] = useState([])
 
     useEffect( () => 
         {
@@ -21,7 +21,7 @@ const MohonIndex = () => {
             )
             .then( response => { // response block
                 console.log(response.data.mohons.data)   // output to console  
-                setMohons(response.data.mohons) // assign data to const = mohons
+                setResponses(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
             .catch( error => { // error block
@@ -45,29 +45,25 @@ boss
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
-                        <th style={{ 'width': '50px'}}>Peralatan</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Peringkat</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Status</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {mohons?.data?.map((mohon,index) => (
+                    {responses?.data?.map((data,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
-                            <td>{mohon.user?.email}</td>
-                            <td>{mohon.title}</td>
-                            <td>{mohon.description}</td>
+                            <td> <span className="badge bg-primary">{data.id}</span></td>
+                            <td>{data.user?.email}</td>
+                            <td>{data.title}</td>
+                            <td>{data.description}</td>
+                            <td className='text-center'>{data.mohon_distribution_approval.step}</td>
+                            <td className='text-center'>{data.mohon_distribution_approval.status}</td>
+                            <td className='text-center'>{data.mohon_distribution_items_count}</td>
                             <td className='text-center'>
-                                <small>
-                                Peringkat : {mohon.mohon_approval.step}
-                                <br />
-                                Status : {mohon.mohon_approval.status}
-                                </small>
-                            </td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
-                            <td className='text-center'>
-                                <ViewModal id={mohon.id} />
+                                <ViewModal id={data.id} />
                             </td>
                         </tr>
                     ))}
@@ -76,13 +72,13 @@ boss
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    <PaginatorLink items={mohons} />
+                    <PaginatorLink items={responses} />
                 </div>
             </div>
         </div>
     );
 };
-export default MohonIndex;
+export default Index;
 
 
 /**
@@ -92,7 +88,7 @@ function PaginatorLink ({items}){
     //console.log(items.links)
     const handlePaginationClick = (url) => {
       //console.log(url)
-      useMohonStore.setState({url: url}) // update the url state in store
+      useStore.setState({url: url}) // update the url state in store
       
     }
 

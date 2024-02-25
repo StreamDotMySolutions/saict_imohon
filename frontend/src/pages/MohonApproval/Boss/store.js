@@ -2,13 +2,11 @@ import { create } from 'zustand'
 
 const base_url = process.env.REACT_APP_BACKEND_URL
 
-const useMohonStore  = create((set) => ({
+const useStore  = create((set) => ({
 
-    url: `${base_url}/mohon`,
-    submitUrl: `${base_url}/mohon`,
-    mohonApproval: `${base_url}/mohon-approval`,
-    managerApprovalUrl: `${base_url}/mohon-approval/by-manager`,
-    bossApprovalUrl: `${base_url}/mohon-approval/by-boss`,
+    url: `${base_url}/mohon-distribution-requests/by-boss`,
+    showUrl: `${base_url}/mohon-distribution`,
+    bossApprovalUrl: `${base_url}/mohon-distribution-approval/by-boss`,
     refresh: false,
     errors: null,
     latestId: null,
@@ -38,10 +36,10 @@ const useMohonStore  = create((set) => ({
     },
 
     getValue: (fieldName) => {
-        const field = useMohonStore.getState().data[fieldName];
+        const field = useStore.getState().data[fieldName];
         return field ? field.value : null;
     },
 
 }));
 
-export default useMohonStore
+export default useStore

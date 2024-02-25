@@ -1,8 +1,10 @@
 import { Link, useParams, useNavigate} from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button } from 'react-bootstrap'
+import { Container,Tabs,Tab } from 'react-bootstrap'
 import axios from '../../libs/axios'
 import Index from './components/Index'
+// import MohonRequest from './components/MohonRequest'
+import MohonRequest from '../Mohon/components/MohonRequest'
 import useStore from './store'
 
 const MohonDistributionRequest = () => {
@@ -41,7 +43,26 @@ const MohonDistributionRequest = () => {
                     <li class="breadcrumb-item">{title}</li>
                 </ol>
             </nav>
-            <Index />
+            <Container className='p-1'>
+                <Tabs
+                    defaultActiveKey="mohon-distribution-requests"
+                    id="userTab"
+                    className="mb-3"
+                    //onSelect={HandleTabChange}
+                >
+                <Tab eventKey="mohon-distribution-requests" title="Agihan">
+                    <Index />
+                </Tab>
+
+                <Tab eventKey="mohon-request" title="Permohonan">
+                    <MohonRequest />
+                </Tab>
+            
+                
+                </Tabs>
+            </Container>
+
+           
         </div>
     );
 };

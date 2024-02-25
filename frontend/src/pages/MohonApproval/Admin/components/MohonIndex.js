@@ -67,8 +67,8 @@ const MohonIndex = () => {
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
-                                <ViewModal id={mohon.id} />
-                                {' '}
+                                {/* <ViewModal id={mohon.id} />
+                                {' '} */}
                                 {mohon.mohon_approval.step === 3 && mohon.mohon_approval.status === 'approved' ?
                                 <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Agihan</Button>

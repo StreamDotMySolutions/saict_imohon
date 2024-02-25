@@ -28,7 +28,7 @@ export default function ApprovalModal({id,count,step}) {
             'url' : `${store.submitUrl}/${id}`
         })
         .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
@@ -59,7 +59,7 @@ export default function ApprovalModal({id,count,step}) {
 
       axios({ 
           method: 'post',
-          url : `${store.userApprovalUrl}/${id}`,
+          url : `${store.bossApprovalUrl}/${id}`,
           data: formData
         })
         .then( response => {
@@ -135,7 +135,6 @@ export default function ApprovalModal({id,count,step}) {
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
-                    
                         </tr>
                     ))}
                 </tbody>
@@ -156,7 +155,7 @@ export default function ApprovalModal({id,count,step}) {
               disabled={isLoading}
               variant="primary" 
               onClick={handleSubmitClick}>
-              Mohon
+              Mohon Agihan
             </Button>
 
           </Modal.Footer>

@@ -56,7 +56,7 @@ const Index = () => {
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
+                        <th className='text-center' style={{ 'width': '150px'}}>Kelulusan <br /> Agihan</th>
                         <th style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
                     </tr>

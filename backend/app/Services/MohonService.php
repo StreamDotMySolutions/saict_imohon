@@ -175,7 +175,8 @@ class MohonService
     {
         $request = MohonRequest::query()
                     ->where('id', $id)
-                    ->with(['mohonApproval','mohonItems.category'])
+                    ->with(['mohonApproval.user.userProfile','mohonItems.category','user.userProfile.userDepartment'])
+                    ->withCount(['mohonItems'])
                     //->with(['application.user.userProfile.userDepartment'])
                     ->first();
         return $request;
