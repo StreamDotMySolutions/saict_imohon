@@ -4,6 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
+
 export default function ApprovalModal({id,count,step}) {
 
     const store = useMohonStore()
@@ -85,11 +86,11 @@ export default function ApprovalModal({id,count,step}) {
     return (
       <>
         {count === 0 ? (
-          <Button disabled size="sm" variant="info" onClick={handleShowClick}>
+          <Button disabled  variant="info" onClick={handleShowClick}>
             Mohon
           </Button>
         ) : (
-          <Button disabled={step !== 0} size="sm" variant="info" onClick={handleShowClick}>
+          <Button disabled={step !== 0}  variant="info" onClick={handleShowClick}>
             Mohon
           </Button>
         )}

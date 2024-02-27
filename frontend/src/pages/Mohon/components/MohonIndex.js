@@ -80,8 +80,8 @@ const MohonIndex = () => {
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
-                                <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
-                                {' '}
+                                {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
+                                {' '} */}
                                 <Link to={`/mohon-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
