@@ -102,6 +102,7 @@ function RenderTable({items}) {
             <td className='col-4 px-5 text-center'>
               {/* <ShowUserModal id={user.id} /> */}
               <Button 
+                  size={'sm'}
                   onClick={ () => HandleDisableClick(user.id)} 
                   variant={'warning'}>
 

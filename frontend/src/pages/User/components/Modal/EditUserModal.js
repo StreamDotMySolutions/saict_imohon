@@ -144,7 +144,7 @@ function EditUserModal({id}) {
     <>
       { message && <DisplayMessage variant='success' message={message} />}
       
-      <Button onClick={ () => handleEditClick({id}) }>Edit</Button>
+      <Button size={'sm'} onClick={ () => handleEditClick({id}) }>Edit</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>

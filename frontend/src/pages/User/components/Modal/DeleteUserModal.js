@@ -35,7 +35,7 @@ function DeleteUserModal({id}) {
   return (
     <>
      { message && <DisplayMessage variant='success' message={message} />}
-      <Button variant='danger' onClick={handleShow}>Delete</Button>
+      <Button size={'sm'} variant='danger' onClick={handleShow}>Delete</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
