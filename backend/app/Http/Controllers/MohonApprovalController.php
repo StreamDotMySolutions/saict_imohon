@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\MohonApprovalService;
 use App\Http\Requests\MohonApproval\UpdateRequest;
+use App\Http\Requests\MohonApproval\StoreRequest;
 
 class MohonApprovalController extends Controller
 {

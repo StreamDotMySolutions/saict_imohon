@@ -37,14 +37,21 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
         ] 
 
     ) // useEffect()
-
+   
     return (
         <div>
 
             <div className="d-flex bd-highlight mb-3">
  
                 <div className="ms-auto p-2 bd-highlight">
-                    <ApprovalModal id={mohonRequestId} count={items.length} step={step}/>
+    
+
+                    {items.data.length ? 
+                        <ApprovalModal id={mohonRequestId} count={items.length} step={step}/>
+                    :
+                        <Button variant="info"  disabled>Mohon</Button>
+                    }
+                    
                     {' '}
                     {step === 0 && <CreateModal /> }
                 </div>

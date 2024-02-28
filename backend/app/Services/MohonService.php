@@ -51,7 +51,7 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfilec','mohonApproval'])
+                    ->with(['user.userProfile','mohonApproval'])
 
                     // to list requests from same department
                     // based on User Department ID
