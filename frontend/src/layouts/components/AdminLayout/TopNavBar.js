@@ -20,7 +20,7 @@ function TopNavbar() {
                 {/* <Nav.Link as={NavLink} to="/approvals/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link> */}
                 <Nav.Link as={NavLink} to="/mohon-approval/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
                 <Nav.Link as={NavLink} to="/inventories"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Inventori</Nav.Link>
-                <Nav.Link as={NavLink} to="/distributions"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link>
+                {/* <Nav.Link as={NavLink} to="/distributions"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> */}
           
               </Nav>
            <Account />

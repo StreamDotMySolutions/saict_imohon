@@ -51,7 +51,7 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonApproval'])
+                    ->with(['user.userProfilec','mohonApproval'])
 
                     // to list requests from same department
                     // based on User Department ID
@@ -110,7 +110,7 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonApproval'])
+                    ->with(['user.userProfile.userDepartment','mohonApproval'])
 
                     // only list where step = 1
                     ->whereHas('mohonApproval', function ($query) {
@@ -131,7 +131,7 @@ class MohonService
     */
     public static function getMohonDataAsBoss()
     {
-        \Log::info('boss index');
+        //\Log::info('boss index');
 
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
