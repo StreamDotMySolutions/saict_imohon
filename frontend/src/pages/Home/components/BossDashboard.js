@@ -3,7 +3,7 @@ import React from 'react';
 const Boss = () => {
     return (
         <div>
-            Dashboard for boss
+            Anda login sebagai Pelulus 2
         </div>
     );
 };

@@ -5,7 +5,8 @@ const ManagerDashboard = () => {
     return (<>
         <h3>Mohon</h3>
         <hr />
-        <RequestedDashboard />
+        {/* <RequestedDashboard /> */}
+        Anda login sebagai Pelulus 1
         </>);
 };
 

@@ -6,9 +6,9 @@ const MohonApprovalByManager = () => {
     return (
         <div>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-manager'>Mohon</Link></li>
-                    <li class="breadcrumb-item">Senarai Permohonan</li>
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to='/mohon-approval/by-manager'>Mohon</Link></li>
+                    <li className="breadcrumb-item">Senarai Permohonan</li>
                 </ol>
             </nav>
             <MohonIndex />

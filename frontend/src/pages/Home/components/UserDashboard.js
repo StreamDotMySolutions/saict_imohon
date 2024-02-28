@@ -5,7 +5,7 @@ const UserDashboard = () => {
     return (<>
         <h3>Mohon</h3>
         <hr />
-        <RequestedDashboard />
+        Anda login sebagai User
 
         </>);
 };
