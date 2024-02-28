@@ -6,6 +6,7 @@ import EditModal from '../modals/EditModal'
 import DeleteModal from '../modals/DeleteModal'
 import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
+import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal'
 
 const MohonItemIndex = ({mohonRequestId, step}) => {
     const store = useMohonItemStore()
@@ -41,8 +42,11 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
         <div>
 
             <div className="d-flex bd-highlight mb-3">
+ 
                 <div className="ms-auto p-2 bd-highlight">
-                  step={step}  {step === 0 && <CreateModal /> }
+                    <ApprovalModal id={mohonRequestId} count={items.length} step={step}/>
+                    {' '}
+                    {step === 0 && <CreateModal /> }
                 </div>
             </div>
 

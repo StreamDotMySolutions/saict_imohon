@@ -87,11 +87,11 @@ export default function ApprovalModal({id,count,step}) {
     return (
       <>
         {count === 0 ? (
-          <Button disabled variant="info" onClick={handleShowClick}>
+          <Button disabled size="sm" variant="info" onClick={handleShowClick}>
             Mohon
           </Button>
         ) : (
-          <Button disabled={step !== 0} variant="info" onClick={handleShowClick}>
+          <Button disabled={step !== 0} size="sm" variant="info" onClick={handleShowClick}>
             Mohon
           </Button>
         )}

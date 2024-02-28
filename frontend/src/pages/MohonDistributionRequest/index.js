@@ -50,14 +50,13 @@ const MohonDistributionRequest = () => {
                     className="mb-3"
                     //onSelect={HandleTabChange}
                 >
-                <Tab eventKey="mohon-distribution-requests" title="Agihan">
-                    <Index />
-                </Tab>
+                    <Tab eventKey="mohon-distribution-requests" title="Agihan">
+                        <Index />
+                    </Tab>
 
-                <Tab eventKey="mohon-request" title="Permohonan">
-                    <MohonRequest />
-                </Tab>
-            
+                    <Tab eventKey="mohon-request" title="Permohonan">
+                        <MohonRequest />
+                    </Tab>
                 
                 </Tabs>
             </Container>
