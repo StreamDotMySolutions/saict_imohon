@@ -31,9 +31,10 @@ const MohonItem = () => {
     return (
         <div>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link to='/mohon'>Mohon</Link></li>
-                    <li class="breadcrumb-item">{title}</li>
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to='/mohon'>Mohon</Link></li>
+                    <li className="breadcrumb-item">{title}</li>
+                    <li className="breadcrumb-item">Peralatan</li>
                 </ol>
             </nav>
             <MohonItemIndex mohonRequestId={mohonRequestId} step={step} /> 

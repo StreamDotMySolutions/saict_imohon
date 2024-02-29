@@ -58,7 +58,7 @@ export default function CreateModal() {
             setIsLoading(false)
 
             // close the modal
-            handleCloseClick()
+            //handleCloseClick()
           }, 500);
         })
         .catch( error => {
@@ -71,9 +71,10 @@ export default function CreateModal() {
     }
 
     // redirect to store-items
-    if( store.getValue('refresh')=== true) {
+    if( store.getValue('mohonId') !== null ) {
       const mohonId = store.getValue('mohonId')
       //console.log(mohonId)
+      store.emptyData()
       return <Navigate to={`/mohon-items/${mohonId}`} replace />
     }
   
