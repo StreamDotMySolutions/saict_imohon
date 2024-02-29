@@ -1,5 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { Navigate} from 'react-router-dom'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
@@ -12,6 +13,7 @@ export default function CreateModal() {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [mohonId, setMohonId] = useState('')
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -45,14 +47,18 @@ export default function CreateModal() {
           data: formData
         })
         .then( response => {
-          //console.log(response)
+          //console.log(response.data)
+          // redirect to mohon-items
+          store.setValue('mohonId', response.data?.id)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
           // Add a delay of 1 second before closing
-          setTimeout(() => {
+          setTimeout( () => {
             setIsLoading(false)
-            handleCloseClick();
+
+            // close the modal
+            handleCloseClick()
           }, 500);
         })
         .catch( error => {
@@ -62,6 +68,13 @@ export default function CreateModal() {
             store.setValue('errors',  error.response.data.errors )
           }
         })
+    }
+
+    // redirect to store-items
+    if( store.getValue('refresh')=== true) {
+      const mohonId = store.getValue('mohonId')
+      //console.log(mohonId)
+      return <Navigate to={`/mohon-items/${mohonId}`} replace />
     }
   
     return (

@@ -32,7 +32,7 @@ const MohonItem = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link onClick={() => navigate(-1)} >Mohon</Link></li>
+                    <li class="breadcrumb-item"><Link to='/mohon'>Mohon</Link></li>
                     <li class="breadcrumb-item">{title}</li>
                 </ol>
             </nav>

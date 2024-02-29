@@ -169,6 +169,10 @@ class MohonService
             'step' => 0,
             'status' => 'pending',
         ]);
+
+        if($mohonRequest && $mohonApproval){
+            return $mohonRequest;
+        }
     }
 
     public static function show($id)

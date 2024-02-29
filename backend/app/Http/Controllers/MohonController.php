@@ -24,10 +24,11 @@ class MohonController extends Controller
     public function store(StoreMohonRequest $request)
     {
 
-        MohonService::store($request);
+        $mohon = MohonService::store($request);
 
         return response()->json([
             'message' => 'Permohonan disimpan',
+            'id' => $mohon->id
         ]);
     }
 
