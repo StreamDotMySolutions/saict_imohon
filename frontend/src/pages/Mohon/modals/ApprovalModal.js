@@ -33,6 +33,8 @@ export default function ApprovalModal({id,count,step}) {
           console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
+          store.setValue('user', mohon.user.name) // set formValue
+          store.setValue('department', mohon.user.user_profile.user_department.name) // set formValue
           store.setValue('description', mohon.description) // set formValue
           store.setValue('items', mohon.mohon_items) // set formValue
           setIsLoading(false)
@@ -110,7 +112,20 @@ export default function ApprovalModal({id,count,step}) {
           </Modal.Header>
 
           <Modal.Body>
-            
+          <InputText 
+              fieldName='user' 
+              placeholder='Pemohon'  
+              icon='fa-solid fa-user'
+              isLoading={'true'}
+            />
+            <br />
+            <InputText 
+              fieldName='department' 
+              placeholder='Jabatan'  
+              icon='fa-solid fa-building'
+              isLoading={'true'}
+            />
+            <br />
             <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
