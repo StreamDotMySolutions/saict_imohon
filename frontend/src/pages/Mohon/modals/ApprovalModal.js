@@ -30,7 +30,7 @@ export default function ApprovalModal({id,count,step}) {
         })
         .then( response => {
           
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('user', mohon.user.name) // set formValue

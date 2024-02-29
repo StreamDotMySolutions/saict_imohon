@@ -30,7 +30,7 @@ export default function EditModal({id, step}) {
         'url' : `${store.submitUrl}/categories`
       })
       .then( response => {
-        console.log(response.data.categories)
+        //console.log(response.data.categories)
         setCategories(response.data.categories)
       })
 
@@ -40,7 +40,7 @@ export default function EditModal({id, step}) {
           'url' : `${store.submitUrl}/show/${id}`
       })
       .then( response => {
-        console.log(response.data)
+        //console.log(response.data)
         let item = response.data.item
         store.setValue('category_id',  item.category_id) // set formValue
         store.setValue('type', item.type) // set formValue

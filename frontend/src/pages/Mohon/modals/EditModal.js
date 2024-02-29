@@ -18,7 +18,7 @@ export default function EditModal({id, step = 0}) {
       store.emptyData() // empty store data
       //console.log(id)
 
-        console.log( `${store.submitUrl}/${id}`)
+        //console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
             'url' : `${store.submitUrl}/${id}`
