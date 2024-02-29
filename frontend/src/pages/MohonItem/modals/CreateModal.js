@@ -31,7 +31,7 @@ export default function CreateModal() {
         'url' : `${store.submitUrl}/categories`
       })
       .then( response => {
-        console.log(response.data.categories)
+        //console.log(response.data.categories)
         setCategories(response.data.categories)
       })
 
@@ -68,7 +68,7 @@ export default function CreateModal() {
           data: formData
         })
         .then( response => {
-          console.log(response)
+          // console.log(response)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
