@@ -4,6 +4,7 @@ import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
+import { ApproverStatus } from '../../../../components/global/Approval'
 
 
 const MohonIndex = () => {
@@ -47,7 +48,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
+                        <th style={{ 'width': '250px'}}>Kelulusan</th>
                         <th style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Actions</th>
                     </tr>
@@ -61,11 +62,7 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center'>
-                                <small>
-                                Peringkat : {mohon.mohon_approval.step}
-                                <br />
-                                Status : {mohon.mohon_approval.status}
-                                </small>
+                                <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>

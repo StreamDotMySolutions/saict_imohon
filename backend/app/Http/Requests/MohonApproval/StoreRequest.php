@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\Mohon;
+namespace App\Http\Requests\MohonApproval;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest

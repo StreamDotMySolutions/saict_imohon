@@ -3,6 +3,7 @@ import { Table,Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootst
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
+import MohonData from '../components/MohonData'
 
 
 export default function ApprovalModal({id,count,step}) {
@@ -19,32 +20,8 @@ export default function ApprovalModal({id,count,step}) {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
-      setIsLoading(true)
       store.emptyData() // empty store data
-      //console.log(id)
-
-        //console.log( `${store.submitUrl}/${id}`)
-        axios({
-            'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
-        })
-        .then( response => {
-          
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('user', mohon.user.name) // set formValue
-          store.setValue('department', mohon.user.user_profile.user_department.name) // set formValue
-          store.setValue('description', mohon.description) // set formValue
-          store.setValue('items', mohon.mohon_items) // set formValue
-          setIsLoading(false)
-        })
-        .catch ( error => {
-          console.warn(error)
-          setIsLoading(false)
-        })
-
-        setShow(true) // show the modal
+      setShow(true) // show the modal
     }
 
     const handleCloseClick = () => {
@@ -112,59 +89,9 @@ export default function ApprovalModal({id,count,step}) {
           </Modal.Header>
 
           <Modal.Body>
-          <InputText 
-              fieldName='user' 
-              placeholder='Pemohon'  
-              icon='fa-solid fa-user'
-              isLoading={'true'}
-            />
-            <br />
-            <InputText 
-              fieldName='department' 
-              placeholder='Jabatan'  
-              icon='fa-solid fa-building'
-              isLoading={'true'}
-            />
-            <br />
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={'true'}
-            />
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
-              rows='6'
-              isLoading={'true'}
-            />
-            <br />
-
-            <Table>
-                <thead>
-                    <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {store.getValue('items')?.map((item,index) => (
-                        <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+            <MohonData id={id} />
           </Modal.Body>
-          
+
           <Modal.Footer>
             <Form.Check
                 className='me-4'

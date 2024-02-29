@@ -10,7 +10,7 @@ use App\Http\Requests\MohonApproval\StoreRequest;
 class MohonApprovalController extends Controller
 {
     // User process NohonRequest from step 0 to 1 
-    public function byUser(Request $request, $mohonRequestId)
+    public function byUser(StoreRequest $request, $mohonRequestId)
     {
 
         $mohonApprovalService = MohonApprovalService::storeByUser($request, $mohonRequestId);
