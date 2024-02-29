@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
-import ViewModal from '../modals/ViewModal';
-import CreateModal from '../modals/CreateModal';
-import { Link } from 'react-router-dom';
-import ApprovalModal from '../modals/ApprovalModal';
+import EditModal from '../modals/EditModal'
+import DeleteModal from '../modals/DeleteModal'
+import ViewModal from '../modals/ViewModal'
+import CreateModal from '../modals/CreateModal'
+import { Link } from 'react-router-dom'
+import ApprovalModal from '../modals/ApprovalModal'
+import { ApproverStatus } from '../../../components/global/Approval'
 
 
 const MohonIndex = () => {
@@ -56,11 +57,11 @@ const MohonIndex = () => {
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th style={{ 'width': '120px'}}>User</th>
-                        <th style={{ 'width': '200px'}}>Title</th>
-                        <th>Description</th>
-                        <th className='text-center' style={{ 'width': '200px'}}>Kelulusan</th>
+                        <th style={{ 'width': '400px'}}>Tajuk</th>
+   
+                        <th style={{ 'width': '200px'}}><small>Kelulusan Terkini</small></th>
                         <th style={{ 'width': '50px'}}>Peralatan</th>
-                        <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
+                        <th className='text-center' style={{ 'width': '300px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -70,14 +71,8 @@ const MohonIndex = () => {
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.email}</td>
                             <td>{mohon.title}</td>
-                            <td>{mohon.description}</td>
-                            <td className='text-center'>
-                                <small>
-                                Peringkat : {mohon.mohon_approval.step}
-                                <br />
-                                Status : {mohon.mohon_approval.status}
-                                </small>
-                            </td>
+         
+                            <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>

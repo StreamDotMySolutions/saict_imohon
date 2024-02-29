@@ -6,27 +6,42 @@ use App\Models\MohonApproval;
 class MohonApprovalService
 {
 
-    public static function storeStep1($request, $mohonRequestId)
+    public static function storeByUser($request, $mohonRequestId)
     {
         //\Log::info($request);
         $user =  auth('sanctum')->user();
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User
-            'step' => 1,
+            'step' => 1, // step 1 is for user
             'status' => 'pending'
         ]);
     }
 
-    public static function storeStep2($request, $mohonRequestId)
+    public static function storeByManager($request, $mohonRequestId)
     {
+        // role = manager managing the request
+        // step = 1
         $user =  auth('sanctum')->user();
-        return MohonApproval::create([
+        $approval = MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Manager
-            'step' => 2,
+            'step' => 2, // step 2 is for manager
             'status' => $request->input('status')
         ]);
+
+        // if status == approved
+        // create step3 with pending status
+        if( $request->input('status') == 'approved'){
+            $request = MohonApproval::create([
+                'mohon_request_id' => $mohonRequestId,
+                'user_id' => $user->id, // Manager
+                'step' => 3, // step 3 is for admin
+                'status' => $request->input('status')
+            ]);
+        }
+  
+
     }
 
     public static function storeStep3($request, $mohonRequestId)

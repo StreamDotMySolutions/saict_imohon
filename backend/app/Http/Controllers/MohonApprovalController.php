@@ -13,7 +13,7 @@ class MohonApprovalController extends Controller
     public function byUser(Request $request, $mohonRequestId)
     {
 
-        $mohonApprovalService = MohonApprovalService::storeStep1($request, $mohonRequestId);
+        $mohonApprovalService = MohonApprovalService::storeByUser($request, $mohonRequestId);
 
         if($mohonApprovalService)
         {
@@ -31,7 +31,7 @@ class MohonApprovalController extends Controller
     public function byManager(UpdateRequest $request, $mohonRequestId)
     {
         //\Log::info($request);
-        $mohonApprovalService = MohonApprovalService::storeStep2($request, $mohonRequestId);
+        $mohonApprovalService = MohonApprovalService::storeByManager($request, $mohonRequestId);
 
         if($mohonApprovalService)
         {
