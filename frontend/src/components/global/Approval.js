@@ -14,8 +14,14 @@ export function ApproverStatus({ step, currentStatus }) {
                 setUser('Pelulus 1');
                 break;
             case 2:
+                setUser('Pelulus 2');
+                break;
+            case 3:
                 setUser('Admin');
                 break;
+            case 4:
+                setUser('Admin');
+                break;    
             default:
                 setUser('');
                 break;
@@ -43,6 +49,7 @@ export function ApproverStatus({ step, currentStatus }) {
             {/* <button style={{ 'width': '180px'}} size="sm" type="button" className="btn btn-outline-secondary text-start">
                 {user} <span class="badge bg-secondary">{status}</span>
             </button> */}
+            {/* {step}| {currentStatus} */}
 
             <div style={{ width: '180px' }} className="text-start p-2 rounded border border-1 border-secondary">
                 {user} <span className="badge bg-secondary">{status}</span>

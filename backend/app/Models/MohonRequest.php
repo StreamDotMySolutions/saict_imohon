@@ -29,7 +29,7 @@ class MohonRequest extends Model
         * Latest Mohon Approval Status
         */
         return $this->hasOne(MohonApproval::class)
-                    ->latest();
+                    ->orderBy('id','DESC');
     }
 
     public function mohonDistributionRequests() 
@@ -38,7 +38,7 @@ class MohonRequest extends Model
         * Latest Mohon Distribution Request Status
         */
         return $this->hasMany(MohonDistributionRequest::class)
-                    ->latest();
+                    ->orderBy('id','DESC');
     }
 
     public function pendingApprovalByPelulus1() 

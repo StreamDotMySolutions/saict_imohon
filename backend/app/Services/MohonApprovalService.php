@@ -13,7 +13,7 @@ class MohonApprovalService
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User
-            'step' => 1, // step 1 is for user
+            'step' => 1, // step 1 is for user requesting from manager
             'status' => 'pending'
         ]);
     }
@@ -26,19 +26,21 @@ class MohonApprovalService
         $approval = MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Manager
-            'step' => 2, // step 2 is for manager
+            'step' => 2, // 2 is for manager managing
             'status' => $request->input('status')
         ]);
 
         // if status == approved
         // create step3 with pending status
         if( $request->input('status') == 'approved'){
-            $request = MohonApproval::create([
+            return MohonApproval::create([
                 'mohon_request_id' => $mohonRequestId,
                 'user_id' => $user->id, // Manager
-                'step' => 3, // step 3 is for admin
-                'status' => $request->input('status')
+                'step' => 3, // step 3 is for admin maanaging
+                'status' => 'pending' // pending
             ]);
+        } else {
+            return $approval;
         }
   
 
