@@ -8,6 +8,11 @@ export default function MohonData({id}) {
 
     const store = useMohonStore()
     useEffect( () => {
+      store.setValue('title', '') // set formValue
+      store.setValue('user', '') // set formValue
+      store.setValue('department', '') // set formValue
+      store.setValue('description', '') // set formValue
+      store.setValue('items', []) // set formValue
         axios({
             'method' : 'get',
             'url' : `${store.mohonRequestUrl}/${id}`
@@ -23,7 +28,7 @@ export default function MohonData({id}) {
         .catch ( error => {
           console.warn(error)
         })
-    })
+    },[id])
 
   
     return (

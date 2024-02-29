@@ -1,8 +1,9 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, ModalBody} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
+import MohonData from '../../../Mohon/components/MohonData'
 
 export default function ViewModal({id}) {
 
@@ -114,7 +115,7 @@ export default function ViewModal({id}) {
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>
+          {/* <Modal.Body>
             <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
@@ -154,7 +155,11 @@ export default function ViewModal({id}) {
                 </tbody>
             </Table>
 
-          </Modal.Body>
+          </Modal.Body> */}
+
+<Modal.Body>
+  <MohonData id={id} />
+</Modal.Body>
           
           <Modal.Footer>
           <Form.Check
