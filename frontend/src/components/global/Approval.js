@@ -40,9 +40,13 @@ export function ApproverStatus({ step, currentStatus }) {
 
     return (
         <>
-            <button style={{ 'width': '180px'}} size="sm" type="button" className="btn btn-outline-secondary text-start">
+            {/* <button style={{ 'width': '180px'}} size="sm" type="button" className="btn btn-outline-secondary text-start">
                 {user} <span class="badge bg-secondary">{status}</span>
-            </button>
+            </button> */}
+
+            <div style={{ width: '180px' }} className="text-start p-2 rounded border border-1 border-secondary">
+                {user} <span className="badge bg-secondary">{status}</span>
+            </div>
         </>
     );
 }
