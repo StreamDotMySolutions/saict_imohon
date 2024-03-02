@@ -14,6 +14,7 @@ export default function ViewModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
+    const requiredStep  = 3 // Step 3 ( Admin )
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -167,7 +168,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              disabled={step !== 2}
+              disabled={step !== requiredStep }
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
@@ -175,14 +176,14 @@ export default function ViewModal({id}) {
             />
 
             <Button 
-              disabled={ isLoading || step !== 2}
+              disabled={ isLoading || step !== requiredStep}
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
-              disabled={ isLoading || step !== 2}
+              disabled={ isLoading || step !== requiredStep}
               variant="danger" 
               onClick={handleRejectClick}>
               Gagal

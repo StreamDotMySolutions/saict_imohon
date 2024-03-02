@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
 
-
 const MohonIndex = () => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
@@ -62,13 +61,23 @@ const MohonIndex = () => {
                             <td>{mohon.title}</td>
                        
                             <td className='text-center'>
-                            <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
+                            <ApproverStatus step={mohon.mohon_approval?.step} currentStatus={mohon.mohon_approval?.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
-                                <Link to={`/mohon-distribution-requests/${mohon.id}`}>
+                                {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
-                                </Link>                                
+                                </Link>*/}
+                        
+                                <ViewModal id={mohon.id} />
+                                {' '}
+                                {mohon.mohon_approval?.step == 4 ?
+                                    <Link to={`/mohon-distribution-requests/${mohon.id}`}>
+                                        <Button size='sm' variant='outline-success'>Agihan</Button>
+                                    </Link>
+                                    :
+                                    <Button size='sm' disabled variant='success'>Agihan</Button>
+                                }
                             </td>
                         </tr>
                     ))}

@@ -157,9 +157,9 @@ export default function ViewModal({id}) {
 
           </Modal.Body> */}
 
-<Modal.Body>
-  <MohonData id={id} />
-</Modal.Body>
+          <Modal.Body>
+            <MohonData id={id} />
+          </Modal.Body>
           
           <Modal.Footer>
           <Form.Check

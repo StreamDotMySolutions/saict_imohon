@@ -9,7 +9,7 @@ use App\Http\Requests\MohonApproval\StoreRequest;
 
 class MohonApprovalController extends Controller
 {
-    // User process NohonRequest from step 0 to 1 
+    // User process NohonRequest from step 1 to 2 
     public function byUser(StoreRequest $request, $mohonRequestId)
     {
 
@@ -27,7 +27,7 @@ class MohonApprovalController extends Controller
         }
     }
 
-    // Manager process MohonRequest step = 1 to step = 2
+    // Manager process MohonRequest step = 2 to step = 3
     public function byManager(UpdateRequest $request, $mohonRequestId)
     {
         //\Log::info($request);
@@ -45,20 +45,20 @@ class MohonApprovalController extends Controller
         }
     }
 
-    // Admin process MohonRequest step = 2 to step = 3
+    // Admin process MohonRequest step = 3 to step = 4
     public function byAdmin(UpdateRequest $request, $mohonRequestId)
     {
         //\Log::info($request);
-        $mohonApprovalService = MohonApprovalService::storeStep3($request, $mohonRequestId);
+        $mohonApprovalService = MohonApprovalService::storeByAdmin($request, $mohonRequestId);
 
         if($mohonApprovalService)
         {
             return response()->json([
-                'message' => 'Permohonan ke Boss berjaya diterima',
+                'message' => 'Permohonan berjaya diproses',
             ]);
         } else {
             return response()->json([
-                'message' => 'Permohonan ke Boss gagal',
+                'message' => 'Permohonan gagal diproses',
             ],422);
         }
     }
@@ -66,20 +66,20 @@ class MohonApprovalController extends Controller
 
 
     // Boss process MohonRequest step = 3 to step = 4
-    public function byBoss(UpdateRequest $request, $mohonRequestId)
-    {
-        //\Log::info($request);
-        $mohonApprovalService = MohonApprovalService::storeStep4($request, $mohonRequestId);
+    // public function byBoss(UpdateRequest $request, $mohonRequestId)
+    // {
+    //     //\Log::info($request);
+    //     $mohonApprovalService = MohonApprovalService::storeStep4($request, $mohonRequestId);
 
-        if($mohonApprovalService)
-        {
-            return response()->json([
-                'message' => 'Permohonan ke Pelulus 3 berjaya diterima',
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Permohonan ke Pelulus 3 gagal',
-            ],422);
-        }
-    }
+    //     if($mohonApprovalService)
+    //     {
+    //         return response()->json([
+    //             'message' => 'Permohonan ke Pelulus 3 berjaya diterima',
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Permohonan ke Pelulus 3 gagal',
+    //         ],422);
+    //     }
+    // }
 }

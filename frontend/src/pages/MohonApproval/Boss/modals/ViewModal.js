@@ -1,8 +1,9 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, ModalBody} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
+import MohonData from '../../../Mohon/components/MohonData'
 
 export default function ViewModal({id}) {
 
@@ -14,7 +15,6 @@ export default function ViewModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
-    const [status, setStatus] = useState('') // Status
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -26,16 +26,15 @@ export default function ViewModal({id}) {
       //console.log( `${store.submitUrl}/${id}`)
       axios({
             'method' : 'get',
-            'url' : `${store.showUrl}/${id}`
+            'url' : `${store.submitUrl}/${id}`
       })
       .then( response => {
           //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
-          setItems(mohon.mohon_distribution_items)
-          setStep(mohon.mohon_distribution_approval.step)
-          setStatus(mohon.mohon_distribution_approval.status)
+          setItems(mohon.mohon_items)
+          setStep(mohon.mohon_approval.step)
 
           // items
           setIsLoading(false)
@@ -81,7 +80,7 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.bossApprovalUrl}/${id}`, // role = boss to approve agihan && status = approved || rejected
+          url : `${store.managerApprovalUrl}/${id}`, // role = mnager approve mohon to step = 2 && status = approved
           data: formData
         })
         .then( response => {
@@ -108,7 +107,7 @@ export default function ViewModal({id}) {
     return (
       <>
         <Button size="sm" variant="outline-info" onClick={handleShowClick}>
-          Lihat 
+          Lihat
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
@@ -116,46 +115,9 @@ export default function ViewModal({id}) {
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
+
           <Modal.Body>
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={'true'}
-            />
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
-              rows='6'
-              isLoading={'true'}
-            />
-            <br />
-
-            <Table>
-                <thead>
-                    <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                 
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {items?.map((item,index) => (
-                        <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-
+            <MohonData id={id} />
           </Modal.Body>
           
           <Modal.Footer>
@@ -163,7 +125,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              disabled={status !== 'pending'}
+              disabled={step !== 1}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
@@ -171,16 +133,14 @@ export default function ViewModal({id}) {
             />
 
           <Button 
-              //disabled={ isLoading || step !== 3}
-              disabled={status !== 'pending'}
+              disabled={ isLoading || step !== 1}
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
             <Button 
-              //disabled={ isLoading || step !== 3}
-              disabled={status !== 'pending'}
+              disabled={ isLoading || step !== 1}
               variant="danger" 
               onClick={handleRejectClick}>
               Gagal

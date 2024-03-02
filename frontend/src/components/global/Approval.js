@@ -51,8 +51,8 @@ export function ApproverStatus({ step, currentStatus }) {
             </button> */}
             {/* {step}| {currentStatus} */}
 
-            <div style={{ width: '180px' }} className="text-start p-2 rounded border border-1 border-secondary">
-                {user} <span className="badge bg-secondary">{status}</span>
+            <div style={{ width: '150px' }} className="text-center p-2 rounded border border-1 border-secondary">
+                <small>{user} <span className="badge bg-secondary">{status}</span></small>
             </div>
         </>
     );
