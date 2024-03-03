@@ -41,7 +41,7 @@ const MohonShow = () => {
                     setLevel('Di peringkat Pelulus 1');
                 break;   
                 case 3:
-                    setLevel('Di peringkat Admin');
+                    setLevel('Pelulus 1 mohon kelulusan dari Admin');
                 break;   
 
                 case 4:
