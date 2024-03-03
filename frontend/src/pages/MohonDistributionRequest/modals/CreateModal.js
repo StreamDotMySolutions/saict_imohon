@@ -1,18 +1,21 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams,Navigate } from 'react-router-dom'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function CreateModal() {
+  
     const { mohonRequestId } = useParams()
     const store = useMohonStore()
     const errors = store.errors
+    
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [redirectId, setRedirectId] = useState(null)
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -28,6 +31,7 @@ export default function CreateModal() {
 
     const handleSubmitClick = () => {
       setIsLoading(true)
+      setRedirectId(null)
       const formData = new FormData()
 
       // title
@@ -46,15 +50,17 @@ export default function CreateModal() {
           data: formData
         })
         .then( response => {
-          //console.log(response)
+          //console.log(response.data.id)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
-
+          store.setValue('mohonDistributionRequestId', response.data?.id)
+          setRedirectId(response.data?.id)
+          handleCloseClick()
           // Add a delay of 1 second before closing
-          setTimeout(() => {
-            setIsLoading(false)
-            handleCloseClick();
-          }, 500);
+          // setTimeout(() => {
+          //   setIsLoading(false)
+          //   handleCloseClick();
+          // }, 500);
         })
         .catch( error => {
           //console.warn(error)
@@ -63,6 +69,13 @@ export default function CreateModal() {
             store.setValue('errors',  error.response.data.errors )
           }
         })
+    }
+
+    // redirect to store-items
+    if( redirectId) {
+      console.log('hello')
+      console.log(redirectId)
+      return <Navigate to={`/mohon-distribution-items/${redirectId}`} replace />
     }
   
     return (

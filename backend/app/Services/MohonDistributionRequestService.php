@@ -110,6 +110,8 @@ class MohonDistributionRequestService
         //     'status' => 'pending',
         // ]);
         MohonDistributionApprovalService::storeStep0($mohonDistributionRequest->id);
+
+        return  $mohonDistributionRequest;
     }
 
     public static function show($id)

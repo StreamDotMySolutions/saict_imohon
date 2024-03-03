@@ -24,10 +24,11 @@ class MohonDistributionRequestController extends Controller
     public function store(StoreRequest $request, $mohonRequestId)
     {
 
-        MohonDistributionRequestService::store($request, $mohonRequestId);
+        $mohonDistributionRequest = MohonDistributionRequestService::store($request, $mohonRequestId);
 
         return response()->json([
             'message' => 'Permohonan agihan berjaya disimpan',
+            'id' => $mohonDistributionRequest->id
         ]);
     }
 
@@ -40,7 +41,7 @@ class MohonDistributionRequestController extends Controller
     public function byBoss($status = 'pending')
     {
 
-        \Log::info($status);
+        //\Log::info($status);
     }
 
     public function show($id)
