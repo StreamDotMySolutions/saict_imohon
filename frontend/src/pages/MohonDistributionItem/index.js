@@ -3,6 +3,7 @@ import useMohonItemStore from './store'
 import { useState } from 'react'
 import axios from '../../libs/axios'
 import MohonItemIndex from './components/MohonItemIndex'
+import { Badge } from 'react-bootstrap'
 
 const MohonDistributionItem = () => {
   const { mohonDistributionRequestId } = useParams()
@@ -11,6 +12,7 @@ const MohonDistributionItem = () => {
   const [title, setTitle] = useState('')
   const [step, setStep] = useState('')
   const [mohonRequestId, setMohonRequestId] = useState('')
+  const [response, setResponse] = useState([])
 
   axios({
     'method' : 'get',
@@ -18,7 +20,8 @@ const MohonDistributionItem = () => {
     })
     .then( response => {
         //console.log('get mohon_approval')
-        //console.log(response.data)
+        //console.log(response.data.mohon)
+        setResponse(response.data.mohon)
         let mohon = response.data.mohon
         //setMohon(mohon.mohon_)
         //store.setValue('title', mohon.title) // set formValue
@@ -35,9 +38,13 @@ const MohonDistributionItem = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/mohon-approval/by-admin" >Agihan</Link></li>
+                    <li className="breadcrumb-item"><Link to="/mohon-approval/by-admin" ><Badge>AGIHAN</Badge></Link></li>
                     <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}>{title}</Link>
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.mohon_request?.id}</Badge>{' '}{response.mohon_request?.title}</Link>
+                    </li>
+                    <li class="breadcrumb-item">Senarai Agihan</li>
+                    <li className="breadcrumb-item">
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.id}</Badge>{' '}{response.title}</Link>
                     </li>
                     <li className="breadcrumb-item">Senarai Peralatan</li>
                 </ol>

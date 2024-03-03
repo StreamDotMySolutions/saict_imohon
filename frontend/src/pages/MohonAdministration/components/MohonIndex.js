@@ -74,7 +74,7 @@ const MohonIndex = () => {
                             <td>{mohon.user?.user_profile?.user_department?.name}</td>
                             <td>{mohon.title}</td>
          
-                            <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td>
+                            <td><ApproverStatus step={mohon.mohon_approval?.step} currentStatus={mohon.mohon_approval?.status} /></td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>

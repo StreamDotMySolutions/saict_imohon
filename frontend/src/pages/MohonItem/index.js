@@ -3,6 +3,7 @@ import useMohonStore from '../Mohon/store'
 import { useState } from 'react'
 import axios from '../../libs/axios'
 import MohonItemIndex from './components/MohonItemIndex'
+import { Badge } from 'react-bootstrap'
 
 const MohonItem = () => {
   const { mohonRequestId } = useParams()
@@ -32,9 +33,9 @@ const MohonItem = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to='/mohon'>Mohon</Link></li>
-                    <li className="breadcrumb-item">{title}</li>
-                    <li className="breadcrumb-item">Peralatan</li>
+                    <li className="breadcrumb-item"><Link to='/mohon'><Badge>Mohon</Badge></Link></li>
+                    <li className="breadcrumb-item"><Badge>{mohonRequestId}</Badge>{' '}{title}</li>
+                    <li className="breadcrumb-item">Senarai peralatan</li>
                 </ol>
             </nav>
             <MohonItemIndex mohonRequestId={mohonRequestId} step={step} /> 

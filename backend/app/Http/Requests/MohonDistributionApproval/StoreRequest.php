@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\MohonDistributionRequest;
+namespace App\Http\Requests\MohonDistributionApproval;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -10,17 +10,14 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'acknowledge' => 'required',
-            'title' => 'required',
-            'description' => 'required',
+            'acknowledge' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'title.required' => 'Sila tulis tajuk permohonan',
-            'description.required' => 'Sila nyatakan tujuan permohonan',
+            'acknowledge.required' => 'Sila sahkan tindakan anda',
         ];
     }
 }

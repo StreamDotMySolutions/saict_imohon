@@ -8,6 +8,7 @@ import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 import { Link, useParams } from 'react-router-dom'
 import ApprovalModal from '../modals/ApprovalModal'
+import { AgihanApprovalStatus } from '../../../components/global/AgihanApproval'
 
 const Index = () => {
     const { mohonRequestId } = useParams()
@@ -70,11 +71,7 @@ const Index = () => {
                             <td>{mohon.title}</td>
                             <td>{mohon.description}</td>
                             <td className='text-center'>
-                                <small>
-                                Peringkat : {mohon.mohon_distribution_approval.step}
-                                <br />
-                                Status : {mohon.mohon_distribution_approval.status}
-                                </small>
+                                <AgihanApprovalStatus step={mohon?.mohon_distribution_approval?.step} currentStatus={mohon?.mohon_distribution_approval?.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>
@@ -85,9 +82,9 @@ const Index = () => {
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                 {' '}
-                                <EditModal id={mohon.id} step={mohon.mohon_distribution_approval.step}/>
+                                <EditModal id={mohon.id} step={mohon.mohon_distribution_approval?.step}/>
                                 {' '}
-                                <DeleteModal id={mohon.id} step={mohon.mohon_distribution_approval.step} />
+                                <DeleteModal id={mohon.id} step={mohon.mohon_distribution_approval?.step} />
                                 {' '}
                                 
                             </td>

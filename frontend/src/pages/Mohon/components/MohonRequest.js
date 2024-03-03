@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 
 const MohonRequest = () => {

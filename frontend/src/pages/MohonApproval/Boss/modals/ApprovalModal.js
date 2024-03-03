@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
-import axios from '../../../libs/axios'
+import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function ApprovalModal({id,count,step}) {
@@ -12,6 +12,7 @@ export default function ApprovalModal({id,count,step}) {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [data, setData] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -24,13 +25,16 @@ export default function ApprovalModal({id,count,step}) {
         //console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
+            'url' : `${store.showUrl}/${id}`
         })
         .then( response => {
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
+          console.log(response.data.mohon)
+           let mohon = response.data.mohon
+           setData(response.data?.mohon)
+           store.setValue('title', response.data.mohon.title) // set formValue
+           store.setValue('description', response.data.mohon.description) // set formValue
+           store.setValue('items', response.data.mohon_distribution_items) // set formValue
+         
           setIsLoading(false)
         })
         .catch ( error => {
@@ -81,25 +85,23 @@ export default function ApprovalModal({id,count,step}) {
         })
     }
 
+    console.log(data.mohon_distribution_items)
   
     return (
       <>
-        {count === 0 ? (
-          <Button disabled size="sm" variant="info" onClick={handleShowClick}>
-            Mohon
-          </Button>
-        ) : (
-          <Button disabled={step !== 0} size="sm" variant="info" onClick={handleShowClick}>
-            Mohon
-          </Button>
-        )}
-          
+
+        <Button size="sm" variant="info" onClick={handleShowClick}>
+          Lihat
+        </Button>
+  
+
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
+            {store.showUrl}/{id}
             <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
@@ -115,6 +117,29 @@ export default function ApprovalModal({id,count,step}) {
               isLoading={'true'}
             />
             <br />
+            <Table>
+                <thead>
+                    <tr>
+                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Description</th>
+               
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {data?.mohon_distribution_items.map((item,index) => (
+                        <tr key={index}>
+                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td>{item.category?.name}</td>
+                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                            <td>{item.description}</td>
+                 
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
 
           </Modal.Body>
           

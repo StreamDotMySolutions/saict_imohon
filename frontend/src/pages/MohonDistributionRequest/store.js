@@ -9,6 +9,7 @@ const useStore  = create((set) => ({
     updateUrl: `${base_url}/mohon-distribution`,
     deleteUrl: `${base_url}/mohon-distribution`,
     bossApprovalUrl: `${base_url}/mohon-distribution-requests/by-admin`, // admin requesting to Boss
+    mohonDistributionRequestUrl: `${base_url}/mohon-distribution`,
 
     submitUrl: `${base_url}/mohon-distribution`,
     mohonUrl: `${base_url}/mohon`,

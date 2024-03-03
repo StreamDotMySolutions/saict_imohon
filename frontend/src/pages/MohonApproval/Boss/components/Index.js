@@ -4,6 +4,8 @@ import useStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
+import { AgihanApprovalStatus } from '../../../../components/global/AgihanApproval'
+import ApprovalModal from '../modals/ApprovalModal'
 
 
 const Index = () => {
@@ -37,7 +39,6 @@ const Index = () => {
 
     return (
         <div>
-boss
             <Table>
                 <thead>
                     <tr>
@@ -45,10 +46,10 @@ boss
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '200px'}}>Title</th>
                         <th>Description</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peringkat</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Status</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Kelulusan</th>
+            
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan</th>
-                        <th className='text-center' style={{ 'width': '100px'}}>Actions</th>
+                        <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -59,11 +60,11 @@ boss
                             <td>{data.user?.email}</td>
                             <td>{data.title}</td>
                             <td>{data.description}</td>
-                            <td className='text-center'>{data.mohon_distribution_approval.step}</td>
-                            <td className='text-center'>{data.mohon_distribution_approval.status}</td>
+                            <td>
+                                <AgihanApprovalStatus step={data.mohon_distribution_approval.step} currentStatus={data.mohon_distribution_approval.status} /></td>
                             <td className='text-center'>{data.mohon_distribution_items_count}</td>
                             <td className='text-center'>
-                                <ViewModal id={data.id} />
+                                <ViewModal id={data.id} />                        
                             </td>
                         </tr>
                     ))}

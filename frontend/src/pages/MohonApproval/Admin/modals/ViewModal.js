@@ -164,7 +164,7 @@ export default function ViewModal({id}) {
           </Modal.Body>
           
           <Modal.Footer>
-          <Form.Check
+            <Form.Check
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse

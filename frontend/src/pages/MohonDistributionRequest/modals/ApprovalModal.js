@@ -7,7 +7,7 @@ import useMohonStore from '../store'
 export default function ApprovalModal({id,count,step}) {
 
     const store = useMohonStore()
-    const errors = store.errors
+    const errors = store.getValue('errors')
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
@@ -51,8 +51,11 @@ export default function ApprovalModal({id,count,step}) {
       setIsLoading(true)
       const formData = new FormData()
 
-      // step = 1 ( user submitted to Pelulus 1)
-      //formData.append('step', 1 );
+
+      // ackknowledge
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
 
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'post');
@@ -75,7 +78,7 @@ export default function ApprovalModal({id,count,step}) {
           }, 500);
         })
         .catch( error => {
-          //console.warn(error)
+          console.warn(error)
           setIsLoading(false)
           if(error.response.status === 422){
             store.setValue('errors',  error.response.data.errors )
@@ -143,15 +146,25 @@ export default function ApprovalModal({id,count,step}) {
           </Modal.Body>
           
           <Modal.Footer>
+            <Form.Check
+                className='me-4'
+                isInvalid={errors?.hasOwnProperty('acknowledge')}
+                reverse
+                disabled={isLoading}
+                label="Saya mengesahkan telah memeriksa permohonan ini"
+                type="checkbox"
+                onClick={ () => useMohonStore.setState({errors:null}) }
+                onChange={ (e) => store.setValue('acknowledge', true) }
+              />
 
-          <Button 
-              disabled={isLoading}
-              variant="secondary" 
-              onClick={handleCloseClick}>
-              Tutup
-          </Button>
+            <Button 
+                disabled={isLoading}
+                variant="secondary" 
+                onClick={handleCloseClick}>
+                Tutup
+            </Button>
 
-          <Button 
+            <Button 
               disabled={isLoading}
               variant="primary" 
               onClick={handleSubmitClick}>

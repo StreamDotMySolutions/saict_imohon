@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate} from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import { Container,Tabs,Tab } from 'react-bootstrap'
+import { Container,Tabs,Tab, Badge } from 'react-bootstrap'
 import axios from '../../libs/axios'
 import Index from './components/Index'
 // import MohonRequest from './components/MohonRequest'
@@ -39,8 +39,9 @@ const MohonDistributionRequest = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-admin'>Agihan</Link></li>
-                    <li class="breadcrumb-item">{title}</li>
+                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>AGIHAN</Badge></Link></li>
+                    <li class="breadcrumb-item"><Badge>{mohonRequestId}</Badge>{' '}{title}</li>
+                    <li class="breadcrumb-item">Senarai Agihan</li>
                 </ol>
             </nav>
             <Container className='p-1'>

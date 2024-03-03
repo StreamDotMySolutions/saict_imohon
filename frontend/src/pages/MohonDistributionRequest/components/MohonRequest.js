@@ -26,7 +26,7 @@ const MohonRequest = () => {
                 } 
             )
             .then( response => { // response block
-                console.log(response.data.mohon)   // output to console  
+                //console.log(response.data.mohon)   // output to console  
                 setResponse(response.data.mohon) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })

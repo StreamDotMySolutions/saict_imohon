@@ -93,7 +93,7 @@ class MohonService
         // Delete MohonDistributionRequest
         $mohonRequest->mohonDistributionRequests()->each(function ($distributionRequest) {
             // delete mohon distribution items
-            $distributionRequest->mohonDistributionRequestItems()->delete();
+            $distributionRequest->mohonDistributionItems()->delete();
             // delete agihan request
             $distributionRequest->mohonDistributionApproval()->delete();
         });

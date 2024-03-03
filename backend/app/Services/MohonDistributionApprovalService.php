@@ -36,7 +36,8 @@ class MohonDistributionApprovalService
         }
     }
 
-    public static function storeStep1($mohonDistributionRequestId)
+    // Admin requesting Agihan Approval from Boss
+    public static function storeByAdmin($mohonDistributionRequestId)
     {
 
         if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
@@ -50,7 +51,8 @@ class MohonDistributionApprovalService
         ]);
     }
 
-    public static function storeStep2($request, $mohonDistributionRequestId)
+    // Boss processing Agihan Request from Admin
+    public static function storeByBoss($request, $mohonDistributionRequestId)
     {
 
         if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
@@ -58,8 +60,8 @@ class MohonDistributionApprovalService
         $user =  auth('sanctum')->user();
         return MohonDistributionApproval::create([
             'mohon_distribution_request_id' => $mohonDistributionRequestId,
-            'user_id' => $user->id, // role is Admin
-            'step' => 2, // upgrade from 0 to 1
+            'user_id' => $user->id, // role is Boss
+            'step' => 2, // upgrade from 1 to 2
             'status' => $request->input('status') // status
         ]);
     }

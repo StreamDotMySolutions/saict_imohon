@@ -6,20 +6,21 @@ use Illuminate\Http\Request;
 use App\Services\MohonDistributionApprovalService;
 use App\Models\MohonDistributionRequest;
 use App\Http\Requests\MohonDistributionApproval\UpdateRequest;
+use App\Http\Requests\MohonDistributionApproval\StoreRequest;
 
 class MohonDistributionApprovalController extends Controller
 {
     /*
     * Admin requesting Agihan Approval from Boss
     */
-    public function byAdmin($mohonDistributionRequestId)
+    public function byAdmin(StoreRequest $request, $mohonDistributionRequestId)
     {
         // \Log::info($mohonDistributionRequestId);
        
         // create new data in MohonDistributionApproval
         // step = 1 ( for Boss to view )
         // status = pending
-        $request = MohonDistributionApprovalService::storeStep1($mohonDistributionRequestId);
+        $request = MohonDistributionApprovalService::storeByAdmin($mohonDistributionRequestId);
 
         // response in JSON ( 200 is success and 422 when failed )
         if($request){
@@ -33,6 +34,7 @@ class MohonDistributionApprovalController extends Controller
         }
     }
 
+
     /*
     * Boss processing Request For Approval from Admin
     */
@@ -40,7 +42,7 @@ class MohonDistributionApprovalController extends Controller
     {
         // Role boss to approve or reject
         // Step upgraded from 1 into 2
-        $request = MohonDistributionApprovalService::storeStep2($request,$mohonDistributionRequestId);
+        $request = MohonDistributionApprovalService::storeByBoss($request,$mohonDistributionRequestId);
 
         // response in JSON ( 200 is success and 422 when failed )
         if($request){
