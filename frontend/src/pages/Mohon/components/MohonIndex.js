@@ -59,7 +59,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '400px'}}>Tajuk</th>
    
-                        <th style={{ 'width': '200px'}}><small>Kelulusan Terkini</small></th>
+                        <th style={{ 'width': '200px'}}><small>Kelulusan Mohon</small></th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th>
