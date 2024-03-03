@@ -40,17 +40,18 @@ import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized'
 import SignOut from './pages/Auth/components/SignOut'
 
-import Application from './pages/Application'
-import ApprovalByManager from './pages/Approval/ByManager'
-import ApprovalByAdmin from './pages/Approval/ByAdmin'
+// import Application from './pages/Application'
+// import ApprovalByManager from './pages/Approval/ByManager'
+// import ApprovalByAdmin from './pages/Approval/ByAdmin'
 
-import Inventory from './pages/Inventory'
+// import Inventory from './pages/Inventory'
 
-import Distribution from './pages/Distribution'
-import DistributionApproval from './pages/DistributionApproval'
-import DistributionAcceptance from './pages/DistributionAcceptance'
+// import Distribution from './pages/Distribution'
+// import DistributionApproval from './pages/DistributionApproval'
+// import DistributionAcceptance from './pages/DistributionAcceptance'
 
 import Mohon from './pages/Mohon'
+import MohonAdministration from './pages/MohonAdministration'
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
 import MohonApprovalByAdmin from './pages/MohonApproval/Admin/index.js'
@@ -98,6 +99,8 @@ export default function App() {
                 <Route path="/mohon" element={<Mohon />} />
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
 
+                <Route path="/administration/mohon" element={<MohonAdministration />} />
+
                 <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
                 <Route path="/mohon-approval/by-admin" element={<MohonApprovalByAdmin />} />    
                 <Route path="/mohon-approval/by-boss" element={<MohonApprovalByBoss />} />      
@@ -106,7 +109,7 @@ export default function App() {
                 <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
 
                 
-
+{/* 
                 <Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
@@ -114,7 +117,7 @@ export default function App() {
                 <Route path="/inventories" element={<Inventory />} />
                 <Route path="/distributions" element={<Distribution />} />
                 <Route path="/distribution-approvals" element={<DistributionApproval />} />
-                <Route path="/distribution-acceptances" element={<DistributionAcceptance />} />
+                <Route path="/distribution-acceptances" element={<DistributionAcceptance />} /> */}
               </Route>
             </Route>
 

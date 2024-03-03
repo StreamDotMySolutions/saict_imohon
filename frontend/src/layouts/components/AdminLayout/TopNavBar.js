@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { NavLink, useLocation} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from './img/imohon.png'
@@ -21,7 +22,18 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/mohon-approval/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
                 <Nav.Link as={NavLink} to="/inventories"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Inventori</Nav.Link>
                 {/* <Nav.Link as={NavLink} to="/distributions"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> */}
+                
+                <Dropdown>
+                  <Dropdown.Toggle variant="default" id="dropdown-basic">
+                    <FontAwesomeIcon icon="fa-solid fa-person" />{' '}Pengurusan
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    {/* <Dropdown.Item href="#/action-1">Permohonan</Dropdown.Item> */}
+                    <Nav.Link as={NavLink} to="/administration/mohon"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
           
+                  </Dropdown.Menu>
+               </Dropdown>
               </Nav>
            <Account />
         </Navbar.Collapse>

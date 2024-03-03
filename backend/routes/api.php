@@ -24,7 +24,13 @@ use App\Http\Controllers\{
     MohonDistributionRequestController,
     MohonDistributionItemController,
     MohonDistributionApprovalController,
+    AdministrationMohonController
 };
+
+
+
+
+
 Auth::routes();
 
 Route::get('/welcome', function () {
@@ -68,6 +74,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon/{id}', [MohonController::class, 'show']);
     Route::put('/mohon/{id}', [MohonController::class, 'update']);
     Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
+
+    // mohon administration
+    Route::get('/administrations/mohon', [AdministrationMohonController::class, 'index']);
+    //Route::post('/administrations/mohon', [MohonController::class, 'store']);
+    Route::get('/administrations/mohon/{id}', [AdministrationMohonController::class, 'show']);
+    Route::put('/administrations/mohon/{id}', [AdministrationMohonController::class, 'update']);
+    Route::delete('/administrations/mohon/{id}', [AdministrationMohonController::class, 'delete']);
 
     // mohon item
     Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
