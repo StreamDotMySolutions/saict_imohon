@@ -75,7 +75,7 @@ export default function CreateModal() {
       const mohonId = store.getValue('mohonId')
       //console.log(mohonId)
       store.emptyData()
-      return <Navigate to={`/mohon/${mohonId}`} replace />
+      return <Navigate to={`/mohon-items/${mohonId}`} replace />
     }
   
     return (

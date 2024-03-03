@@ -60,9 +60,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '400px'}}>Tajuk</th>
    
                         <th style={{ 'width': '200px'}}><small>Kelulusan Terkini</small></th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th>
+                        <th style={{ 'width': '50px'}}>Peralatan</th>
                         <th className='text-center' style={{ 'width': '300px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -76,21 +74,11 @@ const MohonIndex = () => {
          
                             <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
                                 {' '} */}
-                                {/* <Link to={`/mohon-items/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Item</Button>
-                                </Link> */}
-                                {' '}
-                                <Link to={`/mohon/${mohon.id}`}>
-                                    <Button size='sm' variant='warning'>Mohon</Button>
-                                </Link>
-                                {' '}
-                                <Link to={`/mohon/${mohon.id}`}>
-                                    <Button size='sm' variant='success'>Agihan</Button>
+                                <Link to={`/mohon-items/${mohon.id}`}>
+                                    <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
                                 {' '}
                                 <EditModal id={mohon.id} step={mohon.mohon_approval.step}/>

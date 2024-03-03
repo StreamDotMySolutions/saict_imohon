@@ -32,6 +32,15 @@ class MohonRequest extends Model
                     ->orderBy('id','DESC');
     }
 
+    public function mohonApprovals() 
+    {
+        /*
+        * All Approvals
+        */
+        return $this->hasMany(MohonApproval::class)
+                    ->orderBy('id','DESC');
+    }
+
     public function mohonDistributionRequests() 
     {
         /*
@@ -41,26 +50,5 @@ class MohonRequest extends Model
                     ->orderBy('id','DESC');
     }
 
-    public function pendingApprovalByPelulus1() 
-    {
-        /*
-        * Pelulus 1
-        */
-        return $this->hasOne(MohonApproval::class)
-                    ->where('step', 1)
-                    ->where('status', 'pending')
-                    ->latest();
-    }
-
-    public function pendingApprovalByPelulus2() 
-    {
-        /*
-        * Pelulus 2
-        */
-        return $this->hasOne(MohonApproval::class)
-                    ->where('step', 2)
-                    ->where('status', 'pending')
-                    ->latest();
-    }
 
 }

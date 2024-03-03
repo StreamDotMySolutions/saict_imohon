@@ -1,48 +1,71 @@
-import React, { useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import MohonIndex from './components/MohonIndex'
+import { Badge } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
+import useMohonStore from './store'
+import axios from '../../libs/axios'
+import { useEffect, useState } from 'react'
 import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
-import useStore from '../store'
-import axios from '../../../libs/axios'
-import EditModal from '../modals/EditModal'
-import DeleteModal from '../modals/DeleteModal'
-import ViewModal from '../modals/ViewModal'
-import CreateModal from '../modals/CreateModal'
-import { Link, useParams } from 'react-router-dom'
-import ApprovalModal from '../modals/ApprovalModal'
 
-const MohonRequest = () => {
+const MohonShow = () => {
     const { mohonRequestId } = useParams()
-    const store = useStore()
+    const store = useMohonStore()
     const [response, setResponse] = useState([])
 
-    //console.log(store.mohonUrl)
-
-    useEffect( () => 
-        {
-            // modified axios to prepend Bearer Token on header
-            axios( 
-                {
-                    method: 'get', // method is GET
-                    url: `${store.mohonUrl}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon/123
-                } 
-            )
-            .then( response => { // response block
-                //console.log(response.data.mohon)   // output to console  
-                setResponse(response.data.mohon) // assign data to const = mohons
-                store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
+    useEffect( () => {
+        axios({
+            'method' : 'get',
+            'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
             })
-            .catch( error => { // error block
-                console.warn(error) // output to console
+            .then( response => {
+              console.log(response.data.mohon)
+              setResponse(response.data.mohon)
             })
-      },
-        [
-            store.getValue('refresh'), // Form action listener
-            store.url // pagination listener
-        ] 
+            .catch ( error => {
+              console.warn(error)
+            })
+    }, [mohonRequestId])
 
-    ) // useEffect()
+    function ApprovalLevel({step}){
+        const [level,setLevel] = useState('')
+
+        useEffect( () => {
+            switch (step) {
+                case 0:
+                    setLevel('User cipta permohonan');
+                    break;
+                case 1:
+                    setLevel('User mohon kelulusan dari Pelulus 1');
+                    break;   
+                case 2:
+                    setLevel('Di peringkat Pelulus 1');
+                break;   
+                case 3:
+                    setLevel('Di peringkat Admin');
+                break;   
+
+                case 4:
+                    setLevel('Di peringkat Admin');
+                break;   
+            }
+        })
+
+        return (
+            <>
+            {level}
+            </>
+        )
+    }
 
     return (
         <div>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to='/mohon'><Badge>Mohon</Badge></Link></li>
+                    <li className="breadcrumb-item"><Badge>{response?.id}</Badge>{' '}{response?.title}</li>
+                </ol>
+            </nav>
+            <div>
             <Row>
                 <Col>
 
@@ -92,36 +115,47 @@ const MohonRequest = () => {
                     </div>
                 </Col>
                 <Col>
-                    
-                    <div className='p-3 border border-1'>
-                        <h5>Kelulusan Terkini </h5>
-                        <hr />
+                <div className='p-3 border border-1 '>
+                <h5>Kelulusan Permohonan</h5>
+                <hr />
+                {response?.mohon_approvals?.map((approval,index) => (
+                    <div key={index} className='p-2 border border-1 rounded-1 mt-2'>
+                  
                         <Table>
                             <tr>
                                 <th style={{ 'width': '120px'}}>Peringkat:</th>
-                                <td>{response.mohon_approval?.step}</td>
+                                <td><ApprovalLevel step={approval?.step} /></td>
                             </tr>
                             <tr>
                                 <th>Status:</th>
-                                <td>{response.mohon_approval?.status}</td>
+                                <td>{approval?.status}</td>
                             </tr>
                             <tr>
-                                <th>Pelulus</th>
-                                <td>{response.mohon_approval?.user?.name}</td>
+                                <th>Nama</th>
+                                <td>{approval?.user?.name}</td>
                             </tr>
                             <tr>
                                 <th>Tarikh:</th>
-                                <td>{response.mohon_approval?.updated_at}</td>
+                                <td>{approval?.updated_at}</td>
                             </tr>
                         </Table>
                     </div>
+                ))}
+                </div>
                 </Col>
             </Row>
      
 
             <div className='p-3 mt-3 border border-1'>
-            <h5>Senarai Peralatan</h5>
-            <hr />
+            <div className="d-flex bd-highlight mb-3">
+                <h5 className="me-auto p-2 bd-highlight">Senarai Peralatan</h5>
+                <div className="ms-auto p-2 bd-highlight">
+                    <Link to={`/mohon-items/${response.id}`}>
+                        <Button>Tambah Peralatan</Button>
+                    </Link>
+                </div>
+            </div>
+
 
             <Table>
                 <thead>
@@ -150,38 +184,8 @@ const MohonRequest = () => {
 
 
         </div>
+        </div>
     );
 };
-export default MohonRequest;
 
-
-/**
- * Paginator Links
- */
-function PaginatorLink ({items}){
-    //console.log(items.links)
-    const handlePaginationClick = (url) => {
-      //console.log(url)
-      useStore.setState({url: url}) // update the url state in store
-      
-    }
-
-    // extract the data from Laravel Paginator JSON
-    const links = items?.links?.map( (page,index) => 
-        
-      <Pagination.Item
-          key={index} 
-          active={page.active}
-          disabled={page.url === null}
-          onClick={() => handlePaginationClick(page.url)}
-          >
-              <span dangerouslySetInnerHTML={{__html: page.label}} />
-      </Pagination.Item>
-    )
-  
-    return  (
-      <Pagination className='mt-3'>
-      {links}
-      </Pagination>
-    )
-  }
+export default MohonShow;

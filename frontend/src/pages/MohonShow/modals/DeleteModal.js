@@ -1,11 +1,10 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { Navigate} from 'react-router-dom'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function CreateModal() {
+export default function DeleteModal({id, step = 0 }) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -13,15 +12,34 @@ export default function CreateModal() {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [mohonId, setMohonId] = useState('')
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
+      setIsLoading(true)
       store.emptyData() // empty store data
-      setShow(true)
-    } 
+      //console.log(id)
+
+        //console.log( `${store.submitUrl}/${id}`)
+        axios({
+            'method' : 'get',
+            'url' : `${store.submitUrl}/${id}`
+        })
+        .then( response => {
+          //console.log(response.data)
+          let mohon = response.data.mohon
+          store.setValue('title', mohon.title) // set formValue
+          store.setValue('description', mohon.description) // set formValue
+          setIsLoading(false)
+        })
+        .catch ( error => {
+          console.warn(error)
+          setIsLoading(false)
+        })
+
+        setShow(true) // show the modal
+    }
 
     const handleCloseClick = () => {
       handleClose()
@@ -31,34 +49,24 @@ export default function CreateModal() {
       setIsLoading(true)
       const formData = new FormData()
 
-      // title
-      if (store.getValue('title') != null ) {
-        formData.append('title', store.getValue('title'));
-      }
-
-      // description
-      if (store.getValue('description') != null ) {
-        formData.append('description', store.getValue('description'));
-      }
+      // method PUT ( to simulate PUT in Laravel )
+      formData.append('_method', 'delete');
 
       axios({ 
           method: 'post',
-          url: store.submitUrl,
+          url : `${store.submitUrl}/${id}`,
           data: formData
         })
         .then( response => {
-          //console.log(response.data)
-          // redirect to mohon-items
-          store.setValue('mohonId', response.data?.id)
+          //console.log(response)
+          setIsLoading(false)
+
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
           // Add a delay of 1 second before closing
-          setTimeout( () => {
-            setIsLoading(false)
-
-            // close the modal
-            //handleCloseClick()
+          setTimeout(() => {
+            handleCloseClick();
           }, 500);
         })
         .catch( error => {
@@ -69,24 +77,16 @@ export default function CreateModal() {
           }
         })
     }
-
-    // redirect to store-items
-    if( store.getValue('mohonId') !== null ) {
-      const mohonId = store.getValue('mohonId')
-      //console.log(mohonId)
-      store.emptyData()
-      return <Navigate to={`/mohon/${mohonId}`} replace />
-    }
   
     return (
       <>
-        <Button variant="primary" onClick={handleShowClick}>
-          Tambah
+        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
+          Padam
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Padam Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -94,7 +94,7 @@ export default function CreateModal() {
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
-              isLoading={isLoading}
+              isLoading={'true'}
             />
             <br />
             <InputTextarea
@@ -102,9 +102,9 @@ export default function CreateModal() {
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-question'
               rows='6'
-              isLoading={isLoading}
+              isLoading={'true'}
             />
-           
+            <br />
 
           </Modal.Body>
           
@@ -118,9 +118,9 @@ export default function CreateModal() {
 
             <Button 
               disabled={isLoading}
-              variant="primary" 
+              variant="danger" 
               onClick={handleSubmitClick}>
-              Hantar
+              Padam
             </Button>
 
           </Modal.Footer>

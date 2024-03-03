@@ -44,13 +44,14 @@ import SignOut from './pages/Auth/components/SignOut'
 // import ApprovalByManager from './pages/Approval/ByManager'
 // import ApprovalByAdmin from './pages/Approval/ByAdmin'
 
-// import Inventory from './pages/Inventory'
+import Inventory from './pages/Inventory'
 
 // import Distribution from './pages/Distribution'
 // import DistributionApproval from './pages/DistributionApproval'
 // import DistributionAcceptance from './pages/DistributionAcceptance'
 
 import Mohon from './pages/Mohon'
+import MohonShow from './pages/MohonShow/index.js'
 import MohonAdministration from './pages/MohonAdministration'
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
@@ -97,6 +98,7 @@ export default function App() {
                 <Route path="/user-departments" element={<UserDepartment />} />
 
                 <Route path="/mohon" element={<Mohon />} />
+                <Route path="/mohon/:mohonRequestId" element={<MohonShow/>} />
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
 
                 <Route path="/administration/mohon" element={<MohonAdministration />} />
@@ -108,9 +110,8 @@ export default function App() {
                 <Route path="/mohon-distribution-requests/:mohonRequestId" element={<MohonDistributionRequest/>} />
                 <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
 
-                
-{/* 
-                <Route path="/applications" element={<Application />} />
+                <Route path="/inventories" element={<Inventory />} />
+              {/*<Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
                 <Route path="/approvals/by-boss" element={<ApprovalByManager />} />

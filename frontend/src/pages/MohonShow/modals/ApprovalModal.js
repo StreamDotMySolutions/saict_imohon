@@ -4,7 +4,6 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import MohonData from '../components/MohonData'
-import { Navigate } from 'react-router-dom'
 
 export default function ApprovalModal({id,count,step}) {
 
@@ -30,7 +29,6 @@ export default function ApprovalModal({id,count,step}) {
 
     const handleSubmitClick = () => {
       setIsLoading(true)
-      
       const formData = new FormData()
 
       // step = 1 ( user submitted to Pelulus 1)
@@ -55,7 +53,6 @@ export default function ApprovalModal({id,count,step}) {
 
           // set MohonIndex listener to true
           store.setValue('refresh', true)
-          store.setValue('redirect', true)
 
           // Add a delay of 1 second before closing
           setTimeout(() => {
@@ -70,12 +67,6 @@ export default function ApprovalModal({id,count,step}) {
             
           }
         })
-    }
-
-    // redirect to store-items
-    if( store.getValue('redirect') === true ) {
-      store.setValue('redirect', false)
-      return <Navigate to={`/mohon/${id}`} replace />
     }
 
   
