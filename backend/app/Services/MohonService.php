@@ -201,9 +201,16 @@ class MohonService
     public static function delete($id)
     {
         $user =  auth('sanctum')->user();
-        return MohonRequest::query()
+        $mohonRequest = MohonRequest::query()
                             ->where('user_id', $user->id)
                             ->where('id',$id)
-                            ->delete();
+                            ->firstOrFail();
+
+        // Delete MohonItems
+        $mohonRequest->mohonItems()->delete();
+
+        // Delete MohonRequest
+        return $mohonRequest->delete();
+
     }
 }

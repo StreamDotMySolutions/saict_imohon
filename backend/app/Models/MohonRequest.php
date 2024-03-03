@@ -62,4 +62,5 @@ class MohonRequest extends Model
                     ->where('status', 'pending')
                     ->latest();
     }
+
 }

@@ -81,19 +81,24 @@ class MohonService
 
     public static function delete($id)
     {
-        $user =  auth('sanctum')->user();
+        // Find the MohonRequest instance by its ID
+        $mohonRequest = MohonRequest::findOrFail($id);
 
         // Delete MohonItems
+        $mohonRequest->mohonItems()->delete();
 
         // Delete MohonApproval
+        $mohonRequest->mohonApproval()->delete();
 
         // Delete MohonDistributionRequest
+        $mohonRequest->mohonDistributionRequests()->each(function ($distributionRequest) {
+            // delete items
+            $distributionRequest->mohonDistributionRequestItems()->delete();
+            // delete agihan request
+            $distributionRequest->mohonDistributionApproval()->delete();
+        });
 
-        // Delete MohonDistributionRequestItem
 
-        // Delete Mohon
-        return MohonRequest::query()
-                            ->where('id',$id)
-                            ->delete();
+        return $mohonRequest->delete();
     }
 }
