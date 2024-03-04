@@ -15,6 +15,7 @@ export default function ViewModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
+    const requiredStep = 1 // manager
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -26,10 +27,10 @@ export default function ViewModal({id}) {
       //console.log( `${store.submitUrl}/${id}`)
       axios({
             'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
+            'url' : `${store.showUrl}/${id}`
       })
       .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
@@ -62,16 +63,17 @@ export default function ViewModal({id}) {
     }
 
     const handleSubmitClick = () => {
+
       setIsLoading(true)
       const formData = new FormData()
 
       // ackknowledge
-      if (store.getValue('acknowledge') != null ) {
+      if (store.getValue('acknowledge') !== null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
       // status
-      if (store.getValue('status') != null ) {
+      if (store.getValue('status') !== null ) {
         formData.append('status', store.getValue('status'));
       }
 
@@ -91,6 +93,7 @@ export default function ViewModal({id}) {
 
           // Add a delay of 1 second before closing
           setTimeout(() => {
+            store.emptyData()
             setIsLoading(false)
             handleCloseClick();
           }, 500);
@@ -115,53 +118,13 @@ export default function ViewModal({id}) {
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
-          {/* <Modal.Body>
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={'true'}
-            />
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
-              rows='6'
-              isLoading={'true'}
-            />
-            <br />
-
-            <Table>
-                <thead>
-                    <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                 
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {items?.map((item,index) => (
-                        <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-
-          </Modal.Body> */}
-
+      
           <Modal.Body>
             <MohonData id={id} />
           </Modal.Body>
           
           <Modal.Footer>
+ 
           <Form.Check
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
