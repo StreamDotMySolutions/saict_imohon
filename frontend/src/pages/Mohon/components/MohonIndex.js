@@ -60,7 +60,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '200px'}}><small>Kelulusan Mohon</small></th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th>
+                        {/* <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th> */}
                         <th className='text-center' style={{ 'width': '300px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -74,8 +74,8 @@ const MohonIndex = () => {
          
                             <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
-                            <td className='text-center'>{mohon.mohon_items_count}</td>
+                            <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                            {/* <td className='text-center'>{mohon.mohon_items_count}</td> */}
                             <td className='text-center'>
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
                                 {' '} */}

@@ -94,8 +94,9 @@ class MohonService
         $mohonRequest->mohonDistributionRequests()->each(function ($distributionRequest) {
             // delete mohon distribution items
             $distributionRequest->mohonDistributionItems()->delete();
+
             // delete agihan request
-            $distributionRequest->mohonDistributionApproval()->delete();
+            $distributionRequest->mohonDistributionApprovals()->delete();
         });
 
         // delete the mohon distribution requests

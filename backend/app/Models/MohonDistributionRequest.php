@@ -34,4 +34,12 @@ class MohonDistributionRequest extends Model
         return $this->hasOne(MohonDistributionApproval::class)
                     ->latest();
     }
+
+    public function mohonDistributionApprovals() 
+    {
+        /*
+        * All Mohon Distribution Requests
+        */
+        return $this->hasMany(MohonDistributionApproval::class);
+    }
 }
