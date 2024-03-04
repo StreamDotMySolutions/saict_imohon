@@ -98,7 +98,10 @@ class MohonService
             $distributionRequest->mohonDistributionApproval()->delete();
         });
 
+        // delete the mohon distribution requests
+        $mohonRequest->mohonDistributionRequests()->delete();
 
+        // now delete Mohon Request
         return $mohonRequest->delete();
     }
 }

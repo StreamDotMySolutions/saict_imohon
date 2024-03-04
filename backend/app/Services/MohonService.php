@@ -51,7 +51,10 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonApproval'])
+                    ->with([
+                        'user.userProfile',
+                        'mohonApproval'
+                        ])
 
                     // to list requests from same department
                     // based on User Department ID
@@ -59,7 +62,11 @@ class MohonService
                         $query->where('user_department_id', $userDepartmentId);
                     })
 
-                    ->withCount(['mohonItems']) // to calculate how many items
+                    ->withCount([
+                        'mohonItems', // Mohon hasMany MohonItems
+                        'mohonDistributionItems' // Mohon hasMany MohonDistributionItems
+                        
+                        ]) // to calculate how many items
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
@@ -179,7 +186,12 @@ class MohonService
     {
         $request = MohonRequest::query()
                     ->where('id', $id)
-                    ->with(['mohonApprovals.user.userProfile','mohonApproval.user.userProfile','mohonItems.category','user.userProfile.userDepartment'])
+                    ->with([
+                        'mohonApprovals.user.userProfile',
+                        'mohonApproval.user.userProfile',
+                        'mohonItems.category',
+                        'user.userProfile.userDepartment'
+                        ])
                     ->withCount(['mohonItems'])
                     //->with(['application.user.userProfile.userDepartment'])
                     ->first();

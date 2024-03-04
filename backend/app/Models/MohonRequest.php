@@ -44,10 +44,18 @@ class MohonRequest extends Model
     public function mohonDistributionRequests() 
     {
         /*
-        * Latest Mohon Distribution Request Status
+        * All Mohon Distribution Requests
         */
         return $this->hasMany(MohonDistributionRequest::class)
                     ->orderBy('id','DESC');
+    }
+
+    public function mohonDistributionItems()
+    {
+        /*
+        * Items in Mohon Distribution Requests
+        */
+        return $this->hasManyThrough(MohonDistributionItem::class,MohonDistributionRequest::class);
     }
 
 

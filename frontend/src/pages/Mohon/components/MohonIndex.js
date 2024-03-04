@@ -25,9 +25,7 @@ const MohonIndex = () => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
-
-      
+                console.log(response)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
