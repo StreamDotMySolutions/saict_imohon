@@ -25,7 +25,7 @@ const MohonIndex = () => {
                 } 
             )
             .then( response => { // response block
-                console.log(response)   // output to console  
+                //console.log(response)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -57,7 +57,7 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>User</th>
                         <th style={{ 'width': '400px'}}>Tajuk</th>
    
-                        <th style={{ 'width': '200px'}}><small>Kelulusan Mohon</small></th>
+                        {/* <th style={{ 'width': '200px'}}><small>Kelulusan Mohon</small></th> */}
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
                         {/* <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th> */}
@@ -72,7 +72,7 @@ const MohonIndex = () => {
                             <td>{mohon.user?.email}</td>
                             <td>{mohon.title}</td>
          
-                            <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td>
+                            {/* <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             {/* <td className='text-center'>{mohon.mohon_items_count}</td> */}
@@ -87,7 +87,7 @@ const MohonIndex = () => {
                                     <Button size='sm' variant='warning'>Mohon</Button>
                                 </Link>
                                 {' '}
-                                <Link to={`/mohon/${mohon.id}`}>
+                                <Link to={`/agihan/${mohon.id}`}>
                                     <Button size='sm' variant='success'>Agihan</Button>
                                 </Link>
                                 {' '}

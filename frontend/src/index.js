@@ -51,14 +51,16 @@ import Inventory from './pages/Inventory'
 // import DistributionAcceptance from './pages/DistributionAcceptance'
 
 import Mohon from './pages/Mohon'
-import MohonShow from './pages/MohonShow/index.js'
+import MohonShow from './pages/MohonShow'
 import MohonAdministration from './pages/MohonAdministration'
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
-import MohonApprovalByAdmin from './pages/MohonApproval/Admin/index.js'
-import MohonApprovalByBoss from './pages/MohonApproval/Boss/index.js'
+import MohonApprovalByAdmin from './pages/MohonApproval/Admin'
+import MohonApprovalByBoss from './pages/MohonApproval/Boss'
 import MohonDistributionRequest from './pages/MohonDistributionRequest'
-import MohonDistributionItem from './pages/MohonDistributionItem/index.js'
+import MohonDistributionItem from './pages/MohonDistributionItem'
+
+import Agihan from './pages/Agihan'
 
 
 
@@ -109,6 +111,9 @@ export default function App() {
 
                 <Route path="/mohon-distribution-requests/:mohonRequestId" element={<MohonDistributionRequest/>} />
                 <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
+
+                <Route path="/agihan/:mohonRequestId" element={<Agihan/>} />
+
 
                 <Route path="/inventories" element={<Inventory />} />
               {/*<Route path="/applications" element={<Application />} />

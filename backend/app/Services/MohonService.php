@@ -189,6 +189,7 @@ class MohonService
                     ->with([
                         'mohonApprovals.user.userProfile',
                         'mohonApproval.user.userProfile',
+                        'mohonDistributionRequests',
                         'mohonItems.category',
                         'user.userProfile.userDepartment'
                         ])
