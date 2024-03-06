@@ -155,9 +155,14 @@ const MohonShow = () => {
                     <div className="d-flex bd-highlight mb-3">
                         <h5 className="me-auto p-2 bd-highlight">MOHON : Kelulusan</h5>
                         <div className="ms-auto p-2 bd-highlight">
+
+                            { response?.mohon_distribution_requests?.length > 0 ?
                             <Link to={`/agihan/${response.id}`}>
                                 <Button size="sm">Agihan</Button>
                             </Link>
+                            :
+                                <Button disabled size="sm">Agihan</Button>
+                            }
                         </div>
                     </div>
                     <hr />
@@ -189,17 +194,6 @@ const MohonShow = () => {
             </Row>
      
 
-  
-
-            <Row>
-                <Col>
-                
-                </Col>
-
-                <Col>
-                
-                </Col>
-            </Row>
 
         </div>
         </div>
