@@ -82,42 +82,35 @@ const MohonShow = () => {
                         <hr />
                         <Table>
                             <tr>
-                                <th style={{ 'width': '120px'}}>Nama:</th>
+                                <th style={{ 'width': '120px'}}>Nama</th>
                                 <td>{response.user?.name}</td>
                             </tr>
                             <tr>
-                                <th>Email:</th>
+                                <th>Email</th>
                                 <td>{response.user?.email}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan:</th>
+                                <th>Jabatan</th>
                                 <td>{response.user?.user_profile?.user_department?.name}</td>
                             </tr>
-                       </Table>
-                    </div>
-                    
-                    <div className='mt-2 p-3 border border-1'>
-                        <h5>MOHON : Butiran</h5>
-                        <hr />
-                       <Table>
-
+         
                            <tr>
-                                <th>Jumlah peralatan:</th>
+                                <th style={{ 'width': '120px'}}>Jumlah peralatan</th>
                                 <td>{response.mohon_items_count} unit</td>
                             </tr>
 
                             <tr>
-                                <th>Tajuk:</th>
+                                <th>Tajuk</th>
                                 <td>{response.title}</td>
                             </tr>
 
                             <tr>
-                                <th>Butiran:</th>
+                                <th>Butiran</th>
                                 <td>{response.description}</td>
                             </tr>
 
                             <tr>
-                                <th>Tarikh:</th>
+                                <th>Tarikh</th>
                                 <td>{response.created_at}</td>
                             </tr>
                         </Table>
