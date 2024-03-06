@@ -189,7 +189,10 @@ class MohonService
                     ->with([
                         'mohonApprovals.user.userProfile',
                         'mohonApproval.user.userProfile',
-                        'mohonDistributionRequests',
+                        //'mohonDistributionRequests',
+                        'mohonDistributionRequests' => function ($query) {
+                            $query->withCount('mohonDistributionItems');
+                        },
                         'mohonItems.category',
                         'user.userProfile.userDepartment'
                         ])

@@ -87,6 +87,7 @@ const MohonShow = () => {
                             </tr>
                        </Table>
                     </div>
+                    
                     <div className='mt-2 p-3 border border-1'>
                         <h5>Maklumat Permohonan</h5>
                         <hr />
@@ -113,75 +114,91 @@ const MohonShow = () => {
                             </tr>
                         </Table>
                     </div>
+
+                    <div className='p-3 mt-3 border border-1'>
+                        <div className="d-flex bd-highlight mb-3">
+                            <h5 className="me-auto p-2 bd-highlight">MOHON : Senarai Peralatan</h5>
+                            <div className="ms-auto p-2 bd-highlight">
+                                <Link to={`/mohon-items/${response.id}`}>
+                                    <Button>Peralatan</Button>
+                                </Link>
+                            </div>
+                        </div>
+                        <hr />
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th style={{ 'width': '20px'}}>ID</th>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                            
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {response?.mohon_items?.map((item,index) => (
+                                    <tr key={index}>
+                                        <td> <span className="badge bg-primary">{item.id}</span></td>
+                                        <td>{item.category?.name}</td>
+                                        <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                                        <td>{item.description}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
                 </Col>
                 <Col>
                 <div className='p-3 border border-1 '>
-                <h5>Kelulusan Permohonan</h5>
-                <hr />
-                {response?.mohon_approvals?.map((approval,index) => (
-                    <div key={index} className='p-2 border border-1 rounded-1 mt-2'>
-                  
-                        <Table>
-                            <tr>
-                                <th style={{ 'width': '120px'}}>Peringkat:</th>
-                                <td><ApprovalLevel step={approval?.step} /></td>
-                            </tr>
-                            <tr>
-                                <th>Status:</th>
-                                <td>{approval?.status}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama</th>
-                                <td>{approval?.user?.name}</td>
-                            </tr>
-                            <tr>
-                                <th>Tarikh:</th>
-                                <td>{approval?.updated_at}</td>
-                            </tr>
-                        </Table>
+                    <div className="d-flex bd-highlight mb-3">
+                        <h5 className="me-auto p-2 bd-highlight">Kelulusan</h5>
+                        <div className="ms-auto p-2 bd-highlight">
+                            <Link to={`/agihan/${response.id}`}>
+                                <Button>Agihan</Button>
+                            </Link>
+                        </div>
                     </div>
-                ))}
+                    <hr />
+                    {response?.mohon_approvals?.map((approval,index) => (
+                        <div key={index} className='p-2 border border-1 rounded-1 mt-2'>
+                    
+                            <Table>
+                                <tr>
+                                    <th style={{ 'width': '120px'}}>Peringkat:</th>
+                                    <td><ApprovalLevel step={approval?.step} /></td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>{approval?.status}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nama</th>
+                                    <td>{approval?.user?.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tarikh:</th>
+                                    <td>{approval?.updated_at}</td>
+                                </tr>
+                            </Table>
+                        </div>
+                    ))}
                 </div>
                 </Col>
             </Row>
      
 
-            <div className='p-3 mt-3 border border-1'>
-            <div className="d-flex bd-highlight mb-3">
-                <h5 className="me-auto p-2 bd-highlight">Senarai Peralatan</h5>
-                <div className="ms-auto p-2 bd-highlight">
-                    <Link to={`/mohon-items/${response.id}`}>
-                        <Button>Tambah Peralatan</Button>
-                    </Link>
-                </div>
-            </div>
+  
 
+            <Row>
+                <Col>
+                
+                </Col>
 
-            <Table>
-                <thead>
-                    <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                 
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {response?.mohon_items?.map((item,index) => (
-                        <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
-                   
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-            </div>
-
+                <Col>
+                
+                </Col>
+            </Row>
 
         </div>
         </div>

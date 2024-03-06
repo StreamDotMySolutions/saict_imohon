@@ -39,7 +39,7 @@ const Index = () => {
 
             <Row>
                 <Col className="m-2 p-3 border border-1">
-                    {response.mohon_distribution_requests.length > 0 ?
+                    {response.mohon_distribution_requests?.length > 0 ?
                     <>
                     <h5>Agihan</h5>
                     <hr />
@@ -49,6 +49,7 @@ const Index = () => {
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th className='text-center'>Items</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -58,6 +59,7 @@ const Index = () => {
                                     <td>{request.id}</td>
                                     <td>{request.title}</td>
                                     <td>{request.description}</td>
+                                    <td className='text-center'>{request.mohon_distribution_items_count}</td>
                                     <td>{request.created_at}</td>
                                 </tr>
                 
