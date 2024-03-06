@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import useStore from './store'
 import { useEffect, useState } from 'react'
 import axios from '../../libs/axios'
-import { Badge, Table, Col, Row } from 'react-bootstrap'
+import { Badge, Table, Col, Row, Button } from 'react-bootstrap'
 
 const Index = () => {
   const { mohonRequestId } = useParams()
@@ -38,46 +38,62 @@ const Index = () => {
             {/* <img src="https://drive.google.com/thumbnail?id=1KxGsl4KE1RG_zaaCitJwgzcRsR1evK6G&sz=w500"></img> */}
 
             <Row>
-                <Col className="m-2 p-3 border border-1">
-                    {response.mohon_distribution_requests?.length > 0 ?
+                <Col>
+                {response.mohon_distribution_requests?.length > 0 ?
+                <>
+                 { response.mohon_distribution_requests?.map( (distribution,index) => (
                     <>
-                    <h5>Agihan</h5>
+                    <div className='p-3 border border-2 rounded mb-3'>
+                        
+                    <h3><Badge>{distribution.id}</Badge>{' '}{distribution.title}</h3>
+                    <Table style={{'width':'500px'}}>
+                        <tr>
+                            <th>Maklumat</th>
+                            <th>Tarikh</th>
+                        </tr>
+                        <tr>
+                            <td>{distribution.description}</td>
+                            <td>{distribution.created_at}</td>
+                        </tr>
+                    </Table>
+
+                    <h5 className='mt-2'>Peralatan</h5>
                     <hr />
                     <Table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th className='text-center'>Items</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { response.mohon_distribution_requests?.map( (request,index) => (
+                            <thead>
                                 <tr>
-                                    <td>{request.id}</td>
-                                    <td>{request.title}</td>
-                                    <td>{request.description}</td>
-                                    <td className='text-center'>{request.mohon_distribution_items_count}</td>
-                                    <td>{request.created_at}</td>
+                                    <th style={{ 'width': '20px'}}>ID</th>
+                                    <th>Item</th>
+                                    <th>Jenis</th>
+                                    <th>Penerangan</th>
+                                    <th>Tindakan</th>
+                            
                                 </tr>
-                
-                            ))}
-              
-                        </tbody>
+                            </thead>
+
+                            <tbody>
+                                {distribution?.mohon_distribution_items?.map((item,index) => (
+                                    <tr key={index}>
+                                        <td> <span className="badge bg-primary">{item.id}</span></td>
+                                        <td>{item.category?.name}</td>
+                                        <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                                        <td>{item.description}</td>
+                                        <td>
+                                            <Button size='sm' variant='outline-success'>SAH TERIMA</Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
                     </Table>
-                    </>
-                    :
-                    <h5>Tiada agihan</h5>
-                    }
-
-                    
-
+                    </div>       
+                 </>
+                 ))}
+                 
+                </>
+                :
+                <h5>Tiada Agihan</h5>
+                }
                 </Col>
-                {/* <Col className="m-2 border border-1">
-                
-                </Col> */}
             </Row>
             
         </div>
