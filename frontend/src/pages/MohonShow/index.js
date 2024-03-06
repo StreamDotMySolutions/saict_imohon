@@ -6,6 +6,8 @@ import useMohonStore from './store'
 import axios from '../../libs/axios'
 import { useEffect, useState } from 'react'
 import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
+import EditModal from '../Mohon/modals/EditModal'
+import DeleteModal from '../Mohon/modals/DeleteModal'
 
 const MohonShow = () => {
     const { mohonRequestId } = useParams()
@@ -68,9 +70,16 @@ const MohonShow = () => {
             <div>
             <Row>
                 <Col>
-
                     <div className='p-3 border border-1 rounded'>
-                        <h5>Maklumat Pemohon</h5>
+                        <div className="d-flex bd-highlight mb-3">
+                            <h5 className="me-auto p-2 bd-highlight">MOHON : Maklumat</h5>
+                            <div className="ms-auto p-2 bd-highlight">
+                               <EditModal id={response.id}  step={response.mohon_approval?.step} />
+                               {' '}
+                               <DeleteModal id={response.id}  step={response.mohon_approval?.step} />
+                            </div>
+                        </div>
+           
                         <hr />
                         <Table>
                             <tr>
@@ -89,7 +98,7 @@ const MohonShow = () => {
                     </div>
                     
                     <div className='mt-2 p-3 border border-1'>
-                        <h5>Maklumat Permohonan</h5>
+                        <h5>MOHON : Butiran</h5>
                         <hr />
                        <Table>
 
@@ -120,7 +129,7 @@ const MohonShow = () => {
                             <h5 className="me-auto p-2 bd-highlight">MOHON : Senarai Peralatan</h5>
                             <div className="ms-auto p-2 bd-highlight">
                                 <Link to={`/mohon-items/${response.id}`}>
-                                    <Button>Peralatan</Button>
+                                    <Button size='sm'>Peralatan</Button>
                                 </Link>
                             </div>
                         </div>
@@ -152,10 +161,10 @@ const MohonShow = () => {
                 <Col>
                 <div className='p-3 border border-1 '>
                     <div className="d-flex bd-highlight mb-3">
-                        <h5 className="me-auto p-2 bd-highlight">Kelulusan</h5>
+                        <h5 className="me-auto p-2 bd-highlight">MOHON : Kelulusan</h5>
                         <div className="ms-auto p-2 bd-highlight">
                             <Link to={`/agihan/${response.id}`}>
-                                <Button>Agihan</Button>
+                                <Button size="sm">Agihan</Button>
                             </Link>
                         </div>
                     </div>

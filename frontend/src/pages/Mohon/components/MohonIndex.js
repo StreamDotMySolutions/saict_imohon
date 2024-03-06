@@ -61,7 +61,7 @@ const MohonIndex = () => {
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
                         {/* <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th> */}
-                        <th className='text-center' style={{ 'width': '300px'}}>Tindakan</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -84,16 +84,16 @@ const MohonIndex = () => {
                                 </Link> */}
                                 {' '}
                                 <Link to={`/mohon/${mohon.id}`}>
-                                    <Button size='sm' variant='warning'>Mohon</Button>
+                                    <Button size='sm' variant='info'>Lihat</Button>
                                 </Link>
                                 {' '}
-                                <Link to={`/agihan/${mohon.id}`}>
+                                {/* <Link to={`/agihan/${mohon.id}`}>
                                     <Button size='sm' variant='success'>Agihan</Button>
-                                </Link>
-                                {' '}
+                                </Link> */}
+                                {/* {' '}
                                 <EditModal id={mohon.id} step={mohon.mohon_approval.step}/>
                                 {' '}
-                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
+                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} /> */}
                             </td>
                         </tr>
                     ))}
