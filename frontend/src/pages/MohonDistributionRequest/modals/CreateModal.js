@@ -73,8 +73,8 @@ export default function CreateModal() {
 
     // redirect to store-items
     if( redirectId) {
-      console.log('hello')
-      console.log(redirectId)
+      //console.log('hello')
+      //console.log(redirectId)
       return <Navigate to={`/mohon-distribution-items/${redirectId}`} replace />
     }
   

@@ -3,6 +3,7 @@ import useStore from './store'
 import { useEffect, useState } from 'react'
 import axios from '../../libs/axios'
 import { Badge, Table, Col, Row, Button } from 'react-bootstrap'
+import ViewModal from './modals/ViewModal'
 
 const Index = () => {
   const { mohonRequestId } = useParams()
@@ -49,10 +50,12 @@ const Index = () => {
                     <Table style={{'width':'500px'}}>
                         <tr>
                             <th>Maklumat</th>
+                            <th>Pelulus</th>
                             <th>Tarikh</th>
                         </tr>
                         <tr>
                             <td>{distribution.description}</td>
+                            <td>{distribution.user.email}</td>
                             <td>{distribution.created_at}</td>
                         </tr>
                     </Table>
@@ -66,7 +69,7 @@ const Index = () => {
                                     <th>Item</th>
                                     <th>Jenis</th>
                                     <th>Penerangan</th>
-                                    <th>Tindakan</th>
+                                    <th  style={{ 'width': '200px'}}>Tindakan</th>
                             
                                 </tr>
                             </thead>
@@ -79,7 +82,7 @@ const Index = () => {
                                         <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                                         <td>{item.description}</td>
                                         <td>
-                                            <Button size='sm' variant='outline-success'>SAH TERIMA</Button>
+                                           <ViewModal id={item.id} />
                                         </td>
                                     </tr>
                                 ))}
