@@ -79,7 +79,6 @@ const MohonShow = () => {
                                <DeleteModal id={response.id}  step={response.mohon_approval?.step} />
                             </div>
                         </div>
-           
                         <hr />
                         <Table>
                             <tr>
