@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Services\MohonDistributionItemService;
 use App\Http\Requests\MohonDistributionItem\StoreRequest;
 use App\Http\Requests\MohonDistributionItem\UpdateRequest;
+use App\Http\Requests\MohonDistributionItem\ReceivedRequest;
 // use App\Http\Requests\DeleteMohonRequest;
 
 class MohonDistributionItemController extends Controller
@@ -42,6 +43,21 @@ class MohonDistributionItemController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $updated = MohonDistributionItemService::update($request,$id);
+
+        if($updated){
+            return response()->json([
+                'message' => 'Item berjaya dikemaskini',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Item gagal dikemaskini',
+            ],422);
+        }
+    }
+
+    public function received(ReceivedRequest $request, $id)
+    {
+        $updated = MohonDistributionItemService::received($request,$id);
 
         if($updated){
             return response()->json([

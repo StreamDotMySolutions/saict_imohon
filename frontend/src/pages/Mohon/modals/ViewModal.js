@@ -27,7 +27,7 @@ export default function DeleteModal({id}) {
             'url' : `${store.submitUrl}/${id}`
         })
         .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mohon_distribution_items', function (Blueprint $table) {
-            $table->boolean('receive_status')->default(false);
-            $table->text('receive_text')->nullable();
+            $table->boolean('received_status')->default(false);
+            $table->text('received_text')->nullable();
             $table->timestamp('received_at')->nullable();
         });
     }
@@ -24,8 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('mohon_distribution_items', function (Blueprint $table) {
-            $table->dropColumn('receive_status');
-            $table->dropColumn('receive_text');
+            $table->dropColumn('received_status');
+            $table->dropColumn('received_text');
             $table->dropColumn('received_at');
         });
     }

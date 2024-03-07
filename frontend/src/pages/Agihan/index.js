@@ -69,7 +69,9 @@ const Index = () => {
                                     <th>Item</th>
                                     <th>Jenis</th>
                                     <th>Penerangan</th>
-                                    <th  style={{ 'width': '200px'}}>Tindakan</th>
+                                    <th>Status</th>
+                                    <th>Tarikh Terima</th>
+                                    <th style={{ 'width': '200px'}}>Tindakan</th>
                             
                                 </tr>
                             </thead>
@@ -81,6 +83,21 @@ const Index = () => {
                                         <td>{item.category?.name}</td>
                                         <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                                         <td>{item.description}</td>
+                                        <td>
+                                        {item.received_status == 1 ?
+                                        <>
+                                            Diterima 
+                                        </>
+                                        :
+                                        <>
+                                            Belum terima
+                                        </>
+                                        }
+
+                                        </td>
+                                        <td>
+                                            {item.received_at}
+                                        </td>
                                         <td>
                                            <ViewModal id={item.id} />
                                         </td>

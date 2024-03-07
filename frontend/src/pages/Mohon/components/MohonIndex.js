@@ -84,7 +84,7 @@ const MohonIndex = () => {
                                 </Link> */}
                                 {' '}
                                 <Link to={`/mohon/${mohon.id}`}>
-                                    <Button size='sm' variant='info'>Lihat</Button>
+                                    <Button size='sm' variant='outline-info'>Lihat</Button>
                                 </Link>
                                 {' '}
                                 {/* <Link to={`/agihan/${mohon.id}`}>

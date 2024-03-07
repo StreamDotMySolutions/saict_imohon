@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\MohonDistributionItem;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class MohonDistributionItemService
 {
@@ -53,6 +54,20 @@ class MohonDistributionItemService
                             'type' => $request->input('type'),
                             'description' => $request->input('description')
                             ]);
+    }
+
+    /*
+    * User receieved Agihan Item
+    */
+    public static function received($request,$id)
+    {
+        return MohonDistributionItem::query()
+                        ->where('id',$id)
+                        ->update([
+                            'received_text' => $request->input('received_text'),
+                            'received_status' => true,
+                            'received_at' =>  Carbon::now() // Update receive_at to current time
+                        ]);
     }
 
     public static function delete($id)
