@@ -6,7 +6,7 @@ import axios from '../../../../../libs/axios'
 //import useAccountStore from '../../../../Account/stores/AccountStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { Row,Col,Button, Form, InputGroup } from 'react-bootstrap'
+import { Row,Col,Button, Form, InputGroup, Alert } from 'react-bootstrap'
 
 const Department = () => {
 
@@ -37,6 +37,14 @@ const Department = () => {
             >
                 <CategoryDropdown data={data} />
             </Form.Select>
+
+            {errors?.hasOwnProperty('user_department_id') &&
+
+                <Form.Control.Feedback type="invalid">   
+                { errors.user_department_id ? errors.user_department_id : null }
+                </Form.Control.Feedback>
+            
+            }
 
             <Form.Control.Feedback type="invalid">
                

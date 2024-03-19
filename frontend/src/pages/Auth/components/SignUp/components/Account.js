@@ -31,7 +31,7 @@ const Account = () => {
                         placeholder='Alamat Emel'
                         name='email'
                         size='lg' 
-                        type="password" 
+                        type="email" 
                         required 
                         isInvalid={errors?.hasOwnProperty('email')}
                         onChange={ (e) => useAuthStore.setState({ email: { value: e.target.value}} )} 

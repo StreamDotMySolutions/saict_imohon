@@ -48,4 +48,29 @@ class RegisterRequest extends FormRequest
            
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Sila berikan alamat email',
+            'email.email' => 'Sila berikan alamat email yang sah',
+
+            'password.required' => 'Sila lengkapkan katalaluan',
+            'password.min' => 'Sekurang-kurangnya 6 aksara',
+            'password.confirmed' => 'Pengesahan katalaluan tidak sama',
+
+            'name.required' => 'Sila lengkapkan nama anda',
+            'nric.required' => 'Sila lengkapkan nombor kad pengenalan (baharu)',
+
+            'occupation.required' => 'Sila lengkapkan jawatan anda',
+
+            'phone.required' => 'Sila lengkapkan no telefon (pejabat)',
+            'address.required' => 'Sila lengkapkan alamat (pejabat)',
+
+            'user_department_id.required' => 'Sila lengkapkan jabatan',
+
+        ];
+    }
 }
+
+

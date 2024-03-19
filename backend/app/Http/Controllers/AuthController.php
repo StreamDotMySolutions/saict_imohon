@@ -43,7 +43,7 @@ class AuthController extends Controller
 
     public function loginByNric(AuthByNricRequest $request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         // attempt to authenticate
         $request->authenticate();
 
