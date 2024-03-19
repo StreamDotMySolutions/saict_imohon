@@ -31,7 +31,7 @@ const Account = () => {
                         placeholder='Alamat Emel'
                         name='email'
                         size='lg' 
-                        type="text" 
+                        type="password" 
                         required 
                         isInvalid={errors?.hasOwnProperty('email')}
                         onChange={ (e) => useAuthStore.setState({ email: { value: e.target.value}} )} 
@@ -53,7 +53,7 @@ const Account = () => {
                         placeholder='Katalaluan'
                         name='password'
                         size='lg' 
-                        type="text" 
+                        type="password" 
                         required 
                         isInvalid={errors?.hasOwnProperty('password')}
                         onChange={ (e) => useAuthStore.setState({ password: { value: e.target.value}} )} 
