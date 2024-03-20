@@ -40,6 +40,8 @@ class UserService
                 'password' => Hash::make('password'),
             ]);
         }
+        // force verified
+        $user->markEmailAsVerified();
         
         // Role
         $user->assignRole($request->input('role'));

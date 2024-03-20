@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Mail\MyTestEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +32,37 @@ Route::get('/mail', function() {
     // The email sending is done using the to method on the Mail facade
     Mail::to('azril.nazli@gmail.com')->send(new MyTestEmail($name));
 });
+
+
+/*
+* Registered user want to verify email
+*/
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+
+    $user = Auth::loginUsingId($id); // need to login first and get $user object
+
+    // compare id and hash
+    if ( hash_equals((string) $id,(string) $user->id) && hash_equals($hash, sha1($user->getEmailForVerification()) ) ) {
+
+        $user->markEmailAsVerified(); // user verified, can user verified middleware on route
+
+        return response()->json(['message' => "Email berjaya disahkan"]);
+    } else {
+
+        return response()->json(['message' => "Email gagal disahkan"],422);
+    } 
+})->name('verification.verify');
+
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     $test = $request->fulfill();
+//     \Log::info($test);
+//     \Log::info('verified');
+//     //return redirect('/login');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::get('/login', function () {
+        // redirect to reactjs login
+        echo 'login';
+    }
+)->name('login');

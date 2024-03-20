@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Password;
 use App\Http\Requests\EmailRequest;
 use App\Http\Requests\ResetRequest;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MyTestEmail;
 
 class AuthController extends Controller
 {
@@ -36,7 +39,15 @@ class AuthController extends Controller
 
         $user->assignRole('user');
         $profile = $request->merge(['user_id' => $user->id]);
-        UserProfile::create($profile->except(['email','password','name','nric']));
+        $created = UserProfile::create($profile->except(['email','password','name','nric']));
+
+        if($created){
+            //\Log::info('email');
+            // $user->markEmailAsVerified();
+            // Mail::to($request->input('email'))->send(new MyTestEmail($request->input('name')));
+            // $user->sendEmailVerificationNotification();
+            event(new Registered($user));
+        }
 
         return response()->json(['message' => 'success']);
     }
@@ -149,7 +160,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        \Log::info('logout-' . Auth::user()->email);
+        //\Log::info('logout-' . Auth::user()->email);
         // revoke the token
         Auth::user()->tokens()->delete();
 

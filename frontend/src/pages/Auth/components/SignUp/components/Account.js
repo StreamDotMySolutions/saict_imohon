@@ -75,7 +75,7 @@ const Account = () => {
                         placeholder='Sahkan katalaluan'
                         name='password_confirm'
                         size='lg' 
-                        type="text" 
+                        type="password" 
                         required 
                         isInvalid={errors?.hasOwnProperty('password')}
                         onChange={ (e) => useAuthStore.setState({ password_confirmation: { value: e.target.value}} )} 

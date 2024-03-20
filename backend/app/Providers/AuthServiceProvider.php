@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -21,6 +23,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Sahkan alamat email')
+                ->line('Klik butang di bawah untuk sahkan email anda.')
+                ->action('Sahkan alamat email', $url);
+        });
     }
 }

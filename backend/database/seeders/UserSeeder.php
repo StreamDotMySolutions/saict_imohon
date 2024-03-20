@@ -48,6 +48,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
+        $user->markEmailAsVerified();
 
         UserProfile::create([
             'occupation' => 'System Administrator',
@@ -67,6 +68,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
+        $user->markEmailAsVerified();
 
         UserProfile::create([
             'occupation' => 'Administrator',
@@ -88,6 +90,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
+        $user->markEmailAsVerified();
 
         UserProfile::create([
             'user_id' => $user->id,
@@ -107,6 +110,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
+        $user->markEmailAsVerified();
 
         UserProfile::create([
             'user_id' => $user->id,
@@ -126,6 +130,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_approved' => true,
         ]);
+        $user->markEmailAsVerified();
 
         UserProfile::create([
             'user_id' => $user->id,

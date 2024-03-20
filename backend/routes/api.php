@@ -50,7 +50,7 @@ Route::get('/items', [MohonItemController::class, 'categories']);
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
     Route::post('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
     Route::post('/password/email', [AuthController::class, 'email']);
     Route::post('/password/reset', [AuthController::class, 'resetPassword']);
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
-    Route::get('/account', [AccountController::class, 'show']);
+    Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
     Route::put('/account', [AccountController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
     Route::resource('requests', RequestController::class);
