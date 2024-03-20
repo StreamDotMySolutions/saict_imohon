@@ -39,6 +39,8 @@ import SignUpForm from './pages/Auth/components/SignUp'
 import EmailPassword from './pages/Auth/components/EmailPassword'
 import Unauthorized from './pages/Auth/components/Unauthorized'
 import SignOut from './pages/Auth/components/SignOut'
+import VerifySuccess from './pages/Auth/components/EmailVerifiy/success.js'
+import VerifyFailed from './pages/Auth/components/EmailVerifiy/failed.js'
 
 // import Application from './pages/Application'
 // import ApprovalByManager from './pages/Approval/ByManager'
@@ -83,6 +85,9 @@ export default function App() {
               <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/password/email" element={<EmailPassword />} />
               <Route path="/password/reset/:token" element={<ResetPassword />} />
+
+              <Route path="/verified" element={<VerifySuccess />} />
+              <Route path="/verify-failed" element={<VerifyFailed />} />
             </Route>
 
             <Route element={<Layout />}>

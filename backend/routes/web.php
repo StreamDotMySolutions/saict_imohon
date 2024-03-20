@@ -5,6 +5,7 @@ use App\Mail\MyTestEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,8 @@ Route::get('/mail', function() {
 * Registered user want to verify email
 */
 Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
-
+    
+    $frontendUrl = env('FRONTEND_URL');
     $user = Auth::loginUsingId($id); // need to login first and get $user object
 
     // compare id and hash
@@ -46,10 +48,13 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 
         $user->markEmailAsVerified(); // user verified, can user verified middleware on route
 
-        return response()->json(['message' => "Email berjaya disahkan"]);
+        //return response()->json(['message' => "Email berjaya disahkan"]);
+       
+        return Redirect::to($frontendUrl . '/verified');
+
     } else {
 
-        return response()->json(['message' => "Email gagal disahkan"],422);
+        return Redirect::to($frontendUrl . '/verify-failed');
     } 
 })->name('verification.verify');
 
