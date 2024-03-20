@@ -124,6 +124,7 @@ class UserService
                             ->whereHas('roles', function($q) use ($role) {
                                 $q->whereIn('name', [$role]);
                             })  
+                            ->whereNotNull('email_verified_at')
                             ->where('is_approved', true);
             $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         }
@@ -138,6 +139,7 @@ class UserService
                             ->whereHas('roles', function($q) use ($role) {
                                 $q->whereIn('name', [$role]);
                             })
+                            ->whereNotNull('email_verified_at')
                             ->where('is_approved', false);
             $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         }

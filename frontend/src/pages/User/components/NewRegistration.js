@@ -108,6 +108,7 @@ function RenderTable({items}) {
               <td className='px-5'>{user.profile?.user_department?.name}</td>
               <td className='col-6  text-center'>
                 <Button 
+                  size='sm'
                   onClick={ () => HandleApproveClick(user.id)} 
                   variant={'success'}>
 
