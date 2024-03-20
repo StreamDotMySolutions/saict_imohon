@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], functi
 });
     
 // Role system
-Route::group(['middleware' => ['auth:sanctum','role:system']], function () {
+Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     
     // User Department-related routes
     //Route::get('/user-departments', [UserDepartmentController::class, 'index']);

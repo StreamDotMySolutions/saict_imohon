@@ -15,11 +15,12 @@ class StoreInventoryRequest extends FormRequest
                 'email' => 'required|email',
                 'phone' => 'required',
                 'model' => 'required',
+                'category_id' => 'required|integer',
 
-                'item' => [
-                    'required',
-                    Rule::in(['pc', 'nb', 'pbwn', 'pcn' , 'projektor', 'webcam']),
-                ],
+                // 'item' => [
+                //     'required',
+                //     Rule::in(['pc', 'nb', 'pbwn', 'pcn' , 'projektor', 'webcam']),
+                // ],
 
                 'total' => 'required|integer',
 
@@ -38,6 +39,7 @@ class StoreInventoryRequest extends FormRequest
             'total.required' => 'Sila masukkan jumlah peralatan',
             'acknowledge.required' => 'Sila sahkan data',
             'vendor.required' => 'Sila masukkan nama vendor peralatan',
+            'category_id.integer' => 'Sila pilih peralatan',
             'item.required' => 'Sila pilih peralatan',
             'item.in' => 'Peralatan yang anda pilih tidak sah',
             'date_start.required' => 'Sila pilih tarikh mula kontrak',

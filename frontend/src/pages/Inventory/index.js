@@ -15,6 +15,7 @@ const Inventories = () => {
         axios({url: store.url})
         .then( response => {
 
+            console.log(response.data)
           setData({
             'inventories': response.data.inventories.data,
             'links': response.data.inventories.links
@@ -82,7 +83,7 @@ const Inventories = () => {
               <tr key={item.id}>
                 <td className='text-center'><Badge>{item.id}</Badge></td>
                 <td>{item.vendor}</td>
-                <td className='text-center'>{item.item}</td>
+                <td className='text-center'>{item.category?.name}</td>
                 <td className='text-center'>{item.total}</td>
                 <td className='text-center'>Dari {item.date_start} hingga {item.date_end}</td>
                 <td className='text-center'>{item.received_on}</td>

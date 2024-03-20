@@ -13,6 +13,12 @@ class Inventory extends Model
     use LogsActivity;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    // belongsTo Category
+    public function category() 
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logAll();

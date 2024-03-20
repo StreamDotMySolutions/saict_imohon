@@ -1,6 +1,8 @@
 import useInventoryStore from '../stores/InventoryStore'
 import { Row,Col,Form, InputGroup } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from '../../../libs/axios'
+import { useEffect, useState } from 'react'
 
 export function Vendor(){
 
@@ -33,7 +35,7 @@ export function Vendor(){
             </>)
 }
 
-export function Item(){
+export function Item({ options = []}){
 
     const store = useInventoryStore()
     const errors = store.errors
@@ -44,27 +46,36 @@ export function Item(){
                     <Form.Select 
              
                         readOnly={store.readonly}
-                        value={ store.getValue('item') ? store.getValue('item') : '' }
-                        name='item'
+                        value={ store.getValue('category_id') ? store.getValue('category_id') : '' }
+                        name='category_id'
                         size='md' 
                         required 
-                        isInvalid={errors?.hasOwnProperty('item')}
-                        onChange={ (e) => store.setValue('item', e.target.value)  }
+                        isInvalid={errors?.hasOwnProperty('category_id')}
+                        onChange={ (e) => store.setValue('category_id', e.target.value)  }
                     >
-                        <option>Pilih jenis peralatan</option>
-                        <option value="pc">PC</option>
+                        <option value="none">Pilih jenis peralatan</option>
+                        {/* <option value="pc">PC</option>
                         <option value="nb">NB</option>
                         <option value="pbwn">PBWN</option>
                         <option value="pcn">PCN</option>
                         <option value="projektor">Projektor</option>
-                        <option value="webcam">Webcam</option>
+                        <option value="webcam">Webcam</option> */}
+
+                        {options?.map((option,index) => (
+                            <option 
+                                value={option.id}
+                                key={index}
+                                //selected={option.id === store.getValue(fieldName)}  
+                            >{option.name}</option>
+                        ))}
+
                     </Form.Select>
 
                     {
-                        errors?.hasOwnProperty('item') &&
+                        errors?.hasOwnProperty('category_id') &&
                             (
                                 <Form.Control.Feedback type="invalid">   
-                                { errors.item ? errors.item : null }
+                                { errors.category_id ? errors.category_id : null }
                                 </Form.Control.Feedback>
                             )
                     }  

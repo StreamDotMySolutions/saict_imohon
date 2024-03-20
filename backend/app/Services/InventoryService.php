@@ -11,6 +11,7 @@ class InventoryService
     {
         $paginate = Inventory::query();
         $inventories = $paginate->orderBy('id','DESC')
+                                ->with(['category'])
                                 ->paginate(10)
                                 ->withQueryString();
     
@@ -27,7 +28,8 @@ class InventoryService
             'model'  => $request->model,
             'phone'  => $request->phone,
             'email'  => $request->email,
-            'item'  => $request->item,
+            //'item'  => $request->item,
+            'category_id'  => $request->category_id,
             'total'  => $request->total,
             'date_start'  => $request->date_start,
             'date_end'  => $request->date_end,

@@ -47,8 +47,8 @@ export default function CreateModal() {
         formData.append('model', store.getValue('model'));
       }
 
-      if (store.getValue('item') != null ) {
-        formData.append('item', store.getValue('item'));
+      if (store.getValue('category_id') != null ) {
+        formData.append('category_id', store.getValue('category_id'));
       }
 
       if (store.getValue('total') != null ) {
