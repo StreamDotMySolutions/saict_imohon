@@ -20,7 +20,7 @@ function NewRegistration({role}) {
           method: 'get', // method is POST
       })
       .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
           //console.log('loading data...')
           setData(response.data.users)
           useUserStore.setState({refresh: false})
@@ -93,35 +93,60 @@ function RenderTable({items}) {
           <thead>
               <tr>
                   <th className="px-5 col-3">Nama</th>
-                  <th className="px-">Email</th>
+                  <th>Email</th>
                   <th className="px-5 col-5 border border-end-0">Jabatan</th>
-                  <th></th>
+                  <th>Sah Email</th>
+                  <th className='text-center'>Tindakan</th>
               </tr>
           </thead>
         <tbody>
 
           
           {items?.data?.map((user, index) => (
+            
             <tr key={index}>
               <td className='px-5'>{user.name.toUpperCase()}</td>
-              <td className='px-5 col-1'>{user.email}</td>
+              <td className='px-5'>{user.email}</td>
               <td className='px-5'>{user.profile?.user_department?.name}</td>
-              <td className='col-6  text-center'>
-                <Button 
-                  size='sm'
-                  onClick={ () => HandleApproveClick(user.id)} 
-                  variant={'success'}>
+              <td className='text-center'>
 
-                  { isLoading && selectedId == user.id && store ? 
-                  <>
-                    <i className="fa-solid fa-sync fa-spin"></i>
-                    </>
-                    :
-                    <>
-                    Approve
-                    </>
-                  }
+              { user.email_verified_at === null ? 
+              <i className="fa fa-hourglass"></i>
+              :
+              <i className="fa fa-check"></i>
+              }
+              </td>
+              <td className='col-6  text-center'>
+              {/* {console.log(user.email_verified_at)} */}
+            
+                { user.email_verified_at === null ? 
+                      <Button 
+             
+                      size='sm'
+                      disabled
+                      variant={'secondary'}>
+                        Approve
+                      </Button>
+                :
+                <>
+                  <Button 
+              
+                    size='sm'
+                    onClick={ () => HandleApproveClick(user.id)} 
+                    variant={'success'}>
+
+                    { isLoading && selectedId == user.id && store ? 
+                      <>
+                        <i className="fa-solid fa-sync fa-spin"></i>
+                      </>
+                      :
+                      <>
+                      Approve
+                      </>
+                    }
                   </Button>
+                </>
+                }
                 {' '}
                 {/* <ShowUserModal id={user.id} />
                 {' '} */}

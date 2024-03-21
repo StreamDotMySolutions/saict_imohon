@@ -113,6 +113,8 @@ class UserService
 
     public static function index()
     {
+
+        // to list all users with role
         $users = array();
         if(\Request::has('role')){
             //\Log::info('role');
@@ -124,11 +126,12 @@ class UserService
                             ->whereHas('roles', function($q) use ($role) {
                                 $q->whereIn('name', [$role]);
                             })  
-                            ->whereNotNull('email_verified_at')
+                            //->whereNotNull('email_verified_at')
                             ->where('is_approved', true);
             $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         }
 
+        // to list Pendaftaran Baharu in FE, role = user with is_approved = false
         if(\Request::has('is_approved')){
             //\Log::info('is_approved');
        
@@ -139,7 +142,7 @@ class UserService
                             ->whereHas('roles', function($q) use ($role) {
                                 $q->whereIn('name', [$role]);
                             })
-                            ->whereNotNull('email_verified_at')
+                            //->whereNotNull('email_verified_at')
                             ->where('is_approved', false);
             $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         }
@@ -160,6 +163,8 @@ class UserService
                 // If the user has a profile, delete it
                 $profile->delete();
             }
+
+            // should delete all related data
 
             // If the user with the given ID is found, delete it
             $user->delete();
