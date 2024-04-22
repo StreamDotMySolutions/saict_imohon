@@ -6,6 +6,7 @@ const useMohonStore  = create((set) => ({
 
     url: `${base_url}/mohon`,
     submitUrl: `${base_url}/mohon`,
+    categoriesUrl: `${base_url}/mohon-distribution-items/categories`,
     mohonRequestUrl: `${base_url}/mohon`,
     mohonApproval: `${base_url}/mohon-approval`,
     userApprovalUrl: `${base_url}/mohon-approval/by-user`,
