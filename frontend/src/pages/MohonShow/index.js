@@ -74,8 +74,8 @@ const MohonShow = () => {
                         <div className="d-flex bd-highlight mb-3">
                             <h5 className="me-auto p-2 bd-highlight">MOHON : Maklumat</h5>
                             <div className="ms-auto p-2 bd-highlight">
-                               <EditModal id={response.id}  step={response.mohon_approval?.step} />
-                               {' '}
+                               {/* <EditModal id={response.id}  step={response.mohon_approval?.step} />
+                               {' '} */}
                                <DeleteModal id={response.id}  step={response.mohon_approval?.step} />
                             </div>
                         </div>
@@ -97,16 +97,6 @@ const MohonShow = () => {
                            <tr>
                                 <th style={{ 'width': '120px'}}>Jumlah peralatan</th>
                                 <td>{response.mohon_items_count} unit</td>
-                            </tr>
-
-                            <tr>
-                                <th>Tajuk</th>
-                                <td>{response.title}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Butiran</th>
-                                <td>{response.description}</td>
                             </tr>
 
                             <tr>

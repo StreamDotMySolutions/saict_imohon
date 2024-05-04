@@ -8,8 +8,8 @@ class StoreMohonRequest extends FormRequest
     {
         return [
             //'acknowledge' => 'required',
-            'title' => 'required',
-            'description' => 'required',
+            //'title' => 'required',
+            //'description' => 'required',
         ];
     }
 

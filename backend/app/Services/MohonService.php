@@ -165,8 +165,11 @@ class MohonService
         $user =  auth('sanctum')->user();
         $mohonRequest = MohonRequest::create([
             'user_id' => $user->id,
-            'title' => $request->input('title'),
-            'description' => $request->input('description')
+            // 'title' => $request->input('title'),
+            // 'description' => $request->input('description')
+             'title' => 'title',
+             'description' => 'description'
+            
         ]);
 
         // create MohonApproval

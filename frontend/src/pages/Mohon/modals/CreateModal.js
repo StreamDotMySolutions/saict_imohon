@@ -22,14 +22,14 @@ export default function CreateModal() {
     const handleShowClick = () =>{
       store.emptyData() // empty store data
         // get item categories from /mohon-items/categories
-        axios({
-          'method' : 'get',
-          'url' : `${store.categoriesUrl}`
-        })
-        .then( response => {
-          console.log(response.data.categories)
-          setCategories(response.data.categories)
-        })
+        // axios({
+        //   'method' : 'get',
+        //   'url' : `${store.categoriesUrl}`
+        // })
+        // .then( response => {
+        //   console.log(response.data.categories)
+        //   setCategories(response.data.categories)
+        // })
   
       setShow(true)
     } 
@@ -43,14 +43,14 @@ export default function CreateModal() {
       const formData = new FormData()
 
       // title
-      if (store.getValue('title') != null ) {
-        formData.append('title', store.getValue('title'));
-      }
+      // if (store.getValue('title') != null ) {
+      //   formData.append('title', store.getValue('title'));
+      // }
 
-      // description
-      if (store.getValue('description') != null ) {
-        formData.append('description', store.getValue('description'));
-      }
+      // // description
+      // if (store.getValue('description') != null ) {
+      //   formData.append('description', store.getValue('description'));
+      // }
 
       axios({ 
           method: 'post',
@@ -97,11 +97,13 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan</Modal.Title>
+            <Modal.Title></Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <InputText 
+
+            <h1 className='text-center mt-5 mb-5'>Cipta permohonan baharu ?</h1>
+            {/* <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
@@ -114,32 +116,31 @@ export default function CreateModal() {
               icon='fa-solid fa-question'
               rows='6'
               isLoading={isLoading}
-            />
-            <br />
-           
-            <InputSelect 
-              fieldName='category_id' 
-              options = {categories}
-              placeholder='Sila Pilih Pelulus 1'  
-              icon='fa-solid fa-user'
-              isLoading={isLoading}
-            />
+            /> */}
+
          
           </Modal.Body>
           
           <Modal.Footer>
-            <Button 
+            {/* <Button 
               disabled={isLoading}
               variant="secondary" 
               onClick={handleCloseClick}>
               Tutup
+            </Button> */}
+
+            <Button 
+              disabled={isLoading}
+              variant="danger" 
+              onClick={handleCloseClick}>
+              Tidak
             </Button>
 
             <Button 
               disabled={isLoading}
-              variant="primary" 
+              variant="success" 
               onClick={handleSubmitClick}>
-              Hantar
+              Cipta
             </Button>
 
           </Modal.Footer>

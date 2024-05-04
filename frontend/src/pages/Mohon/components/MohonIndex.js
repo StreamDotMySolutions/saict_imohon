@@ -53,11 +53,8 @@ const MohonIndex = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '120px'}}>User</th>
-                        <th style={{ 'width': '400px'}}>Tajuk</th>
-   
-                        {/* <th style={{ 'width': '200px'}}><small>Kelulusan Mohon</small></th> */}
+                        <th style={{ 'width': '5px'}}>ID</th>
+                        <th style={{ 'width': '50px'}}>User</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
                         {/* <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th> */}
@@ -68,9 +65,9 @@ const MohonIndex = () => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
+                            <td > <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.email}</td>
-                            <td>{mohon.title}</td>
+               
          
                             {/* <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
@@ -86,6 +83,9 @@ const MohonIndex = () => {
                                 <Link to={`/mohon/${mohon.id}`}>
                                     <Button size='sm' variant='outline-info'>Lihat</Button>
                                 </Link>
+
+                                {' '}
+                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
                                 {' '}
                                 {/* <Link to={`/agihan/${mohon.id}`}>
                                     <Button size='sm' variant='success'>Agihan</Button>
