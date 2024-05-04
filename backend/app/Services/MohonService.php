@@ -167,8 +167,8 @@ class MohonService
             'user_id' => $user->id,
             // 'title' => $request->input('title'),
             // 'description' => $request->input('description')
-             'title' => 'title',
-             'description' => 'description'
+             'title' => 'Permohonan',
+             'description' => 'Maklumat permohonan'
             
         ]);
 
