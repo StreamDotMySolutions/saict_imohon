@@ -33,6 +33,8 @@ const SignUpForm = () => {
             'occupation',
             'nric',
             'phone',
+            'level',
+            'building',
             'address',
             'user_department_id',
           ];

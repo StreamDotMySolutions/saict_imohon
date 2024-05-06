@@ -34,7 +34,7 @@ const InlineEditing = ({
         setIsEditing(true)
         setIsSuccess(false)
         setIsError(false)
-        console.log('edit')
+        //console.log('edit')
     }
 
     const handleInputChange = (e) => {
@@ -73,6 +73,7 @@ const InlineEditing = ({
         console.log('saving')
         setIsSaving(true)
         console.log(value)
+        console.log(url)
 
         //Send to server
         const formData = new FormData();

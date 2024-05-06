@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_departments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
 
-            $table->nestedSet();
-            //$table->softDeletes();
-            $table->timestamps();
+        Schema::table('user_profiles', function (Blueprint $table) {
+            $table->string('level')->after('address');
+            $table->string('building')->after('address');
         });
+
     }
 
     /**
@@ -26,6 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_departments');
+        Schema::table('user_profiles', function (Blueprint $table) {
+            $table->dropColumn('level');
+            $table->dropColumn('building');
+        });
     }
 };

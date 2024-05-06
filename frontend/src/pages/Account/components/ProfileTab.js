@@ -47,6 +47,24 @@ const ProfileTab = () => {
             </Col>
             <Col className='col-1'></Col>
             <Col className='col-6'>
+
+
+                <InlineEditing 
+                    url={store.update_url}
+                    label='Tingkat'
+                    placeholder='Tingkat bangunan'
+                    fieldName='level' 
+                    fieldValue={store?.account?.profile?.level}
+                />
+
+                <InlineEditing 
+                    url={store.update_url}
+                    label='Nama Bangunan'
+                    placeholder='Nama bangunan'
+                    fieldName='building' 
+                    fieldValue={store?.account?.profile?.building}
+                />
+
                 <InlineEditing 
                     url={store.update_url}
                     as='textarea'

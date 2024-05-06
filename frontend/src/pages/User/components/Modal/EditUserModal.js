@@ -65,6 +65,12 @@ function EditUserModal({id}) {
                 phone: {
                           value: response.data?.user?.profile?.phone
                         },      
+              level:  {
+                          value: response.data?.user?.profile?.level
+                        },
+              building:  {
+                          value: response.data?.user?.profile?.building
+                        },                        
               address:  {
                           value: response.data?.user?.profile?.address
                         },                                          
@@ -94,6 +100,8 @@ function EditUserModal({id}) {
                   'occupation',
                   'nric', 
                   'phone',
+                  'level',
+                  'building',
                   'address',
 
                   'user_department_id'

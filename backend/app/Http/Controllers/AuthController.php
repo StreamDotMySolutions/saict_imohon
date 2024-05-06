@@ -29,7 +29,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        //\Log::info($request);
+        \Log::info($request);
         $user = User::create([
             'name' => $request->input('name'),
             'nric' => $request->input('nric'),
@@ -38,8 +38,12 @@ class AuthController extends Controller
         ]);
 
         $user->assignRole('user');
+        
+        // merge profile
         $profile = $request->merge(['user_id' => $user->id]);
-        $created = UserProfile::create($profile->except(['email','password','name','nric']));
+
+        // create profile
+        $created = UserProfile::create($profile->except(['email','password','name','nric'])); 
 
         if($created){
             //\Log::info('email');
@@ -144,7 +148,7 @@ class AuthController extends Controller
             $token = Auth::user()->createToken('API Token')->plainTextToken;
             $user['role'] = $user->roles->pluck('name')[0];
 
-            \Log::info('login-' . Auth::user()->email);
+            //\Log::info('login-' . Auth::user()->email);
             return response()->json([
                 'message' => 'Authentication Success',
                 'token' => $token,

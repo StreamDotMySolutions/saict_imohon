@@ -100,50 +100,98 @@ const Profile = () => {
                 </Col>
 
                 <Col>
-                <InputGroup hasValidation className='mb-3'>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='No telefon ( pejabat / peribadi )'
-                        name='phone'
-                         
-                        type="text" 
-                        required 
-                        isInvalid={errors?.hasOwnProperty('phone')}
-                        onChange={ (e) => useAuthStore.setState({ phone: { value: e.target.value}} )}  
-                    />
-                    {
-                        errors?.hasOwnProperty('phone') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.phone ? errors.phone : null }
-                                </Form.Control.Feedback>
-                            )
-                    } 
-                </InputGroup>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='No telefon ( peribadi )'
+                            name='phone'
+                            
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('phone')}
+                            onChange={ (e) => useAuthStore.setState({ phone: { value: e.target.value}} )}  
+                        />
+                        {
+                            errors?.hasOwnProperty('phone') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.phone ? errors.phone : null }
+                                    </Form.Control.Feedback>
+                                )
+                        } 
+                    </InputGroup>
                 </Col>
             </Row>
 
+            
+            <Row>
+                <Col>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-building"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='Tingkat'
+                            name='level'
+                            
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('level')}
+                            onChange={ (e) => useAuthStore.setState({ level: { value: e.target.value}} )}  
+                        />
+                        {
+                            errors?.hasOwnProperty('level') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.level ? errors.level : null }
+                                    </Form.Control.Feedback>
+                                )
+                        } 
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <InputGroup hasValidation className='mb-3'>
+                        <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-building"></FontAwesomeIcon></InputGroup.Text>
+                        <Form.Control 
+                            placeholder='Nama bangunan'
+                            name='building'
+                            
+                            type="text" 
+                            required 
+                            isInvalid={errors?.hasOwnProperty('building')}
+                            onChange={ (e) => useAuthStore.setState({ building: { value: e.target.value}} )}  
+                        />
+                        {
+                            errors?.hasOwnProperty('building') &&
+                                (
+                                    <Form.Control.Feedback type="invalid">   
+                                    { errors.building ? errors.building : null }
+                                    </Form.Control.Feedback>
+                                )
+                        } 
+                    </InputGroup>
+                
+                </Col>
+            </Row>
 
-                <InputGroup hasValidation className='mb-3'>
-                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-address-card"></FontAwesomeIcon></InputGroup.Text>
-                    <Form.Control 
-                        placeholder='Alamat pejabat'
-                        name='address'
-                        as='textarea'
-                        rows={5}
-                        required 
-                        isInvalid={errors?.hasOwnProperty('address')}
-                        onChange={ (e) => useAuthStore.setState({ address: { value: e.target.value}} )}  
-                    />
-                    {
-                        errors?.hasOwnProperty('address') &&
-                            (
-                                <Form.Control.Feedback type="invalid">   
-                                { errors.address ? errors.address : null }
-                                </Form.Control.Feedback>
-                            )
-                    } 
-                </InputGroup>
+            <InputGroup hasValidation className='mb-3'>
+                <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-address-card"></FontAwesomeIcon></InputGroup.Text>
+                <Form.Control 
+                    placeholder='Alamat pejabat'
+                    name='address'
+                    as='textarea'
+                    rows={5}
+                    required 
+                    isInvalid={errors?.hasOwnProperty('address')}
+                    onChange={ (e) => useAuthStore.setState({ address: { value: e.target.value}} )}  
+                />
+                {
+                    errors?.hasOwnProperty('address') &&
+                        (
+                            <Form.Control.Feedback type="invalid">   
+                            { errors.address ? errors.address : null }
+                            </Form.Control.Feedback>
+                        )
+                } 
+            </InputGroup>
 
         </div>
     );

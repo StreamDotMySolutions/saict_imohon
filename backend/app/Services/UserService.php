@@ -95,7 +95,7 @@ class UserService
         }
 
         // User Profile
-        return UserProfile::where('user_id', $user->id)->update($request->except(['email', 'password','_method','role','user_id']));
+        return UserProfile::where('user_id', $user->id)->update($request->except(['email', 'name','nric','password','_method','role','user_id']));
 
     }
 

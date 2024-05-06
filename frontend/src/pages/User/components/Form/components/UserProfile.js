@@ -34,6 +34,22 @@ const UserProfile = () => {
         />
 
         <InputText
+            label='Tingkat bangunan'
+            placeholder='tingkat bangunan'
+            type='text'
+            field='level'
+        />
+
+
+        <InputText
+            label='Nama bangunan'
+            placeholder='Nama bangunan'
+            type='text'
+            field='building'
+        />
+
+
+        <InputText
             label='Alamat'
             placeholder='Isi alamat'
             as='textarea'

@@ -55,6 +55,14 @@ class AccountService
             $user->profile->update($request->only('phone'));
         }
 
+        if($request->has('level')){
+            $user->profile->update($request->only('level'));
+        }
+
+        if($request->has('building')){
+            $user->profile->update($request->only('building'));
+        }
+
         if($request->has('address')){
             $user->profile->update($request->only('address'));
         }

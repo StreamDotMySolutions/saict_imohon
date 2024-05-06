@@ -20,7 +20,7 @@ return new class extends Migration
             //$table->string('nric')->nullable();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
-            $table->softDeletes();
+            //$table->softDeletes();
             $table->timestamps();
         });
     }
