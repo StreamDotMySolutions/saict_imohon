@@ -43,9 +43,9 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    <ApprovalModal id={mohonRequestId} count={items.data?.length} step={step}/>
-                    {' '}
                     {step === 0 && <CreateModal /> }
+                    {' '}
+                    <ApprovalModal id={mohonRequestId} count={items.data?.length} step={step}/>
                 </div>
             </div>
 

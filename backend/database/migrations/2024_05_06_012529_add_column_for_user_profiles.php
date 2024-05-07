@@ -13,8 +13,8 @@ return new class extends Migration
     {
 
         Schema::table('user_profiles', function (Blueprint $table) {
-            $table->string('level')->after('address');
-            $table->string('building')->after('address');
+            $table->string('level')->nullable()->after('address');
+            $table->string('building')->nullable()->after('address');
         });
 
     }
