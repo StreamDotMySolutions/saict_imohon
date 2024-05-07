@@ -11,6 +11,11 @@ class MohonRequest extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
+        'created_at' => 'datetime:Y-m-d', // Format as datetime
+    ];
+
     // belongsTo User
     public function user() 
     {

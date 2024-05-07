@@ -170,7 +170,7 @@ export default function CreateModal() {
             <Row className='mt-3'>
               <InputText 
                 fieldName='occupation' 
-                placeholder='Pekerjaan'  
+                placeholder='Jawatan'  
                 icon='fa-solid fa-graduation-cap'
                 isLoading={isLoading}
               />
@@ -186,7 +186,6 @@ export default function CreateModal() {
               />
             </Row>
 
-            
             <Row className='mt-3'>
               <InputText 
                 fieldName='section' 

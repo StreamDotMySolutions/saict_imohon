@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MohonItem extends Model
 {
     use HasFactory;
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
+    ];
 
     // belongsTo MohonRequest
     public function mohonRequest() 
@@ -21,4 +25,6 @@ class MohonItem extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+ 
 }

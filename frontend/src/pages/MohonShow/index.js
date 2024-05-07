@@ -14,6 +14,8 @@ const MohonShow = () => {
     const store = useMohonStore()
     const [response, setResponse] = useState([])
 
+    console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
+
     useEffect( () => {
         axios({
             'method' : 'get',
@@ -95,7 +97,7 @@ const MohonShow = () => {
                             </tr>
          
                            <tr>
-                                <th style={{ 'width': '120px'}}>Jumlah peralatan</th>
+                                <th style={{ 'width': '120px'}}>Jumlah peralatan dimohon</th>
                                 <td>{response.mohon_items_count} unit</td>
                             </tr>
 
@@ -157,29 +159,51 @@ const MohonShow = () => {
                         </div>
                     </div>
                     <hr />
-                    {response?.mohon_approvals?.map((approval,index) => (
-                        <div key={index} className='p-2 border border-1 rounded-1 mt-2'>
-                    
-                            <Table>
-                                <tr>
-                                    <th style={{ 'width': '120px'}}>Peringkat:</th>
-                                    <td><ApprovalLevel step={approval?.step} /></td>
-                                </tr>
-                                <tr>
-                                    <th>Status:</th>
-                                    <td>{approval?.status}</td>
-                                </tr>
-                                <tr>
-                                    <th>Nama</th>
-                                    <td>{approval?.user?.name}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tarikh:</th>
-                                    <td>{approval?.updated_at}</td>
-                                </tr>
-                            </Table>
-                        </div>
-                    ))}
+                    {response?.mohon_approvals?.map((approval, index) => {
+                        let className = 'p-2 border border-1 rounded-1 mt-2';
+                        switch (approval.status) {
+                            case 'approved':
+                                className += ' bg-success';
+                                break;
+                            case 'rejected':
+                                className += ' bg-danger';
+                                break;
+                            case 'pending':
+                                className += ' bg-warning';
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // Check if approval.step is 1 and update className accordingly
+                        if (approval.step === 0) {
+                            className = 'p-2 border border-1 rounded-1 mt-2 bg-info';
+                        }
+
+                        return (
+                            <div key={index} className={className}>
+                                <Table>
+                                    <tr>
+                                        <th style={{ 'width': '120px'}}>Peringkat:</th>
+                                        <td><ApprovalLevel step={approval?.step} /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status:</th>
+                                        <td>{approval?.status}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <td>{approval?.user?.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tarikh:</th>
+                                        <td>{approval?.updated_at}</td>
+                                    </tr>
+                                </Table>
+                            </div>
+                        );
+                    })}
+
                 </div>
                 </Col>
             </Row>

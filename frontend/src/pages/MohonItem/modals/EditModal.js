@@ -194,7 +194,7 @@ export default function EditModal({id, step}) {
             <Row className='mt-3'>
               <InputText 
                 fieldName='occupation' 
-                placeholder='Pekerjaan'  
+                placeholder='Jawatan'  
                 icon='fa-solid fa-graduation-cap'
                 isLoading={isLoading}
               />
