@@ -29,7 +29,13 @@ class MohonItemService
             'user_id' => $user->id,
             'category_id' => $request->input('category_id'),
             'type' => $request->input('type'),
-            'description' => $request->input('description')
+            //'description' => $request->input('description')
+            'name' => $request->input('name'),
+            'occupation' => $request->input('occupation'),
+            'department' => $request->input('department'),
+            'section' => $request->input('section'),
+            'unit' => $request->input('unit'),
+            'mobile' => $request->input('mobile'),
         ]);
 
         // create MohonApproval
@@ -52,7 +58,13 @@ class MohonItemService
                         ->update([
                             'category_id' => $request->input('category_id'),
                             'type' => $request->input('type'),
-                            'description' => $request->input('description')
+                            //'description' => $request->input('description')
+                            'name' => $request->input('name'),
+                            'occupation' => $request->input('occupation'),
+                            'department' => $request->input('department'),
+                            'section' => $request->input('section'),
+                            'unit' => $request->input('unit'),
+                            'mobile' => $request->input('mobile'),
                             ]);
     }
 

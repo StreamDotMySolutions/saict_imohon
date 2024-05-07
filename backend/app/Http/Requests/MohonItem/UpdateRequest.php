@@ -12,7 +12,7 @@ class UpdateRequest extends FormRequest
             //'acknowledge' => 'required',
             'category_id' => 'sometimes|required',
             'type' => 'sometimes|required',
-            'description' => 'sometimes|required',
+            //'description' => 'sometimes|required',
         ];
     }
 
@@ -21,7 +21,7 @@ class UpdateRequest extends FormRequest
         return [
             'category_id.required' => 'Sila pilih item',
             'type.required' => 'Sila pilih jenis permohonan',
-            'description.required' => 'Sila nyatakan tujuan permohonan',
+            //'description.required' => 'Sila nyatakan tujuan permohonan',
         ];
     }
 }

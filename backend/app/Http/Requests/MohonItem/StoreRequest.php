@@ -13,7 +13,7 @@ class StoreRequest extends FormRequest
             //'acknowledge' => 'required',
             'category_id' => 'required',
             'type' => 'required',
-            'description' => 'required',
+            //'description' => 'required',
         ];
     }
 
@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
         return [
             'category_id.required' => 'Sila pilih item',
             'type.required' => 'Sila pilih jenis permohonan',
-            'description.required' => 'Sila nyatakan tujuan permohonan',
+            //'description.required' => 'Sila nyatakan tujuan permohonan',
         ];
     }
 }
