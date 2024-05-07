@@ -32,6 +32,13 @@ export default function DeleteModal({id}) {
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
+          store.setValue('name', mohon.name) // set formValue
+          store.setValue('occupation', mohon.occupation) // set formValue
+          store.setValue('department', mohon.department) // set formValue
+          store.setValue('section', mohon.section) // set formValue
+          store.setValue('unit', mohon.unit) // set formValue
+          store.setValue('mobile', mohon.mobile) // set formValue
+          store.setValue('location', mohon.location) // set formValue
           setIsLoading(false)
         })
         .catch ( error => {

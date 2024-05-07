@@ -57,6 +57,42 @@ export default function CreateModal() {
         formData.append('type', store.getValue('type'));
       }
 
+      // name
+      if (store.getValue('name') != null ) {
+        formData.append('name', store.getValue('name'));
+      }
+
+      // occupation
+      if (store.getValue('occupation') != null ) {
+        formData.append('occupation', store.getValue('occupation'));
+      }
+
+      // department
+      if (store.getValue('department') != null ) {
+        formData.append('department', store.getValue('department'));
+      }      
+
+      // section
+      if (store.getValue('section') != null ) {
+        formData.append('section', store.getValue('section'));
+      }
+
+      // unit
+      if (store.getValue('unit') != null ) {
+        formData.append('unit', store.getValue('unit'));
+      }
+
+      // mobile
+      if (store.getValue('mobile') != null ) {
+        formData.append('mobile', store.getValue('mobile'));
+      }
+
+      // location
+      if (store.getValue('location') != null ) {
+        formData.append('location', store.getValue('location'));
+      }
+
+
       // description
       if (store.getValue('description') != null ) {
         formData.append('description', store.getValue('description'));
@@ -118,7 +154,76 @@ export default function CreateModal() {
                   isLoading={isLoading}
                 />
               </Col>
+
+              
             </Row>
+
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='name' 
+                placeholder='Nama'  
+                icon='fa-solid fa-user'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='occupation' 
+                placeholder='Pekerjaan'  
+                icon='fa-solid fa-graduation-cap'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='department' 
+                placeholder='Jabatan / Bahagian'  
+                icon='fa-solid fa-building'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='section' 
+                placeholder='Seksyen'  
+                icon='fa-solid fa-building'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='unit' 
+                placeholder='Unit'  
+                icon='fa-solid fa-building'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='mobile' 
+                placeholder='No Telefon (peribadi)'  
+                icon='fa-solid fa-phone'
+                isLoading={isLoading}
+              />
+            </Row>
+
+            <Row className='mt-3'>
+              <InputText 
+                fieldName='location' 
+                placeholder='Lokasi peralatan'  
+                icon='fa-solid fa-globe'
+                isLoading={isLoading}
+              />
+            </Row>
+
+
             <br />
             <InputTextarea
               fieldName='description' 

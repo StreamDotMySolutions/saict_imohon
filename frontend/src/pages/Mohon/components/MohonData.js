@@ -47,7 +47,7 @@ export default function MohonData({id}) {
               icon='fa-solid fa-building'
               isLoading={'true'}
             />
-            <br />
+            {/* <br />
             <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
@@ -62,15 +62,15 @@ export default function MohonData({id}) {
               rows='6'
               isLoading={'true'}
             />
-            <br />
+            <br /> */}
 
-            <Table>
+            <Table className='mt-3'>
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
+                        <th>Jenis</th>
+                        <th>Maklumat Tambahan</th>
                     </tr>
                 </thead>
 
