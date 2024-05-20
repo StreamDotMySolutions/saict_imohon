@@ -70,11 +70,9 @@ const Inventories = () => {
               <thead>
                   <tr>
                       <th className='text-center'>ID</th>
-                      <th>VENDOR</th>
-                      <th className='text-center'>PERALATAN</th>
-                      <th className='text-center'>JUMLAH</th>
+                      <th>NAMA VENDOR</th>
+                      <th className='text-center'>NO KONTRAK</th>
                       <th className='text-center'>TEMPOH</th>
-                      <th className='text-center'>DITERIMA</th>
                       <th className='text-center'></th>
                   </tr>
               </thead>
@@ -83,10 +81,8 @@ const Inventories = () => {
               <tr key={item.id}>
                 <td className='text-center'><Badge>{item.id}</Badge></td>
                 <td>{item.vendor}</td>
-                <td className='text-center'>{item.category?.name}</td>
-                <td className='text-center'>{item.total}</td>
+                <td className='text-center'>{item.contract_name}</td>
                 <td className='text-center'>Dari {item.date_start} hingga {item.date_end}</td>
-                <td className='text-center'>{item.received_on}</td>
                 <td className='text-center'>
                   <ShowModal id={item.id} />
                   {' '}
