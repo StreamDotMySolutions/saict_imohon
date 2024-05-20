@@ -27,7 +27,7 @@ const SignOut = () =>  {
 
     //if (isLoggedIn === false) {
     if(store.isAuthenticated === false){
-        window.location.href = '/sign-in';
+        window.location.href = '/sign-in-by-nric';
         //return <Navigate to='/sign-in' replace />
     }
 

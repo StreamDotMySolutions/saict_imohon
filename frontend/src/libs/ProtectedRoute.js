@@ -11,7 +11,7 @@ const ProtectedRoute = () => {
 
     //if(!isLoggedIn){
     if(!store.isAuthenticated){
-        return <Navigate to='/sign-in' replace />
+        return <Navigate to='/sign-in-by-nric' replace />
     }
 
     return <Outlet />
