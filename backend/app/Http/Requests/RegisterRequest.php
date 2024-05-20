@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
           
             //'role' => 'required',
             //'email' => 'required|email|unique:users,email',
-            'email' => ['required','email', Rule::unique('users')->whereNull('deleted_at')],
+            'email' => ['required','email', Rule::unique('users')],
             'password' => 'required|min:6|confirmed',
             //'password' => 'required|min:6',
             //'password' => 'required_if:password_present,true|min:6',
@@ -39,7 +39,7 @@ class RegisterRequest extends FormRequest
                 'string',
                 'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
                 //'unique:user_profiles,nric'
-                Rule::unique('users')->whereNull('deleted_at')
+                Rule::unique('users')
             ],
             'phone' => 'required',
             'address' => 'required',
