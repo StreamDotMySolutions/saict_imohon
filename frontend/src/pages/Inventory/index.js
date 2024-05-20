@@ -15,7 +15,7 @@ const Inventories = () => {
         axios({url: store.url})
         .then( response => {
 
-            console.log(response.data)
+          //console.log(response.data)
           setData({
             'inventories': response.data.inventories.data,
             'links': response.data.inventories.links

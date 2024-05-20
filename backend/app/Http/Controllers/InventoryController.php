@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\InventoryService;
 use App\Models\Inventory;
-use App\Http\Requests\StoreInventoryRequest;
-use App\Http\Requests\UpdateInventoryRequest;
-use App\Http\Requests\DeleteInventoryRequest;
+use App\Http\Requests\Inventory\StoreRequest;
+use App\Http\Requests\Inventory\UpdateRequest;
+use App\Http\Requests\Inventory\DeleteRequest;
 
 class InventoryController extends Controller
 {
@@ -20,7 +20,7 @@ class InventoryController extends Controller
         ]);
     }
 
-    public function store(StoreInventoryRequest $request)
+    public function store(StoreRequest $request)
     {
         $inventory = InventoryService::store($request);
         return response()->json([
@@ -36,7 +36,7 @@ class InventoryController extends Controller
         return response()->json(['inventory' => $inventory]);
     }
 
-    public function update(Inventory $inventory, UpdateInventoryRequest $request)
+    public function update(Inventory $inventory, UpdateRequest $request)
     {
         $updated = InventoryService::update($inventory, $request);
         if($updated){
@@ -46,7 +46,7 @@ class InventoryController extends Controller
         }
     }
 
-    public function delete(DeleteInventoryRequest $request,Inventory $inventory)
+    public function delete(DeleteRequest $request,Inventory $inventory)
     {
         $deleted = InventoryService::delete($inventory);
         if($deleted){

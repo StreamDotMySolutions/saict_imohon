@@ -34,6 +34,10 @@ class InventoryService
             'date_start'  => $request->date_start,
             'date_end'  => $request->date_end,
             'received_on'  => $request->received_on,
+            'contract_name'  => $request->contract_name,
+            'contract_number'  => $request->contract_number,
+            'contract_owner'  => $request->contract_owner,
+            'contract_pic'  => $request->contract_pic,
         ]);
         return $inventory;
     }
@@ -56,6 +60,10 @@ class InventoryService
                                 'date_start'  => $request->date_start,
                                 'date_end'  => $request->date_end,
                                 'received_on'  => $request->received_on,
+                                'contract_name'  => $request->contract_name,
+                                'contract_number'  => $request->contract_number,
+                                'contract_owner'  => $request->contract_owner,
+                                'contract_pic'  => $request->contract_pic,
                                 ]);
     }
 

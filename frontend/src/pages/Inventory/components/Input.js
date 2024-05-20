@@ -317,3 +317,127 @@ export function Model(){
                 </InputGroup>
             </>)
 }
+
+export function ContractName(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-file"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Nama Kontrak'
+                        readOnly={store.readonly}
+                        value={ store.getValue('contract_name') ? store.getValue('contract_name') : '' }
+                        name='contract_name'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('contract_name')}
+                        onChange={ (e) => store.setValue('contract_name', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('contract_name') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.contract_name ? errors.contract_name : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+
+export function ContractNumber(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-file"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Nombor Kontrak'
+                        readOnly={store.readonly}
+                        value={ store.getValue('contract_number') ? store.getValue('contract_number') : '' }
+                        name='contract_number'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('contract_number')}
+                        onChange={ (e) => store.setValue('contract_number', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('contract_number') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.contract_number ? errors.contract_number : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+
+export function ContractPic(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-file"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='PIC ( Person In Charge ) Kontrak'
+                        readOnly={store.readonly}
+                        value={ store.getValue('contract_pic') ? store.getValue('contract_pic') : '' }
+                        name='contract_pic'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('contract_pic')}
+                        onChange={ (e) => store.setValue('contract_pic', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('contract_pic') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.contract_pic ? errors.contract_pic : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+
+export function ContractOwner(){
+
+    const store = useInventoryStore()
+    const errors = store.errors
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-file"></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Control 
+                        placeholder='Pemilik Kontrak'
+                        readOnly={store.readonly}
+                        value={ store.getValue('contract_owner') ? store.getValue('contract_owner') : '' }
+                        name='contract_owner'
+                        size='md' 
+                        required 
+                        isInvalid={errors?.hasOwnProperty('contract_owner')}
+                        onChange={ (e) => store.setValue('contract_owner', e.target.value)  }
+                    />
+
+                    {
+                        errors?.hasOwnProperty('contract_owner') &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors.contract_owner ? errors.contract_owner : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}

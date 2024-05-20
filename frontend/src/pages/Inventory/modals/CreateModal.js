@@ -30,6 +30,22 @@ export default function CreateModal() {
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
+
+      if (store.getValue('contract_name') != null ) {
+        formData.append('contract_name', store.getValue('contract_name'));
+      }
+
+      if (store.getValue('contract_number') != null ) {
+        formData.append('contract_number', store.getValue('contract_number'));
+      }
+
+      if (store.getValue('contract_pic') != null ) {
+        formData.append('contract_pic', store.getValue('contract_pic'));
+      }
+
+      if (store.getValue('contract_owner') != null ) {
+        formData.append('contract_owner', store.getValue('contract_owner'));
+      }
       
       if (store.getValue('vendor') != null ) {
         formData.append('vendor', store.getValue('vendor'));

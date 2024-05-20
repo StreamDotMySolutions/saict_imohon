@@ -39,6 +39,10 @@ export default function ShowModal({id}) {
         store.setValue('date_end',response.data.inventory.date_end)
         store.setValue('created_at',response.data.inventory.created_at)
         store.setValue('received_on',response.data.inventory.received_on)
+        store.setValue('contract_name',response.data.inventory.contract_name)
+        store.setValue('contract_number',response.data.inventory.contract_number)
+        store.setValue('contract_pic',response.data.inventory.contract_pic)
+        store.setValue('contract_owner',response.data.inventory.contract_owner)
         setIsLoading(false)
         
       })

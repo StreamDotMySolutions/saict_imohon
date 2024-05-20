@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Inventory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteInventoryRequest extends FormRequest
+class DeleteRequest extends FormRequest
 {
     public function rules(): array
     {

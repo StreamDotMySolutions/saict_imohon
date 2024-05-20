@@ -29,6 +29,10 @@ export default function EditModal({id}) {
         'date_end': 'date_end',
         'created_at': 'created_at',
         'received_on': 'received_on',
+        'contract_name': 'contract_name',
+        'contract_number': 'contract_number',
+        'contract_pic': 'contract_pic',
+        'contract_owner': 'contract_owner',
       };
     
       for (const key in valueMappings) {
@@ -95,6 +99,22 @@ export default function EditModal({id}) {
 
       if (store.getValue('received_on') != null ) {
         formData.append('received_on', store.getValue('received_on'));
+      }
+
+      if (store.getValue('contract_name') != null ) {
+        formData.append('contract_name', store.getValue('contract_name'));
+      }
+
+      if (store.getValue('contract_number') != null ) {
+        formData.append('contract_number', store.getValue('contract_number'));
+      }
+
+      if (store.getValue('contract_pic') != null ) {
+        formData.append('contract_pic', store.getValue('contract_pic'));
+      }
+
+      if (store.getValue('contract_owner') != null ) {
+        formData.append('contract_owner', store.getValue('contract_owner'));
       }
 
       formData.append('_method', 'put');

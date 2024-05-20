@@ -1,5 +1,5 @@
 import { Row,Col } from 'react-bootstrap'
-import { Vendor,Email,Phone, Item,Model, Total, DateStart,DateEnd,ReceivedOn} from './Input'
+import { Vendor,Email,Phone, Item,Model, Total, DateStart,DateEnd,ReceivedOn, ContractName, ContractNumber, ContractOwner, ContractPic} from './Input'
 import axios from '../../../libs/axios'
 import { useEffect,useState } from 'react'
 
@@ -11,7 +11,7 @@ const InventoryForm = () => {
     // get items
     useEffect( () => {
 
-        console.log(url)
+        //console.log(url)
         axios({
             'method' : 'get',
             'url' : `${url}/mohon-items/categories`
@@ -27,6 +27,30 @@ const InventoryForm = () => {
 
 
     return (<>
+        <h3>Kontrak</h3>
+        <hr />
+        <Row className='mb-3'>
+            <Row  className='p-2 mb-3'>
+                <Col>
+                    <ContractName />
+                </Col>
+
+                <Col>
+                    <ContractNumber />
+                </Col>
+            </Row>
+            <Row  className='p-2 mb-3'>
+                <Col>
+                    <ContractPic />
+                </Col>
+
+                <Col>
+                    <ContractOwner />
+                </Col>
+            </Row>
+        </Row>
+
+
         <h3>Peralatan</h3>
         <hr />
         <Row className='p-2'>        
