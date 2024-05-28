@@ -60,16 +60,15 @@ class AuthController extends Controller
     {
         //\Log::info($request);
         // attempt to authenticate
+        $token = null;
         $request->authenticate();
+        $user = array();
 
         $user = User::where('id', Auth::user()->id)
                         ->where('is_approved', true) // only is_approved=true
                         ->with(['profile.userDepartment'])
                         ->first();
 
-        // create token in User Model
-        $token = Auth::user()->createToken('API Token')->plainTextToken;
-        $user['role'] = $user->roles->pluck('name')[0];
 
         if ($user) {
             // create token in User Model
@@ -135,6 +134,9 @@ class AuthController extends Controller
     public function login(AuthRequest $request)
     {
         // attempt to authenticate
+        $token = null;
+        $user = array();
+
         $request->authenticate();
 
         // find user
