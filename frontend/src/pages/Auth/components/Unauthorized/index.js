@@ -7,7 +7,7 @@ const Unauthorized = () => {
     return (
     <Alert variant='warning'>
         <h1><FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" /> {' '}Akses Terhad</h1>
-        Akaun anda tidak mempunyai akses ke sistem.
+        Akaun anda tidak mempunyai akses ke sistem. Admin belum mengesahkan lagi akaun anda. Harap maklum.
         <hr />
         <Link to='/sign-in'>
             <FontAwesomeIcon icon="fa-solid fa-reply" /> Laman utama
