@@ -58,6 +58,29 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
     } 
 })->name('verification.verify');
 
+/*
+* Registered user want to verify email
+*/
+Route::get('/api/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+    
+    $frontendUrl = env('FRONTEND_URL');
+    $user = Auth::loginUsingId($id); // need to login first and get $user object
+
+    // compare id and hash
+    if ( hash_equals((string) $id,(string) $user->id) && hash_equals($hash, sha1($user->getEmailForVerification()) ) ) {
+
+        $user->markEmailAsVerified(); // user verified, can user verified middleware on route
+
+        //return response()->json(['message' => "Email berjaya disahkan"]);
+       
+        return Redirect::to($frontendUrl . '/verified');
+
+    } else {
+
+        return Redirect::to($frontendUrl . '/verify-failed');
+    } 
+})->name('verification.verify');
+
 // Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
 //     $test = $request->fulfill();
 //     \Log::info($test);

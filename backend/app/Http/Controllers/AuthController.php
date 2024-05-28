@@ -29,7 +29,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        \Log::info($request);
+        //\Log::info($request);
         $user = User::create([
             'name' => $request->input('name'),
             'nric' => $request->input('nric'),
