@@ -9,7 +9,7 @@ const VerifySuccess = () => {
         <h1><FontAwesomeIcon icon="fa-solid fa-check" /> {' '}Email berjaya disahkan</h1>
         Email anda berjaya disahkan. Hanya perlu menunggu pengesahan admin sahaja.
         <hr />
-        <Link to='/sign-in'>
+        <Link to='/sign-in-by-nric'>
             <FontAwesomeIcon icon="fa-solid fa-reply" /> Laman utama
         </Link>
     </Alert>
