@@ -28,11 +28,11 @@ return (
   <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
 
     <div className="text-white mb-3 mb-md-0">
-      Copyright  <img src={rtm} height="20" /> RTM MALAYSIA <FontAwesomeIcon icon="fas fa-copyright" /> 2023. All rights reserved.
+      Hakcipta <img src={rtm} height="20" /> RTM MALAYSIA <FontAwesomeIcon icon="fas fa-copyright" /> 2024.
     </div>
 
     <div>
-      <p className="text-white">Seksyen Aplikasi dan Teknologi Maklumat</p>
+      <p className="text-white">Seksyen Aplikasi ICT</p>
     </div>
 
   </div>

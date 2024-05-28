@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
-                ->subject('Sahkan alamat email')
+                ->subject('Pengesahan Alamat Emel')
                 ->line('Klik butang di bawah untuk sahkan email anda.')
                 ->action('Sahkan alamat email', $url);
         });

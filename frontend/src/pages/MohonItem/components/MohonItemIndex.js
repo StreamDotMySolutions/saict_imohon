@@ -55,9 +55,9 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th>Item</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th className='text-center' style={{ 'width': '250px'}}>Actions</th>
+                        <th>Jenis</th>
+                        <th>Pemilik Peralatan</th>
+                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -67,7 +67,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                             <td> <span className="badge bg-primary">{item.id}</span></td>
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
+                            <td>{item.name}</td>
                             <td className='text-center' >
                                 <EditModal id={item.id} step={step} />
                                 {' '}

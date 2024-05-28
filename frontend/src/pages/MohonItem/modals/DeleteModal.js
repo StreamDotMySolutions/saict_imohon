@@ -100,7 +100,7 @@ export default function DeleteModal({id, step}) {
     return (
       <>
         <Button size="sm" disabled={ step !== 0 } variant="outline-danger" onClick={handleShowClick}>
-          Delete
+          Padam
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
