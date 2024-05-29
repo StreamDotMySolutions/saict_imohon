@@ -4,6 +4,7 @@ import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import { InputText, InputTextarea, InputSelect, InputSelectRecursive } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
+import HtmlForm from './HtmlForm'
 
 export default function CreateModal() {
 
@@ -36,6 +37,7 @@ export default function CreateModal() {
       .then( response => {
         //console.log(response.data.categories)
         setCategories(response.data.categories)
+        store.setValue('categories', response.data.categories)
       })
 
       // get departments
@@ -46,6 +48,7 @@ export default function CreateModal() {
       .then( response => {
         console.log(response.data)
         setDepartments(response.data.user_departments)
+        store.setValue('departments', response.data.user_departments)
         //setCategories(response.data.categories)
       })
 
@@ -118,6 +121,16 @@ export default function CreateModal() {
         formData.append('department_id', store.getValue('department_id'));
       }
 
+      // building_name
+      if (store.getValue('building_name') != null ) {
+        formData.append('building_name', store.getValue('building_name'));
+      }
+
+      // building_level
+      if (store.getValue('building_level') != null ) {
+        formData.append('building_level', store.getValue('building_level'));
+      }
+
       axios({ 
           method: 'post',
           url: `${store.submitUrl}/${mohonRequestId}`,
@@ -183,106 +196,7 @@ export default function CreateModal() {
           </Modal.Header>
 
           <Modal.Body>
-            <Row>
-              <Col>
-                <InputSelect 
-                  fieldName='category_id' 
-                  options = {categories}
-                  placeholder='Sila Pilih Peralatan'  
-                  icon='fa-solid fa-computer'
-                  isLoading={isLoading}
-                />
-              </Col>
-              <Col>
-                <InputSelect 
-                  fieldName='type' 
-                  options = {types}
-                  placeholder='Sila Pilih Jenis'  
-                  icon='fa-solid fa-info'
-                  isLoading={isLoading}
-                />
-              </Col>
-
-              
-            </Row>
-
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='name' 
-                placeholder='Nama'  
-                icon='fa-solid fa-user'
-                isLoading={isLoading}
-              />
-            </Row>
-
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='occupation' 
-                placeholder='Jawatan'  
-                icon='fa-solid fa-graduation-cap'
-                isLoading={isLoading}
-              />
-            </Row>
-                        
-            <Row className='mt-3'>
-              <InputSelectRecursive
-                fieldName='department_id' 
-                options = {departments}
-                placeholder='Sila Pilih Jabatan'  
-                icon='fa-solid fa-building'
-                isLoading={isLoading}
-               >
-                <RecursiveDropdown data={departments} selected={store.getValue('department_id')} />
-              </InputSelectRecursive>
-            </Row>
-
-            {/* <Row className='mt-3'>
-              <InputText 
-                fieldName='section' 
-                placeholder='Seksyen'  
-                icon='fa-solid fa-building'
-                isLoading={isLoading}
-              />
-            </Row>
-
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='unit' 
-                placeholder='Unit'  
-                icon='fa-solid fa-building'
-                isLoading={isLoading}
-              />
-            </Row> */}
-
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='mobile' 
-                placeholder='No Telefon (peribadi)'  
-                icon='fa-solid fa-phone'
-                isLoading={isLoading}
-              />
-            </Row>
-
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='location' 
-                placeholder='Lokasi peralatan'  
-                icon='fa-solid fa-globe'
-                isLoading={isLoading}
-              />
-            </Row>
-
-
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-pencil'
-              rows='6'
-              isLoading={isLoading}
-            />
-            <br />
-           
+            <HtmlForm />
           </Modal.Body>
           
           <Modal.Footer>

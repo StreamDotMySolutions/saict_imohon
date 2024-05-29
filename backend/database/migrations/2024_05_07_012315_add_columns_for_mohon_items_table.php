@@ -10,9 +10,11 @@ return new class extends Migration
         Schema::table('mohon_items', function (Blueprint $table) {
             $table->string('name')->nullable()->after('description');
             $table->string('occupation')->nullable();
+            
             $table->string('department')->nullable();
             $table->string('section')->nullable();
             $table->string('unit')->nullable();
+            
             $table->string('location')->nullable();
             $table->string('mobile')->nullable();
         });

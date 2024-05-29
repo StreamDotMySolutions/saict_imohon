@@ -32,9 +32,13 @@ class MohonItemService
             'description' => $request->input('description'),
             'name' => $request->input('name'),
             'occupation' => $request->input('occupation'),
-            'department' => $request->input('department'),
-            'section' => $request->input('section'),
-            'unit' => $request->input('unit'),
+            'department_id' => $request->input('department_id'),
+            'building_name' => $request->input('building_name'),
+            'building_level' => $request->input('building_level'),
+
+            //'department' => $request->input('department'),
+            //'section' => $request->input('section'),
+            //'unit' => $request->input('unit'),
             'mobile' => $request->input('mobile'),
             'location' => $request->input('location'),
         ]);
@@ -62,9 +66,14 @@ class MohonItemService
                             'description' => $request->input('description'),
                             'name' => $request->input('name'),
                             'occupation' => $request->input('occupation'),
-                            'department' => $request->input('department'),
-                            'section' => $request->input('section'),
-                            'unit' => $request->input('unit'),
+
+                            'department_id' => $request->input('department_id'),
+                            'building_name' => $request->input('building_name'),
+                            'building_level' => $request->input('building_level'),
+                            
+                            // 'department' => $request->input('department'),
+                            // 'section' => $request->input('section'),
+                            // 'unit' => $request->input('unit'),
                             'mobile' => $request->input('mobile'),
                             'location' => $request->input('location'),
                             ]);
