@@ -26,16 +26,16 @@ const UserDepartment = () => {
 
     const handleInputClick = () => {
         setIsEditing(true)
-        console.log('edit')
+        //console.log('edit')
     }
     const handleCancelClick = () => {
         setIsEditing(false)
     }
     
     const handleSaveClick = () => {
-        console.log('saving')
+        //console.log('saving')
         setIsSaving(true)
-        console.log(user.user_department_id)
+        //console.log(user.user_department_id)
 
         //Send to server
         const formData = new FormData();
@@ -74,6 +74,7 @@ const UserDepartment = () => {
             setData(response.data.user_departments)
         })
     },[])
+    
 
     return (
         <>

@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react'
 import { useParams} from 'react-router-dom'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea, InputSelect } from './components/Inputs'
+import { InputText, InputTextarea, InputSelect, InputSelectRecursive } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
@@ -15,6 +15,7 @@ export default function CreateModal() {
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [categories, setCategories] = useState([])
+    const [departments, setDepartments] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -25,6 +26,8 @@ export default function CreateModal() {
     ];
 
     const handleShowClick = () =>{
+
+
       // get item categories from /mohon-items/categories
       axios({
         'method' : 'get',
@@ -35,9 +38,22 @@ export default function CreateModal() {
         setCategories(response.data.categories)
       })
 
+      // get departments
+      axios({
+        'method' : 'get',
+        'url' : `${store.departmentUrl}`
+      })
+      .then( response => {
+        console.log(response.data)
+        setDepartments(response.data.user_departments)
+        //setCategories(response.data.categories)
+      })
+
       store.emptyData() // empty store data
       setShow(true)
     } 
+
+    //console.log(departments)
 
     const handleCloseClick = () => {
       handleClose()
@@ -92,10 +108,14 @@ export default function CreateModal() {
         formData.append('location', store.getValue('location'));
       }
 
-
       // description
       if (store.getValue('description') != null ) {
         formData.append('description', store.getValue('description'));
+      }
+
+      // department_id
+      if (store.getValue('department_id') != null ) {
+        formData.append('department_id', store.getValue('department_id'));
       }
 
       axios({ 
@@ -122,6 +142,34 @@ export default function CreateModal() {
           }
         })
     }
+
+    
+
+    const  RecursiveDropdown = ({ data, selected, depth = 0 }) => {
+      const indent = '_ _'.repeat(depth);
+      
+      return (
+        <>
+          {data.map((item,index) => (
+            <>
+         
+            {/* <option className={item.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={item.id}> */}
+            <option
+              value={item.id}
+              className={item.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
+              key={index}
+              disabled={item.parent_id === null}
+              selected={selected == item.id} // Check if this item is selected
+               >
+              {depth != 0 && 'I'}{indent}{' '}{item.name}
+            </option>
+            <RecursiveDropdown data={item.children} selected={selected} depth={depth + 1} />
+            </>
+          ))}
+    
+      </>
+      );
+  }
   
     return (
       <>
@@ -175,18 +223,20 @@ export default function CreateModal() {
                 isLoading={isLoading}
               />
             </Row>
-
-            
+                        
             <Row className='mt-3'>
-              <InputText 
-                fieldName='department' 
-                placeholder='Jabatan / Bahagian'  
+              <InputSelectRecursive
+                fieldName='department_id' 
+                options = {departments}
+                placeholder='Sila Pilih Jabatan'  
                 icon='fa-solid fa-building'
                 isLoading={isLoading}
-              />
+               >
+                <RecursiveDropdown data={departments} selected={store.getValue('department_id')} />
+              </InputSelectRecursive>
             </Row>
 
-            <Row className='mt-3'>
+            {/* <Row className='mt-3'>
               <InputText 
                 fieldName='section' 
                 placeholder='Seksyen'  
@@ -202,7 +252,7 @@ export default function CreateModal() {
                 icon='fa-solid fa-building'
                 isLoading={isLoading}
               />
-            </Row>
+            </Row> */}
 
             <Row className='mt-3'>
               <InputText 
@@ -256,3 +306,4 @@ export default function CreateModal() {
     );
   }
 
+ 

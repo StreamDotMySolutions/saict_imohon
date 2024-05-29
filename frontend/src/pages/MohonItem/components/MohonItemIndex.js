@@ -53,7 +53,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th style={{ 'width': '20px'}}>No</th>
                         <th>Item</th>
                         <th>Jenis</th>
                         <th>Pemilik Peralatan</th>

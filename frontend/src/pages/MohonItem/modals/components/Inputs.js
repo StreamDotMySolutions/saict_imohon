@@ -109,3 +109,37 @@ export function InputSelect({fieldName, placeholder, icon, isLoading, options}){
             </>)
 }
 
+export function InputSelectRecursive({fieldName, placeholder, icon, isLoading, children}){
+    const store = useMohonStore()
+    //const errors = store.errors
+    const errors = store.getValue('errors')
+
+    return(<>
+                <InputGroup>
+                    <InputGroup.Text><FontAwesomeIcon icon={icon}></FontAwesomeIcon></InputGroup.Text>
+                    <Form.Select
+                        name={fieldName}
+                        size='md' 
+                        readOnly={isLoading}
+                        required 
+                        isInvalid={errors?.hasOwnProperty(fieldName)}
+                        onChange={ (e) => { 
+                          store.setValue(fieldName, e.target.value)                         
+                        } }
+                    >
+                        <option>{placeholder}</option>
+                        {children}
+             
+                    </Form.Select>
+                    {
+                        errors?.hasOwnProperty(fieldName) &&
+                            (
+                                <Form.Control.Feedback type="invalid">   
+                                { errors[fieldName] ? errors[fieldName] : null }
+                                </Form.Control.Feedback>
+                            )
+                    }  
+                </InputGroup>
+            </>)
+}
+

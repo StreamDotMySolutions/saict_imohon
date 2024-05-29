@@ -40,7 +40,7 @@ export default function EditModal({id, step}) {
           'url' : `${store.submitUrl}/show/${id}`
       })
       .then( response => {
-        //console.log(response.data)
+        console.log(response.data)
         let item = response.data.item
         store.setValue('category_id',  item.category_id) // set formValue
         store.setValue('type', item.type) // set formValue
@@ -51,6 +51,7 @@ export default function EditModal({id, step}) {
         store.setValue('unit', item.unit) // set formValue
         store.setValue('mobile', item.mobile) // set formValue
         store.setValue('location', item.location) // set formValue
+        store.setValue('description', item.description) // set formValue
         setIsLoading(false)
       })
       .catch ( error => {
