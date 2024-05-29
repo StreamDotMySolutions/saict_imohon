@@ -5,14 +5,14 @@ import { InputText, InputTextarea, InputSelect, InputSelectRecursive } from './c
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function HtmlForm() {
+export default function HtmlForm({isLoading}) {
 
     const store = useMohonStore()
     const errors = store.errors
     const { mohonRequestId } = useParams()
 
 
-    const [isLoading, setIsLoading] = useState(false)
+    //const [isLoading, setIsLoading] = useState(false)
     const [categories, setCategories] = useState([])
     const [departments, setDepartments] = useState([])
   

@@ -80,7 +80,7 @@ export function InputSelect({fieldName, placeholder, icon, isLoading, options}){
                     <Form.Select
                         name={fieldName}
                         size='md' 
-                        readOnly={isLoading}
+                        disabled={isLoading}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 
@@ -120,7 +120,7 @@ export function InputSelectRecursive({fieldName, placeholder, icon, isLoading, c
                     <Form.Select
                         name={fieldName}
                         size='md' 
-                        readOnly={isLoading}
+                        disabled={isLoading}
                         required 
                         isInvalid={errors?.hasOwnProperty(fieldName)}
                         onChange={ (e) => { 

@@ -69,6 +69,8 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.name}</td>
                             <td className='text-center' >
+                                <ViewModal id={item.id} step={step} />
+                                {' '}
                                 <EditModal id={item.id} step={step} />
                                 {' '}
                                 <DeleteModal id={item.id} step={step} />
