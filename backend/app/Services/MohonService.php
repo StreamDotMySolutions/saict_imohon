@@ -82,6 +82,8 @@ class MohonService
     {
 
         # User hasOne UserProfile
+        $user =  auth('sanctum')->user(); // get loggedIn user
+
         # UserProfile belongsTo UserDepartment
         $userDepartmentId = $user->userProfile->userDepartment->id; // User Department ID
 
@@ -90,9 +92,13 @@ class MohonService
                     //->with(['mohonApproval'])
                     ->with(['user.userProfile','mohonApproval'])
 
-                    // only list where step = 1
-                    ->whereHas('mohonApproval', function ($query) {
-                        $query->where('step', 1);
+                    
+                    // MohonApproval 
+                    ->whereHas('mohonApproval', function ($query) use ($user) {
+                        // only list where step = 1
+                          $query->where('step', 1)
+                                ->where('manager_id', $user->id);
+
                     })
 
                     // to list requests from same department

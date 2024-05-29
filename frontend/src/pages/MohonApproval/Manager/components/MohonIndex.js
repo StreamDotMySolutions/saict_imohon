@@ -44,13 +44,12 @@ const MohonIndex = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '120px'}}>User</th>
-                        <th style={{ 'width': '200px'}}>Title</th>
-                        <th>Description</th>
-                        <th style={{ 'width': '250px'}}>Kelulusan</th>
-                        <th style={{ 'width': '50px'}}>Peralatan</th>
-                        <th className='text-center' style={{ 'width': '100px'}}>Actions</th>
+                        <th style={{ 'width': '20px'}}>No.</th>
+                        <th style={{ 'width': '120px'}}>Pemohon</th>
+                        <th style={{ 'width': '250px'}}>Status Kelulusan</th>
+                        <th className="text-center" style={{ 'width': '50px'}}>Jumlah Peralatan</th>
+                        <th className="text-center" style={{ 'width': '50px'}}>Tarikh</th>
+                        <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -59,12 +58,11 @@ const MohonIndex = () => {
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.email}</td>
-                            <td>{mohon.title}</td>
-                            <td>{mohon.description}</td>
                             <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
+                            <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 <ViewModal id={mohon.id} />
                             </td>

@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     // mohon approval
     Route::post('/mohon-approval/by-user/{mohonRequestId}', [MohonApprovalController::class, 'byUser']);
+    Route::get('/mohon-approval/list-managers', [MohonApprovalController::class, 'listManager']);
     Route::put('/mohon-approval/by-manager/{mohonRequestId}', [MohonApprovalController::class, 'byManager']);
     Route::put('/mohon-approval/by-admin/{mohonRequestId}', [MohonApprovalController::class, 'byAdmin']);
     Route::put('/mohon-approval/by-boss/{mohonRequestId}', [MohonApprovalController::class, 'byBoss']);

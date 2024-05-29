@@ -10,11 +10,13 @@ class MohonApprovalService
 
     public static function storeByUser($request, $mohonRequestId)
     {
-        //\Log::info($request);
+        \Log::info($request);
+        
         $user =  auth('sanctum')->user();
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
-            'user_id' => $user->id, // User
+            'user_id' => $user->id, // User that requesting approval to manager ( pelulus 1 )
+            'manager_id' => $request->input('manager_id'), // which manager
             'step' => 1, // step 1 is for user requesting from manager
             'status' => 'pending'
         ]);

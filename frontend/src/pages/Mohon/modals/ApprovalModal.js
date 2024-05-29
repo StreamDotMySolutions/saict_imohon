@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Table,Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { InputText, InputTextarea, InputSelect } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import MohonData from '../components/MohonData'
@@ -15,6 +15,7 @@ export default function ApprovalModal({id,count,step}) {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [managers, setManagers] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -22,7 +23,21 @@ export default function ApprovalModal({id,count,step}) {
     const handleShowClick = () =>{
       store.emptyData() // empty store data
       setShow(true) // show the modal
+
+      // get managers
+      axios( `${store.mohonApprovalUrl}/list-managers`)
+      .then ( response => {
+        setManagers(response.data.managers)
+        console.log(response)
+      })
+      .catch ( error => {
+        console.warn(error)
+      })
+      .finally(
+      )
     }
+
+
 
     const handleCloseClick = () => {
       handleClose()
@@ -38,6 +53,12 @@ export default function ApprovalModal({id,count,step}) {
 
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'post');
+
+
+      // append manager_id value
+      if (store.getValue('manager_id') != null ) {
+        formData.append('manager_id', store.getValue('manager_id'));
+      }
 
       // acknowledge
       if (store.getValue('acknowledge') != null ) {
@@ -97,6 +118,16 @@ export default function ApprovalModal({id,count,step}) {
           </Modal.Header>
 
           <Modal.Body>
+            <h5>Maklumat Pelulus</h5>
+            <InputSelect 
+                  fieldName='manager_id' 
+                  options = {managers}
+                  placeholder='Sila Pilih Ketua Jabatan'  
+                  icon='fa-solid fa-person'
+                  isLoading={isLoading}
+                />
+            <br />
+            <h5>Maklumat Pemohon</h5>
             <MohonData id={id} />
           </Modal.Body>
 

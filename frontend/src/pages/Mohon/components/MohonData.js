@@ -63,7 +63,8 @@ export default function MohonData({id}) {
               isLoading={'true'}
             />
             <br /> */}
-
+            <br />
+            <h5>Maklumat Peralatan</h5>
             <Table className='mt-3'>
                 <thead>
                     <tr>
