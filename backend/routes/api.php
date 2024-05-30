@@ -69,7 +69,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
     // mohon
-    Route::get('/mohon', [MohonController::class, 'index']);
+    Route::get('/mohon', [MohonController::class, 'index']); // for everyone
+    //Route::get('/mohon/{status}', [MohonController::class, 'index']); // for Pelulus 1
     Route::post('/mohon', [MohonController::class, 'store']);
     Route::get('/mohon/{id}', [MohonController::class, 'show']);
     Route::put('/mohon/{id}', [MohonController::class, 'update']);

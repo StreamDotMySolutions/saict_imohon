@@ -14,7 +14,7 @@ const MohonShow = () => {
     const store = useMohonStore()
     const [response, setResponse] = useState([])
 
-    console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
+    //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
 
     useEffect( () => {
         axios({
@@ -22,7 +22,7 @@ const MohonShow = () => {
             'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
             })
             .then( response => {
-              console.log(response.data.mohon)
+              //console.log(response.data.mohon)
               setResponse(response.data.mohon)
             })
             .catch ( error => {

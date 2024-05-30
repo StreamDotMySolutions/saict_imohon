@@ -7,7 +7,7 @@ import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
 
 
-const MohonIndex = () => {
+const MohonIndex = ({status}) => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
 
@@ -17,7 +17,7 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${store.url}/?status=${status}` // eg GET http://localhost:8000/api/mohon/index
                 } 
             )
             .then( response => { // response block

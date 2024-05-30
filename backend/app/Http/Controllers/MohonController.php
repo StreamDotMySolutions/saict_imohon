@@ -12,9 +12,11 @@ use App\Http\Requests\Mohon\UpdateMohonRequest;
 class MohonController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $mohons = MohonService::index();
+        $status = 'pending';
+        //\Log::info($request->input('status'));
+        $mohons = MohonService::index($request->input('status'));
 
         return response()->json([
             'mohons' => $mohons

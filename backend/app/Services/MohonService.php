@@ -8,18 +8,20 @@ use Illuminate\Http\Request;
 class MohonService
 {
 
-    public static function index()
+    public static function index($status)
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
-        //\Log::info($user);
+        //\Log::info($status);
+
    
         switch($role){
             case 'user':
                 $mohons = self::getMohonDataAsUser($user);
             break;
             case 'manager':
-                $mohons = self::getMohonDataAsManager($user);
+                $mohons = self::getMohonDataAsManager($user, $status);
+               
             break;
 
             case 'admin':
@@ -78,7 +80,7 @@ class MohonService
     /*
     * Only list MohonRequest Step = 1
     */
-    public static function getMohonDataAsManager($user)
+    public static function getMohonDataAsManager($user, $status)
     {
 
         # User hasOne UserProfile
@@ -94,10 +96,31 @@ class MohonService
 
                     
                     // MohonApproval 
-                    ->whereHas('mohonApproval', function ($query) use ($user) {
-                        // only list where step = 1
-                          $query->where('step', 1)
-                                ->where('manager_id', $user->id);
+                    ->whereHas('mohonApproval', function ($query) use ($user,$status) {
+
+                        switch($status){
+                            case 'pending':
+                                // only list where step = 1
+                                $query->where('step', 1)
+                                        ->where('status', $status)
+                                        ->where('manager_id', $user->id);
+                            break;
+
+                            case 'approved':
+                                // only list where step = 1
+                                $query->where('step', 1)
+                                        ->where('status', $status)
+                                        ->where('manager_id', $user->id);
+                            break;
+
+                            case 'rejected':
+                                // only list where step = 1
+                                $query->where('step', 1)
+                                        ->where('status', $status)
+                                        ->where('manager_id', $user->id);
+                            break;
+                        }
+            
 
                     })
 
