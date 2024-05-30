@@ -65,6 +65,7 @@ const MohonIndex = ({status}) => {
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 <ViewModal id={mohon.id} />
+                                
                             </td>
                         </tr>
                     ))}
