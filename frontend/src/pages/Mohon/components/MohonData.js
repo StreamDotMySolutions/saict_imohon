@@ -18,6 +18,7 @@ export default function MohonData({id}) {
             'url' : `${store.mohonRequestUrl}/${id}`
         })
         .then( response => {
+          console.log(response)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('user', mohon.user.name) // set formValue
@@ -69,6 +70,12 @@ export default function MohonData({id}) {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
+                        <th>Penerima</th>
+                        <th>Jawatan</th>
+                        <th>No. Telefon</th>
+                        <th>Nama Bangunan</th>
+                        <th>Tingkat</th>
+                        <th>Lokasi</th>
                         <th>Item</th>
                         <th>Jenis</th>
                         <th>Maklumat Tambahan</th>
@@ -79,6 +86,12 @@ export default function MohonData({id}) {
                     {store.getValue('items')?.map((item,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td>{item.name}</td>
+                            <td>{item.occupation}</td>
+                            <td>{item.mobile}</td>
+                            <td>{item.building_name}</td>
+                            <td>{item.building_level}</td>
+                            <td>{item.location}</td>
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>

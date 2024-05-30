@@ -81,31 +81,16 @@ export default function DeleteModal({id, step = 0 }) {
     return (
       <>
         <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Padam
+          Hapus
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Padam Permohonan </Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Hapus Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={'true'}
-            />
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
-              rows='6'
-              isLoading={'true'}
-            />
-            <br />
-
+            <h1 className='text-center mt-5 mb-5'>Hapus permohonan ?</h1>
           </Modal.Body>
           
           <Modal.Footer>
@@ -120,7 +105,7 @@ export default function DeleteModal({id, step = 0 }) {
               disabled={isLoading}
               variant="danger" 
               onClick={handleSubmitClick}>
-              Padam
+              Hapus
             </Button>
 
           </Modal.Footer>

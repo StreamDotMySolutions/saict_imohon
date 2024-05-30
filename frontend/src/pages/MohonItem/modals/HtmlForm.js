@@ -95,6 +95,15 @@ export default function HtmlForm({isLoading}) {
                 isLoading={isLoading}
               />
             </Row>
+
+            <Row className='mt-3 mb-3'>
+              <InputText 
+                fieldName='mobile' 
+                placeholder='No Telefon (peribadi)'  
+                icon='fa-solid fa-phone'
+                isLoading={isLoading}
+              />
+            </Row>
                         
             <h5>Lokasi Penempatan Peralatan</h5>            
             <Row className='mt-3'>
@@ -145,14 +154,7 @@ export default function HtmlForm({isLoading}) {
               />
             </Row> */}
 
-            <Row className='mt-3'>
-              <InputText 
-                fieldName='mobile' 
-                placeholder='No Telefon (peribadi)'  
-                icon='fa-solid fa-phone'
-                isLoading={isLoading}
-              />
-            </Row>
+  
 
             <Row className='mt-3 mb-3'>
               <InputText 
