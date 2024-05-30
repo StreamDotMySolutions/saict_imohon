@@ -32,8 +32,8 @@ export default function ViewModal({id}) {
       .then( response => {
           //console.log(response.data)
           let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
+          //store.setValue('title', mohon.title) // set formValue
+          //store.setValue('description', mohon.description) // set formValue
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
 
@@ -117,7 +117,6 @@ export default function ViewModal({id}) {
           </Modal.Header>
 
           <Modal.Body>
-
             <MohonData id={id} />
           </Modal.Body>
           
