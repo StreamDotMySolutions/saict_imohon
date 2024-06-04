@@ -18,7 +18,7 @@ export default function MohonData({id}) {
             'url' : `${store.mohonRequestUrl}/${id}`
         })
         .then( response => {
-          console.log(response)
+          //console.log(response)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('user', mohon.user.name) // set formValue

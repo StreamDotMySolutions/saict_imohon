@@ -83,6 +83,8 @@ class MohonService
     public static function getMohonDataAsManager($user, $status)
     {
 
+        \Log::info($status);
+
         # User hasOne UserProfile
         $user =  auth('sanctum')->user(); // get loggedIn user
 
@@ -103,21 +105,22 @@ class MohonService
                                 // only list where step = 1
                                 $query->where('step', 1)
                                         ->where('status', $status)
-                                        ->where('manager_id', $user->id);
+                                        ->where('manager_id', $user->id); // from user that request Mohon
                             break;
 
                             case 'approved':
-                                // only list where step = 1
-                                $query->where('step', 1)
+                                // only list where step = 2
+                               
+                                $query->where('step', 2)
                                         ->where('status', $status)
-                                        ->where('manager_id', $user->id);
+                                        ->where('user_id', $user->id); // from pelulus1 that approved
                             break;
 
                             case 'rejected':
-                                // only list where step = 1
-                                $query->where('step', 1)
+                                // only list where step = 2
+                                $query->where('step', 2)
                                         ->where('status', $status)
-                                        ->where('manager_id', $user->id);
+                                        ->where('user_id', $user->id); // from pelulus1 that approve
                             break;
                         }
             
@@ -134,6 +137,9 @@ class MohonService
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
+
+                    //\Log::info('execute here approved : ' .  $status);
+                    //\Log::info($mohons);
         return $mohons;
     }
 

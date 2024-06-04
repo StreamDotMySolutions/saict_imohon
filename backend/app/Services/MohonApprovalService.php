@@ -45,11 +45,11 @@ class MohonApprovalService
                 'status' => 'approved',
             ]);
         }
-        MohonApproval::query()
-                        ->where('id',$prevApproval)
-                        ->update([
-                            'status'  => 'approved',
-                        ]);
+        // MohonApproval::query()
+        //                 ->where('id',$prevApproval)
+        //                 ->update([
+        //                     'status'  => 'approved',
+        //                 ]);
   
 
         // create step 2
