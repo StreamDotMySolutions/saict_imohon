@@ -1,26 +1,40 @@
 import { useState, useEffect} from 'react'
+import { useParams} from 'react-router-dom'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { Link, useParams,Navigate } from 'react-router-dom'
-import { InputText, InputTextarea } from './components/Inputs'
+import { InputText, InputTextarea, InputSelect } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function CreateModal() {
-  
-    const { mohonRequestId } = useParams()
+
     const store = useMohonStore()
     const errors = store.errors
-    
+    const { mohonDistributionRequestId } = useParams()
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [redirectId, setRedirectId] = useState(null)
+    const [categories, setCategories] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
+    const types = [
+      { id: 'new', name: 'Baharu' },
+      { id: 'replacement', name: 'Ganti' }
+    ];
+
     const handleShowClick = () =>{
+      // get item categories from /mohon-items/categories
+      axios({
+        'method' : 'get',
+        'url' : `${store.submitUrl}/categories`
+      })
+      .then( response => {
+        //console.log(response.data.categories)
+        setCategories(response.data.categories)
+      })
+
       store.emptyData() // empty store data
       setShow(true)
     } 
@@ -31,39 +45,38 @@ export default function CreateModal() {
 
     const handleSubmitClick = () => {
       setIsLoading(true)
-      setRedirectId(null)
       const formData = new FormData()
 
-      // title
-      // if (store.getValue('title') != null ) {
-      //   formData.append('title', store.getValue('title'));
-      // }
+      // category_id
+      if (store.getValue('category_id') != null ) {
+        formData.append('category_id', store.getValue('category_id'));
+      }
+
+      // type
+      if (store.getValue('type') != null ) {
+        formData.append('type', store.getValue('type'));
+      }
 
       // description
-      // if (store.getValue('description') != null ) {
-      //   formData.append('description', store.getValue('description'));
-      // }
-
-      formData.append('title', 'Mohon Agihan');
-      formData.append('description', 'Admin memohon agihan');
+      if (store.getValue('description') != null ) {
+        formData.append('description', store.getValue('description'));
+      }
 
       axios({ 
           method: 'post',
-          url: `${store.createUrl}/${mohonRequestId}`,
+          url: `${store.submitUrl}/${mohonDistributionRequestId}`,
           data: formData
         })
         .then( response => {
-          //console.log(response.data.id)
+          // console.log(response)
           // set MohonIndex listener to true
           store.setValue('refresh', true)
-          store.setValue('mohonDistributionRequestId', response.data?.id)
-          setRedirectId(response.data?.id)
-          handleCloseClick()
+
           // Add a delay of 1 second before closing
-          // setTimeout(() => {
-          //   setIsLoading(false)
-          //   handleCloseClick();
-          // }, 500);
+          setTimeout(() => {
+            setIsLoading(false)
+            handleCloseClick();
+          }, 500);
         })
         .catch( error => {
           //console.warn(error)
@@ -72,13 +85,6 @@ export default function CreateModal() {
             store.setValue('errors',  error.response.data.errors )
           }
         })
-    }
-
-    // redirect to store-items
-    if( redirectId) {
-      //console.log('hello')
-      //console.log(redirectId)
-      return <Navigate to={`/mohon-distribution-items/${redirectId}`} replace />
     }
   
     return (
@@ -89,26 +95,40 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Permohonan Agihan</Modal.Title>
+            <Modal.Title>Tambah Item</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <h1 className='text-center mt-5 mb-5'>Cipta permohonan baharu ?</h1>
-            {/* <InputText 
-              fieldName='title' 
-              placeholder='Tajuk permohonan'  
-              icon='fa-solid fa-pencil'
-              isLoading={isLoading}
-            />
+            <Row>
+              <Col>
+                <InputSelect 
+                  fieldName='category_id' 
+                  options = {categories}
+                  placeholder='Sila Pilih Peralatan'  
+                  icon='fa-solid fa-computer'
+                  isLoading={isLoading}
+                />
+              </Col>
+              <Col>
+                <InputSelect 
+                  fieldName='type' 
+                  options = {types}
+                  placeholder='Sila Pilih Jenis'  
+                  icon='fa-solid fa-info'
+                  isLoading={isLoading}
+                />
+              </Col>
+            </Row>
             <br />
             <InputTextarea
               fieldName='description' 
               placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-question'
+              icon='fa-solid fa-pencil'
               rows='6'
               isLoading={isLoading}
-            /> */}
-
+            />
+            <br />
+           
           </Modal.Body>
           
           <Modal.Footer>
@@ -121,9 +141,9 @@ export default function CreateModal() {
 
             <Button 
               disabled={isLoading}
-              variant="success" 
+              variant="primary" 
               onClick={handleSubmitClick}>
-              Cipta
+              Hantar
             </Button>
 
           </Modal.Footer>

@@ -61,7 +61,8 @@ import MohonApprovalByManager from './pages/MohonApproval/Manager'
 import MohonApprovalByAdmin from './pages/MohonApproval/Admin'
 import MohonApprovalByBoss from './pages/MohonApproval/Boss'
 import MohonDistributionRequest from './pages/MohonDistributionRequest'
-import MohonDistributionItem from './pages/MohonDistributionItem'
+//import MohonDistributionItem from './pages/MohonDistributionItem'
+import MohonDistributionItem from './pages/MohonDistributionItem-v2'
 
 import Agihan from './pages/Agihan'
 

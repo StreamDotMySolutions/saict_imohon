@@ -1,10 +1,11 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
+import DynamicInputForm from './components/DynamicInputForm'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id, step = 0 }) {
+export default function DeleteModal({id}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -21,13 +22,13 @@ export default function DeleteModal({id, step = 0 }) {
       store.emptyData() // empty store data
       //console.log(id)
 
-        //console.log( `${store.submitUrl}/${id}`)
+        console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
             'url' : `${store.submitUrl}/${id}`
         })
         .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
@@ -45,53 +46,20 @@ export default function DeleteModal({id, step = 0 }) {
       handleClose()
     }
 
-    const handleSubmitClick = () => {
-      setIsLoading(true)
-      const formData = new FormData()
-
-      // method PUT ( to simulate PUT in Laravel )
-      formData.append('_method', 'delete');
-
-      axios({ 
-          method: 'post',
-          url : `${store.submitUrl}/${id}`,
-          data: formData
-        })
-        .then( response => {
-          //console.log(response)
-          setIsLoading(false)
-
-          // set MohonIndex listener to true
-          store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
-          setTimeout(() => {
-            handleCloseClick();
-          }, 500);
-        })
-        .catch( error => {
-          //console.warn(error)
-          setIsLoading(false)
-          if(error.response.status === 422){
-            store.setValue('errors',  error.response.data.errors )
-          }
-        })
-    }
   
     return (
       <>
-        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Padam
+        <Button size="sm" variant="outline-info" onClick={handleShowClick}>
+          View
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Padam Permohonan </Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-          <h1 className='text-center mt-5 mb-5'>Hapus permohonan  ?</h1>
-            {/* <InputText 
+            <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
@@ -105,7 +73,7 @@ export default function DeleteModal({id, step = 0 }) {
               rows='6'
               isLoading={'true'}
             />
-            <br /> */}
+            <br />
 
           </Modal.Body>
           
@@ -117,12 +85,6 @@ export default function DeleteModal({id, step = 0 }) {
               Tutup
             </Button>
 
-            <Button 
-              disabled={isLoading}
-              variant="danger" 
-              onClick={handleSubmitClick}>
-              Hapus
-            </Button>
 
           </Modal.Footer>
         </Modal>

@@ -1,10 +1,10 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id, step = 0 }) {
+export default function ApprovalModal({id,count,step}) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -12,6 +12,7 @@ export default function DeleteModal({id, step = 0 }) {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [items, setItems] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -31,6 +32,7 @@ export default function DeleteModal({id, step = 0 }) {
           let mohon = response.data.mohon
           store.setValue('title', mohon.title) // set formValue
           store.setValue('description', mohon.description) // set formValue
+          setItems(mohon.mohon_distribution_items) // set formValue
           setIsLoading(false)
         })
         .catch ( error => {
@@ -49,12 +51,15 @@ export default function DeleteModal({id, step = 0 }) {
       setIsLoading(true)
       const formData = new FormData()
 
+      // step = 1 ( user submitted to Pelulus 1)
+      //formData.append('step', 1 );
+
       // method PUT ( to simulate PUT in Laravel )
-      formData.append('_method', 'delete');
+      formData.append('_method', 'post');
 
       axios({ 
           method: 'post',
-          url : `${store.submitUrl}/${id}`,
+          url : `${store.bossApprovalUrl}/${id}`,
           data: formData
         })
         .then( response => {
@@ -77,21 +82,27 @@ export default function DeleteModal({id, step = 0 }) {
           }
         })
     }
+
   
     return (
       <>
-        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Padam
-        </Button>
-  
+        {count === 0 ? (
+          <Button disabled size="sm" variant="info" onClick={handleShowClick}>
+            Mohon
+          </Button>
+        ) : (
+          <Button disabled={step !== 0} size="sm" variant="info" onClick={handleShowClick}>
+            Mohon
+          </Button>
+        )}
+          
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Padam Permohonan </Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-          <h1 className='text-center mt-5 mb-5'>Hapus permohonan  ?</h1>
-            {/* <InputText 
+            <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
               icon='fa-solid fa-pencil'
@@ -105,23 +116,46 @@ export default function DeleteModal({id, step = 0 }) {
               rows='6'
               isLoading={'true'}
             />
-            <br /> */}
+            <br />
+            <Table>
+                <thead>
+                    <tr>
+                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {items?.map((item,index) => (
+                        <tr key={index}>
+                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td>{item.category?.name}</td>
+                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                            <td>{item.description}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
 
           </Modal.Body>
           
           <Modal.Footer>
-            <Button 
+
+          <Button 
               disabled={isLoading}
               variant="secondary" 
               onClick={handleCloseClick}>
               Tutup
-            </Button>
+          </Button>
 
-            <Button 
+          <Button 
               disabled={isLoading}
-              variant="danger" 
+              variant="primary" 
               onClick={handleSubmitClick}>
-              Hapus
+              Mohon Agihan
             </Button>
 
           </Modal.Footer>

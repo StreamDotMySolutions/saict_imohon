@@ -81,8 +81,8 @@ const Index = () => {
                                 <Link to={`/mohon-distribution-items/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Peralatan</Button>
                                 </Link>
-                                {' '}
-                                <EditModal id={mohon.id} step={mohon.mohon_distribution_approval?.step}/>
+                                {/* {' '}
+                                <EditModal id={mohon.id} step={mohon.mohon_distribution_approval?.step}/> */}
                                 {' '}
                                 <DeleteModal id={mohon.id} step={mohon.mohon_distribution_approval?.step} />
                                 {' '}
