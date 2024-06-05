@@ -15,26 +15,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
-        const items = response.data.mohon.mohon_request.mohon_items;
-        setMohonItems(items);
-
-        // Prepopulate form data
-        const initialCheckedItems = {};
-        const initialVendorSelections = {};
-        const initialTypeSelections = {};
-
-        items.forEach(item => {
-          if (item.selected) {
-            initialCheckedItems[item.id] = true;
-            initialVendorSelections[item.id] = item.vendor || '';
-            initialTypeSelections[item.id] = item.type || '';
-          }
-        });
-
-        setCheckedItems(initialCheckedItems);
-        setVendorSelections(initialVendorSelections);
-        setTypeSelections(initialTypeSelections);
-        setSelectedItems(Object.keys(initialCheckedItems).filter(id => initialCheckedItems[id]));
+        console.log(response);
+        setMohonItems(response.data.mohon.mohon_request.mohon_items);
       })
       .catch((error) => {
         console.warn(error);
@@ -48,54 +30,55 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       [itemId]: isChecked,
     }));
 
-    if (isChecked) {
-      // Add item to selected items
-      setSelectedItems((prevState) => [...prevState, itemId]);
+    const newSelectedItems = isChecked
+      ? [...selectedItems, itemId]
+      : selectedItems.filter((id) => id !== itemId);
+    setSelectedItems(newSelectedItems);
 
-      // Initialize vendor and type selection for the new item if not already set
+    if (isChecked) {
+      // Initialize vendor and type selection for the new item
       setVendorSelections((prevState) => ({
         ...prevState,
-        [itemId]: prevState[itemId] || '',
+        [itemId]: vendorSelections[itemId] || '',
       }));
       setTypeSelections((prevState) => ({
         ...prevState,
-        [itemId]: prevState[itemId] || '',
+        [itemId]: typeSelections[itemId] || '',
       }));
 
       // Make API call to add the item
       const payload = {
-        itemId,
-        vendor: vendorSelections[itemId] || '',
-        type: typeSelections[itemId] || '',
+        selectedItems: newSelectedItems,
+        vendorSelections,
+        typeSelections,
       };
-      console.log('Adding item:', payload);
+      console.log('Saving payload:', payload);
 
-      axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+      axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
         .then(response => {
-          console.log('Add successful:', response);
+          console.log('Save successful:', response);
         })
         .catch(error => {
-          console.error('Add error:', error);
+          console.error('Save error:', error);
         });
     } else {
-      // Remove item from selected items
-      setSelectedItems((prevState) => prevState.filter((id) => id !== itemId));
-
-      // Reset vendor and type selections
+      // Remove vendor and type selection for the unchecked item
       setVendorSelections((prevState) => {
-        const { [itemId]: _, ...rest } = prevState;
-        return rest;
+        const newState = { ...prevState };
+        delete newState[itemId];
+        return newState;
       });
       setTypeSelections((prevState) => {
-        const { [itemId]: _, ...rest } = prevState;
-        return rest;
+        const newState = { ...prevState };
+        delete newState[itemId];
+        return newState;
       });
 
       // Make API call to delete the item
       const payload = { itemId };
       console.log('Deleting item:', payload);
 
-      axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+      axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
         .then(response => {
           console.log('Delete successful:', response);
         })

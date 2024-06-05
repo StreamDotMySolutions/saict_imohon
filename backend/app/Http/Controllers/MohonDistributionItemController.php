@@ -98,9 +98,18 @@ class MohonDistributionItemController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $mohonRequestId)
     {
-        \Log::info('api create data. ');
+        // $user =  auth('sanctum')->user();
+        // return MohonDistributionItem::create([
+        //     'mohon_distribution_request_id' => $mohonDistributionRequestId,
+        //     'user_id' => $user->id,
+        //     'category_id' => $request->input('category_id'),
+        //     'type' => $request->input('type'),
+        //     'description' => $request->input('description')
+        // ]);
+        \Log::info($request);
+         \Log::info('api create data for  ' . $mohonRequestId);
     }
 
     public function sync(Request $request)
