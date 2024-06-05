@@ -98,9 +98,19 @@ class MohonDistributionItemController extends Controller
         }
     }
 
+    public function create(Request $request)
+    {
+        \Log::info('api create data. ');
+    }
+
     public function sync(Request $request)
     {
-        \Log::info($request);
+        \Log::info('api sync data. ' );
+    }
+
+    public function remove(Request $request)
+    {
+        \Log::info('api removing data. ');
     }
 
 }

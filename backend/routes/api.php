@@ -124,7 +124,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
     Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
     
+    Route::post('/mohon-distribution-items/{mohonRequestId}/create', [MohonDistributionItemController::class, 'create']);
     Route::post('/mohon-distribution-items/{mohonRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
+    Route::post('/mohon-distribution-items/{mohonRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
     
     //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
     //Route::post('/mohon-distribution-request/by-admin/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
