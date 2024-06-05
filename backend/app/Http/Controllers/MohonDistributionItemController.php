@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use App\Models\MohonDistributionItem;
+use App\Models\MohonDistributionItem;
 use App\Models\Category;
 use App\Services\MohonDistributionItemService;
 use App\Http\Requests\MohonDistributionItem\StoreRequest;
@@ -98,28 +98,47 @@ class MohonDistributionItemController extends Controller
         }
     }
 
-    public function create(Request $request, $mohonRequestId)
+    public function create(Request $request, $mohonDistributionRequestId)
     {
-        // $user =  auth('sanctum')->user();
-        // return MohonDistributionItem::create([
-        //     'mohon_distribution_request_id' => $mohonDistributionRequestId,
-        //     'user_id' => $user->id,
-        //     'category_id' => $request->input('category_id'),
-        //     'type' => $request->input('type'),
-        //     'description' => $request->input('description')
-        // ]);
+        $user =  auth('sanctum')->user();
+        MohonDistributionItem::create([
+            'mohon_distribution_request_id' => $mohonDistributionRequestId,
+            'user_id' => $user->id,
+            'category_id' => $request->input('category_id') ?? null,
+            'mohon_item_id' => $request->input('mohon_item_id') ?? null,
+            'type' => $request->input('type') ?? null,
+            'vendor_name' => $request->input('vendor') ?? null,
+            'description' => $request->input('selectedItems.0.category_name') ?? null
+        ]);
         \Log::info($request);
-         \Log::info('api create data for  ' . $mohonRequestId);
+   
     }
 
-    public function sync(Request $request)
+    public function sync(Request $request,$mohonDistributionRequestId)
     {
         \Log::info('api sync data. ' );
+        \Log::info($request);
     }
 
     public function remove(Request $request)
     {
-        \Log::info('api removing data. ');
+        MohonDistributionItem::where('mohon_item_id', $request->input('itemId'))->delete();
+        \Log::info($request);
+    }
+
+    public function items($mohonDistributionRequestId)
+    {
+        /*
+        * To list assigned items to $mohonDistributionId
+        */
+        $items = MohonDistributionItem::where('mohon_distribution_request_id', $mohonDistributionRequestId)->get();
+        
+        if($items->isNotEmpty()){
+            return response()->json(['items' => $items]);
+        }else{
+            return response()->json(['message' => 'No assigned items'],404);
+        }
+
     }
 
 }

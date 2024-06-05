@@ -8,13 +8,12 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const [mohons, setMohons] = useState([]);
   const [mohonItems, setMohonItems] = useState([]);
   const [mohonDistributionItems, setMohonDistributionItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
   const [vendorSelections, setVendorSelections] = useState({});
   const [typeSelections, setTypeSelections] = useState({});
-  const [checkedItems, setCheckedItems] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const fetchMohonData = () => {
+  useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
         console.log(response);
@@ -25,81 +24,37 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       .catch((error) => {
         console.warn(error);
       });
-  };
-
-  useEffect(() => {
-    fetchMohonData();
-  }, [agihanRequestId]);
+  }, [agihanRequestId,checkedItems]);
 
   const handleItemChange = (e, itemId) => {
     const isChecked = e.target.checked;
+    setCheckedItems(prevState => ({ ...prevState, [itemId]: isChecked }));
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
 
-    setCheckedItems((prevState) => ({
-      ...prevState,
-      [itemId]: isChecked,
-    }));
-
-    const newSelectedItems = isChecked
-      ? [...selectedItems, itemId]
-      : selectedItems.filter((id) => id !== itemId);
-    setSelectedItems(newSelectedItems);
-
     if (isChecked) {
-      // Initialize vendor and type selection for the new item
-      setVendorSelections((prevState) => ({
-        ...prevState,
-        [itemId]: vendorSelections[itemId] || '',
-      }));
-      setTypeSelections((prevState) => ({
-        ...prevState,
-        [itemId]: typeSelections[itemId] || '',
-      }));
-
-      // Make API call to add the item
       const payload = {
-        selectedItems: newSelectedItems.map(id => ({
-          itemId: id,
-          mohon_item_id: id,  // Append mohon_item_id here
-          category_name: mohonItems.find(item => item.id === id)?.category?.name || '',
-          category_id: mohonItems.find(item => item.id === id)?.category?.id || '',
-        })),
-        vendorSelections,
-        typeSelections,
+        itemId,
+        mohon_item_id: itemId,
+        category_name,
+        category_id,
+        vendor: vendorSelections[itemId] || '',
+        type: typeSelections[itemId] || '',
       };
-      console.log('Saving payload:', payload);
 
       axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
         .then(response => {
           console.log('Save successful:', response);
-          fetchMohonData(); // Update the data after save
         })
         .catch(error => {
           console.error('Save error:', error);
         });
     } else {
-      // Remove vendor and type selection for the unchecked item
-      setVendorSelections((prevState) => {
-        const newState = { ...prevState };
-        delete newState[itemId];
-        return newState;
-      });
-      setTypeSelections((prevState) => {
-        const newState = { ...prevState };
-        delete newState[itemId];
-        return newState;
-      });
-
-      // Make API call to delete the item
-      const payload = { itemId, mohon_item_id: itemId, category_name, category_id };  // Append mohon_item_id here
-      console.log('Deleting item:', payload);
-
+      const payload = { itemId, mohon_item_id: itemId };
       axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
         .then(response => {
           console.log('Delete successful:', response);
-          fetchMohonData(); // Update the data after delete
         })
         .catch(error => {
           console.error('Delete error:', error);
@@ -109,29 +64,22 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   const handleVendorChange = (e, itemId) => {
     const vendor = e.target.value;
+    setVendorSelections((prevState) => ({ ...prevState, [itemId]: vendor }));
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
 
-    setVendorSelections((prevState) => ({
-      ...prevState,
-      [itemId]: vendor,
-    }));
-
-    // Make API call to update vendor
     const payload = {
       itemId,
-      mohon_item_id: itemId,  // Append mohon_item_id here
-      vendor,
+      mohon_item_id: itemId,
       category_name,
       category_id,
+      vendor,
     };
-    console.log('Updating vendor:', payload);
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
         console.log('Vendor update successful:', response);
-        fetchMohonData(); // Update the data after vendor change
       })
       .catch(error => {
         console.error('Vendor update error:', error);
@@ -140,29 +88,22 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   const handleTypeChange = (e, itemId) => {
     const type = e.target.value;
+    setTypeSelections((prevState) => ({ ...prevState, [itemId]: type }));
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
 
-    setTypeSelections((prevState) => ({
-      ...prevState,
-      [itemId]: type,
-    }));
-
-    // Make API call to update type
     const payload = {
       itemId,
-      mohon_item_id: itemId,  // Append mohon_item_id here
-      type,
+      mohon_item_id: itemId,
       category_name,
       category_id,
+      type,
     };
-    console.log('Updating type:', payload);
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
         console.log('Type update successful:', response);
-        fetchMohonData(); // Update the data after type change
       })
       .catch(error => {
         console.error('Type update error:', error);
@@ -194,7 +135,6 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
             <tr key={index}>
               <td>
                 <span className="badge bg-primary">{item.id}</span>
-                <input type="hidden" name="mohon_item_id" value={item.id} />
               </td>
               <td>{item.name}</td>
               <td>{item.category.name}</td>
@@ -208,43 +148,48 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   name='mohon_item_id'
                   value={item.id}
                   onChange={(e) => handleItemChange(e, item.id)}
-                  checked={checkedItems[item.id] || false}
+                  checked={
+                    mohonDistributionItems.some(
+                      (distributionItem) => distributionItem.mohon_item_id === item.id
+                    )
+                  }
                 />
               </td>
               <td className='text-center'>
-                <FloatingLabel controlId="floatingSelectVendor" label="Sila pilih vendor">
+                <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
                   <Form.Select
-                    name='vendor'
                     onChange={(e) => handleVendorChange(e, item.id)}
-                    disabled={!checkedItems[item.id]}
-                    isInvalid={formSubmitted && checkedItems[item.id] && !vendorSelections[item.id]}
+                    //disabled={!checkedItems[item.id]}
+                    disabled={
+                      !mohonDistributionItems.some(
+                        (distributionItem) => distributionItem.mohon_item_id === item.id
+                      )
+                    }
                     value={vendorSelections[item.id] || ''}
                   >
                     <option value="">Pilih Vendor</option>
                     <option value="Bessar">Bessar</option>
                     <option value="Berjaya">Berjaya</option>
                   </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    Please select a vendor.
-                  </Form.Control.Feedback>
                 </FloatingLabel>
               </td>
               <td className='text-center'>
-                <FloatingLabel controlId="floatingSelectType" label="Sila pilih type">
+                <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
                   <Form.Select
-                    name='type'
                     onChange={(e) => handleTypeChange(e, item.id)}
-                    disabled={!checkedItems[item.id]}
-                    isInvalid={formSubmitted && checkedItems[item.id] && !typeSelections[item.id]}
+                    //disabled={!checkedItems[item.id]}
+                    disabled={
+                      !mohonDistributionItems.some(
+                        (distributionItem) => distributionItem.mohon_item_id === item.id
+                      )
+                    }
                     value={typeSelections[item.id] || ''}
+                    
                   >
                     <option value="">Pilih Type</option>
                     <option value="new">New</option>
                     <option value="replacement">Replacement</option>
                   </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    Please select a type.
-                  </Form.Control.Feedback>
                 </FloatingLabel>
               </td>
             </tr>
@@ -255,4 +200,4 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   );
 };
 
-export default MohonDistributionItemIndex;
+export default MohonDistributionItemIndex
