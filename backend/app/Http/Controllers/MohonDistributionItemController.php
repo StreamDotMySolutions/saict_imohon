@@ -98,4 +98,9 @@ class MohonDistributionItemController extends Controller
         }
     }
 
+    public function sync(Request $request)
+    {
+        \Log::info($request);
+    }
+
 }
