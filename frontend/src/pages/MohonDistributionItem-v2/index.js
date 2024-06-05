@@ -51,7 +51,7 @@ const MohonDistributionItem = () => {
                 </ol>
             </nav>
             {/* <MohonItemIndex mohonRequestId={mohonDistributionRequestId} step={step} />  */}
-            <MohonDistributionItemIndex  agihanRequestId={mohonDistributionRequestId} step={step} />
+            <MohonDistributionItemIndex agihanRequestId={mohonDistributionRequestId} step={step} />
         </div>
     );
 };
