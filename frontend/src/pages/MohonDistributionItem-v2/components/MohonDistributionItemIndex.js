@@ -5,26 +5,38 @@ import axios from '../../../libs/axios';
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const store = useMohonItemStore();
+  const [mohons, setMohons] = useState([]);
   const [mohonItems, setMohonItems] = useState([]);
+  const [mohonDistributionItems, setMohonDistributionItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [vendorSelections, setVendorSelections] = useState({});
   const [typeSelections, setTypeSelections] = useState({});
   const [checkedItems, setCheckedItems] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  useEffect(() => {
+  const fetchMohonData = () => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
         console.log(response);
+        setMohons(response.data.mohon);
         setMohonItems(response.data.mohon.mohon_request.mohon_items);
+        setMohonDistributionItems(response.data.mohon.mohon_distribution_items);
       })
       .catch((error) => {
         console.warn(error);
       });
+  };
+
+  useEffect(() => {
+    fetchMohonData();
   }, [agihanRequestId]);
 
   const handleItemChange = (e, itemId) => {
     const isChecked = e.target.checked;
+    const item = mohonItems.find((item) => item.id === itemId);
+    const category_name = item?.category?.name || '';
+    const category_id = item?.category?.id || '';
+
     setCheckedItems((prevState) => ({
       ...prevState,
       [itemId]: isChecked,
@@ -48,7 +60,12 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
       // Make API call to add the item
       const payload = {
-        selectedItems: newSelectedItems,
+        selectedItems: newSelectedItems.map(id => ({
+          itemId: id,
+          mohon_item_id: id,  // Append mohon_item_id here
+          category_name: mohonItems.find(item => item.id === id)?.category?.name || '',
+          category_id: mohonItems.find(item => item.id === id)?.category?.id || '',
+        })),
         vendorSelections,
         typeSelections,
       };
@@ -57,6 +74,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
         .then(response => {
           console.log('Save successful:', response);
+          fetchMohonData(); // Update the data after save
         })
         .catch(error => {
           console.error('Save error:', error);
@@ -75,12 +93,13 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
 
       // Make API call to delete the item
-      const payload = { itemId };
+      const payload = { itemId, mohon_item_id: itemId, category_name, category_id };  // Append mohon_item_id here
       console.log('Deleting item:', payload);
 
       axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
         .then(response => {
           console.log('Delete successful:', response);
+          fetchMohonData(); // Update the data after delete
         })
         .catch(error => {
           console.error('Delete error:', error);
@@ -90,6 +109,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   const handleVendorChange = (e, itemId) => {
     const vendor = e.target.value;
+    const item = mohonItems.find((item) => item.id === itemId);
+    const category_name = item?.category?.name || '';
+    const category_id = item?.category?.id || '';
+
     setVendorSelections((prevState) => ({
       ...prevState,
       [itemId]: vendor,
@@ -98,13 +121,17 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     // Make API call to update vendor
     const payload = {
       itemId,
-      vendor
+      mohon_item_id: itemId,  // Append mohon_item_id here
+      vendor,
+      category_name,
+      category_id,
     };
     console.log('Updating vendor:', payload);
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
         console.log('Vendor update successful:', response);
+        fetchMohonData(); // Update the data after vendor change
       })
       .catch(error => {
         console.error('Vendor update error:', error);
@@ -113,6 +140,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   const handleTypeChange = (e, itemId) => {
     const type = e.target.value;
+    const item = mohonItems.find((item) => item.id === itemId);
+    const category_name = item?.category?.name || '';
+    const category_id = item?.category?.id || '';
+
     setTypeSelections((prevState) => ({
       ...prevState,
       [itemId]: type,
@@ -121,13 +152,17 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     // Make API call to update type
     const payload = {
       itemId,
-      type
+      mohon_item_id: itemId,  // Append mohon_item_id here
+      type,
+      category_name,
+      category_id,
     };
     console.log('Updating type:', payload);
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
         console.log('Type update successful:', response);
+        fetchMohonData(); // Update the data after type change
       })
       .catch(error => {
         console.error('Type update error:', error);
@@ -145,9 +180,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       <Table className='mt-3'>
         <thead>
           <tr>
-            <th style={{ width: '20px' }}>ID</th>
+            <th style={{ width: '20px' }}>MOHON ID</th>
             <th style={{ width: '200px' }}>NAMA</th>
             <th>PERALATAN</th>
+            <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th>
             <th className='text-center'>AGIHAN</th>
             <th className='text-center'>VENDOR</th>
             <th className='text-center'>TYPE</th>
@@ -156,9 +192,17 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <tbody>
           {mohonItems?.map((item, index) => (
             <tr key={index}>
-              <td><span className="badge bg-primary">{item.id}</span></td>
+              <td>
+                <span className="badge bg-primary">{item.id}</span>
+                <input type="hidden" name="mohon_item_id" value={item.id} />
+              </td>
               <td>{item.name}</td>
               <td>{item.category.name}</td>
+              <td>
+                {mohonDistributionItems.find(
+                  (distributionItem) => distributionItem.mohon_item_id === item.id
+                )?.id}
+              </td>
               <td className='text-center'>
                 <Form.Check
                   name='mohon_item_id'
