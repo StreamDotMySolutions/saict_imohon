@@ -5,9 +5,7 @@ import axios from '../../../libs/axios';
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const store = useMohonItemStore();
-  const [mohons, setMohons] = useState([]);
-  const [mohonItems, setMohonItems] = useState([]);
-  const [mohonDistributionItems, setMohonDistributionItems] = useState([]);
+  const [mohon, setMohon] = useState(null);
   const [checkedItems, setCheckedItems] = useState({});
   const [vendorSelections, setVendorSelections] = useState({});
   const [typeSelections, setTypeSelections] = useState({});
@@ -17,14 +15,20 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
         console.log(response);
-        setMohons(response.data.mohon);
-        setMohonItems(response.data.mohon.mohon_request.mohon_items);
-        setMohonDistributionItems(response.data.mohon.mohon_distribution_items);
+        setMohon(response.data.mohon);
       })
       .catch((error) => {
         console.warn(error);
       });
   }, [agihanRequestId, checkedItems]);
+
+  if (!mohon) {
+    return <div>Loading...</div>;
+  }
+
+  
+  const mohonItems = mohon.mohon_request.mohon_items;
+  const mohonDistributionItems = mohon.mohon_distribution_items;
 
   const handleItemChange = (e, itemId) => {
     const isChecked = e.target.checked;
@@ -172,7 +176,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 />
               </td>
               <td className='text-center'>
-              {mohonDistributionItems.find(
+                {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
                 )?.vendor_name}
                 <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
@@ -183,7 +187,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                         (distributionItem) => distributionItem.mohon_item_id === item.id
                       )
                     }
-                    value={vendorSelections[item.id] || ''}
+                    value={vendorSelections[item.id] || mohonDistributionItems.find(
+                      (distributionItem) => distributionItem.mohon_item_id === item.id
+                    )?.vendor_name || ''}
                   >
                     <option value="">Pilih Vendor</option>
                     <option value="Bessar">Bessar</option>
@@ -192,7 +198,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 </FloatingLabel>
               </td>
               <td className='text-center'>
-              {mohonDistributionItems.find(
+                {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
                 )?.type}
 
@@ -204,7 +210,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                         (distributionItem) => distributionItem.mohon_item_id === item.id
                       )
                     }
-                    value={typeSelections[item.id] || ''}
+                   
+                    value={typeSelections[item.id] || mohonDistributionItems.find(
+                      (distributionItem) => distributionItem.mohon_item_id === item.id
+                    )?.type || ''}
                   >
                     <option value="">Pilih Type</option>
                     <option value="new">New</option>

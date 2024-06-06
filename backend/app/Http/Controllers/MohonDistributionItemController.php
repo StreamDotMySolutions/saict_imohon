@@ -121,11 +121,20 @@ class MohonDistributionItemController extends Controller
         * admin choose vendor [vendor name]
         * update based on id
         */
-        MohonDistributionItem::where('id', $request->input('mohon_distribution_item_id'))
-        ->update([
-            'type' => $request->input('type') ?? null,
-            'vendor_name' => $request->input('vendor') ?? null,
-        ]);
+        $mohonDistributionItemId = $request->input('mohon_distribution_item_id');
+        $updateData = [];
+        
+        if ($request->has('type')) {
+            $updateData['type'] = $request->input('type');
+        }
+        
+        if ($request->has('vendor')) {
+            $updateData['vendor_name'] = $request->input('vendor');
+        }
+        
+        if (!empty($updateData)) {
+            MohonDistributionItem::where('id', $mohonDistributionItemId)->update($updateData);
+        }
     
         \Log::info('api sync data. ' );
         \Log::info($request);
