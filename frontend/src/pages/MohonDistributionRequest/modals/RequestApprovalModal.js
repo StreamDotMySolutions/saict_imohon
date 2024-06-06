@@ -23,22 +23,20 @@ export default function RequestApprovalModal({agihanRequestId}) {
       //console.log(id)
 
         //console.log( `${store.submitUrl}/${id}`)
-        // axios({
-        //     'method' : 'get',
-        //     'url' : `${store.submitUrl}/${id}`
-        // })
-        // .then( response => {
-        //   //console.log(response.data)
-        //   let mohon = response.data.mohon
-        //   store.setValue('title', mohon.title) // set formValue
-        //   store.setValue('description', mohon.description) // set formValue
-        //   setItems(mohon.mohon_distribution_items) // set formValue
-        //   setIsLoading(false)
-        // })
-        // .catch ( error => {
-        //   console.warn(error)
-        //   setIsLoading(false)
-        // })
+        axios({
+            'method' : 'get',
+            'url' : `${store.submitUrl}/${agihanRequestId}`
+        })
+        .then( response => {
+          console.log(response.data)
+          let mohon = response.data.mohon
+          setItems(mohon.mohon_distribution_items) // set formValue
+          setIsLoading(false)
+        })
+        .catch ( error => {
+          console.warn(error)
+          setIsLoading(false)
+        })
 
         setShow(true) // show the modal
     }
@@ -97,12 +95,29 @@ export default function RequestApprovalModal({agihanRequestId}) {
           
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title> Lihat Permohonan </Modal.Title>
+            <Modal.Title> Lihat Permohonan Agihan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-          
+            <Table>
+              <thead>
+                  <tr>
+                      <th className='col-4'>PERALATAN</th>
+                      <th className='col-3'>JENIS</th>
+                      <th>VENDOR</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {items.map( (item,index) => (
+                  <tr key={index}>
+                      <td>{item.category.name}</td>
+                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                      <td>{item.inventory.vendor}</td>
+                  </tr>
+                ))}
 
+              </tbody>
+            </Table>
           </Modal.Body>
           
           <Modal.Footer>

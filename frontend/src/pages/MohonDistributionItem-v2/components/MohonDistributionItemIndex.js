@@ -153,7 +153,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN</h2></Col>
           <Col className="text-end">
-            <RequestApprovalModal />
+            <RequestApprovalModal agihanRequestId={agihanRequestId} />
           </Col>
         </Row>
       </Container>
