@@ -14,13 +14,13 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setMohon(response.data.mohon);
       })
       .catch((error) => {
         console.warn(error);
       });
-  }, [agihanRequestId, checkedItems]);
+  }, [agihanRequestId, checkedItems, vendorSelections,typeSelections]);
 
   if (!mohon) {
     return <div>Loading...</div>;
@@ -53,7 +53,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
       axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
         .then(response => {
-          console.log('Save successful:', response);
+          //console.log('Save successful:', response);
         })
         .catch(error => {
           console.error('Save error:', error);
@@ -62,7 +62,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       const payload = { itemId, mohon_item_id: itemId, mohon_distribution_id };
       axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
         .then(response => {
-          console.log('Delete successful:', response);
+          //console.log('Delete successful:', response);
 
           // Reset vendor and type selections
           setVendorSelections((prevState) => ({ ...prevState, [itemId]: '' }));
@@ -95,10 +95,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
-        console.log('Vendor update successful:', response);
+        //console.log('Vendor update successful:', response);
       })
       .catch(error => {
-        console.error('Vendor update error:', error);
+        //console.error('Vendor update error:', error);
       });
   };
 
@@ -123,7 +123,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
     axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
       .then(response => {
-        console.log('Type update successful:', response);
+        //console.log('Type update successful:', response);
       })
       .catch(error => {
         console.error('Type update error:', error);
