@@ -114,8 +114,13 @@ class MohonDistributionItemController extends Controller
    
     }
 
-    public function sync(Request $request,$mohonDistributionRequestId)
+    public function sync(Request $request,$mohonDistributionItemId)
     {
+        /*
+        * admin choose type [ new,selection]
+        * admin choose vendor [vendor name]
+        * update based on id
+        */
         \Log::info('api sync data. ' );
         \Log::info($request);
     }

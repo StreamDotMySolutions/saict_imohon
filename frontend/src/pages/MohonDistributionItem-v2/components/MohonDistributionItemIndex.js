@@ -24,14 +24,18 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       .catch((error) => {
         console.warn(error);
       });
-  }, [agihanRequestId,checkedItems]);
+  }, [agihanRequestId, checkedItems]);
 
   const handleItemChange = (e, itemId) => {
     const isChecked = e.target.checked;
     setCheckedItems(prevState => ({ ...prevState, [itemId]: isChecked }));
+
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
+    const mohon_distribution_id = mohonDistributionItems.find(
+      (distributionItem) => distributionItem.mohon_item_id === itemId
+    )?.id;
 
     if (isChecked) {
       const payload = {
@@ -51,10 +55,14 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
           console.error('Save error:', error);
         });
     } else {
-      const payload = { itemId, mohon_item_id: itemId };
+      const payload = { itemId, mohon_item_id: itemId, mohon_distribution_id };
       axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
         .then(response => {
           console.log('Delete successful:', response);
+
+          // Reset vendor and type selections
+          setVendorSelections((prevState) => ({ ...prevState, [itemId]: '' }));
+          setTypeSelections((prevState) => ({ ...prevState, [itemId]: '' }));
         })
         .catch(error => {
           console.error('Delete error:', error);
@@ -68,12 +76,16 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
+    const mohon_distribution_id = mohonDistributionItems.find(
+      (distributionItem) => distributionItem.mohon_item_id === itemId
+    )?.id;
 
     const payload = {
       itemId,
       mohon_item_id: itemId,
       category_name,
       category_id,
+      mohon_distribution_id,
       vendor,
     };
 
@@ -92,12 +104,16 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
+    const mohon_distribution_id = mohonDistributionItems.find(
+      (distributionItem) => distributionItem.mohon_item_id === itemId
+    )?.id;
 
     const payload = {
       itemId,
       mohon_item_id: itemId,
       category_name,
       category_id,
+      mohon_distribution_id,
       type,
     };
 
@@ -159,7 +175,6 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
                   <Form.Select
                     onChange={(e) => handleVendorChange(e, item.id)}
-                    //disabled={!checkedItems[item.id]}
                     disabled={
                       !mohonDistributionItems.some(
                         (distributionItem) => distributionItem.mohon_item_id === item.id
@@ -177,14 +192,12 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
                   <Form.Select
                     onChange={(e) => handleTypeChange(e, item.id)}
-                    //disabled={!checkedItems[item.id]}
                     disabled={
                       !mohonDistributionItems.some(
                         (distributionItem) => distributionItem.mohon_item_id === item.id
                       )
                     }
                     value={typeSelections[item.id] || ''}
-                    
                   >
                     <option value="">Pilih Type</option>
                     <option value="new">New</option>
@@ -200,4 +213,4 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   );
 };
 
-export default MohonDistributionItemIndex
+export default MohonDistributionItemIndex;
