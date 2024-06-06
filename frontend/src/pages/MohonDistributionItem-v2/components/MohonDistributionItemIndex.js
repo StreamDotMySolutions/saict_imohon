@@ -76,7 +76,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
-    const mohon_distribution_id = mohonDistributionItems.find(
+    const mohon_distribution_item_id = mohonDistributionItems.find(
       (distributionItem) => distributionItem.mohon_item_id === itemId
     )?.id;
 
@@ -85,7 +85,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       mohon_item_id: itemId,
       category_name,
       category_id,
-      mohon_distribution_id,
+      mohon_distribution_item_id,
       vendor,
     };
 
@@ -104,7 +104,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     const item = mohonItems.find((item) => item.id === itemId);
     const category_name = item?.category?.name || '';
     const category_id = item?.category?.id || '';
-    const mohon_distribution_id = mohonDistributionItems.find(
+    const mohon_distribution_item_id = mohonDistributionItems.find(
       (distributionItem) => distributionItem.mohon_item_id === itemId
     )?.id;
 
@@ -113,7 +113,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       mohon_item_id: itemId,
       category_name,
       category_id,
-      mohon_distribution_id,
+      mohon_distribution_item_id,
       type,
     };
 
@@ -172,6 +172,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 />
               </td>
               <td className='text-center'>
+              {mohonDistributionItems.find(
+                  (distributionItem) => distributionItem.mohon_item_id === item.id
+                )?.vendor_name}
                 <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
                   <Form.Select
                     onChange={(e) => handleVendorChange(e, item.id)}
@@ -189,6 +192,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 </FloatingLabel>
               </td>
               <td className='text-center'>
+              {mohonDistributionItems.find(
+                  (distributionItem) => distributionItem.mohon_item_id === item.id
+                )?.type}
+
                 <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
                   <Form.Select
                     onChange={(e) => handleTypeChange(e, item.id)}
