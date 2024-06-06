@@ -13,6 +13,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const [typeSelections, setTypeSelections] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [vendors, setVendors ] = useState([])
+  const [items, setItems ] = useState([])
 
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
@@ -37,7 +38,25 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
   },[])
 
-  console.log(`${store.submitUrl}/vendors`)
+  // get agihan
+  useEffect( () => {
+      //console.log( `${store.submitUrl}/${id}`)
+      axios({
+        'method' : 'get',
+        'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
+    })
+    .then( response => {
+      console.log(response.data)
+      console.log('test')
+      let data = response.data.mohon
+      setItems(data.mohon_distribution_items) // set formValue
+    })
+    .catch ( error => {
+      console.warn(error)
+    })
+  },[agihanRequestId, checkedItems, vendorSelections,typeSelections])
+
+  //console.log(`${store.submitUrl}/vendors`)
 
   if (!mohon) {
     return <div>Loading...</div>;
@@ -247,6 +266,31 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
           ))}
         </tbody>
       </Table>
+
+     <Container className='mt-5'>
+          <h2>AGIHAN</h2>
+          <Table>
+              <thead>
+                  <tr>
+                      <th className='col-3'>NAMA</th>
+                      <th className='col-3'>PERALATAN</th>
+                      <th className='col-3'>JENIS</th>
+                      <th className='col-3'>VENDOR</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {items.length > 0 && items?.map( (item,index) => (
+                  <tr key={index}>
+                      <td>{item.mohon_item.name}</td>
+                      <td>{item.category.name}</td>
+                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                      <td>{item.inventory?.vendor}</td>
+                  </tr>
+                ))}
+
+              </tbody>
+            </Table>
+     </Container>
     </Row>
   );
 };

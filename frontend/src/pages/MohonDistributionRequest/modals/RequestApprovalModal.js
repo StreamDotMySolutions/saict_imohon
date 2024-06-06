@@ -22,13 +22,13 @@ export default function RequestApprovalModal({agihanRequestId}) {
       store.emptyData() // empty store data
       //console.log(id)
 
-        //console.log( `${store.submitUrl}/${id}`)
+        //console.log( `${store.submitUrl}`)
         axios({
             'method' : 'get',
             'url' : `${store.submitUrl}/${agihanRequestId}`
         })
         .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           setItems(mohon.mohon_distribution_items) // set formValue
           setIsLoading(false)
@@ -108,11 +108,11 @@ export default function RequestApprovalModal({agihanRequestId}) {
                   </tr>
               </thead>
               <tbody>
-                {items.map( (item,index) => (
+                {items.length > 0 && items?.map( (item,index) => (
                   <tr key={index}>
                       <td>{item.category.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.inventory.vendor}</td>
+                      <td>{item.inventory?.vendor}</td>
                   </tr>
                 ))}
 

@@ -28,6 +28,12 @@ class MohonDistributionItem extends Model
         return $this->belongsTo(Inventory::class);
     }
     
+     // belongsTo MohonItem
+     public function mohonItem() 
+     {
+         return $this->belongsTo(MohonItem::class);
+     }
+     
 
     public function mohonDistributionItemAcceptance()
     {
