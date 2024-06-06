@@ -90,7 +90,7 @@ export default function CreateModal() {
       })
       .then( response => {
         
-        console.log(response)
+        //console.log(response)
         setRenderedComponent(<SuccessMessage message={response.data.message} />)
 
         // Add a delay of 1 second before closing
@@ -130,7 +130,7 @@ export default function CreateModal() {
          Tambah
         </Button>
   
-        <Modal size={'lg'} show={show} onHide={handleClose}>
+        <Modal size={'xl'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
               <Badge>Tambah</Badge>

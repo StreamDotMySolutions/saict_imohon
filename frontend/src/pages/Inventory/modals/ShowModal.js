@@ -68,7 +68,7 @@ export default function ShowModal({id}) {
          Lihat
         </Button>
   
-        <Modal size={'lg'} show={show} onHide={handleClose}>
+        <Modal size={'xl'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title><Badge>Lihat ID:{id}</Badge></Modal.Title>
           </Modal.Header>

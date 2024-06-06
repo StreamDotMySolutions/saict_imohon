@@ -162,7 +162,7 @@ export default function EditModal({id}) {
          Edit
         </Button>
   
-        <Modal size={'lg'} show={show} onHide={handleClose}>
+        <Modal size={'xl'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title><Badge>Edit ID:{id}</Badge></Modal.Title>
           </Modal.Header>

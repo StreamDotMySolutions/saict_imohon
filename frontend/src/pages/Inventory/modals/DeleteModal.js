@@ -109,7 +109,7 @@ export default function DeleteModal({id}) {
          Padam
         </Button>
   
-        <Modal size={'lg'} show={show} onHide={handleClose}>
+        <Modal size={'xl'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
           <Modal.Title><Badge bg='danger'>Padam ID:{id}</Badge></Modal.Title>
           </Modal.Header>
