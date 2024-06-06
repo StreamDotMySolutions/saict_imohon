@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('mohon_distribution_items', function (Blueprint $table) {
             $table->integer('mohon_item_id')->nullable()->after('id');
-            $table->string('vendor_name')->nullable();
+            $table->string('inventory_id')->nullable();
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('mohon_distribution_items', function (Blueprint $table) {
             $table->dropColumn('mohon_item_id');
-            $table->dropColumn('vendor_name');
+            $table->dropColumn('inventory_id');
         });
     }
 };

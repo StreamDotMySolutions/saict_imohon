@@ -12,6 +12,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const [vendorSelections, setVendorSelections] = useState({});
   const [typeSelections, setTypeSelections] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [vendors, setVendors ] = useState([])
 
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
@@ -23,6 +24,20 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         console.warn(error);
       });
   }, [agihanRequestId, checkedItems, vendorSelections,typeSelections]);
+
+  // get vendors
+  useEffect(() => {
+    axios(`${store.submitUrl}/vendors`)
+      .then((response) => {
+        console.log(response);
+        setVendors(response.data.items);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  },[])
+
+  console.log(`${store.submitUrl}/vendors`)
 
   if (!mohon) {
     return <div>Loading...</div>;
@@ -181,9 +196,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 />
               </td>
               <td className='text-center'>
-                {mohonDistributionItems.find(
+                {/* {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
-                )?.vendor_name}
+                )?.vendor_name} */}
                 <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
                   <Form.Select
                     onChange={(e) => handleVendorChange(e, item.id)}
@@ -194,18 +209,20 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                     }
                     value={vendorSelections[item.id] || mohonDistributionItems.find(
                       (distributionItem) => distributionItem.mohon_item_id === item.id
-                    )?.vendor_name || ''}
+                    )?.inventory_id || ''}
                   >
                     <option value="">Pilih Vendor</option>
-                    <option value="Bessar">Bessar</option>
-                    <option value="Berjaya">Berjaya</option>
+                    {vendors.map((item) => (
+                      <option key={item.id} value={item.id}>{item.vendor}</option>
+                    ))}
+
                   </Form.Select>
                 </FloatingLabel>
               </td>
               <td className='text-center'>
-                {mohonDistributionItems.find(
+                {/* {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
-                )?.type}
+                )?.type} */}
 
                 <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
                   <Form.Select

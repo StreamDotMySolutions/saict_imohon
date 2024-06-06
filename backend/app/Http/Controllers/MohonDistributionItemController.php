@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MohonDistributionItem;
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Services\MohonDistributionItemService;
 use App\Http\Requests\MohonDistributionItem\StoreRequest;
 use App\Http\Requests\MohonDistributionItem\UpdateRequest;
@@ -107,7 +108,7 @@ class MohonDistributionItemController extends Controller
             'category_id' => $request->input('category_id') ?? null,
             'mohon_item_id' => $request->input('mohon_item_id') ?? null,
             'type' => $request->input('type') ?? null,
-            'vendor_name' => $request->input('vendor') ?? null,
+            'inventory_id' => $request->input('vendor') ?? null,
             'description' => $request->input('selectedItems.0.category_name') ?? null
         ]);
         \Log::info($request);
@@ -129,21 +130,21 @@ class MohonDistributionItemController extends Controller
         }
         
         if ($request->has('vendor')) {
-            $updateData['vendor_name'] = $request->input('vendor');
+            $updateData['inventory_id'] = $request->input('vendor');
         }
         
         if (!empty($updateData)) {
             MohonDistributionItem::where('id', $mohonDistributionItemId)->update($updateData);
         }
     
-        \Log::info('api sync data. ' );
-        \Log::info($request);
+        //\Log::info('api sync data. ' );
+        //\Log::info($request);
     }
 
     public function remove(Request $request)
     {
         MohonDistributionItem::where('mohon_item_id', $request->input('itemId'))->delete();
-        \Log::info($request);
+        //\Log::info($request);
     }
 
     public function items($mohonDistributionRequestId)
@@ -158,6 +159,19 @@ class MohonDistributionItemController extends Controller
         }else{
             return response()->json(['message' => 'No assigned items'],404);
         }
+
+    }
+
+    public function vendors()
+    {
+
+        /*
+        * Get vendors name from Inventory
+        */
+
+        $items = Inventory::all();
+
+        return response()->json(['items' => $items]);
 
     }
 
