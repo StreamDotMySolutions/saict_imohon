@@ -51,6 +51,16 @@ class StoreRequest extends FormRequest
             'received_on.before_or_equal' => 'Tarikh penerimaan peralatan mesti di antara tarikh mula dan tarikh tamat kontrak',
             'total.required' => 'Sila nyatakan jumlah dalam integer',
             'total.integer' => 'Sila nyatakan jumlah dalam integer',
+
+            'contract_name.required' => 'Sila nyatakan nama kontrak' ,
+            'contract_number.required' => 'Sila nyatakan nombor kontrak' ,
+            'contract_pic.required' => 'Sila nyatakan nama ( Person In Charge )' ,
+            'contract_owner.required' => 'Sila nyatakan nama pemilik kontrak' ,
+            'email.required' => 'Alamat email diperlukan' ,
+            'phone.required' => 'No telefon diperlukan' ,
+            'model.required' => 'Model peralatan diperlukan' ,
+            'category_id.required' => 'Pilih peralatan' ,
+            
         ];
     }
 }

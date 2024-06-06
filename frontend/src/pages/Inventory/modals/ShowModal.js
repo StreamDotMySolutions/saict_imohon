@@ -43,6 +43,7 @@ export default function ShowModal({id}) {
         store.setValue('contract_number',response.data.inventory.contract_number)
         store.setValue('contract_pic',response.data.inventory.contract_pic)
         store.setValue('contract_owner',response.data.inventory.contract_owner)
+        store.setValue('category_id',response.data.inventory.category_id)
         setIsLoading(false)
         
       })

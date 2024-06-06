@@ -62,11 +62,19 @@ const InventoryForm = () => {
         </Row>
 
         <Row  className='p-2 mb-3'>
-            <Col>
+            <Col className='col-6'>
                 <Item options={categories} />    
             </Col>
-            <Col><Model /></Col>
-            <Col><Total /></Col>
+            <Col className='col-6'>
+                <Model />   
+            </Col>
+        </Row>
+
+   
+        <Row className='p-2 mb-3'>
+            <Col className='col-6'>
+                <Total />  
+            </Col>
         </Row>
 
         <h3>Tarikh</h3>

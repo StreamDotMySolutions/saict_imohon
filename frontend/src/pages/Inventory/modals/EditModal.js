@@ -33,6 +33,7 @@ export default function EditModal({id}) {
         'contract_number': 'contract_number',
         'contract_pic': 'contract_pic',
         'contract_owner': 'contract_owner',
+        'category_id': 'category_id',
       };
     
       for (const key in valueMappings) {

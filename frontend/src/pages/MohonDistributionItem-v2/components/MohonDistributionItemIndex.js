@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Col, FloatingLabel, Form, Row, Table } from 'react-bootstrap';
 import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
+import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
+import RequestApprovalModal from '../../MohonDistributionRequest/modals/RequestApprovalModal';
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const store = useMohonItemStore();
@@ -135,6 +137,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       <Container>
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN</h2></Col>
+          <Col className="text-end">
+            <RequestApprovalModal />
+          </Col>
         </Row>
       </Container>
 
