@@ -24,7 +24,9 @@ use App\Http\Controllers\{
     MohonDistributionRequestController,
     MohonDistributionItemController,
     MohonDistributionApprovalController,
-    AdministrationMohonController
+    AdministrationMohonController,
+
+    AgihanController,
 };
 
 
@@ -198,3 +200,8 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 
 });
 
+
+// Role system|admin | agihan
+Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
+    Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+});

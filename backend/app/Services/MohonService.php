@@ -232,7 +232,9 @@ class MohonService
                             $query->withCount('mohonDistributionItems');
                             $query->with([
                                 'user.userProfile',
-                                'mohonDistributionItems.category'
+                                'mohonDistributionItems.category',
+                                'mohonDistributionItems.inventory',
+                                'mohonDistributionItems.mohonItem'
                             ]);
                             
                         },

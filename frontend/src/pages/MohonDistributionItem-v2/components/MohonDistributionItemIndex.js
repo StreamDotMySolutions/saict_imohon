@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Col, FloatingLabel, Form, Row, Table } from 'react-bootstrap';
+import { Container, Col, FloatingLabel, Form, Row, Table, Badge } from 'react-bootstrap';
 import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
@@ -26,11 +26,12 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
   }, [agihanRequestId, checkedItems, vendorSelections,typeSelections]);
 
+
   // get vendors
   useEffect(() => {
     axios(`${store.submitUrl}/vendors`)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setVendors(response.data.items);
       })
       .catch((error) => {
@@ -46,8 +47,6 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
     })
     .then( response => {
-      console.log(response.data)
-      console.log('test')
       let data = response.data.mohon
       setItems(data.mohon_distribution_items) // set formValue
     })
@@ -172,7 +171,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN</h2></Col>
           <Col className="text-end">
-            <RequestApprovalModal agihanRequestId={agihanRequestId} />
+            
           </Col>
         </Row>
       </Container>
@@ -186,7 +185,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
             <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th>
             <th className='text-center'>AGIHAN</th>
             <th className='text-center'>VENDOR</th>
-            <th className='text-center'>TYPE</th>
+            {/* <th className='text-center'>TYPE</th> */}
           </tr>
         </thead>
         <tbody>
@@ -206,6 +205,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 <Form.Check
                   name='mohon_item_id'
                   value={item.id}
+                  disabled={ mohon.mohon_distribution_approval.step == 1}
                   onChange={(e) => handleItemChange(e, item.id)}
                   checked={
                     mohonDistributionItems.some(
@@ -224,7 +224,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                     disabled={
                       !mohonDistributionItems.some(
                         (distributionItem) => distributionItem.mohon_item_id === item.id
-                      )
+                      ) || mohon.mohon_distribution_approval.step === 1
                     }
                     value={vendorSelections[item.id] || mohonDistributionItems.find(
                       (distributionItem) => distributionItem.mohon_item_id === item.id
@@ -238,10 +238,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   </Form.Select>
                 </FloatingLabel>
               </td>
-              <td className='text-center'>
-                {/* {mohonDistributionItems.find(
-                  (distributionItem) => distributionItem.mohon_item_id === item.id
-                )?.type} */}
+              {/* <td className='text-center'>
+               
 
                 <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
                   <Form.Select
@@ -261,35 +259,49 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                     <option value="replacement">Replacement</option>
                   </Form.Select>
                 </FloatingLabel>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
       </Table>
 
-     <Container className='mt-5'>
-          <h2>AGIHAN</h2>
-          <Table>
-              <thead>
-                  <tr>
-                      <th className='col-3'>NAMA</th>
-                      <th className='col-3'>PERALATAN</th>
-                      <th className='col-3'>JENIS</th>
-                      <th className='col-3'>VENDOR</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {items.length > 0 && items?.map( (item,index) => (
-                  <tr key={index}>
-                      <td>{item.mohon_item.name}</td>
-                      <td>{item.category.name}</td>
-                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.inventory?.vendor}</td>
-                  </tr>
-                ))}
+     <Container className='mt-5 border border-1 p-3 rounded' style={{ backgroundColor:"#fafafa"}}>
+      
+      <div>
+        <Row className="d-flex justify-content-between">
+          <Col className="text-start"><h2>AGIHAN</h2></Col>
+          <Col className="text-end">
+              { mohon.mohon_distribution_approval.step === 0 ?
+                <RequestApprovalModal agihanRequestId={agihanRequestId} />
+                :
+                <Badge>
+                  Sudah dimohon pada { mohon.mohon_distribution_approval.created_at }
+                </Badge>
+              }
+          </Col>
+        </Row>
+      </div>
 
-              </tbody>
-            </Table>
+      <Table>
+          <thead>
+              <tr>
+                  <th className='col-3'>NAMA</th>
+                  <th className='col-3'>PERALATAN</th>
+                  <th className='col-3'>VENDOR</th>
+              </tr>
+          </thead>
+          <tbody>
+            {items.length > 0 && items?.map( (item,index) => (
+              <tr key={index}>
+                  <td>{item.mohon_item.name}</td>
+                  <td>{item.category.name}</td>
+            
+                  <td>{item.inventory?.vendor}</td>
+              </tr>
+            ))}
+
+          </tbody>
+        </Table>
      </Container>
     </Row>
   );

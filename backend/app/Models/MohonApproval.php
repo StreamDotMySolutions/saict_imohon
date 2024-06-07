@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class MohonApproval extends Model
 {
@@ -15,6 +16,11 @@ class MohonApproval extends Model
         // 'created_at' => 'datetime:Y-m-d', // Format as datetime
         // 'updated_at' => 'datetime:Y-m-d', // Format as datetime
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d M Y');
+    }
 
     public function mohonRequest() 
     {

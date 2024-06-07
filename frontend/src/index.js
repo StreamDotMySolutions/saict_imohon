@@ -65,6 +65,8 @@ import MohonDistributionRequest from './pages/MohonDistributionRequest'
 import MohonDistributionItem from './pages/MohonDistributionItem-v2'
 
 import Agihan from './pages/Agihan'
+import Agihan2 from './pages/Agihan-v2'
+import ShowAgihan from './pages/Agihan-v2/show.js';
 
 
 
@@ -123,6 +125,9 @@ export default function App() {
                 <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
 
                 <Route path="/agihan/:mohonRequestId" element={<Agihan/>} />
+
+                <Route path="/agihan-2" element={<Agihan2/>} />
+                <Route path="/agihan-2/:mohonRequestId" element={<ShowAgihan/>} />
 
 
                 <Route path="/inventories" element={<Inventory />} />
