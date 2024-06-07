@@ -21,7 +21,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setMohon(response.data.mohon);
       })
       .catch((error) => {
@@ -34,10 +34,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   // check using mohon_item_id
   useEffect(() => {
     if (mohon) {
-      console.log('check');
+      //console.log('check');
       axios(`${store.submitUrl}/${mohon.mohon_request_id}/${agihanRequestId}/check`)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           setAssignedItems(response.data.items)
         })
         .catch((error) => {
