@@ -274,9 +274,16 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               { mohon.mohon_distribution_approval.step === 0 ?
                 <RequestApprovalModal agihanRequestId={agihanRequestId} />
                 :
+                <>
                 <Badge>
                   Sudah dimohon pada { mohon.mohon_distribution_approval.created_at }
                 </Badge>
+   
+                {' '}
+                <Badge className='bg-dark'>
+                STATUS : { mohon.mohon_distribution_approval.status.toUpperCase() }
+                </Badge>
+                </>
               }
           </Col>
         </Row>

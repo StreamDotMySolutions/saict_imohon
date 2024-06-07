@@ -28,7 +28,7 @@ const ShowAgihan = () => {
     },[])
 
 
-    console.log(items)
+    //console.log(items)
 
     const BreadcrumbData = () => {
         return (
@@ -77,10 +77,8 @@ const ShowAgihan = () => {
               <tr>
                   <th style={{ 'width': '20px'}}>ID</th>
                   <th>Nama</th>
-                  <th className='text-center'>Peringkat</th>
-                  <th>Status</th>
-                  <th>Tarikh</th>
-                  <th>Peralatan</th>
+                  <th className='text-center'>Kelulusan</th>
+                  <th className='text-center'>Peralatan</th>
                  
               </tr>
           </thead>
@@ -90,9 +88,33 @@ const ShowAgihan = () => {
                   <tr key={index}>
                       <td> <span className="badge bg-primary">{item.id}</span></td>
                       <td>{item.user.name}</td>
-                      <td className='text-center'>{item.step}</td>
-                      <td>{item.status}</td>
-                      <td>{item.created_at}</td>
+          
+                      <td>
+
+                      <Table>
+                          <thead>
+                            <tr>
+                        
+                              <th className='text-center'>Peringkat</th>
+                              <th className='text-center'>Tarikh</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {item.mohon_distribution_approvals.map( (approval, key) => (
+                              <tr key={key}>
+                                  <td className='text-center'>{approval.step}</td>
+                                  <td className='text-center'>{approval.created_at}</td>
+                                  <td>{approval.status}</td>
+                              </tr>
+                            ))}
+                           
+                          </tbody>
+                        </Table>
+
+                      </td>
+               
                       <td>
 
                         <Table>
