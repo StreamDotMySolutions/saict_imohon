@@ -15,7 +15,7 @@ const Index = () => {
     useEffect(() => {
         axios(apiUrl) // get mohon data from Agihan controller
         .then( response => {
-            console.log(response)
+            //console.log(response)
             let mohon = response.data.items
             setMohons(mohon.data)
             setLinks(mohon.links)

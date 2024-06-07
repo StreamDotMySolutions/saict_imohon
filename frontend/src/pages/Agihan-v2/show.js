@@ -17,7 +17,7 @@ const ShowAgihan = () => {
     useEffect( () => {
       axios(`${store.url}/mohon/${mohonRequestId}`)
       .then( response => {
-          console.log(response)
+          //console.log(response)
           let mohon = response.data.mohon
           setItems(mohon.mohon_items)
           setMohonApprovals(mohon.mohon_approvals)
@@ -129,7 +129,7 @@ const ShowAgihan = () => {
 
                           <tbody>
                             {item.mohon_distribution_items.map( (distributionItem, key) => (
-                              <tr>
+                              <tr key={key}>
                                   <td>{distributionItem.mohon_item.name}</td>
                                   <td>{distributionItem.category.name}</td>
                                   <td>{distributionItem.inventory.vendor}</td>
@@ -261,7 +261,7 @@ const ShowAgihan = () => {
             <h2>Maklumat Kelulusan Permohonan </h2>
             <MohonApprovals />
 
-            <h2>Maklumat Peralatan ( { mohon && mohon.mohon_items_count} unit )</h2>
+            <h2>Maklumat Peralatan Yang Di Pohon ( { mohon && mohon.mohon_items_count} unit )</h2>
             <MohonItems />
   
             <h2>Maklumat Agihan</h2>

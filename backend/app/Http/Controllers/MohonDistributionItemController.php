@@ -111,7 +111,7 @@ class MohonDistributionItemController extends Controller
             'inventory_id' => $request->input('vendor') ?? null,
             'description' => $request->input('selectedItems.0.category_name') ?? null
         ]);
-        \Log::info($request);
+        //\Log::info($request);
    
     }
 
@@ -171,6 +171,22 @@ class MohonDistributionItemController extends Controller
 
         $items = Inventory::all();
 
+        return response()->json(['items' => $items]);
+
+    }
+
+    public function listMohonItemsInMohonDistributionItems($mohonRequestId, $agihanRequestId)
+    {
+        /*
+        * To list MohonItems being assigned in MohonDistributionItems
+        */
+        //\Log::info($mohonRequestId);
+        $items = MohonDistributionItem::query()
+                            ->whereHas('mohonItem', function ($query) use ($mohonRequestId) {
+                                $query->where('mohon_request_id', $mohonRequestId);
+                            })        
+                            ->whereNot('mohon_distribution_request_id',$agihanRequestId) // exclude 
+                            ->get();
         return response()->json(['items' => $items]);
 
     }

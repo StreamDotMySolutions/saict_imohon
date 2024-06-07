@@ -14,11 +14,14 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [vendors, setVendors ] = useState([])
   const [items, setItems ] = useState([])
+  const [assignedItems, setAssignedItems ] = useState([])
 
+
+  // list mohonDistributionRequest under $agihanRequestId
   useEffect(() => {
     axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       .then((response) => {
-        //console.log(response);
+        console.log(response);
         setMohon(response.data.mohon);
       })
       .catch((error) => {
@@ -26,7 +29,23 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
   }, [agihanRequestId, checkedItems, vendorSelections,typeSelections]);
 
-
+  
+    // to check mohonDistributionItem being assigned to other MohonDistributionRequest
+  // check using mohon_item_id
+  useEffect(() => {
+    if (mohon) {
+      console.log('check');
+      axios(`${store.submitUrl}/${mohon.mohon_request_id}/${agihanRequestId}/check`)
+        .then((response) => {
+          console.log(response);
+          setAssignedItems(response.data.items)
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+  }, [mohon]);
+  
   // get vendors
   useEffect(() => {
     axios(`${store.submitUrl}/vendors`)
@@ -171,7 +190,6 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN</h2></Col>
           <Col className="text-end">
-            
           </Col>
         </Row>
       </Container>
@@ -200,17 +218,38 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
                 )?.id}
+
+                {assignedItems.find(
+                  (assignedItem) => assignedItem.mohon_item_id === item.id
+                )?.id ? (
+                  <p>Item is assigned: {assignedItems.find(
+                    (assignedItem) => assignedItem.mohon_item_id === item.id
+                  )?.id}</p>
+                ) : (
+                  <p>Item is not assigned</p>
+                )}
+
               </td>
               <td className='text-center'>
                 <Form.Check
                   name='mohon_item_id'
                   value={item.id}
-                  disabled={ mohon.mohon_distribution_approval.step == 1}
+                  disabled={ mohon.mohon_distribution_approval.step != 0 
+                            ||
+                            assignedItems.some(
+                              (assignedItem) => assignedItem.mohon_item_id === item.id
+                            )
+                          }
                   onChange={(e) => handleItemChange(e, item.id)}
                   checked={
                     mohonDistributionItems.some(
                       (distributionItem) => distributionItem.mohon_item_id === item.id
+                    ) ||
+
+                    assignedItems.some(
+                      (assignedItem) => assignedItem.mohon_item_id === item.id
                     )
+                  
                   }
                 />
               </td>
@@ -224,11 +263,17 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                     disabled={
                       !mohonDistributionItems.some(
                         (distributionItem) => distributionItem.mohon_item_id === item.id
-                      ) || mohon.mohon_distribution_approval.step === 1
+                      ) || mohon.mohon_distribution_approval.step != 0
                     }
                     value={vendorSelections[item.id] || mohonDistributionItems.find(
                       (distributionItem) => distributionItem.mohon_item_id === item.id
-                    )?.inventory_id || ''}
+                    )?.inventory_id  
+                    ||
+                    assignedItems[item.id] || assignedItems.find(
+                      (assignedItem) => assignedItem.mohon_item_id === item.id
+                    )?.inventory_id  
+                    ||
+                    ''}
                   >
                     <option value="">Pilih Vendor</option>
                     {vendors.map((item) => (
