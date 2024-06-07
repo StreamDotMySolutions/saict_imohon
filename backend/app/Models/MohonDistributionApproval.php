@@ -12,7 +12,7 @@ class MohonDistributionApproval extends Model
 
     protected $casts = [
         //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
-        'created_at' => 'datetime:Y-m-d', // Format as datetime
+        'created_at' => 'datetime:d M Y', // Format as datetime
         'updated_at' => 'datetime:Y-m-d', // Format as datetime
     ];
 
