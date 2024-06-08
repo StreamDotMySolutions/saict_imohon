@@ -4,9 +4,11 @@ import useStore from './store';
 import axios from '../../libs/axios';
 import { Link, useParams } from 'react-router-dom';
 
-const ShowAgihan = () => {
+const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
+
+    const { mohonRequestId: paramMohonRequestId } = useParams();
+    const mohonRequestId = propMohonRequestId || paramMohonRequestId;
     const store = useStore()
-    const { mohonRequestId } = useParams()
     const [items,setItems] = useState([])
     const [mohonApprovals,setMohonApprovals] = useState([])
     const [distributionRequests,setDistributionRequests] = useState([])

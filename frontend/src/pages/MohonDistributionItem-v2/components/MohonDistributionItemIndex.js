@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Col, FloatingLabel, Form, Row, Table, Badge } from 'react-bootstrap';
+import { Container, Col, FloatingLabel, Form, Row, Table, Badge, Button } from 'react-bootstrap';
 import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
@@ -316,8 +316,16 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>AGIHAN</h2></Col>
           <Col className="text-end">
+           
               { mohon.mohon_distribution_approval.step === 0 ?
-                <RequestApprovalModal agihanRequestId={agihanRequestId} />
+                <>
+                  { items && items.length > 0 ? 
+                    <RequestApprovalModal agihanRequestId={agihanRequestId} />
+                  :
+                  <Button variant={'info'} disabled>Mohon</Button>
+                  }
+                </>
+                
                 :
                 <>
                 <Badge>

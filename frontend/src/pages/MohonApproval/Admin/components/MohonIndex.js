@@ -5,6 +5,7 @@ import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
+import ReportingModal from '../modals/ReportingModal'
 
 const MohonIndex = () => {
     const store = useMohonStore()
@@ -68,7 +69,9 @@ const MohonIndex = () => {
                                 {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
                                 </Link>*/}
-                        
+
+                                <ReportingModal id={mohon.id} />    
+                                {' '}
                                 <ViewModal id={mohon.id} />
                                 {' '}
                                 {mohon.mohon_approval?.step == 4 ?
