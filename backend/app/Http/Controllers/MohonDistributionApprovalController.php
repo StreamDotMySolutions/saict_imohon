@@ -37,6 +37,7 @@ class MohonDistributionApprovalController extends Controller
 
     /*
     * Boss processing Request For Approval from Admin
+    * If Approved, will create new relationship with MohonDistributionRequest, MohonDistributionDelivery
     */
     public function byBoss(UpdateRequest $request,$mohonDistributionRequestId)
     {

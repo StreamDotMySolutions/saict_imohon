@@ -55,12 +55,12 @@ const Index = () => {
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th className='col-2'>Nama Pemohon</th>
-                        <th className='col-4'>Email</th>
+                        <th className='col-2'>Email</th>
                     
-                        <th className='text-center' >Kelulusan Agihan</th>
+                        <th className='text-center' >Kelulusan Agihan Terkini</th>
                         <th style={{ 'width': '50px'}}>Jumlah Peralatan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tarikh</th>
-                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
+                        <th className='text-center 6-col'>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -79,10 +79,14 @@ const Index = () => {
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 
+                                <Button size="sm" variant="outline-success">Penerimaan</Button>
+                                {' '}
+                                <Button size="sm" variant="outline-primary">Penghantaran</Button>
+                                { ' '}
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_distribution_items_count} step={mohon.mohon_distribution_approval.step}/>
                                 {' '} */}
                                 <Link to={`/mohon-distribution-items/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Peralatan</Button>
+                                    <Button size='sm' variant='outline-dark'>Peralatan</Button>
                                 </Link>
                                 {/* {' '}
                                 <EditModal id={mohon.id} step={mohon.mohon_distribution_approval?.step}/> */}

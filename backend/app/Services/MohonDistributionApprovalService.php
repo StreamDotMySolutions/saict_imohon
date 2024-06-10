@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\MohonDistributionApproval;
 use App\Models\MohonDistributionRequest;
+use App\Models\MohonDistributionDelivery;
 
 class MohonDistributionApprovalService
 {
@@ -58,6 +59,14 @@ class MohonDistributionApprovalService
         if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
   
         $user =  auth('sanctum')->user();
+
+        // create new record in MohonDistributionDelivery
+        return MohonDistributionDelivery::create([
+            'mohon_distribution_request_id' => $mohonDistributionRequestId
+        ]);
+
+        // role=boss
+        // create new record with step=2
         return MohonDistributionApproval::create([
             'mohon_distribution_request_id' => $mohonDistributionRequestId,
             'user_id' => $user->id, // role is Boss

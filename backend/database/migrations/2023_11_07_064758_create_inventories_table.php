@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('item')->nullable(); // peralatan
             $table->integer('total')->nullable(); // jumlah
             $table->date('date_start')->nullable(); // tender mula
-            $table->string('date_end')->nullable(); // tender tamat
+            $table->date('date_end')->nullable(); // tender tamat
             $table->date('received_on')->nullable(); // bila barang masuk stor
             $table->timestamps();
         });

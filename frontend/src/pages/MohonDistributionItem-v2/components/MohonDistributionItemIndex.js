@@ -3,7 +3,8 @@ import { Container, Col, FloatingLabel, Form, Row, Table, Badge, Button } from '
 import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
-import RequestApprovalModal from '../../MohonDistributionRequest/modals/RequestApprovalModal';
+import RequestApprovalModal from '../modals/RequestApprovalModal';
+
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const store = useMohonItemStore();
@@ -27,7 +28,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       .catch((error) => {
         console.warn(error);
       });
-  }, [agihanRequestId, checkedItems, vendorSelections,typeSelections]);
+  }, [agihanRequestId, checkedItems, vendorSelections,typeSelections,store.getValue('refresh')]);
 
   
     // to check mohonDistributionItem being assigned to other MohonDistributionRequest
@@ -72,7 +73,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     .catch ( error => {
       console.warn(error)
     })
-  },[agihanRequestId, checkedItems, vendorSelections,typeSelections])
+  },[agihanRequestId, checkedItems, vendorSelections,typeSelections, store.getValue('refresh') ])
 
   //console.log(`${store.submitUrl}/vendors`)
 
@@ -316,7 +317,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN AGIHAN</h2></Col>
           <Col className="text-end">
-           
+      
               { mohon.mohon_distribution_approval.step === 0 ?
                 <>
                   { items && items.length > 0 ? 
