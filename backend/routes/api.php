@@ -23,6 +23,7 @@ use App\Http\Controllers\{
     MohonApprovalController,
     MohonDistributionRequestController,
     MohonDistributionItemController,
+    MohonDistributionItemDeliveryController,
     MohonDistributionApprovalController,
     AdministrationMohonController,
 
@@ -134,9 +135,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
     
-    //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']);
-    //Route::post('/mohon-distribution-request/by-admin/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
-
+    Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemDeliveryController::class, 'updateOrCreate']);
+   
     // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
     Route::get('/applications', [ApplicationController::class, 'index']);

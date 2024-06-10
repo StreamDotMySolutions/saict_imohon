@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mohon_distribution_delivery', function (Blueprint $table) {
+        Schema::create('mohon_distribution_item_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->integer('mohon_distribution_request_id');
+            $table->integer('mohon_distribution_item_id');
+            $table->string('pic_name')->nullable();
+            $table->string('pic_phone')->nullable();  
             $table->date('date_start')->nullable(); 
             $table->date('date_end')->nullable(); 
             $table->timestamps();
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mohon_distribution_delivery');
+        Schema::dropIfExists('mohon_distribution_item_deliveries');
     }
 };

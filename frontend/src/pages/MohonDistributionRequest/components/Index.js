@@ -9,6 +9,7 @@ import CreateModal from '../modals/CreateModal'
 import { Link, useParams } from 'react-router-dom'
 import ApprovalModal from '../modals/ApprovalModal'
 import { AgihanApprovalStatus } from '../../../components/global/AgihanApproval'
+import DeliveryDateModal from '../modals/DeliveryDateModal'
 
 const Index = () => {
     const { mohonRequestId } = useParams()
@@ -79,9 +80,7 @@ const Index = () => {
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 
-                                <Button size="sm" variant="outline-success">Penerimaan</Button>
-                                {' '}
-                                <Button size="sm" variant="outline-primary">Penghantaran</Button>
+                         
                                 { ' '}
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_distribution_items_count} step={mohon.mohon_distribution_approval.step}/>
                                 {' '} */}

@@ -4,10 +4,12 @@ import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
 import RequestApprovalModal from '../modals/RequestApprovalModal';
+import UpdateDistributionItemModal from '../modals/UpdateDistributionItemModal'
 
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   const store = useMohonItemStore();
+
   const [mohon, setMohon] = useState(null);
   const [checkedItems, setCheckedItems] = useState({});
   const [vendorSelections, setVendorSelections] = useState({});
@@ -348,7 +350,12 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               <tr>
                   <th className='col-3'>NAMA</th>
                   <th className='col-3'>PERALATAN</th>
-                  <th className='col-3'>VENDOR</th>
+                  <th className='col-4'>VENDOR</th>
+                  <th>TARIKH MULA</th>
+                  <th>TARIKH TAMAT</th>
+                  <th className='col-2'>NAMA PIC</th>
+                  <th>TELEFON</th>
+                  <th className='col-3'><span className='float-end'>TINDAKAN</span></th>
               </tr>
           </thead>
           <tbody>
@@ -356,15 +363,27 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               <tr key={index}>
                   <td>{item.mohon_item.name}</td>
                   <td>{item.category.name}</td>
-            
                   <td>{item.inventory?.vendor}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <span  className='float-end'>
+                      <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
+                    </span>
+                    
+                  </td>
               </tr>
             ))}
 
           </tbody>
         </Table>
      </Container>
+
+  
     </Row>
+    
   );
 };
 

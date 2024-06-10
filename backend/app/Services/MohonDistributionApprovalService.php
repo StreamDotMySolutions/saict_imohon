@@ -60,11 +60,6 @@ class MohonDistributionApprovalService
   
         $user =  auth('sanctum')->user();
 
-        // create new record in MohonDistributionDelivery
-        return MohonDistributionDelivery::create([
-            'mohon_distribution_request_id' => $mohonDistributionRequestId
-        ]);
-
         // role=boss
         // create new record with step=2
         return MohonDistributionApproval::create([

@@ -45,7 +45,10 @@ class MohonDistributionRequestService
         $paginate = MohonDistributionRequest::query(); // Intiate Paginate
         $requests = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonDistributionApproval'])
+                    ->with([
+                        'user.userProfile',
+                        'mohonDistributionApproval'
+                        ])
 
                     // only list where step = 1
                     // ->whereHas('mohonApproval', function ($query) {

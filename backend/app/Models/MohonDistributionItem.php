@@ -39,4 +39,9 @@ class MohonDistributionItem extends Model
     {
         return $this->hasOne(MohonDistributionItemAcceptance::class);
     }
+
+    public function mohonDistributionItemDelivery()
+    {
+        return $this->hasOne(MohonDistributionItemDelivery::class);
+    }
 }
