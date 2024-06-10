@@ -48,7 +48,7 @@ export function AgihanApprovalStatus({ step, currentStatus }) {
             </button> */}
             {/* {step}| {currentStatus} */}
 
-            <div style={{ width: '150px' }} className="text-center p-2 rounded border border-1 border-secondary">
+            <div  className="text-center p-2 rounded border border-1 border-light border-secondary">
                 <small>{user} <span className="badge bg-secondary">{status}</span></small>
             </div>
         </>

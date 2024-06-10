@@ -25,7 +25,7 @@ const Index = () => {
                 } 
             )
             .then( response => { // response block
-                //console.log(response.data.mohons.data)   // output to console  
+                console.log(response.data.mohons.data)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -54,12 +54,13 @@ const Index = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '120px'}}>User</th>
-                        <th style={{ 'width': '200px'}}>Title</th>
-                        <th>Description</th>
-                        <th className='text-center' style={{ 'width': '150px'}}>Kelulusan <br /> Agihan</th>
-                        <th style={{ 'width': '50px'}}>Peralatan</th>
-                        <th className='text-center' style={{ 'width': '350px'}}>Actions</th>
+                        <th className='col-2'>Nama Pemohon</th>
+                        <th className='col-4'>Email</th>
+                    
+                        <th className='text-center' >Kelulusan Agihan</th>
+                        <th style={{ 'width': '50px'}}>Jumlah Peralatan</th>
+                        <th className='text-center' style={{ 'width': '100px'}}>Tarikh</th>
+                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -67,13 +68,15 @@ const Index = () => {
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
+                            <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.email}</td>
-                            <td>{mohon.title}</td>
-                            <td>{mohon.description}</td>
+                    
                             <td className='text-center'>
+                              
                                 <AgihanApprovalStatus step={mohon?.mohon_distribution_approval?.step} currentStatus={mohon?.mohon_distribution_approval?.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                            <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_distribution_items_count} step={mohon.mohon_distribution_approval.step}/>
