@@ -1,18 +1,19 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
-import useMohonStore from '../store'
+import useMohonItemStore from '../store'
+import { PicName, PicPhone, DateStart, DateEnd, InputCheck } from '../components/Input'
 
 export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
 
-    const store = useMohonStore()
+    const store = useMohonItemStore()
     const errors = store.getValue('errors')
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([])
+    const [data, setData] = useState()
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -24,7 +25,12 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
       // get mohonDistributionItem detail
       axios(`${store.mohonDistributionItemUrl}/show/${mohonDistributionItemId}`)
       .then( response => {
-        console.log(response)
+        //console.log(response)
+        let delivery = response.data.item.mohon_distribution_item_delivery
+        store.setValue('pic_name', delivery.pic_name)
+        store.setValue('pic_phone', delivery.pic_phone)
+        store.setValue('date_start', delivery.date_start)
+        store.setValue('date_end', delivery.date_end)
       })
       .catch( error => {
         console.warn(error)
@@ -44,6 +50,25 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
       setIsLoading(true)
       const formData = new FormData()
 
+      // Pic Name
+      if (store.getValue('pic_name') != null ) {
+        formData.append('pic_name', store.getValue('pic_name'));
+      }
+
+      // Pic Phone
+      if (store.getValue('pic_phone') != null ) {
+        formData.append('pic_phone', store.getValue('pic_phone'));
+      }
+
+      // Date Start
+      if (store.getValue('date_start') != null ) {
+        formData.append('date_start', store.getValue('date_start'));
+      }
+
+      // Date End
+      if (store.getValue('date_end') != null ) {
+        formData.append('date_end', store.getValue('date_end'));
+      }
 
       // ackknowledge
       if (store.getValue('acknowledge') != null ) {
@@ -77,6 +102,9 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
             store.setValue('errors',  error.response.data.errors )
           }
         })
+        .finally(
+          console.log(store.errors)
+        )
     }
 
   
@@ -94,20 +122,25 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
           </Modal.Header>
 
           <Modal.Body>
+
+            <Col>
+              <PicName />
+            </Col>
+            <Col className='mt-2'>
+              <PicPhone />
+            </Col>
+            <Col className='mt-2'>
+              <DateStart />
+            </Col>
+            <Col className='mt-2'>
+              <DateEnd />
+            </Col>
           
           </Modal.Body>
           
           <Modal.Footer>
-            <Form.Check
-                className='me-4'
-                isInvalid={errors?.hasOwnProperty('acknowledge')}
-                reverse
-                disabled={isLoading}
-                label="Saya mengesahkan telah memeriksa permohonan ini"
-                type="checkbox"
-                onClick={ () => useMohonStore.setState({errors:null}) }
-                onChange={ (e) => store.setValue('acknowledge', true) }
-              />
+ 
+            <InputCheck isLoading={isLoading} />
 
             <Button 
                 disabled={isLoading}

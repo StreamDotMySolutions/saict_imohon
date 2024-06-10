@@ -29,11 +29,14 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       })
       .catch((error) => {
         console.warn(error);
-      });
+      })
+      .finally(
+        store.setValue('refresh', false)
+      )
   }, [agihanRequestId, checkedItems, vendorSelections,typeSelections,store.getValue('refresh')]);
 
   
-    // to check mohonDistributionItem being assigned to other MohonDistributionRequest
+  // to check mohonDistributionItem being assigned to other MohonDistributionRequest
   // check using mohon_item_id
   useEffect(() => {
     if (mohon) {
@@ -58,7 +61,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       })
       .catch((error) => {
         console.warn(error);
-      });
+      })
   },[])
 
   // get agihan
@@ -69,12 +72,16 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
     })
     .then( response => {
+      //console.log(response)
       let data = response.data.mohon
       setItems(data.mohon_distribution_items) // set formValue
     })
     .catch ( error => {
       console.warn(error)
     })
+    .finally(
+      store.setValue('refresh', false)
+    )
   },[agihanRequestId, checkedItems, vendorSelections,typeSelections, store.getValue('refresh') ])
 
   //console.log(`${store.submitUrl}/vendors`)
@@ -364,10 +371,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   <td>{item.mohon_item.name}</td>
                   <td>{item.category.name}</td>
                   <td>{item.inventory?.vendor}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{item.mohon_distribution_item_delivery.date_start}</td>
+                  <td>{item.mohon_distribution_item_delivery.date_end}</td>
+                  <td>{item.mohon_distribution_item_delivery.pic_name}</td>
+                  <td>{item.mohon_distribution_item_delivery.pic_phone}</td>
                   <td>
                     <span  className='float-end'>
                       <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
