@@ -329,11 +329,11 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       
               { mohon.mohon_distribution_approval.step === 0 ?
                 <>
-                  { items && items.length > 0 ? 
+                  {items && items.length > 0 && items.every(item => item.inventory?.vendor) ? (
                     <RequestApprovalModal agihanRequestId={agihanRequestId} />
-                  :
-                  <Button variant={'info'} disabled>Mohon</Button>
-                  }
+                  ) : (
+                    <Button variant={'info'} disabled>Mohon</Button>
+                  )}
                 </>
                 
                 :
