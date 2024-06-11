@@ -324,7 +324,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       
       <div>
         <Row className="d-flex justify-content-between">
-          <Col className="text-start"><h2>PERMOHONAN AGIHAN</h2></Col>
+          <Col className="text-start"><h2>AGIHAN</h2></Col>
           <Col className="text-end">
       
               { mohon.mohon_distribution_approval.step === 0 ?
