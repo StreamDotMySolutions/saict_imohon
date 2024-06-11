@@ -176,7 +176,7 @@ export default function EditModal({id}) {
               reverse
               label="Saya telah mengesahkan data ini"
               type="checkbox"
-              onClick={ () =>useInventoryStore.setState({errors:null}) }
+              onClick={ () => store.setValue('errors', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
             <Button variant="secondary" onClick={handleCloseClick}>
