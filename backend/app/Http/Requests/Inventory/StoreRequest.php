@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
 
                 'date_start' => 'required|date',
                 'date_end' => 'required|date|after:date_start',
-                'received_on' => 'required|date|before:date_start|before_or_equal:date_end',
+                'received_on' => 'required|date|after_or_equal:date_start|before_or_equal:date_end',
 
     
         ];

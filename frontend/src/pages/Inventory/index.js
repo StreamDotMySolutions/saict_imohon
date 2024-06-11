@@ -80,9 +80,9 @@ const Inventories = () => {
               {data?.inventories?.map((item,index) => (
               <tr key={item.id}>
                 <td className='text-center'><Badge>{item.id}</Badge></td>
-                <td>{item.vendor}</td>
-                <td className='text-center'>{item.contract_name}</td>
-                <td className='text-center'>Dari {item.date_start} hingga {item.date_end}</td>
+                <td>{item?.vendor}</td>
+                <td className='text-center'>{item?.contract_name}</td>
+                <td className='text-center'>Dari {item?.date_start} hingga {item?.date_end}</td>
                 <td className='text-center'>
                   <ShowModal id={item.id} />
                   {' '}
