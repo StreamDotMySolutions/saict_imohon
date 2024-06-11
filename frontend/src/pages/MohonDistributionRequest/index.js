@@ -38,10 +38,10 @@ const MohonDistributionRequest = () => {
     return (
         <div>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>AGIHAN</Badge></Link></li>
-                    <li class="breadcrumb-item"><Badge>{mohonRequestId}</Badge>{' '}{title}</li>
-                    <li class="breadcrumb-item">Senarai Agihan</li>
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>AGIHAN</Badge></Link></li>
+                    <li className="breadcrumb-item"><Badge>{mohonRequestId}</Badge>{' '}{title}</li>
+                    <li className="breadcrumb-item">Senarai Agihan</li>
                 </ol>
             </nav>
             <Container className='p-1'>
@@ -52,7 +52,6 @@ const MohonDistributionRequest = () => {
                     //onSelect={HandleTabChange}
                 >
                     <Tab eventKey="mohon-distribution-requests" title="Agihan">
-                    
                         <Index />
                     </Tab>
 
