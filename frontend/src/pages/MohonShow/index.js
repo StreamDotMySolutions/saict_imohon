@@ -128,7 +128,7 @@ const MohonShow = () => {
                             
                                 <th>Peralatan</th>
                                 <th>Jenis</th>
-                                <th>Pemohon</th>
+                                <th>Pengguna</th>
                                 <th>Jawatan</th>
                                 <th>Telefon</th>
                             

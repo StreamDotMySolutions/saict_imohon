@@ -53,12 +53,14 @@ const MohonIndex = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '5px'}}>ID</th>
-                        <th style={{ 'width': '50px'}}>User</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Mohon</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Agihan</th>
-                        {/* <th className='text-center' style={{ 'width': '50px'}}>Peralatan<br />Diterima</th> */}
-                        <th className='text-center' style={{ 'width': '50px'}}>Tindakan</th>
+                        <th className="col-1">ID</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th className='text-center'>Peralatan<br />Mohon</th>
+                        <th className='text-center'>Peralatan<br />Agihan</th>
+                        {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
+                        <th className='text-center'>Tarikh</th>
+                        <th className='text-center'>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -66,12 +68,14 @@ const MohonIndex = () => {
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
                             <td > <span className="badge bg-primary">{mohon.id}</span></td>
+                            <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.email}</td>
                
          
                             {/* <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                            <td className='text-center'>{mohon.created_at}</td>
                             {/* <td className='text-center'>{mohon.mohon_items_count}</td> */}
                             <td className='text-center'>
                                 {/* <ApprovalModal id={mohon.id} count={mohon.mohon_items_count} step={mohon.mohon_approval.step}/>
