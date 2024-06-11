@@ -164,7 +164,7 @@ const MohonShow = () => {
 
                                             <tbody>
                                                 <tr>
-                                                    <td>{item.mohon_distribution_item.mohon_distribution_request.status}</td>
+                                                    <td>{item.mohon_distribution_item?.mohon_distribution_request?.status}</td>
                                                     <td></td>
                                                 </tr>
                                             </tbody>

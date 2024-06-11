@@ -45,7 +45,7 @@ const MohonDistributionItem = () => {
                     </li>
                     <li class="breadcrumb-item">Senarai Agihan</li>
                     <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.id}</Badge>{' '}{response.title}</Link>
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.id}</Badge></Link>
                     </li>
                     <li className="breadcrumb-item">Senarai Peralatan</li>
                 </ol>
