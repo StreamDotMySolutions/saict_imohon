@@ -368,8 +368,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
           <tbody>
             {items.length > 0 && items?.map( (item,index) => (
               <tr key={index}>
-                  <td>{item.mohon_item.name}</td>
-                  <td>{item.category.name}</td>
+                  <td>{item.mohon_item?.name}</td>
+                  <td>{item?.category.name}</td>
                   <td>{item.inventory?.vendor}</td>
                   <td>{item.mohon_distribution_item_delivery?.date_start}</td>
                   <td>{item.mohon_distribution_item_delivery?.date_end}</td>
