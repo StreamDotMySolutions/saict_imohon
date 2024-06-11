@@ -21,11 +21,11 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
       .then( response => {
           //console.log(response)
           let mohon = response.data.mohon
-          setItems(mohon.mohon_items)
-          setMohonApprovals(mohon.mohon_approvals)
-          setDistributionRequests(mohon.mohon_distribution_requests)
-          setUser(mohon.user)
-          setMohon(mohon)
+          setItems(mohon?.mohon_items != null ? mohon?.mohon_items : []);
+          setMohonApprovals(mohon?.mohon_approvals != null ? mohon?.mohon_approvals : []);
+          setDistributionRequests(mohon?.mohon_distribution_requests != null ? mohon?.mohon_distribution_requests : []);
+          setUser(mohon?.user != null ? mohon?.user : null);
+          setMohon(mohon);
       })
     },[])
 

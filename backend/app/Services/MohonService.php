@@ -58,11 +58,14 @@ class MohonService
                         'mohonApproval'
                         ])
 
+                    // list ad LoggedIn User
+                    ->where('user_id', $user->id)
+
                     // to list requests from same department
                     // based on User Department ID
-                    ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
-                        $query->where('user_department_id', $userDepartmentId);
-                    })
+                    // ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
+                    //     $query->where('user_department_id', $userDepartmentId);
+                    // })
 
                     ->withCount([
                         'mohonItems', // Mohon hasMany MohonItems
@@ -248,6 +251,7 @@ class MohonService
                         'mohonItems' => function ($query){
                             $query->with([
                                 'category',
+                                'mohonDistributionItem',
                                 'mohonDistributionItem.mohonDistributionRequest',
                                 'mohonDistributionItem.mohonDistributionItemAcceptance',
                             ]);

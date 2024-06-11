@@ -3,6 +3,7 @@ import { Container, Table, Row, Col, Pagination, Button } from 'react-bootstrap'
 import useStore from './store';
 import axios from '../../libs/axios';
 import { Link } from 'react-router-dom';
+import ReportingModal from '../MohonApproval/Admin/modals/ReportingModal'
 
 const Index = () => {
     const store = useStore();
@@ -72,14 +73,12 @@ const Index = () => {
             return mohons.map( (item,index) => (
                 <tr>
                     <td>{item.id}</td>
-                    <td>{item.user.user_profile.user_department.name}</td>
-                    <td className='text-center'>{item.user.name}</td>
+                    <td>{item.user?.user_profile?.user_department?.name}</td>
+                    <td className='text-center'>{item.user?.name}</td>
                     <td className='text-center'>{item.created_at}</td>
                     <td className='text-center'>{item.mohon_items_count}</td>
                     <td className='text-center'>
-                        <Link to={`/agihan-2/${item.id}`}>
-                            <Button size="sm">LIHAT</Button>
-                        </Link>
+                     <ReportingModal id={item.id} />
                     </td>
                 </tr>
             )

@@ -32,6 +32,7 @@ function TopNavbar() {
                     {/* <Dropdown.Item href="#/action-1">Permohonan</Dropdown.Item> */}
                     <Nav.Link as={NavLink} to="/administration/mohon"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
                     <Nav.Link as={NavLink} to="/agihan-2"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> 
+                    <Nav.Link as={NavLink} to="/manage/mohon-distribution-requests"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Distribution</Nav.Link> 
                   </Dropdown.Menu>
                </Dropdown>
               </Nav>

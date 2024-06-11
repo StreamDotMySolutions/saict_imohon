@@ -63,6 +63,7 @@ import MohonApprovalByBoss from './pages/MohonApproval/Boss'
 import MohonDistributionRequest from './pages/MohonDistributionRequest'
 //import MohonDistributionItem from './pages/MohonDistributionItem'
 import MohonDistributionItem from './pages/MohonDistributionItem-v2'
+import ManageMohonDistributionRequest from './pages/ManageDistributionRequest'
 
 import Agihan from './pages/Agihan'
 import Agihan2 from './pages/Agihan-v2'
@@ -131,6 +132,7 @@ export default function App() {
 
 
                 <Route path="/inventories" element={<Inventory />} />
+                <Route path="/manage/mohon-distribution-requests" element={<ManageMohonDistributionRequest />} />
               {/*<Route path="/applications" element={<Application />} />
                 <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
                 <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
