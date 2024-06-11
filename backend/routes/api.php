@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     // User to acknowledge of receiving the requested item
     Route::post('/mohon-distribution-item-acceptances/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemAcceptanceController::class, 'updateOrCreate']);
+    Route::get('/mohon-distribution-item-acceptances/{mohonDistributioItemId}/show', [MohonDistributionItemAcceptanceController::class, 'show']);
 
     // application
     Route::get('/applications/items', [CategoryController::class, 'applicationItems']);

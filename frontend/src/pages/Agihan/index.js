@@ -68,7 +68,7 @@ const Index = () => {
                                     <th style={{ 'width': '20px'}}>ID</th>
                                     <th>Item</th>
                                     <th>Jenis</th>
-                                    <th>Penerangan</th>
+                                    <th>Pemohon</th>
                                     <th>Status</th>
                                     <th>Tarikh Terima</th>
                                     <th style={{ 'width': '200px'}}>Tindakan</th>
@@ -82,9 +82,9 @@ const Index = () => {
                                         <td> <span className="badge bg-primary">{item.id}</span></td>
                                         <td>{item.category?.name}</td>
                                         <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                                        <td>{item.description}</td>
+                                        <td>{item.mohon_item?.name}</td>
                                         <td>
-                                        {item.received_status == 1 ?
+                                        {item.mohon_distribution_item_acceptance != null ?
                                         <>
                                             Diterima 
                                         </>
@@ -96,10 +96,16 @@ const Index = () => {
 
                                         </td>
                                         <td>
-                                            {item.received_at}
+                                        {item.mohon_distribution_item_acceptance?.created_at}
                                         </td>
                                         <td>
-                                           <ViewModal id={item.id} />
+                                            {!item.mohon_distribution_item_acceptance?.created_at ?
+                                            <>
+                                                <ViewModal id={item.id} />
+                                            </> 
+                                            :
+                                            <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>
+                                            }
                                         </td>
                                     </tr>
                                 ))}

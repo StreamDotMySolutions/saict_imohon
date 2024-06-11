@@ -9,6 +9,10 @@ class MohonDistributionItemAcceptance extends Model
 {
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $casts = [
+        //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
+        'created_at' => 'datetime:d M Y', // Format as datetime
+    ];
 
     public function mohonDistributionItem() 
     {

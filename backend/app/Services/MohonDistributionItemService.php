@@ -40,7 +40,11 @@ class MohonDistributionItemService
     {
         $item = MohonDistributionItem::query()
                     ->where('id', $id)
-                    ->with(['mohonDistributionItemDelivery'])
+                    ->with([
+                            'mohonDistributionItemDelivery',
+                            'mohonDistributionItemAcceptance'
+                            
+                            ])
                     ->first();
         return $item;
     }

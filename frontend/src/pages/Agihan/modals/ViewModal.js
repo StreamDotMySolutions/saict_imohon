@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, FloatingLabel} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useStore from '../store'
@@ -23,14 +23,11 @@ export default function ViewModal({id}) {
 
         axios({
             'method' : 'get',
-            'url' : `${store.mohonDistributionItemShow}/${id}`
+            'url' : `${store.mohonDistributionItemAcceptance}/${id}/show`
         })
         .then( response => {
           console.log(response.data)
-          store.setValue('description', response.data?.item?.description)
-          store.setValue('received_text', response.data?.item?.received_text)
-          store.setValue('received_at', response.data?.item?.received_at)
-          store.setValue('received_status', response.data?.item?.received_status)
+          store.setValue('message', response.data?.data?.message)
           setIsLoading(false)
         })
         .catch ( error => {
@@ -57,8 +54,8 @@ export default function ViewModal({id}) {
       }
       
       // description
-      if (store.getValue('received_text') != null ) {
-        formData.append('received_text', store.getValue('received_text'));
+      if (store.getValue('message') != null ) {
+        formData.append('message', store.getValue('message'));
       }
 
       // method PUT ( to simulate PUT in Laravel )
@@ -98,7 +95,7 @@ export default function ViewModal({id}) {
 
 
           <Modal.Body>
-            <h5>Nota dari Admin</h5>
+            {/* <h5>Nota dari Admin</h5>
             <InputTextarea
               fieldName='description' 
               placeholder='Maklumat tambahan'  
@@ -106,15 +103,18 @@ export default function ViewModal({id}) {
               rows='3'
               isLoading={'true'}
             />
-            <br />
+            <br /> */}
             <h5>Nota penerimaan</h5>
+
+    
             <InputTextarea
-              fieldName='received_text' 
+              fieldName='message' 
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-pencil'
               rows='6'
               isLoading={isLoading}
             />
+         
 
           </Modal.Body>
           

@@ -84,7 +84,7 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
           data: formData
         })
         .then( response => {
-          console.log(response)
+          //console.log(response)
           setIsLoading(false)
 
           // set MohonIndex listener to true

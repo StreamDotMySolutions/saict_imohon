@@ -11,6 +11,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'acknowledge' => 'required',
+            'message' => 'required',
         ];
     }
 
@@ -18,6 +19,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'acknowledge.required' => 'Sila sahkan data',
+            'message.required' => 'Sila lengkapkan butiran tambahan.',
         ];
     }
 }
