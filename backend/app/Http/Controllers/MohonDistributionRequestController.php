@@ -15,6 +15,7 @@ class MohonDistributionRequestController extends Controller
     public function index($mohonRequestId)
     {
         $mohons = MohonDistributionRequestService::index($mohonRequestId);
+        \Log::info($mohonRequestId);
 
         return response()->json([
             'mohons' => $mohons

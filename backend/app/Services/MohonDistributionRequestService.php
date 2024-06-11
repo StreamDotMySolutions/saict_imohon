@@ -13,7 +13,7 @@ class MohonDistributionRequestService
     * by MohonRequestId
     * MohonRequest hasMany MohonDistributionRequest
     */
-    public static function index()
+    public static function index($mohonRequestId)
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
@@ -21,7 +21,7 @@ class MohonDistributionRequestService
    
         switch($role){
             case 'admin':
-                $requests = self::getMohonDistributionRequestAsAdmin();
+                $requests = self::getMohonDistributionRequestAsAdmin($mohonRequestId);
             break;
 
             case 'boss':
@@ -39,7 +39,7 @@ class MohonDistributionRequestService
     /*
     * Only list MohonDistributionRequest Step = 0 
     */
-    public static function getMohonDistributionRequestAsAdmin()
+    public static function getMohonDistributionRequestAsAdmin($mohonRequestId)
     {
 
         $paginate = MohonDistributionRequest::query(); // Intiate Paginate
@@ -56,6 +56,7 @@ class MohonDistributionRequestService
                     // })
 
                     ->withCount(['mohonDistributionItems']) // to calculate how many items
+                    ->where('mohon_request_id', $mohonRequestId) // by mohon_request_id
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
