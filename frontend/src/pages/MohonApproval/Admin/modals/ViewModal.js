@@ -125,6 +125,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
+              checked={step !== requiredStep }
               disabled={step !== requiredStep }
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"

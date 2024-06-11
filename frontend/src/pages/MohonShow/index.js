@@ -18,15 +18,16 @@ const MohonShow = () => {
 
     useEffect( () => {
         axios({
-            'method' : 'get',
-            'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+                'method' : 'get',
+                'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
             })
             .then( response => {
-              console.log(response.data.mohon)
-              setResponse(response.data.mohon)
+                console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
+                console.log(response.data.mohon)
+                setResponse(response.data.mohon)
             })
             .catch ( error => {
-              console.warn(error)
+                console.warn(error)
             })
     }, [mohonRequestId])
 
@@ -164,7 +165,7 @@ const MohonShow = () => {
 
                                             <tbody>
                                                 <tr>
-                                                    <td>{item.mohon_distribution_item?.mohon_distribution_request?.status}</td>
+                                                    <td></td>
                                                     <td></td>
                                                 </tr>
                                             </tbody>

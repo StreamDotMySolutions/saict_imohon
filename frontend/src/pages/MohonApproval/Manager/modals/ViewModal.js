@@ -30,7 +30,7 @@ export default function ViewModal({id}) {
             'url' : `${store.showUrl}/${id}`
       })
       .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
           let mohon = response.data.mohon
           //store.setValue('title', mohon.title) // set formValue
           //store.setValue('description', mohon.description) // set formValue
@@ -129,6 +129,7 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
+              checked={step !== 1}
               disabled={step !== 1}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
@@ -136,8 +137,10 @@ export default function ViewModal({id}) {
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
 
+
           <Button 
               disabled={ isLoading || step !== 1}
+              
               variant="success" 
               onClick={handleApproveClick}>
               Lulus

@@ -377,7 +377,11 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   <td>{item.mohon_distribution_item_delivery?.pic_phone}</td>
                   <td>
                     <span  className='float-end'>
+                    { mohon.mohon_distribution_approval.status === 'approved'  ?
                       <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
+                      :
+                      <Button size={'sm'} disabled>Kemaskini</Button>
+                    }
                     </span>
                     
                   </td>
