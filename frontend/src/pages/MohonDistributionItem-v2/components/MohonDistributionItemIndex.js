@@ -371,10 +371,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   <td>{item.mohon_item.name}</td>
                   <td>{item.category.name}</td>
                   <td>{item.inventory?.vendor}</td>
-                  <td>{item.mohon_distribution_item_delivery.date_start}</td>
-                  <td>{item.mohon_distribution_item_delivery.date_end}</td>
-                  <td>{item.mohon_distribution_item_delivery.pic_name}</td>
-                  <td>{item.mohon_distribution_item_delivery.pic_phone}</td>
+                  <td>{item.mohon_distribution_item_delivery?.date_start}</td>
+                  <td>{item.mohon_distribution_item_delivery?.date_end}</td>
+                  <td>{item.mohon_distribution_item_delivery?.pic_name}</td>
+                  <td>{item.mohon_distribution_item_delivery?.pic_phone}</td>
                   <td>
                     <span  className='float-end'>
                       <UpdateDistributionItemModal mohonDistributionItemId={item.id} />

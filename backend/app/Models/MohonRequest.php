@@ -9,18 +9,11 @@ use Carbon\Carbon;
 class MohonRequest extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
-
     protected $casts = [
         //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
         'created_at' => 'datetime:d M Y', // Format as datetime
     ];
-
-    // public function getCreatedAtAttribute($value)
-    // {
-    //     return Carbon::parse($value)->format('Y-m-d H:i:s');
-    // }
 
     // belongsTo User
     public function user() 

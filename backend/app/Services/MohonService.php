@@ -178,7 +178,11 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonApproval'])
+                    ->with([
+                        'user.userProfile',
+                        'mohonApproval',
+                        'mohonItem'
+                        ])
 
                     // only list where step = 1
                     ->whereHas('mohonApproval', function ($query) {
@@ -239,7 +243,14 @@ class MohonService
                             ]);
                             
                         },
-                        'mohonItems.category',
+                        //'mohonItems.category',
+                        'mohonItems' => function ($query){
+                            $query->with([
+                                'category',
+                                'mohonDistributionItem.mohonDistributionRequest',
+                                'mohonDistributionItem.mohonDistributionItemAcceptance',
+                            ]);
+                        },
                         'user.userProfile.userDepartment'
                         ])
                     ->withCount(['mohonItems'])

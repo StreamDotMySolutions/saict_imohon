@@ -135,6 +135,7 @@ const MohonShow = () => {
                                 <th>Nama Bangunan</th>
                                 <th>Tingkat</th>
                                 <th>Lokasi</th>
+                                <th className='text-center'>Agihan</th>
                         
                             </tr>
                         </thead>
@@ -152,6 +153,24 @@ const MohonShow = () => {
                                     <td>{item.building_name}</td>
                                     <td>{item.building_level}</td>
                                     <td>{item.location}</td>
+                                    <td>
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <th>Terima</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>{item.mohon_distribution_item.mohon_distribution_request.status}</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

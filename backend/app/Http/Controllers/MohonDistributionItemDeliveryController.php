@@ -10,8 +10,8 @@ class MohonDistributionItemDeliveryController extends Controller
 {
     public function updateOrCreate(StoreRequest $request, $mohonDistributioItemId)
     {
-        \Log::info($mohonDistributioItemId);
-        \Log::info($request);
+        //\Log::info($mohonDistributioItemId);
+        //\Log::info($request);
 
         // Define the attributes to search for the record
         $attributes = [

@@ -20,6 +20,13 @@ class MohonItem extends Model
         return $this->belongsTo(MohonRequest::class);
     }
 
+    // hasOne MohonDistributionItem
+    public function mohonDistributionItem() 
+    {
+        return $this->hasOne(MohonDistributionItem::class);
+    }
+
+
     // belongsTo Category
     public function category() 
     {

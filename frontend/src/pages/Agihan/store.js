@@ -8,6 +8,7 @@ const useStore  = create((set) => ({
     mohonRequestUrl: `${base_url}/mohon`,
     mohonDistributionItemShow: `${base_url}/mohon-distribution-items/show`,
     mohonDistributionItemReceived: `${base_url}/mohon-distribution-items/received`,
+    mohonDistributionItemAcceptance: `${base_url}/mohon-distribution-item-acceptances`,
     refresh: false,
     errors: null,
     latestId: null,

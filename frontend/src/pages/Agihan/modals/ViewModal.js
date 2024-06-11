@@ -49,6 +49,8 @@ export default function ViewModal({id}) {
       setIsLoading(true)
       const formData = new FormData()
 
+      formData.append('mohon_distribution_item_id', id);
+
       // acknowledge
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', 1);
@@ -60,24 +62,17 @@ export default function ViewModal({id}) {
       }
 
       // method PUT ( to simulate PUT in Laravel )
-      formData.append('_method', 'put');
+      //formData.append('_method', 'put');
       
       axios({ 
           method: 'post',
-          url : `${store.mohonDistributionItemReceived}/${id}`,
+          url : `${store.mohonDistributionItemAcceptance}/${id}/updateOrCreate`,
           data: formData
         })
         .then( response => {
-          console.log(response)
-
-          // set MohonIndex listener to true
+          //console.log(response)
           store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
-          setTimeout(() => {
-            setIsLoading(false)
-            handleCloseClick();
-          }, 500);
+          handleClose()
         })
         .catch( error => {
           console.warn(error)
@@ -86,6 +81,7 @@ export default function ViewModal({id}) {
             store.setValue('errors',  error.response.data.errors )
           }
         })
+        .finally()
     }
 
   
@@ -124,11 +120,7 @@ export default function ViewModal({id}) {
           
           <Modal.Footer>
 
-            {  store.getValue('received_status') == 1 ?
-            <>
-            Pengesahan telah dibuat pada { store.getValue('received_at')}
-            </>
-            :
+    
             <Form.Check
                 className='me-4'
                 isInvalid={errors?.hasOwnProperty('acknowledge')}
@@ -139,16 +131,16 @@ export default function ViewModal({id}) {
                 onClick={ () => useStore.setState({errors:null}) }
                 onChange={ (e) => store.setValue('acknowledge', true) }
               />
-            }
+            
 
-            {  store.getValue('received_status') == 0 &&
+      
             <Button 
-              disabled={ isLoading || store.getValue('received_status') == 1 }
+              disabled={ isLoading }
               variant="outline-success" 
               onClick={handleSubmitClick}>
               Hantar
             </Button>
-            }
+            
 
             <Button 
               disabled={isLoading}

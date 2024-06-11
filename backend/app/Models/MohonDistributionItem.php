@@ -13,7 +13,7 @@ class MohonDistributionItem extends Model
     // belongsTo MohonDistributionRequest
     public function mohonDistributionRequest() 
     {
-        return $this->belongsTo(MohonDistributionRequest::class);
+        return $this->belongsTo(MohonDistributionRequest::class)->latest();
     }
 
     // belongsTo Category
