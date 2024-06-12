@@ -69,6 +69,10 @@ const MohonDistributionRequest = () => {
                     <li>
                     Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='danger'>Hapus</Button> untuk menghapuskan Agihan yang telah dibuat tapi belum dimohon ke Pelulus-2.
                     </li>
+
+                    <li>
+                    Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='dark'>Peralatan</Button> untuk megurus peralatan yang disusun di bawah Agihan.
+                    </li>
                 </ol>
             </Alert>
             <Container className='p-1'>
