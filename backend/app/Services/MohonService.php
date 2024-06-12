@@ -255,6 +255,7 @@ class MohonService
                                 'mohonDistributionItem',
                                 'mohonDistributionItem.mohonDistributionRequest',
                                 'mohonDistributionItem.mohonDistributionItemAcceptance',
+                                'mohonDistributionItem.mohonDistributionItemDelivery'
                             ]);
                         },
                         'user.userProfile.userDepartment'

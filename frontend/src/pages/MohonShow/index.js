@@ -158,15 +158,17 @@ const MohonShow = () => {
                                         <Table>
                                             <thead>
                                                 <tr>
-                                                    <th>Status</th>
-                                                    <th>Terima</th>
+                                                    <th>Tarikh Mula</th>
+                                                    <th>Tarikh Tamat</th>
+                                                    <th>Tarikh Terima</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{item.mohon_distribution_item.mohon_distribution_item_delivery?.date_start}</td>
+                                                    <td>{item.mohon_distribution_item.mohon_distribution_item_delivery?.date_end}</td>
+                                                    <td>{item.mohon_distribution_item.mohon_distribution_item_acceptance?.created_at}</td>
                                                 </tr>
                                             </tbody>
                                         </Table>
