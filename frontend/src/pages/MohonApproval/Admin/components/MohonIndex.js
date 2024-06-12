@@ -61,6 +61,9 @@ const MohonIndex = () => {
                     <li>
                     Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='success'>Agihan</Button> pula hanya aktif selepas kelulusan diluluskan oleh Admin. Setiap Agihan akan mempunyai set peralatan sendiri.
                     </li>
+                    <li>
+                     Setiap <strong>Permohonan</strong> boleh mempunyai satu atau lebih <strong>Agihan</strong>.  
+                    </li>
                 </ol>
             </Alert>
 

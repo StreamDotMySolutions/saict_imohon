@@ -41,8 +41,7 @@ const MohonDistributionRequest = () => {
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>AGIHAN</Badge></Link></li>
-                    <li className="breadcrumb-item"><Badge>{mohonRequestId}</Badge>{' '}{title}</li>
-                    <li className="breadcrumb-item">Senarai Agihan</li>
+                    <li className="breadcrumb-item"><Badge>{mohonRequestId}</Badge> Senarai Agihan</li>
                 </ol>
             </nav>
 
@@ -72,6 +71,16 @@ const MohonDistributionRequest = () => {
 
                     <li>
                     Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='dark'>Peralatan</Button> untuk megurus peralatan yang disusun di bawah Agihan.
+                    </li>
+
+                    <li>
+                        <strong>Jumlah Peralatan</strong> mewakili jumlah peralatan terkumpul dalam setiap Agihan. Setiap Agihan akan mempunyai jumlah peralatan masing-masing.
+                    </li>
+                    <li>
+                        <strong>Tarikh</strong> mewakili bila Agihan dicipta.
+                    </li>
+                    <li>
+                        Untuk mengesahkan permohonan <strong>Agihan</strong>, klik butang <Button className={'bg-light text-dark'} size={'sm'} variant='dark'>Peralatan</Button> dan Mohon selepas menambah peralatan.
                     </li>
                 </ol>
             </Alert>

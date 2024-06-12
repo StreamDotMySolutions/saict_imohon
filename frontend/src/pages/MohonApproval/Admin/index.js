@@ -13,9 +13,6 @@ const MohonApprovalByAdmin = () => {
                     <li className="breadcrumb-item">Senarai Permohonan</li>
                 </ol>
             </nav>
-         
-
-
             <MohonIndex />
         </div>
     );

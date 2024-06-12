@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Col, FloatingLabel, Form, Row, Table, Badge, Button } from 'react-bootstrap';
+import { Container, Col, FloatingLabel, Form, Row, Table, Badge, Button, Alert } from 'react-bootstrap';
 import useMohonItemStore from '../store';
 import axios from '../../../libs/axios';
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
 import RequestApprovalModal from '../modals/RequestApprovalModal';
 import UpdateDistributionItemModal from '../modals/UpdateDistributionItemModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
@@ -194,15 +195,70 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
   };
 
+  const pending = "Sedang menunggu kelulusan";
+  const approved = "Telah diluluskan";
+  const rejected = "Permohonan gagal";
+
+  const approvalStatusMessage = (status) => {
+    switch (status.toUpperCase()) {
+      case "PENDING":
+        return pending;
+      case "APPROVED":
+        return approved;
+      case "REJECTED":
+        return rejected;
+      default:
+        return "Status tidak diketahui";
+    }
+  };
+
   return (
-    <Row className='mt-5 mb-3'>
-      <Container>
+    <Row>
+      <Alert variant='warning'>
+        <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
+        <hr />
+        {' '}
+        <ol>
+            <li>
+                Terdapat 2 senarai :
+                    <ol type="i">
+                      <li>PERMOHONAN</li>
+                      <li>AGIHAN</li>
+                    </ol>
+            </li>
+            <li>
+              <strong>PERMOHONAN</strong> mewakili senarai peralatan yang dimohon oleh Permohonan ID <Badge>{mohon.mohon_request_id}</Badge>.
+            </li>
+            <li>
+              Senarai peralatan ini dikumpul dalam Agihan ID <Badge>{mohon.id}</Badge>
+            </li>
+            <li>
+              Untuk menambah peralatan ke dalam Agihan, anda kena pilih <i><strong>Checkbox</strong></i> peralatan di senarai Permohonan
+            </li>
+            <li>
+              Seterusnya pilihan <i><strong>Dropdown</strong></i> untuk nama VENDOR akan tersedia dan anda kena pilih Vendor
+            </li>
+            <li>
+              Untuk membuang peralatan yang telah ditambah, hanya perlu <i><strong>Untick Checkbox</strong></i> di bahagian <strong>Permohonan</strong>.
+            </li>
+            <li>
+              Butang <Button size={'sm'} variant={'info'}>Mohon</Button> hanya boleh ditekan jika Agihan mempunyai peralatan dan telah dipilih Vendor untuk setiap peralatan.
+            </li>
+            <li className='mt-2'>
+            Butang <Button size={'sm'} variant={'primary'}>Kemaskini</Button> hanya boleh ditekan jika Pelulus 2 mengesahkan permohonan Agihan.
+            </li>
+            
+        </ol>
+      </Alert>
+           
+      <Container className='border border-1 p-3 rounded' style={{ backgroundColor:"#fafafa"}}>
+     
         <Row className="d-flex justify-content-between">
           <Col className="text-start"><h2>PERMOHONAN</h2></Col>
           <Col className="text-end">
           </Col>
         </Row>
-      </Container>
+     
 
       <Table className='mt-3'>
         <thead>
@@ -319,6 +375,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
           ))}
         </tbody>
       </Table>
+      </Container>
 
      <Container className='mt-5 border border-1 p-3 rounded' style={{ backgroundColor:"#fafafa"}}>
       
@@ -344,7 +401,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
    
                 {' '}
                 <Badge className='bg-dark'>
-                STATUS : { mohon.mohon_distribution_approval.status.toUpperCase() }
+                <FontAwesomeIcon icon={'fas fa-info'} /> : { approvalStatusMessage(mohon.mohon_distribution_approval.status) }
                 </Badge>
                 </>
               }

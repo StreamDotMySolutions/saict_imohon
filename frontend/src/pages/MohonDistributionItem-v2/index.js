@@ -4,7 +4,8 @@ import { useState } from 'react'
 import axios from '../../libs/axios'
 import MohonItemIndex from './components/MohonItemIndex'
 import MohonDistributionItemIndex from './components/MohonDistributionItemIndex'
-import { Badge } from 'react-bootstrap'
+import { Alert, Badge, Button } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MohonDistributionItem = () => {
   const { mohonDistributionRequestId } = useParams()
@@ -41,13 +42,10 @@ const MohonDistributionItem = () => {
                 <ol class="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/mohon-approval/by-admin" ><Badge>AGIHAN</Badge></Link></li>
                     <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.mohon_request?.id}</Badge>{' '}{response.mohon_request?.title}</Link>
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.mohon_request?.id}</Badge>{' '}Senarai Agihan</Link>
                     </li>
-                    <li class="breadcrumb-item">Senarai Agihan</li>
-                    <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.id}</Badge></Link>
-                    </li>
-                    <li className="breadcrumb-item">Senarai Peralatan</li>
+                
+                    <li className="breadcrumb-item"><Badge>{mohonDistributionRequestId}</Badge> Senarai Peralatan</li>
                 </ol>
             </nav>
             {/* <MohonItemIndex mohonRequestId={mohonDistributionRequestId} step={step} />  */}
