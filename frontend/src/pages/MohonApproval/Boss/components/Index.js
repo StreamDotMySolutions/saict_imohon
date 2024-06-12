@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button } from 'react-bootstrap'
 import useStore from '../store'
 import axios from '../../../../libs/axios'
-import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { AgihanApprovalStatus } from '../../../../components/global/AgihanApproval'
-import ApprovalModal from '../modals/ApprovalModal'
+
 
 
 const Index = () => {
@@ -43,12 +42,11 @@ const Index = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th style={{ 'width': '120px'}}>User</th>
-                        <th style={{ 'width': '200px'}}>Title</th>
-                        <th>Description</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Kelulusan</th>
+                        <th style={{ 'width': '120px'}}>Pemohon</th>
             
-                        <th className='text-center' style={{ 'width': '50px'}}>Peralatan</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Status Kelulusan</th>
+            
+                        <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -57,9 +55,8 @@ const Index = () => {
                     {responses?.data?.map((data,index) => (
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{data.id}</span></td>
-                            <td>{data.user?.email}</td>
-                            <td>{data.title}</td>
-                            <td>{data.description}</td>
+                            <td>{data.user?.name}</td>
+                    
                             <td>
                                 <AgihanApprovalStatus step={data.mohon_distribution_approval.step} currentStatus={data.mohon_distribution_approval.status} /></td>
                             <td className='text-center'>{data.mohon_distribution_items_count}</td>

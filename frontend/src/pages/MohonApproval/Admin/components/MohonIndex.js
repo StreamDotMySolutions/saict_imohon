@@ -5,7 +5,8 @@ import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
-import ReportingModal from '../modals/ReportingModal'
+//import ReportingModal from '../modals/ReportingModal'
+import ReportingModal from '../../../Reporting/ReportingModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MohonIndex = () => {
@@ -97,7 +98,7 @@ const MohonIndex = () => {
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
                                 </Link>*/}
 
-                                <ReportingModal id={mohon.id} />    
+                                <ReportingModal mohonRequestId={mohon.id} />    
                                 {' '}
                                 <ViewModal id={mohon.id} />
                                 {' '}

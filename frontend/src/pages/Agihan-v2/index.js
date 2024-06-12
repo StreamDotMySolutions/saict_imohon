@@ -3,7 +3,8 @@ import { Container, Table, Row, Col, Pagination, Button } from 'react-bootstrap'
 import useStore from './store';
 import axios from '../../libs/axios';
 import { Link } from 'react-router-dom';
-import ReportingModal from '../MohonApproval/Admin/modals/ReportingModal'
+// import ReportingModal from '../MohonApproval/Admin/modals/ReportingModal'
+import ReportingModal from '../Reporting/ReportingModal';
 
 const Index = () => {
     const store = useStore();
@@ -78,7 +79,7 @@ const Index = () => {
                     <td className='text-center'>{item.created_at}</td>
                     <td className='text-center'>{item.mohon_items_count}</td>
                     <td className='text-center'>
-                     <ReportingModal id={item.id} />
+                     <ReportingModal mohonRequestId={item.id} />
                     </td>
                 </tr>
             )
