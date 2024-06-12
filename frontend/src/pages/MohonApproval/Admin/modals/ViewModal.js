@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
@@ -16,6 +16,7 @@ export default function ViewModal({id}) {
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
     const requiredStep  = 3 // Step 3 ( Admin )
+    const [approval, setApproval] = useState('') 
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -30,10 +31,11 @@ export default function ViewModal({id}) {
             'url' : `${store.submitUrl}/${id}`
       })
       .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
           let mohon = response.data.mohon
           //store.setValue('title', mohon.title) // set formValue
           //store.setValue('description', mohon.description) // set formValue
+          setApproval(mohon.mohon_approval)
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
 
@@ -121,6 +123,13 @@ export default function ViewModal({id}) {
           </Modal.Body>
           
           <Modal.Footer>
+
+            {approval?.step === 4 && approval?.status === 'approved' ? 
+            
+            <Badge>Telah oleh disahkan  {approval?.user?.name} pada {approval?.created_at} </Badge>
+
+            :
+            <>
             <Form.Check
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
@@ -146,6 +155,9 @@ export default function ViewModal({id}) {
               onClick={handleRejectClick}>
               Gagal
             </Button>
+            </>
+
+            }
 
             <Button 
               disabled={isLoading}
