@@ -17,10 +17,11 @@ const Index = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: store.url // eg GET http://localhost:8000/api/mohon-distribution-requests/by-boss
                 } 
             )
             .then( response => { // response block
+                //console.log(store.url) //
                 //console.log(response.data.mohons.data)   // output to console  
                 setResponses(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
@@ -47,6 +48,7 @@ const Index = () => {
                         <th className='text-center' style={{ 'width': '50px'}}>Status Kelulusan</th>
             
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Tarikh</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -60,8 +62,13 @@ const Index = () => {
                             <td>
                                 <AgihanApprovalStatus step={data.mohon_distribution_approval.step} currentStatus={data.mohon_distribution_approval.status} /></td>
                             <td className='text-center'>{data.mohon_distribution_items_count}</td>
+                            <td className='text-center'>{data.created_at}</td>
                             <td className='text-center'>
-                                <ViewModal id={data.id} />                        
+                                {/* <ViewModal id={data.id} /> */}
+                                <ViewModal 
+                                    mohonDistributionRequestId={data.id}
+                                    mohonRequestId={data.mohon_request_id}
+                                />
                             </td>
                         </tr>
                     ))}
