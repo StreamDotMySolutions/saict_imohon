@@ -81,7 +81,7 @@ export default function DeleteModal({id, step = 0 }) {
     return (
       <>
         <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Padam
+          Hapus
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
