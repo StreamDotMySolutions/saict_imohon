@@ -86,7 +86,7 @@ class MohonService
     public static function getMohonDataAsManager($user, $status)
     {
 
-        \Log::info($status);
+        //\Log::info($status);
 
         # User hasOne UserProfile
         $user =  auth('sanctum')->user(); // get loggedIn user
@@ -243,7 +243,8 @@ class MohonService
                                 'mohonDistributionItems.category',
                                 'mohonDistributionItems.inventory',
                                 'mohonDistributionItems.mohonItem',
-                                'mohonDistributionItems.mohonDistributionItemAcceptance'
+                                'mohonDistributionItems.mohonDistributionItemAcceptance',
+                                'mohonDistributionItems.mohonDistributionItemDelivery'
                             ]);
                             
                         },

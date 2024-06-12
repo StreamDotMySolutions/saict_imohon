@@ -16,13 +16,13 @@ const Index = () => {
         'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
         })
         .then( response => {
-            console.log(response)
+            //console.log(response)
             setResponse(response.data.mohon)
         })
         .catch ( error => {
             console.warn(error)
         })
-  },[mohonRequestId])
+  },[mohonRequestId, store.getValue('refresh')])
 
 
     return (
@@ -43,76 +43,84 @@ const Index = () => {
                 {response.mohon_distribution_requests?.length > 0 ?
                 <>
                  { response.mohon_distribution_requests?.map( (distribution,index) => (
-                    <>
-                    <div className='p-3 border border-2 rounded mb-3'>
-                        
-                    <h3><Badge>{distribution.id}</Badge>{' '}{distribution.title}</h3>
-                    <Table style={{'width':'500px'}}>
-                        <tr>
-                            <th>Maklumat</th>
-                            <th>Pelulus</th>
-                            <th>Tarikh</th>
-                        </tr>
-                        <tr>
-                            <td>{distribution.description}</td>
-                            <td>{distribution.user.email}</td>
-                            <td>{distribution.created_at}</td>
-                        </tr>
-                    </Table>
+                
+                    <div className='p-3 border border-2 rounded mb-3' key ={index}>
+             
 
-                    <h5 className='mt-2'>Peralatan</h5>
-                    <hr />
-                    <Table>
-                            <thead>
-                                <tr>
-                                    <th style={{ 'width': '20px'}}>ID</th>
-                                    <th>Item</th>
-                                    <th>Jenis</th>
-                                    <th>Pemohon</th>
-                                    <th>Status</th>
-                                    <th>Tarikh Terima</th>
-                                    <th style={{ 'width': '200px'}}>Tindakan</th>
-                            
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {distribution?.mohon_distribution_items?.map((item,index) => (
-                                    <tr key={index}>
-                                        <td> <span className="badge bg-primary">{item.id}</span></td>
-                                        <td>{item.category?.name}</td>
-                                        <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                                        <td>{item.mohon_item?.name}</td>
-                                        <td>
-                                        {item.mohon_distribution_item_acceptance != null ?
-                                        <>
-                                            Diterima 
-                                        </>
-                                        :
-                                        <>
-                                            Belum terima
-                                        </>
-                                        }
-
-                                        </td>
-                                        <td>
-                                        {item.mohon_distribution_item_acceptance?.created_at}
-                                        </td>
-                                        <td>
-                                            {!item.mohon_distribution_item_acceptance?.created_at ?
-                                            <>
-                                                <ViewModal id={item.id} />
-                                            </> 
-                                            :
-                                            <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>
-                                            }
-                                        </td>
+                        <h2 className='mt-2'><Badge>{distribution.id}</Badge>{' '}Peralatan Agihan</h2>
+                    
+                        <Table>
+                                <thead>
+                                    <tr>
+                                        <th style={{ 'width': '20px'}}>ID</th>
+                                        <th>Peralatan</th>
+                                        <th>Jenis</th>
+                                        <th>Pemohon</th>
+                                      
+                                        <th>Jangkamasa Penghantaran</th>
+                                      
+                                        <th className='text-center'>Status Penerimaan</th>
+                                        <th className='text-center'>Tarikh Terima</th>
+                                        <th className='text-center' style={{ 'width': '200px'}}>Tindakan</th>
+                                
                                     </tr>
-                                ))}
-                            </tbody>
-                    </Table>
+                                </thead>
+
+                                <tbody>
+                                    {distribution?.mohon_distribution_items?.map((item,index) => (
+                                        <tr key={index}>
+                                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                                            <td>{item.category?.name}</td>
+                                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                                            <td>{item.mohon_item?.name}</td>
+                                            
+                                            <td>
+                                            <Table className='rounded border' style={{backgroundColor:"#f0f0f0"}}>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tarikh Mula</th>
+                                                            <th>Tarikh Tamat</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{item.mohon_distribution_item_delivery?.date_start}</td>
+                                                            <td>{item.mohon_distribution_item_delivery?.date_end}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </Table>
+                                            </td>
+                                          
+                                            <td className='text-center'>
+                                                {item.mohon_distribution_item_acceptance != null ?
+                                                <>
+                                                    Diterima 
+                                                </>
+                                                :
+                                                <>
+                                                    Belum terima
+                                                </>
+                                                }
+
+                                            </td>
+                                            <td  className='text-center'>
+                                                {item.mohon_distribution_item_acceptance?.created_at}
+                                            </td>
+                                            <td  className='text-center'>
+                                                {!item.mohon_distribution_item_acceptance?.created_at ?
+                                                <>
+                                                    <ViewModal id={item.id} />
+                                                </> 
+                                                :
+                                                <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>
+                                                }
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                        </Table>
                     </div>       
-                 </>
+                
                  ))}
                  
                 </>
