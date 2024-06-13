@@ -43,7 +43,7 @@ class MohonRequest extends Model
         * Latest Mohon Approval Status
         */
         return $this->hasOne(MohonApproval::class)
-                    ->latest();
+                    ->latest('id');
     }
 
     public function mohonApprovalByStatus($status)

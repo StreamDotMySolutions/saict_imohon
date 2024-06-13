@@ -42,20 +42,20 @@ class MohonApprovalService
 
         // update step 1
         // find the id with status ='pending' and mohon_request_id = $mohonRequestId
-        $prevApproval = MohonApproval::query()
-                                ->where('step',1)
-                                ->where('mohon_request_id',$mohonRequestId)
-                                ->where('status','pending')
-                                ->first();
+        // $prevApproval = MohonApproval::query()
+        //                         ->where('step',1)
+        //                         ->where('mohon_request_id',$mohonRequestId)
+        //                         ->where('status','pending')
+        //                         ->first();
     
-        //\Log::info($prevApproval);
-        // Check if a record was found
-        if ($prevApproval) {
-            // Update the status of the retrieved record to 'approved'
-            $prevApproval->update([
-                'status' => 'approved',
-            ]);
-        }
+        // //\Log::info($prevApproval);
+        // // Check if a record was found
+        // if ($prevApproval) {
+        //     // Update the status of the retrieved record to 'approved'
+        //     $prevApproval->update([
+        //         'status' => 'approved',
+        //     ]);
+        // }
 
         // update MohonRequest 
         MohonRequest::where('id',$mohonRequestId)->update([

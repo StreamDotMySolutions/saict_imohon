@@ -55,7 +55,7 @@ class MohonService
                     //->with(['mohonApproval'])
                     ->with([
                         'user.userProfile',
-                        'mohonApproval',
+                        'mohonApproval.user',
                         'approver'
                         ])
 
@@ -104,6 +104,12 @@ class MohonService
                     // MohonApproval 
                     ->whereHas('mohonApproval', function ($query) use ($user,$status) {
 
+                        $query->whereIn('id', function ($subQuery) {
+                            $subQuery->select(\DB::raw('MAX(id)'))
+                                ->from('mohon_approvals')
+                                ->groupBy('mohon_request_id');
+                        });
+                
                 
                         switch($status){
                             case 'pending':
@@ -116,9 +122,9 @@ class MohonService
 
                             case 'approved':
                                 // only list where step = 2
-                               
-                                $query->where('step', 2)
-                                        ->where('status', $status)
+                               //\Log::info($status);
+                                $query->where('step', 3)
+                                        ->where('status', 'pending') // pelulus 1 approved, step upgraded to 3 and status is 'pending'
                                         ->where('user_id', $user->id); // from pelulus1 that approved
                             break;
 
@@ -161,9 +167,9 @@ class MohonService
                     //->with(['mohonApproval'])
                     ->with(['user.userProfile.userDepartment','mohonApproval'])
 
-                    // only list where step = 1
+                    // only list where step = 3
                     ->whereHas('mohonApproval', function ($query) {
-                        $query->where('status', 'approved')->where('step', 2);
+                        $query->where('status', 'pending')->where('step', 3);
                     })
 
                     ->withCount(['mohonItems']) // to calculate how many items

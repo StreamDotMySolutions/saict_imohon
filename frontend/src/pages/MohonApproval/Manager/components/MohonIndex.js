@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button } from 'react-bootstrap'
+import { Table,Pagination, Button, Badge } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
+import StatusPermohonan from '../../../Mohon/components/StatusPermohonan'
 
 
 const MohonIndex = ({status}) => {
@@ -46,9 +47,10 @@ const MohonIndex = ({status}) => {
                     <tr>
                         <th style={{ 'width': '20px'}}>No.</th>
                         <th style={{ 'width': '120px'}}>Pemohon</th>
-                        <th style={{ 'width': '250px'}}>Status Kelulusan</th>
+                        <th style={{ 'width': '100px'}}>Status Kelulusan</th>
+                        <th className='text-center' style={{ 'width': '300px'}}>Kelulusan Terkini</th>
                         <th className="text-center" style={{ 'width': '50px'}}>Jumlah Peralatan</th>
-                        <th className="text-center" style={{ 'width': '50px'}}>Tarikh</th>
+                        <th className="text-center" style={{ 'width': '50px'}}>Tarikh Permohonan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -61,6 +63,30 @@ const MohonIndex = ({status}) => {
                             <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
                             </td>
+                            <td  className='text-center'>
+                            { mohon.mohon_approval ?
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Peringkat</th>
+                                            <th>Tarikh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{mohon?.mohon_approval?.status}</td>
+                                            <td>{mohon?.mohon_approval?.step}</td>
+                                            <td>{mohon?.mohon_approval?.created_at}</td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                                :
+                                <Badge>Belum buat permohonan</Badge>        
+                                }
+                            </td>
+
+                         
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
@@ -73,6 +99,7 @@ const MohonIndex = ({status}) => {
             </Table>
 
             <div className="d-flex bd-highlight mb-3">
+                <StatusPermohonan />
                 <div className="ms-auto p-2 bd-highlight">
                     <PaginatorLink items={mohons} />
                 </div>
