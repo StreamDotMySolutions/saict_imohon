@@ -103,9 +103,11 @@ class MohonService
                     // MohonApproval 
                     ->whereHas('mohonApproval', function ($query) use ($user,$status) {
 
+                
                         switch($status){
                             case 'pending':
                                 // only list where step = 1
+                             
                                 $query->where('step', 1)
                                         ->where('status', $status)
                                         ->where('manager_id', $user->id); // from user that request Mohon
@@ -141,10 +143,11 @@ class MohonService
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
 
-                    //\Log::info('execute here approved : ' .  $status);
-                    //\Log::info($mohons);
+                
         return $mohons;
     }
+
+    
 
     /*
     * Only list MohonRequest Step = 2 && status == 'approved'

@@ -42,7 +42,12 @@ class MohonDistributionRequestController extends Controller
     public function byBoss($status = 'pending')
     {
 
-        \Log::info($status);
+        $mohons = MohonDistributionRequestService::getMohonDistributionRequestAsBoss($status);
+        //\Log::info($mohonRequestId);
+
+        return response()->json([
+            'mohons' => $mohons
+        ]);
     }
 
     public function show($id)

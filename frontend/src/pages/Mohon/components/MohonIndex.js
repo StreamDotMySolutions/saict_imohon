@@ -59,7 +59,9 @@ const MohonIndex = () => {
                         <th className='text-center'>Peralatan<br />Mohon</th>
                         <th className='text-center'>Peralatan<br />Agihan</th>
                         {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
+                        <th className='text-center'>Status Terkini</th>
                         <th className='text-center'>Tarikh</th>
+                       
                         <th className='text-center'>Tindakan</th>
                     </tr>
                 </thead>
@@ -75,6 +77,24 @@ const MohonIndex = () => {
                             {/* <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                            <td>
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Pelulus</th>
+                                            <th>Tarikh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{mohon.status}</td>
+                                            <td>{mohon.approver_id}</td>
+                                            <td>{mohon.updated_at}</td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </td>
                             <td className='text-center'>{mohon.created_at}</td>
                             {/* <td className='text-center'>{mohon.mohon_items_count}</td> */}
                             <td className='text-center'>

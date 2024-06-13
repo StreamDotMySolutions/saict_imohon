@@ -33,7 +33,37 @@ class MohonRequest extends Model
         * Latest Mohon Approval Status
         */
         return $this->hasOne(MohonApproval::class)
-                    ->orderBy('id','DESC');
+                    ->latest();
+    }
+
+    public function mohonApprovalByStatus($status)
+    {
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', $status);
+    }
+
+
+
+    public function mohonApprovalPending()
+    {
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', 'pending');
+    }
+
+    public function mohonApprovalApproved()
+    {
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', 'approved');
+    }
+
+    public function mohonApprovalRejected()
+    {
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', 'rejected');
     }
 
     public function mohonApprovals() 

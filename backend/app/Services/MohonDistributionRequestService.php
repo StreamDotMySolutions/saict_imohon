@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\MohonDistributionRequest;
 use App\Models\MohonDistributionApproval;
 use App\Services\MohonDistributionApprovalService;
+use DB;
 
 class MohonDistributionRequestService
 {
@@ -67,23 +68,47 @@ class MohonDistributionRequestService
     /*
     * Only list MohonDistributionRequest Step = 1 
     */
-    public static function getMohonDistributionRequestAsBoss()
+    public static function getMohonDistributionRequestAsBoss($status)
     {
-        $paginate = MohonDistributionRequest::query(); // Intiate Paginate
-        $requests = $paginate->orderBy('id','DESC')
-                    ->with(['user.userProfile','mohonDistributionApproval'])
+        $paginate = MohonDistributionRequest::query(); // Initiate Paginate
 
-                    // only list where step = 1
-                    // ->whereHas('mohonApproval', function ($query) {
-                    //     $query->where('status', 'approved')->where('step', 2);
-                    // })
+        $requests = $paginate->orderBy('id', 'DESC')
+                            ->with(['user.userProfile', 'mohonDistributionApproval' => function ($query) {
+                                $query->orderBy('step', 'desc')->orderBy('updated_at', 'desc');
+                    }])
+                    ->whereHas('mohonDistributionApprovalByBoss', function ($query) use ($status) {
+                        $query->whereIn('id', function ($subQuery) {
+                            $subQuery->select(DB::raw('MAX(id)'))
+                                ->from('mohon_distribution_approvals')
+                                ->groupBy('mohon_distribution_request_id');
+                        });
 
+                        switch ($status) {
+                            case 'pending':
+                                //\Log::info($status);
+                                // only list where step = 1
+                                $query->where('step', 1)
+                                    ->where('status', $status);
+                                break;
+
+                            case 'approved':
+                                // only list where step = 2
+                                $query->where('step', 2)
+                                    ->where('status', $status);
+                                break;
+
+                            case 'rejected':
+                                // only list where step = 2
+                                $query->where('step', 2)
+                                    ->where('status', $status);
+                                break;
+                        }
+                    })
                     ->withCount(['mohonDistributionItems']) // to calculate how many items
-                    
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
-                               
-        return $requests;
+
+                return $requests;
 
     }
 

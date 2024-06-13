@@ -28,7 +28,7 @@ export default function ApprovalModal({id,count,step}) {
       axios( `${store.mohonApprovalUrl}/list-managers`)
       .then ( response => {
         setManagers(response.data.managers)
-        console.log(response)
+        //console.log(response)
       })
       .catch ( error => {
         console.warn(error)
@@ -65,6 +65,7 @@ export default function ApprovalModal({id,count,step}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
+      console.log(`${store.userApprovalUrl}/${id}`)
       axios({ 
           method: 'post',
           url : `${store.userApprovalUrl}/${id}`,

@@ -46,7 +46,7 @@ export default function CreateModal() {
         'url' : `${store.departmentUrl}`
       })
       .then( response => {
-        console.log(response.data)
+        //console.log(response.data)
         setDepartments(response.data.user_departments)
         store.setValue('departments', response.data.user_departments)
         //setCategories(response.data.categories)
@@ -130,6 +130,7 @@ export default function CreateModal() {
       if (store.getValue('building_level') != null ) {
         formData.append('building_level', store.getValue('building_level'));
       }
+
 
       axios({ 
           method: 'post',

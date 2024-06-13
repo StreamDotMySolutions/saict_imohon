@@ -45,6 +45,11 @@ class MohonDistributionRequest extends Model
                     ->latest();
     }
 
+    public function mohonDistributionApprovalByBoss()
+    {
+        return $this->hasMany(MohonDistributionApproval::class)->orderBy('step', 'desc')->orderBy('updated_at', 'desc');
+    }
+
 
 
     public function mohonDistributionApprovals() 

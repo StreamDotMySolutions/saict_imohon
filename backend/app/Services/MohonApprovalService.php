@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\MohonRequest;
 use App\Models\MohonApproval;
 
 class MohonApprovalService
@@ -13,6 +14,15 @@ class MohonApprovalService
         //\Log::info($request);
         
         $user =  auth('sanctum')->user();
+
+        // update existing mohonRequest
+        MohonRequest::where('id',$mohonRequestId)->update([
+            'status' => 'pending',
+            'step' => 1,
+            'approver_id' => $request->input('manager_id') 
+        ]);
+
+        // create record in MohonApproval for record keeping
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User that requesting approval to manager ( pelulus 1 )
@@ -28,6 +38,7 @@ class MohonApprovalService
         // if approved, requesting to Admin
         // step = 1
         $user =  auth('sanctum')->user();
+
 
         // update step 1
         // find the id with status ='pending' and mohon_request_id = $mohonRequestId
@@ -45,12 +56,13 @@ class MohonApprovalService
                 'status' => 'approved',
             ]);
         }
-        // MohonApproval::query()
-        //                 ->where('id',$prevApproval)
-        //                 ->update([
-        //                     'status'  => 'approved',
-        //                 ]);
-  
+
+        // update MohonRequest 
+        MohonRequest::where('id',$mohonRequestId)->update([
+            'status' => $request->input('status'), //either approved or rejected
+            'step' => 2, // step 2 = role  pelulus-1
+            'approver_id' => $user->id, // Manager
+        ]);
 
         // create step 2
         $approval = MohonApproval::create([
@@ -63,6 +75,13 @@ class MohonApprovalService
         // if status == approved
         // create step3 with pending status
         if( $request->input('status') == 'approved'){
+
+            MohonRequest::where('id',$mohonRequestId)->update([
+                'status' => 'pending', //either approved or rejected
+                'step' => 3, // step 2 = role  pelulus-1
+                //'approver_id' => $user->id, // requesting  ANY admin
+            ]);
+
             return MohonApproval::create([
                 'mohon_request_id' => $mohonRequestId,
                 'user_id' => $user->id, // Manager
@@ -83,6 +102,13 @@ class MohonApprovalService
         // step = 3
         // if processed, upgrade step to 4
         $user =  auth('sanctum')->user();
+
+        MohonRequest::where('id',$mohonRequestId)->update([
+            'status' => $request->input('status'), //either approved or rejected
+            'step' => 4, // step 4 is final
+            'approver_id' => $user->id, // Admin
+        ]);
+
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Admin
