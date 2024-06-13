@@ -88,7 +88,7 @@ const MohonShow = () => {
                                 <th>EMAIL</th>
                                 <th>TELEFON</th>
                                 <th>JABATAN</th>
-                                <th>JUMLAH PERALATAN</th>
+                                <th className='text-center'>JUMLAH PERALATAN</th>
                                 <th>TARIKH</th>
                             </tr>
                         </thead>
@@ -99,7 +99,7 @@ const MohonShow = () => {
                                 <td>{response.user?.email}</td>
                                 <td>{response.user?.user_profile?.phone}</td>
                                 <td>{response.user?.user_profile?.user_department?.name}</td>
-                                <td>{response.mohon_items_count} unit</td>
+                                <td className='text-center'>{response.mohon_items_count} unit</td>
                                 <td>{response.created_at}</td>
                             </tr>
                         </tbody>
