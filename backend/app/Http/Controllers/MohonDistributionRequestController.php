@@ -15,7 +15,7 @@ class MohonDistributionRequestController extends Controller
     public function index($mohonRequestId)
     {
         $mohons = MohonDistributionRequestService::index($mohonRequestId);
-        \Log::info($mohonRequestId);
+        //\Log::info($mohonRequestId);
 
         return response()->json([
             'mohons' => $mohons
@@ -42,7 +42,7 @@ class MohonDistributionRequestController extends Controller
     public function byBoss($status = 'pending')
     {
 
-        //\Log::info($status);
+        \Log::info($status);
     }
 
     public function show($id)

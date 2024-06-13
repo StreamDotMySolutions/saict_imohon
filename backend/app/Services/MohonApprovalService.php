@@ -10,7 +10,7 @@ class MohonApprovalService
 
     public static function storeByUser($request, $mohonRequestId)
     {
-        \Log::info($request);
+        //\Log::info($request);
         
         $user =  auth('sanctum')->user();
         return MohonApproval::create([

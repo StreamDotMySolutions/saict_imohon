@@ -5,11 +5,15 @@ import axios from '../../../../libs/axios'
 import ViewModal from '../modals/ViewModal'
 import { AgihanApprovalStatus } from '../../../../components/global/AgihanApproval'
 
+{/*
+* Role = Boss will receive MohonDistributionRequest from role = Admin
+* BOSS either approve or reject
+*/}
 
-
-const Index = () => {
+const Index = ({status}) => {
     const store = useStore()
     const [responses, setResponses] = useState([])
+    console.log(status)
 
     useEffect( () => 
         {
@@ -17,7 +21,7 @@ const Index = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon-distribution-requests/by-boss
+                    url: `${store.url}/${status}` // eg GET http://localhost:8000/api/mohon-distribution-requests/by-boss
                 } 
             )
             .then( response => { // response block
@@ -44,9 +48,7 @@ const Index = () => {
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
                         <th style={{ 'width': '120px'}}>Pemohon</th>
-            
                         <th className='text-center' style={{ 'width': '50px'}}>Status Kelulusan</th>
-            
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Tarikh</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>

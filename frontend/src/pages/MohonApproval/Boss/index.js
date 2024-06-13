@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Index from './components/Index';
-import { Badge } from 'react-bootstrap';
+import { Badge, Tab, Tabs } from 'react-bootstrap';
 
 const MohonApprovalByBoss = () => {
     return (
@@ -11,7 +11,21 @@ const MohonApprovalByBoss = () => {
                     <li className="breadcrumb-item">Senarai permohonan agihan</li>
                 </ol>
             </nav>
-            <Index />
+
+            <Tabs
+                 defaultActiveKey="pending"
+            >
+                <Tab eventKey="pending" title="Menunggu Kelulusan">
+                    <Index status={'pending'} />
+                </Tab>
+                <Tab eventKey="approved" title="Lulus">
+                    <Index status={'approved'} />
+                </Tab>
+                <Tab eventKey="rejected" title="Gagal">
+                    <Index status={'rejected'} />
+                </Tab>
+            </Tabs>
+           
         </div>
     );
 };

@@ -22,8 +22,8 @@ const MohonShow = () => {
                 'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
             })
             .then( response => {
-                console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
-                console.log(response.data.mohon)
+                //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
+                //console.log(response.data.mohon)
                 setResponse(response.data.mohon)
             })
             .catch ( error => {

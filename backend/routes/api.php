@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-approval/by-boss/{mohonRequestId}', [MohonApprovalController::class, 'byBoss']);
 
     // mohon distribution request
+    Route::get('/mohon-distribution-requests/by-boss/{status}', [MohonDistributionRequestController::class, 'byBoss']); 
     Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']); 
     Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
 
