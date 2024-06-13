@@ -55,7 +55,8 @@ class MohonService
                     //->with(['mohonApproval'])
                     ->with([
                         'user.userProfile',
-                        'mohonApproval'
+                        'mohonApproval',
+                        'approver'
                         ])
 
                     // list ad LoggedIn User
