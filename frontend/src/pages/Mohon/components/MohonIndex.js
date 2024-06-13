@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button, Badge } from 'react-bootstrap'
+import { Table,Pagination, Button, Badge,Col } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
 import EditModal from '../modals/EditModal'
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import ApprovalModal from '../modals/ApprovalModal'
 import { ApproverStatus } from '../../../components/global/Approval'
 import StatusPermohonan from './StatusPermohonan'
+import LegendPermohonan from './LegendPermohonan'
 
 
 const MohonIndex = () => {
@@ -116,7 +117,7 @@ const MohonIndex = () => {
                                 </Link>
 
                                 {' '}
-                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} />
+                                <DeleteModal id={mohon.id} step={mohon.mohon_approval.step} status={mohon.mohon_approval.status}/>
                                 {' '}
                                 {/* <Link to={`/agihan/${mohon.id}`}>
                                     <Button size='sm' variant='success'>Agihan</Button>
@@ -133,8 +134,11 @@ const MohonIndex = () => {
             
 
             <div className="d-flex bd-highlight mt-3">
-                <StatusPermohonan />
-                <div className="ms-auto p-2 bd-highlight">
+                
+                <Col className='p-2'><StatusPermohonan /></Col>
+                <Col className='p-2'><LegendPermohonan /></Col>
+                <Col className='col-1'></Col>
+                <div className="ms-auto">
                     <PaginatorLink items={mohons} />
                 </div>
             </div>

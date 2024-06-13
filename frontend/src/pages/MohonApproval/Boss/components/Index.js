@@ -13,7 +13,7 @@ import { AgihanApprovalStatus } from '../../../../components/global/AgihanApprov
 const Index = ({status}) => {
     const store = useStore()
     const [responses, setResponses] = useState([])
-    console.log(status)
+    //console.log(status)
 
     useEffect( () => 
         {

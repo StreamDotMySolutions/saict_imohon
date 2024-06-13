@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react'
 import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
 import EditModal from '../Mohon/modals/EditModal'
 import DeleteModal from '../Mohon/modals/DeleteModal'
+import StatusPermohonan from '../Mohon/components/StatusPermohonan'
+import StatusAgihan from '../Mohon/components/StatusAgihan'
 
 const MohonShow = () => {
     const { mohonRequestId } = useParams()
@@ -155,6 +157,8 @@ const MohonShow = () => {
                                     <td>{item.building_level}</td>
                                     <td>{item.location}</td>
                                     <td>
+                                    {item.mohon_distribution_item?.mohon_distribution_item_delivery  ?
+
                                         <Table>
                                             <thead>
                                                 <tr>
@@ -172,6 +176,9 @@ const MohonShow = () => {
                                                 </tr>
                                             </tbody>
                                         </Table>
+                                        :
+                                        <Badge>Agihan belum bermula</Badge>
+                                         }
 
                                     </td>
                                 </tr>
@@ -182,29 +189,74 @@ const MohonShow = () => {
                     
 
                 <Row className="mb-3 mt-3 border p-3" style={{backgroundColor:""}}>
-                    <h2>MAKLUMAT KELULUSAN PERMOHONAN</h2>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th className='col-1'>Peringkat</th>
-                                <th className='col-1'>Status</th>
-                                <th className='col-8'>Nama</th>
-                                <th className='text-center'>Tarikh</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {response?.mohon_approvals?.map((item,index) => (
-                                <tr key={index}>
+                    <Col>
+                            <StatusPermohonan />
+                            <br />
+                            <StatusAgihan />
+                    </Col>
+
+                    <Col>
+
+                        <Row className='border rounded mb-3'>
+                            <h2>MAKLUMAT KELULUSAN PERMOHONAN</h2>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th className='col-1'>Peringkat</th>
+                                        <th className='col-1'>Status</th>
+                                        <th className='col-6'>Nama</th>
+                                        <th className='text-center'>Tarikh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {response?.mohon_approvals?.map((item,index) => (
+                                        <tr key={index}>
+                                        
+                                            <td className='text-center'>{item.step}</td>
+                                            <td>{item.status}</td>
+                                            <td>{item?.user.name}</td>
+                                            <td className='text-center'>{item.created_at}</td>
                                 
-                                    <td className='text-center'>{item.step}</td>
-                                    <td>{item.status}</td>
-                                    <td>{item?.user.name}</td>
-                                    <td className='text-center'>{item.created_at}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </Row>
                         
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+
+                        <Row className='border rounded'>
+
+                            <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th className='col-1'>Peringkat</th>
+                                        <th className='col-1'>Status</th>
+                                        <th className='col-6'>Nama</th>
+                                        <th className='text-center'>Tarikh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    {response?.mohon_distribution_requests?.map((request) => 
+                                        request.mohon_distribution_approvals?.map((item, index) => (
+                                            <tr key={index}>
+                                                <td className='text-center'>{item.step}</td>
+                                                <td>{item.status}</td>
+                                                <td>{item?.user?.name ?? 'N/A'}</td>
+                                                <td className='text-center'>{item.created_at}</td>
+                                            </tr>
+                                        ))
+                                    )}
+
+                                </tbody>
+                            </Table>
+
+                        </Row>
+                        
+
+                    </Col>
+                  
                 </Row>
                 
 

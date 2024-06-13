@@ -82,7 +82,7 @@ class MohonRequest extends Model
         * All Approvals
         */
         return $this->hasMany(MohonApproval::class)
-                    ->orderBy('id','DESC');
+                    ->orderBy('id','ASC');
     }
 
     public function mohonDistributionRequests() 

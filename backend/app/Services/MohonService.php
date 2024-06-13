@@ -248,7 +248,7 @@ class MohonService
                         'mohonDistributionRequests' => function ($query) {
                             $query->withCount('mohonDistributionItems');
                             $query->with([
-                                'mohonDistributionApprovals',
+                                'mohonDistributionApprovals.user',
                                 'user.userProfile',
                                 'mohonDistributionItems.category',
                                 'mohonDistributionItems.inventory',

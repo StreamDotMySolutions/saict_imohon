@@ -186,7 +186,7 @@ export default function ViewModal({id, step}) {
     return (
       <>
 
-        <Button size={'sm'} disabled={step !== 0} variant="outline-info" onClick={handleShowClick}>
+        <Button size={'sm'} variant="outline-info" onClick={handleShowClick}>
           Lihat 
         </Button>
   

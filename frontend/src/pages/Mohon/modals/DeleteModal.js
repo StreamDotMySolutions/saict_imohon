@@ -4,7 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
-export default function DeleteModal({id, step = 0 }) {
+export default function DeleteModal({id, step = 0, status }) {
 
     const store = useMohonStore()
     const errors = store.errors
@@ -18,27 +18,7 @@ export default function DeleteModal({id, step = 0 }) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
-      //console.log(id)
-
-        //console.log( `${store.submitUrl}/${id}`)
-        axios({
-            'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
-        })
-        .then( response => {
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
-          setIsLoading(false)
-        })
-        .catch ( error => {
-          console.warn(error)
-          setIsLoading(false)
-        })
-
-        setShow(true) // show the modal
+      setShow(true) // show the modal
     }
 
     const handleCloseClick = () => {
@@ -80,9 +60,14 @@ export default function DeleteModal({id, step = 0 }) {
   
     return (
       <>
-        <Button disabled={step !== 0} size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Hapus
-        </Button>
+      <Button 
+        disabled={!(step === 0 || (step === 2 && status === 'rejected'))} 
+        size="sm" 
+        variant="outline-danger" 
+        onClick={handleShowClick}
+      >
+        Hapus
+      </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
