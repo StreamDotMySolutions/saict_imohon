@@ -9,8 +9,10 @@ class StoreRequest extends FormRequest
 
     public function rules(): array
     {
+
+        \Log::info($this->all());
         return [
-            'boss_id' => 'required',
+            'boss_id' => 'required|integer',
             'acknowledge' => 'required',
         ];
     }
@@ -18,6 +20,7 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
+            'boss_id.integer' => 'Sila pilih pelulus 2',
             'boss_id.required' => 'Sila pilih pelulus 2',
             'acknowledge.required' => 'Sila sahkan tindakan anda',
         ];
