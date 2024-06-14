@@ -94,20 +94,35 @@ class MohonService
         $mohonRequest->mohonDistributionRequests()->each(function ($distributionRequest) {
 
             // delete mohon distribution items
-            //$distributionRequest->mohonDistributionItems()->delete();
-            
+
+            // Delete related mohonDistributionItemAcceptance if it exists
             // Iterate through and delete each mohonDistributionItem and its related mohonDistributionItemAcceptance records
             $distributionRequest->mohonDistributionItems()->each(function ($distributionItem) {
-                $distributionItem->mohonDistributionItemAcceptances()->delete();
-                $distributionItem->delete();
-            });
+                try {
+                    Log::info('Processing Distribution Item ID: ' . $distributionItem->id);
 
-            //deliveries
-            $distributionRequest->mohonDistributionItems()->each(function ($distributionItem) {
-                $distributionItem->mohonDistributionItemDeliveries()->delete();
-                $distributionItem->delete();
-            });
+                    // Delete related mohonDistributionItemAcceptance if it exists
+                    $acceptance = $distributionItem->mohonDistributionItemAcceptance;
+                    if ($acceptance) {
+                        $acceptance->delete();
+                    }
 
+                    // Delete related mohonDistributionItemDelivery if it exists
+                    $delivery = $distributionItem->mohonDistributionItemDelivery;
+                    if ($delivery) {
+                        $delivery->delete();
+                    }
+
+                    // Delete the distributionItem itself
+                    $distributionItem->delete();
+                } catch (\Exception $e) {
+                    Log::error('Error deleting Distribution Item or its related records: ' . $e->getMessage());
+                }
+            });
+            //$distributionRequest->mohonDistributionItems()->delete();
+            
+
+       
             // delete agihan request
             $distributionRequest->mohonDistributionApprovals()->delete();
         });
