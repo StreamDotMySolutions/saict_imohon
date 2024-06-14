@@ -109,7 +109,13 @@ const Index = () => {
                                             <td  className='text-center'>
                                                 {!item.mohon_distribution_item_acceptance?.created_at ?
                                                 <>
+                                                    {item.mohon_distribution_item_delivery != null ?
                                                     <ViewModal id={item.id} />
+                                                    :
+                                                    <Button size="sm" variant="info" disabled>
+                                                        Pengesahan
+                                                    </Button>
+                                                    }
                                                 </> 
                                                 :
                                                 <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>

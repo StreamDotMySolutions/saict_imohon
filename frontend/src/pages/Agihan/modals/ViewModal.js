@@ -26,7 +26,7 @@ export default function ViewModal({id}) {
             'url' : `${store.mohonDistributionItemAcceptance}/${id}/show`
         })
         .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           store.setValue('message', response.data?.data?.message)
           setIsLoading(false)
         })
