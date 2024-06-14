@@ -104,35 +104,43 @@ class MohonService
                     // MohonApproval 
                     ->whereHas('mohonApproval', function ($query) use ($user,$status) {
 
-                        $query->whereIn('id', function ($subQuery) {
-                            $subQuery->select(\DB::raw('MAX(id)'))
-                                ->from('mohon_approvals')
-                                ->groupBy('mohon_request_id');
-                        });
+                        // $query->whereIn('id', function ($subQuery) {
+                        //     $subQuery->select(\DB::raw('MAX(id)'))
+                        //         ->from('mohon_approvals')
+                        //         ->groupBy('mohon_request_id');
+                        // });
                 
                 
                         switch($status){
                             case 'pending':
                                 // only list where step = 1
+
+                                // MAX id
+                                $query->whereIn('id', function ($subQuery) {
+                                    $subQuery->select(\DB::raw('MAX(id)'))
+                                        ->from('mohon_approvals')
+                                        ->groupBy('mohon_request_id');
+                                        });
+                
                              
                                 $query->where('step', 1)
-                                        ->where('status', $status)
+                                        ->where('status', 'pending')
                                         ->where('manager_id', $user->id); // from user that request Mohon
                             break;
 
                             case 'approved':
                                 // only list where step = 2
                                //\Log::info($status);
-                                $query->where('step', 3)
-                                        ->where('status', 'pending') // pelulus 1 approved, step upgraded to 3 and status is 'pending'
-                                        ->where('user_id', $user->id); // from pelulus1 that approved
+                                $query->where('step',2)
+                                        ->where('status', 'approved') // pelulus 1 approved, step upgraded to 3 and status is 'pending'
+                                        ->where('manager_id', $user->id); // from pelulus1 that approved
                             break;
 
                             case 'rejected':
                                 // only list where step = 2
                                 $query->where('step', 2)
                                         ->where('status', $status)
-                                        ->where('user_id', $user->id); // from pelulus1 that approve
+                                        ->where('manager_id', $user->id); // from pelulus1 that approve
                             break;
                         }
             
@@ -217,17 +225,21 @@ class MohonService
         $user =  auth('sanctum')->user();
         $mohonRequest = MohonRequest::create([
             'user_id' => $user->id,
-            // 'title' => $request->input('title'),
+            'title' => 'Permohonan Peralatan',
             // 'description' => $request->input('description')
-             'title' => 'Permohonan',
-             'description' => 'Maklumat permohonan'
+            'step' => 0,
+            'status' => 'pending',
+            //'description' => 'Maklumat permohonan'
             
         ]);
+
+        
 
         // create MohonApproval
         $mohonApproval = MohonApproval::create([
             'mohon_request_id' => $mohonRequest->id,
-            'user_id' => $user->id,
+            'user_id' => $user->id, // owner
+            'requester_id' => $user->id, // requester
             'step' => 0,
             'status' => 'pending',
         ]);
@@ -298,6 +310,9 @@ class MohonService
 
         // Delete MohonItems
         $mohonRequest->mohonItems()->delete();
+
+        // Delete MohonApprovals
+        $mohonRequest->mohonApprovals()->delete();
 
         // Delete MohonRequest
         return $mohonRequest->delete();

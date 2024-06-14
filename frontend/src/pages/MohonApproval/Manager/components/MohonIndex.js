@@ -47,8 +47,8 @@ const MohonIndex = ({status}) => {
                     <tr>
                         <th style={{ 'width': '20px'}}>No.</th>
                         <th style={{ 'width': '120px'}}>Pemohon</th>
-                        <th style={{ 'width': '100px'}}>Status Kelulusan</th>
-                        <th className='text-center' style={{ 'width': '300px'}}>Kelulusan Terkini</th>
+                        <th className="text-center" style={{ 'width': '100px'}}>Status Kelulusan</th>
+                        {/* <th className='text-center' style={{ 'width': '300px'}}>Kelulusan Terkini</th> */}
                         <th className="text-center" style={{ 'width': '50px'}}>Jumlah Peralatan</th>
                         <th className="text-center" style={{ 'width': '50px'}}>Tarikh Permohonan</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
@@ -60,23 +60,23 @@ const MohonIndex = ({status}) => {
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.email}</td>
-                            <td className='text-center'>
+                            {/* <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
-                            </td>
+                            </td> */}
                             <td  className='text-center'>
                             { mohon.mohon_approval ?
-                                <Table>
+                                <Table className='border rounded' style={{backgroundColor:"#f0f0f0"}}>
                                     <thead>
                                         <tr>
-                                            <th>Status</th>
                                             <th>Peringkat</th>
+                                            <th>Status</th>
                                             <th>Tarikh</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{mohon?.mohon_approval?.status}</td>
                                             <td>{mohon?.mohon_approval?.step}</td>
+                                            <td>{mohon?.mohon_approval?.status}</td>
                                             <td>{mohon?.mohon_approval?.created_at}</td>
                                         </tr>
                                     </tbody>

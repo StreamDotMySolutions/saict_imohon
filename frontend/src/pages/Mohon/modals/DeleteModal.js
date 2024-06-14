@@ -60,6 +60,7 @@ export default function DeleteModal({id, step = 0, status }) {
   
     return (
       <>
+      
       <Button 
         disabled={!(step === 0 || (step === 2 && status === 'rejected'))} 
         size="sm" 
@@ -87,7 +88,7 @@ export default function DeleteModal({id, step = 0, status }) {
             </Button>
 
             <Button 
-              disabled={isLoading}
+              disabled={!(step === 0 || (step === 2 && status === 'rejected'))} 
               variant="danger" 
               onClick={handleSubmitClick}>
               Hapus

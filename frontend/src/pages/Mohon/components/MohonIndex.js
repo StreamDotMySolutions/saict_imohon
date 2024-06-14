@@ -51,7 +51,6 @@ const MohonIndex = () => {
                 </div>
             </div>
 
-
             <Table>
                 <thead>
                     <tr>

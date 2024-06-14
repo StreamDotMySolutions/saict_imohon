@@ -26,7 +26,13 @@ class MohonApprovalService
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User that requesting approval to manager ( pelulus 1 )
+            
+            'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
+            'approver_id' =>  $request->input('manager_id'), // the one who will approve the request
+
             'manager_id' => $request->input('manager_id'), // which manager
+
+
             'step' => 1, // step 1 is for user requesting from manager
             'status' => 'pending'
         ]);
@@ -68,6 +74,11 @@ class MohonApprovalService
         $approval = MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Manager
+            
+            'approver_id' =>  $user->id, // the one who approve / reject the request
+            'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
+            'manager_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
+           
             'step' => 2, // 2 is for manager managing
             'status' => $request->input('status')
         ]);
@@ -85,6 +96,10 @@ class MohonApprovalService
             return MohonApproval::create([
                 'mohon_request_id' => $mohonRequestId,
                 'user_id' => $user->id, // Manager
+
+                'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
+                'manager_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
+
                 'step' => 3, // step 3 is for admin maanaging
                 'status' => 'pending' // pending
             ]);
@@ -106,12 +121,16 @@ class MohonApprovalService
         MohonRequest::where('id',$mohonRequestId)->update([
             'status' => $request->input('status'), //either approved or rejected
             'step' => 4, // step 4 is final
-            'approver_id' => $user->id, // Admin
+            'approver_id' => $user->id, // latest approver
+            'admin_id' => $user->id, // Admin
         ]);
 
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // Admin
+            'requester_id' => $user->id, // the one who request the request
+            'approver_id' => $user->id, // the one who will approve the request
+            'admin_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
             'step' => 4,
             'status' => $request->input('status')
         ]);
