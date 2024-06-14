@@ -55,12 +55,12 @@ const Index = () => {
                                         <th style={{ 'width': '20px'}}>ID</th>
                                         <th>Peralatan</th>
                                         <th>Jenis</th>
-                                        <th>Pemohon</th>
+                                        <th className='text-center'>Pemohon</th>
                                       
-                                        <th>Jangkamasa Penghantaran</th>
+                                        <th className='text-center'>Jangkamasa Penghantaran</th>
                                       
                                         <th className='text-center'>Status Penerimaan</th>
-                                        <th className='text-center'>Tarikh Terima</th>
+                                        <th className='text-center'>Tarikh Pengesahan Penerimaan</th>
                                         <th className='text-center' style={{ 'width': '200px'}}>Tindakan</th>
                                 
                                     </tr>
@@ -72,10 +72,12 @@ const Index = () => {
                                             <td> <span className="badge bg-primary">{item.id}</span></td>
                                             <td>{item.category?.name}</td>
                                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                                            <td>{item.mohon_item?.name}</td>
+                                            <td className='text-center'>{item.mohon_item?.name}</td>
                                             
-                                            <td>
-                                            <Table className='rounded border' style={{backgroundColor:"#f0f0f0"}}>
+                                            <td className='text-center'>
+
+                                            {item.mohon_distribution_item_delivery != null ?
+                                            <Table className='rounded border ' style={{backgroundColor:"#f0f0f0"}}>
                                                     <thead>
                                                         <tr>
                                                             <th>Tarikh Mula</th>
@@ -89,6 +91,9 @@ const Index = () => {
                                                         </tr>
                                                     </tbody>
                                                 </Table>
+                                            :
+                                            <>Belum dibuat</>
+                                            }
                                             </td>
                                           
                                             <td className='text-center'>
