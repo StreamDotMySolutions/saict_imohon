@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Badge,Button,Row,Col,Form, InputGroup } from 'react-bootstrap'
+import { Badge,Button,Row,Col,Form, InputGroup, FloatingLabel } from 'react-bootstrap'
 import { React, useState, useEffect} from 'react'
 import useMohonStore from '../../store'
 
@@ -109,3 +109,40 @@ export function InputSelect({fieldName, placeholder, icon, isLoading, options}){
             </>)
 }
 
+
+export function InstallationDate({ fieldName, placeholder, icon, isLoading }) {
+    const store = useMohonStore();
+    const errors = store.getValue('errors');
+    const fieldValue = store.getValue(fieldName);
+
+    const handleChange = (e) => {
+        store.setValue(fieldName, e.target.value);
+    };
+
+    return (
+        <InputGroup>
+            <InputGroup.Text>
+                <FontAwesomeIcon icon={icon} />
+            </InputGroup.Text>
+            <FloatingLabel
+                label={errors?.[fieldName] ? errors[fieldName] : placeholder}
+                className={`col ${errors?.[fieldName] ? 'text-danger' : ''}`}
+            >
+                <Form.Control
+                    placeholder={placeholder}
+                    readOnly={store.readonly}
+                    value={fieldValue || ''}
+                    name={fieldName}
+                    size="md"
+                    type="date"
+                    disabled={isLoading}
+                    required
+                    isInvalid={errors?.hasOwnProperty(fieldName)}
+                    onChange={handleChange}
+                />
+          
+            </FloatingLabel>
+   
+        </InputGroup>
+    );
+}

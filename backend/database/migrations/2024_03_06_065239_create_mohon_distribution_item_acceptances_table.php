@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mohon_distribution_item_acceptances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mohon_distribution_item_id')->costrained();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -9,8 +9,13 @@ class StoreRequest extends FormRequest
 {
     public function rules()
     {
+
+        \Log::info($this->all());
         return [
             'acknowledge' => 'required',
+            'pic_name' => 'required',
+            'pic_phone' => 'required',
+            'installation_date' => 'required|date',
             'message' => 'required',
         ];
     }
@@ -19,6 +24,9 @@ class StoreRequest extends FormRequest
     {
         return [
             'acknowledge.required' => 'Sila sahkan data',
+            'pic_name.required' => 'Nama Person In Change diperlukan',
+            'pic_phone.required' => 'No telefon Person In Change diperlukan',
+            'installation_date.required' => 'Tarikh pemasangan diperlukan',
             'message.required' => 'Sila lengkapkan butiran tambahan.',
         ];
     }

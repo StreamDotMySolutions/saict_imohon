@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form, FloatingLabel} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { InputText, InputTextarea, InstallationDate } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useStore from '../store'
 
@@ -30,6 +30,7 @@ export default function ViewModal({id}) {
           store.setValue('message', response.data?.data?.message)
           setIsLoading(false)
         })
+
         .catch ( error => {
           console.warn(error)
           setIsLoading(false)
@@ -53,10 +54,30 @@ export default function ViewModal({id}) {
         formData.append('acknowledge', 1);
       }
       
-      // description
+      // nota penerimaan
       if (store.getValue('message') != null ) {
         formData.append('message', store.getValue('message'));
       }
+
+      // pic_name
+      if (store.getValue('pic_name') != null ) {
+        formData.append('pic_name', store.getValue('pic_name'));
+      }
+
+
+      // pic_phone
+      if (store.getValue('pic_phone') != null ) {
+        formData.append('pic_phone', store.getValue('pic_phone'));
+      }
+
+      // installation_date
+      if (store.getValue('installation_date') != null ) {
+        formData.append('installation_date', store.getValue('installation_date'));
+      }
+
+
+
+
 
       // method PUT ( to simulate PUT in Laravel )
       //formData.append('_method', 'put');
@@ -106,10 +127,31 @@ export default function ViewModal({id}) {
             <br /> */}
             <h5>Nota penerimaan</h5>
 
-    
+            <InputText 
+              fieldName='pic_name' 
+              placeholder='Nama Person In Charge'  
+              icon='fa-solid fa-person'
+              isLoading={isLoading}
+            />
+            <br />
+
+            <InputText 
+              fieldName='pic_phone' 
+              placeholder='No Telefon Person In Charge'  
+              icon='fa-solid fa-phone'
+              isLoading={isLoading}
+            />
+            <br />
+            <InstallationDate 
+               fieldName='installation_date' 
+               placeholder='Tarikh terima'  
+               icon='fa-solid fa-calendar'
+               isLoading={isLoading}
+            />
+            <br />
             <InputTextarea
               fieldName='message' 
-              placeholder='Maklumat tambahan'  
+              placeholder='Nota penerimaan'  
               icon='fa-solid fa-pencil'
               rows='6'
               isLoading={isLoading}

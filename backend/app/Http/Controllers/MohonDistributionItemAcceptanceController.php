@@ -30,6 +30,9 @@ class MohonDistributionItemAcceptanceController extends Controller
             'user_id' =>  auth('sanctum')->user()->id, // user auth,
             'message' => $request->input('message'),
             'description' => 'User accepted the item.',
+            'pic_name' => $request->input('pic_name'),
+            'pic_phone' => $request->input('pic_phone'),
+            'installation_date' => $request->input('installation_date'),
         ];
 
         // Use updateOrCreate to find and update or create the record
