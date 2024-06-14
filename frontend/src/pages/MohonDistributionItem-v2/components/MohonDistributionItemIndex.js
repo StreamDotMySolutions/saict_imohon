@@ -401,7 +401,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
    
                 {' '}
                 <Badge className='bg-dark'>
-                <FontAwesomeIcon icon={'fas fa-info'} /> : { approvalStatusMessage(mohon.mohon_distribution_approval.status) }
+                  <FontAwesomeIcon icon={'fas fa-info'} /> : { approvalStatusMessage(mohon.mohon_distribution_approval.status) }
                 </Badge>
                 </>
               }

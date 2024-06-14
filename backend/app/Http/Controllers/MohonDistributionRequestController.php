@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MohonDistributionRequest;
+use App\Models\User;
 use App\Services\MohonDistributionRequestService;
 use App\Http\Requests\MohonDistributionRequest\StoreRequest;
 use App\Http\Requests\MohonDistributionRequest\UpdateRequest;
@@ -52,9 +53,14 @@ class MohonDistributionRequestController extends Controller
 
     public function show($id)
     {
+        // get users with role = boss
+        $bossUsers = User::role('boss')->get();
+
+        // mohonDistributionRequest data
         $mohon = MohonDistributionRequestService::show($id);
         return response()->json([
-            'mohon' => $mohon
+            'mohon' => $mohon,
+            'bossUsers' => $bossUsers
         ]);
     }
 

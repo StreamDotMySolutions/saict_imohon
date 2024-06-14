@@ -20,7 +20,7 @@ class MohonDistributionApprovalController extends Controller
         // create new data in MohonDistributionApproval
         // step = 1 ( for Boss to view )
         // status = pending
-        $request = MohonDistributionApprovalService::storeByAdmin($mohonDistributionRequestId);
+        $request = MohonDistributionApprovalService::storeByAdmin($request,$mohonDistributionRequestId);
 
         // response in JSON ( 200 is success and 422 when failed )
         if($request){

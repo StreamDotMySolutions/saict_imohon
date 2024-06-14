@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { InputSelect, InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
@@ -13,6 +13,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([])
+    const [bosses, setBosses] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -28,9 +29,11 @@ export default function RequestApprovalModal({agihanRequestId}) {
             'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
         })
         .then( response => {
-          //console.log(response.data)
+          console.log(response)
+          setBosses(response.data.bossUsers) // set bosses
+
           let mohon = response.data.mohon
-          setItems(mohon.mohon_distribution_items) // set formValue
+          setItems(mohon.mohon_distribution_items) // set items
           setIsLoading(false)
         })
         .catch ( error => {
@@ -50,9 +53,14 @@ export default function RequestApprovalModal({agihanRequestId}) {
       const formData = new FormData()
 
 
-      // ackknowledge
+      // acknowledge
       if (store.getValue('acknowledge') != null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
+      // boss_id
+      if (store.getValue('boss_id') != null ) {
+        formData.append('boss_id', store.getValue('boss_id'));
       }
 
       // method PUT ( to simulate PUT in Laravel )
@@ -99,17 +107,28 @@ export default function RequestApprovalModal({agihanRequestId}) {
           </Modal.Header>
 
           <Modal.Body>
-            <Table>
+
+          <h5>Maklumat Pelulus</h5>
+            <InputSelect
+                  fieldName='boss_id' 
+                  options = {bosses}
+                  placeholder='Sila Pilih Pelulus 2'  
+                  icon='fa-solid fa-person'
+                  isLoading={isLoading}
+                />
+            <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
               <thead>
                   <tr>
+                      <th className='col-2'>PEMOHON</th>
                       <th className='col-4'>PERALATAN</th>
-                      <th className='col-3'>JENIS</th>
+                      <th className='col-2'>JENIS</th>
                       <th>VENDOR</th>
                   </tr>
               </thead>
               <tbody>
                 {items.length > 0 && items?.map( (item,index) => (
                   <tr key={index}>
+                      <td>{item.mohon_item?.name}</td>
                       <td>{item.category.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                       <td>{item.inventory?.vendor}</td>

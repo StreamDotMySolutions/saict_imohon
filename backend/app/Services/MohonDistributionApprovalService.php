@@ -38,7 +38,7 @@ class MohonDistributionApprovalService
     }
 
     // Admin requesting Agihan Approval from Boss
-    public static function storeByAdmin($mohonDistributionRequestId)
+    public static function storeByAdmin($request,$mohonDistributionRequestId)
     {
 
         if ( !self::checkIfExists($mohonDistributionRequestId) ) return false;
@@ -47,6 +47,7 @@ class MohonDistributionApprovalService
         return MohonDistributionApproval::create([
             'mohon_distribution_request_id' => $mohonDistributionRequestId,
             'user_id' => $user->id, // role is Admin
+            'boss_id' => $request->input('boss_id'), // which pelulus 2 ?
             'step' => 1, // upgrade from 0 to 1
             'status' => 'pending' // status is pending
         ]);

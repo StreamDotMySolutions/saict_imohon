@@ -106,6 +106,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon-distribution-requests/by-boss/{status}', [MohonDistributionRequestController::class, 'byBoss']); 
     Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']); 
     Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
+    // mohon-distribution from admin to boss ( requesting approval )
+    Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
+   
 
     Route::get('/manage/mohon-distribution-requests', [MohonDistributionRequestController::class, 'manage']); 
 
@@ -115,9 +118,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
     Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
 
-    // mohon-distribution from admin to boss ( requesting approval )
-    Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
-   
+    
     // mohon distribution approval from boss to approve request agihan from admin
     Route::put('/mohon-distribution-approval/by-boss/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byBoss']);
 

@@ -70,13 +70,16 @@ class MohonDistributionRequestService
     */
     public static function getMohonDistributionRequestAsBoss($status)
     {
+
+        $user =  auth('sanctum')->user(); // user auth
+
         $paginate = MohonDistributionRequest::query(); // Initiate Paginate
 
         $requests = $paginate->orderBy('id', 'DESC')
                             ->with(['user.userProfile', 'mohonDistributionApproval' => function ($query) {
                                 $query->orderBy('step', 'desc')->orderBy('updated_at', 'desc');
                     }])
-                    ->whereHas('mohonDistributionApprovalByBoss', function ($query) use ($status) {
+                    ->whereHas('mohonDistributionApprovalByBoss', function ($query) use ($status,$user) {
                         $query->whereIn('id', function ($subQuery) {
                             $subQuery->select(DB::raw('MAX(id)'))
                                 ->from('mohon_distribution_approvals')
@@ -88,18 +91,21 @@ class MohonDistributionRequestService
                                 //\Log::info($status);
                                 // only list where step = 1
                                 $query->where('step', 1)
+                                    ->where('boss_id', $user->id)
                                     ->where('status', $status);
                                 break;
 
                             case 'approved':
                                 // only list where step = 2
                                 $query->where('step', 2)
+                                    ->where('boss_id', $user->id)
                                     ->where('status', $status);
                                 break;
 
                             case 'rejected':
                                 // only list where step = 2
                                 $query->where('step', 2)
+                                    ->where('boss_id', $user->id)
                                     ->where('status', $status);
                                 break;
                         }

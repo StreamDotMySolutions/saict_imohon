@@ -10,6 +10,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'boss_id' => 'required',
             'acknowledge' => 'required',
         ];
     }
@@ -17,6 +18,7 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
+            'boss_id.required' => 'Sila pilih pelulus 2',
             'acknowledge.required' => 'Sila sahkan tindakan anda',
         ];
     }
