@@ -29,6 +29,7 @@ class MohonDistributionItemAcceptanceController extends Controller
         $values = [
             'user_id' =>  auth('sanctum')->user()->id, // user auth,
             'message' => $request->input('message'),
+            'description' => 'User accepted the item.',
         ];
 
         // Use updateOrCreate to find and update or create the record

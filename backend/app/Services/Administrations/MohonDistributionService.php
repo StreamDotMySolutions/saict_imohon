@@ -1,8 +1,7 @@
 <?php
 namespace App\Services\Administrations;
 
-use App\Models\MohonRequest;
-use App\Models\MohonApproval;
+use App\Models\MohonDistributionRequest;
 use Illuminate\Http\Request;
 
 class MohonDistributionService
@@ -12,17 +11,11 @@ class MohonDistributionService
 
     public static function delete($id)
     {
-        // Find the MohonRequest instance by its ID
-        $mohonRequest = MohonRequest::findOrFail($id);
-
-        // Delete MohonItems
-        $mohonRequest->mohonItems()->delete();
-
-        // Delete MohonApproval
-        $mohonRequest->mohonApproval()->delete();
+        // Find the MohonDistributionRequest instance by its ID
+        $mohonDistributionRequest = MohonDistributionRequest::findOrFail($id);
 
         // Delete MohonDistributionRequest
-        $mohonRequest->mohonDistributionRequests()->each(function ($distributionRequest) {
+       $mohonDistributionRequest->mohonDistributionApprovals()->each(function ($distributionRequest) {
 
             // delete mohon distribution items
 
