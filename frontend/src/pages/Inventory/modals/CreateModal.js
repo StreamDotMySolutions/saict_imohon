@@ -146,7 +146,8 @@ export default function CreateModal() {
               reverse
               label="Saya telah mengesahkan data ini"
               type="checkbox"
-              onClick={ () =>useInventoryStore.setState({errors:null}) }
+              //onClick={ () =>useInventoryStore.setState({errors:null}) }
+              onClick={ () =>store.setValue('error', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
             <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>

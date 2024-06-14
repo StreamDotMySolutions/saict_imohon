@@ -10,7 +10,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-
+                'acknowledge' => 'required|boolean',
                 'category_id' => 'required|integer',
                 'acknowledge' => 'required',
                 'vendor' => 'required',

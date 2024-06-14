@@ -106,12 +106,12 @@ export default function DeleteModal({id}) {
     return (
       <>
         <Button variant="danger"  onClick={handleShow}>
-         Padam
+         Hapus
         </Button>
   
         <Modal size={'xl'} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-          <Modal.Title><Badge bg='danger'>Padam ID:{id}</Badge></Modal.Title>
+          <Modal.Title><Badge bg='danger'>Hapus ID:{id}</Badge></Modal.Title>
           </Modal.Header>
           <Modal.Body>
            {renderedComponent}
@@ -123,16 +123,17 @@ export default function DeleteModal({id}) {
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
        
-              label="Saya sahkan data ini untuk dipadam"
+              label="Saya sahkan data ini untuk di hapus"
               type="checkbox"
-              onClick={ () =>useInventoryStore.setState({errors:null}) }
+              //onClick={ () =>useInventoryStore.setState({errors:null}) }
+              onClick={ () =>store.setValue('error', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
             <Button variant="secondary" onClick={handleCloseClick}>
               Tutup
             </Button>
             <Button variant="danger" onClick={handleDeleteClick}>
-              Padam
+              Hapus
             </Button>
           </Modal.Footer>
         </Modal>

@@ -55,7 +55,7 @@ import Inventory from './pages/Inventory'
 
 import Mohon from './pages/Mohon'
 import MohonShow from './pages/MohonShow'
-import MohonAdministration from './pages/MohonAdministration'
+
 import MohonItem from './pages/MohonItem'
 import MohonApprovalByManager from './pages/MohonApproval/Manager'
 import MohonApprovalByAdmin from './pages/MohonApproval/Admin'
@@ -68,6 +68,9 @@ import ManageMohonDistributionRequest from './pages/ManageDistributionRequest'
 import Agihan from './pages/Agihan'
 import Agihan2 from './pages/Agihan-v2'
 import ShowAgihan from './pages/Agihan-v2/show.js';
+
+import MohonAdministration from './pages/Administrations/Mohon'
+import AgihanAdministration from './pages/Administrations/Agihan'
 
 
 
@@ -117,6 +120,7 @@ export default function App() {
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
 
                 <Route path="/administration/mohon" element={<MohonAdministration />} />
+                <Route path="/administration/agihan" element={<AgihanAdministration />} />
 
                 <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
                 <Route path="/mohon-approval/by-admin" element={<MohonApprovalByAdmin />} />    

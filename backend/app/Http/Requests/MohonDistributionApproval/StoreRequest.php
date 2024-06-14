@@ -10,7 +10,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
 
-        \Log::info($this->all());
+        //\Log::info($this->all());
         return [
             'boss_id' => 'required|integer',
             'acknowledge' => 'required',

@@ -184,6 +184,7 @@ class MohonDistributionRequestService
     public static function delete($id)
     {
         $user =  auth('sanctum')->user();
+        
         return MohonDistributionRequest::query()
                             ->where('user_id', $user->id)
                             ->where('id',$id)
