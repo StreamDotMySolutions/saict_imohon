@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table} from 'react-bootstrap'
+import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
 import { InputSelect, InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
@@ -101,7 +101,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
         </Button>
       
           
-        <Modal size={'lg'} show={show} onHide={handleCloseClick}>
+        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title> Lihat Permohonan Agihan </Modal.Title>
           </Modal.Header>
@@ -119,19 +119,33 @@ export default function RequestApprovalModal({agihanRequestId}) {
             <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
               <thead>
                   <tr>
-                      <th className='col-2'>PEMOHON</th>
-                      <th className='col-4'>PERALATAN</th>
-                      <th className='col-2'>JENIS</th>
+                      <th>ID</th>
+                
+                      <th>PERALATAN</th>
+                      <th>JENIS</th>
+                      <th>PENERIMA</th>
+                      <th>JAWATAN</th>
+                      <th>NAMA BANGUNAN</th>
+                      <th>TINGKAT</th>
+                      <th>LOKASI</th>
                       <th>VENDOR</th>
+                      <th>MAKLUMAT TAMBAHAN</th>
                   </tr>
               </thead>
               <tbody>
                 {items.length > 0 && items?.map( (item,index) => (
                   <tr key={index}>
-                      <td>{item.mohon_item?.name}</td>
+                      <td><Badge>{item.id}</Badge></td>
+          
                       <td>{item.category.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                      <td>{item.mohon_item?.name}</td>
+                      <td>{item.mohon_item?.occupation}</td>
+                      <td>{item.mohon_item?.building_name}</td>
+                      <td>{item.mohon_item?.building_level}</td>
+                      <td>{item.mohon_item?.location}</td>
                       <td>{item.inventory?.vendor}</td>
+                      <td>{item.mohon_item?.description}</td>
                   </tr>
                 ))}
 
