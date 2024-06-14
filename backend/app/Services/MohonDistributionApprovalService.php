@@ -67,6 +67,7 @@ class MohonDistributionApprovalService
             'mohon_distribution_request_id' => $mohonDistributionRequestId,
             'user_id' => $user->id, // role is Boss
             'step' => 2, // upgrade from 1 to 2
+            'boss_id' =>  $user->id, // role is Boss
             'status' => $request->input('status') // status
         ]);
     }
