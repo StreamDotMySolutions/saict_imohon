@@ -99,7 +99,7 @@ class MohonService
             // Iterate through and delete each mohonDistributionItem and its related mohonDistributionItemAcceptance records
             $distributionRequest->mohonDistributionItems()->each(function ($distributionItem) {
                 try {
-                    Log::info('Processing Distribution Item ID: ' . $distributionItem->id);
+                    \Log::info('Processing Distribution Item ID: ' . $distributionItem->id);
 
                     // Delete related mohonDistributionItemAcceptance if it exists
                     $acceptance = $distributionItem->mohonDistributionItemAcceptance;
@@ -116,7 +116,7 @@ class MohonService
                     // Delete the distributionItem itself
                     $distributionItem->delete();
                 } catch (\Exception $e) {
-                    Log::error('Error deleting Distribution Item or its related records: ' . $e->getMessage());
+                    \Log::error('Error deleting Distribution Item or its related records: ' . $e->getMessage());
                 }
             });
             //$distributionRequest->mohonDistributionItems()->delete();
