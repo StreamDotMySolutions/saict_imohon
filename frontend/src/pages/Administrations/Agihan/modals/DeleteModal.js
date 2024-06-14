@@ -16,7 +16,6 @@ export default function DeleteModal({id}) {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
-      setIsLoading(true)
       setShow(true) // show the modal
     }
 
@@ -37,16 +36,13 @@ export default function DeleteModal({id}) {
           data: formData
         })
         .then( response => {
-          //console.log(response)
+          console.log(response)
           setIsLoading(false)
 
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
-          // Add a delay of 1 second before closing
-          setTimeout(() => {
-            handleCloseClick();
-          }, 500);
+      
         })
         .catch( error => {
           //console.warn(error)
@@ -60,7 +56,7 @@ export default function DeleteModal({id}) {
     return (
       <>
         <Button size="sm" variant="outline-danger" onClick={handleShowClick}>
-          Hapus
+          Hapus 
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>

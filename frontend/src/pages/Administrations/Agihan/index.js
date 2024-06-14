@@ -18,7 +18,7 @@ const ManageDistributionRequest = () => {
     useEffect( () => {
         axios(apiUrl)
         .then( response => {
-            console.log(response)
+            //console.log(response)
             let distributions = response.data.items
             setItems(distributions.data)
             setLinks(distributions.links)
@@ -26,8 +26,8 @@ const ManageDistributionRequest = () => {
         .catch ( error => {
             console.warn(error)
         })
-        .finally()
-    },[])
+        .finally( store.setValue('refresh', false) )
+    },[store.getValue('refresh')])
 
     const TableHead = () => {
         return (

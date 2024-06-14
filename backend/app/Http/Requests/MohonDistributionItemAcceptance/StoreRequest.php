@@ -10,7 +10,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
 
-        \Log::info($this->all());
+        //\Log::info($this->all());
         return [
             'acknowledge' => 'required',
             'pic_name' => 'required',

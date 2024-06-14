@@ -26,8 +26,10 @@ use App\Http\Controllers\{
     MohonDistributionItemDeliveryController,
     MohonDistributionItemAcceptanceController,
     MohonDistributionApprovalController,
-    AdministrationMohonController,
 
+    AdministrationMohonController,
+    Administrations\AdministrationMohonDistributionController,
+    
     AgihanController,
 };
 
@@ -87,6 +89,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/administrations/mohon/{id}', [AdministrationMohonController::class, 'update']);
     Route::delete('/administrations/mohon/{id}', [AdministrationMohonController::class, 'delete']);
 
+    // mohon distribution administration
+    Route::get('/administrations/mohon-distribution-requests', [AdministrationMohonDistributionController::class, 'index']);
+    Route::delete('/administrations/mohon-distribution-requests/{id}', [AdministrationMohonDistributionController::class, 'delete']);
+
     // mohon item
     Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
     Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
@@ -108,9 +114,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
     // mohon-distribution from admin to boss ( requesting approval )
     Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
+    //Route::delete('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
    
 
-    Route::get('/manage/mohon-distribution-requests', [MohonDistributionRequestController::class, 'manage']); 
+
+    //Route::get('/manage/mohon-distribution-requests', [MohonDistributionRequestController::class, 'manage']); 
 
 
     // mohon-distribution

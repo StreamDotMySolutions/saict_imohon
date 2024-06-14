@@ -15,7 +15,7 @@ class MohonDistributionService
         $mohonDistributionRequest = MohonDistributionRequest::findOrFail($id);
 
         // Delete MohonDistributionRequest
-       $mohonDistributionRequest->mohonDistributionApprovals()->each(function ($distributionRequest) {
+        $mohonDistributionRequest->each(function ($distributionRequest) {
 
             // delete mohon distribution items
 
@@ -43,18 +43,13 @@ class MohonDistributionService
                     \Log::error('Error deleting Distribution Item or its related records: ' . $e->getMessage());
                 }
             });
-            //$distributionRequest->mohonDistributionItems()->delete();
-            
 
-       
-            // delete agihan request
+            // delete the approvals
             $distributionRequest->mohonDistributionApprovals()->delete();
         });
 
-        // delete the mohon distribution requests
-        $mohonRequest->mohonDistributionRequests()->delete();
 
         // now delete Mohon Request
-        return $mohonRequest->delete();
+        return $mohonDistributionRequest->delete();
     }
 }
