@@ -42,7 +42,13 @@ class RegisterRequest extends FormRequest
                 //'unique:user_profiles,nric'
                 Rule::unique('users')
             ],
-            'phone' => 'required',
+            //'phone' => 'required',
+            'phone' => [
+                'required',
+                'integer',
+                'max:12',
+            ],
+
             'address' => 'required',
 
             'user_department_id' => 'required',
