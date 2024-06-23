@@ -88,7 +88,7 @@ const SignUpForm = () => {
 
     return (
         
-        <Container>
+        <Container className='mb-5'>
 
             { isError && 
                 <Alert variant='danger'>
@@ -96,7 +96,11 @@ const SignUpForm = () => {
                 </Alert>
             }
 
-            <Tabs 
+            <Account />
+            <Profile />
+            <Department />
+
+            {/* <Tabs 
                 className="mb-1"
                 defaultActiveKey={1} 
                 id="uncontrolled-tab-example"
@@ -107,22 +111,14 @@ const SignUpForm = () => {
                     <Account />
                 </Col>
                     
-                    {/* <Card className='mt-3'>
-                        <Card.Header>Maklumat Akaun</Card.Header>
-                        <Card.Body className='p-3'><Account /></Card.Body>
-                    </Card> */}
+                
                 </Tab>
                 <Tab eventKey={2} title="Profil">
 
                 <Col className='border border-top-0 p-3'>
                     <Profile />
                 </Col>
-                    {/* <Card className='mt-3'>
-                        <Card.Header>Maklumat Profil</Card.Header>
-                        <Card.Body className='p-3'>
-                        
-                        </Card.Body>
-                    </Card> */}
+           
                 </Tab>
 
                 
@@ -130,14 +126,9 @@ const SignUpForm = () => {
                     <Col className='border border-top-0 p-3'>
                         <Department />
                     </Col>
-                    {/* <Card className='mt-3'>
-                        <Card.Header>Maklumat Jabatan</Card.Header>
-                        <Card.Body className='p-3'>
-                            
-                        </Card.Body>
-                    </Card> */}
+           
                 </Tab>
-            </Tabs>
+            </Tabs> */}
         
             <Row className='col-12 mt-3 text-center text-lg-start mt-4 pt-2 d-flex justify-content-center'>
                     <Col className='col-6'>
@@ -160,9 +151,6 @@ const SignUpForm = () => {
                         </Link>
 
                     </Col>
-                        
-
-            
             </Row>
 
         </Container>

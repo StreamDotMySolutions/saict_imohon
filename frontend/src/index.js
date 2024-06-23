@@ -10,6 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 /** Layouts */
 import DefaultLayout from "./layouts/components/DefaultLayout/index.js"
 import AuthLayout from './pages/Auth/layout.js';
+import SignUpLayout from './pages/Auth/SignUpLayout.js';
 import Layout from './layouts/Layout';
 
 /** Protected Route */
@@ -90,7 +91,7 @@ export default function App() {
               <Route path="/sign-in-by-nric" element={<SignInByNricForm />} />
               <Route path="/sign-in-by-email" element={<SignInByEmailForm />} />
               
-              <Route path="/sign-up" element={<SignUpForm />} />
+              
               <Route path="/sign-out" element={<SignOut />} />
             
               <Route path="/unauthorized" element={<Unauthorized />} />
@@ -99,6 +100,10 @@ export default function App() {
 
               <Route path="/verified" element={<VerifySuccess />} />
               <Route path="/verify-failed" element={<VerifyFailed />} />
+            </Route>
+
+            <Route element={<SignUpLayout />}>
+              <Route path="/sign-up" element={<SignUpForm />} />
             </Route>
 
             <Route element={<Layout />}>

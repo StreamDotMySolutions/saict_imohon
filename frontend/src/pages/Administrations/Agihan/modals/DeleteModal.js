@@ -36,7 +36,7 @@ export default function DeleteModal({id}) {
           data: formData
         })
         .then( response => {
-          console.log(response)
+          //console.log(response)
           setIsLoading(false)
 
           // set MohonIndex listener to true
