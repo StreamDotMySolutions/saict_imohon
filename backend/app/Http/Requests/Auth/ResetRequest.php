@@ -1,21 +1,25 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailRequest extends FormRequest
+class ResetRequest extends FormRequest
 {
+
     public function authorize()
     {
         return true;
     }
 
 
+    //  'password' => ['required', 'confirmed', RulesPassword::defaults()],
     public function rules()
     {
         return [
-            'email' => 'required|string|email|exists:users,email'
+            'token' => 'required',
+            'email' => 'required|string|email|exists:users,email',
+            'password' => 'required|min:6|confirmed'
         ];
     }
 
@@ -27,11 +31,12 @@ class EmailRequest extends FormRequest
     public function messages()
     {
         return [
+            'token.required' => 'Missing token',
+
             'email.required' => 'Sila isi alamat emel anda',
             'email.string' => 'Sila betulkan alamat emel anda',
             'email.email' => 'Sila betulkan alamat emel anda',
             'email.exists' => 'Alamat email tidak wujud',
         ];
     }
-
 }

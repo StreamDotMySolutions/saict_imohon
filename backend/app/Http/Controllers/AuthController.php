@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthRequest;
-use App\Http\Requests\AuthByNricRequest;
+use App\Mail\MyTestEmail;
+
+use App\Models\User;
+use App\Models\UserProfile;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\UserProfile;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
 use Illuminate\Support\Facades\Password;
-use App\Http\Requests\EmailRequest;
-use App\Http\Requests\ResetRequest;
-use App\Http\Requests\RegisterRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MyTestEmail;
+
+use App\Http\Requests\Auth\AuthRequest;
+use App\Http\Requests\Auth\AuthByNricRequest;
+use App\Http\Requests\Auth\EmailRequest;
+use App\Http\Requests\Auth\ResetRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController extends Controller
 {

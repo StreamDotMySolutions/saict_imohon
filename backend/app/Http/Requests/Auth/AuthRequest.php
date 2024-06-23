@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 
-class AuthByNricRequest extends FormRequest
+class AuthRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +27,7 @@ class AuthByNricRequest extends FormRequest
     public function rules()
     {
         return [
-            'nric' => [
-                'required',
-                'string',
-                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/'
-            ],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ];
     }
@@ -45,20 +41,13 @@ class AuthByNricRequest extends FormRequest
      public function authenticate()
      {
  
-         if (! Auth::attempt($this->only('nric', 'password'))) {
+         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
  
              throw ValidationException::withMessages([
-                 'nric' => __('auth.failed'),
+                 'email' => __('auth.failed'),
              ]);
 
          }
  
-     }
-
-     public function messages()
-     {
-         return [
-             'nric.regex' => 'Format kad pengenalan anda salah, sila guna format xxxxxx-xx-xxxx',
-         ];
      }
 }
