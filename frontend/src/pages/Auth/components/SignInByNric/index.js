@@ -21,7 +21,8 @@ const SignInByNricForm = () => {
       const formattedNRIC = input
         .replace(/\D/g, '') // Remove non-numeric characters
         .slice(0, 12) // Keep the first 12 digits (ignoring any extras)
-        .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
+        //.replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
+        .replace(/(\d{6})(\d{2})(\d{4})/, '$1$2$3'); // Insert dashes
   
       setNRIC(formattedNRIC);
     };

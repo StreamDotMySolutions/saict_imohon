@@ -29,8 +29,9 @@ class AuthByNricRequest extends FormRequest
         return [
             'nric' => [
                 'required',
-                'string',
-                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/'
+                'integer',
+                //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/'
+                'regex:/^[0-9]{12}$/' // 12 digits
             ],
             'password' => ['required', 'string'],
         ];
@@ -58,7 +59,7 @@ class AuthByNricRequest extends FormRequest
      public function messages()
      {
          return [
-             'nric.regex' => 'Format kad pengenalan anda salah, sila guna format xxxxxx-xx-xxxx',
+             'nric.regex' => 'Format kad pengenalan anda salah, sila guna format xxxxxxxxxxxx',
          ];
      }
 }
