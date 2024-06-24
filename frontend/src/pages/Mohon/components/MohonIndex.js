@@ -9,8 +9,8 @@ import CreateModal from '../modals/CreateModal'
 import { Link } from 'react-router-dom'
 import ApprovalModal from '../modals/ApprovalModal'
 import { ApproverStatus } from '../../../components/global/Approval'
-import StatusPermohonan from './StatusPermohonan'
-import LegendPermohonan from './LegendPermohonan'
+// import StatusPermohonan from '../../Info/StatusPermohonan'
+// import LegendPermohonan from '../../Info/LegendPermohonan'
 
 
 const MohonIndex = () => {
@@ -56,7 +56,7 @@ const MohonIndex = () => {
                     <tr>
                         <th className="col-1">ID</th>
                         <th>Nama</th>
-                        <th>Email</th>
+                        <th>Kad Pengenalan</th>
                         <th className='text-center'>Peralatan<br />Mohon</th>
                         <th className='text-center'>Peralatan<br />Agihan</th>
                         {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
@@ -73,7 +73,7 @@ const MohonIndex = () => {
                         <tr key={index}>
                             <td > <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.name}</td>
-                            <td>{mohon.user?.email}</td>
+                            <td>{mohon.user?.nric}</td>
                
          
                             {/* <td><ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} /></td> */}
@@ -134,8 +134,9 @@ const MohonIndex = () => {
 
             <div className="d-flex bd-highlight mt-3">
                 
-                <Col className='p-2'><StatusPermohonan /></Col>
+                {/* <Col className='p-2'><StatusPermohonan /></Col>
                 <Col className='p-2'><LegendPermohonan /></Col>
+                 */}
                 <Col className='col-1'></Col>
                 <div className="ms-auto">
                     <PaginatorLink items={mohons} />

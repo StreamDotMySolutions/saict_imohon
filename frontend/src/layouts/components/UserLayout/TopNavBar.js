@@ -27,7 +27,7 @@ function TopNavbar() {
               </Nav> */}
 
               <Nav>
-                <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-clock" />{' '}Mohon</Nav.Link>
+                <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
               </Nav>
 
               {/* <Nav>

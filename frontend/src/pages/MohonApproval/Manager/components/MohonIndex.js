@@ -5,7 +5,7 @@ import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
 import { ApproverStatus } from '../../../../components/global/Approval'
-import StatusPermohonan from '../../../Mohon/components/StatusPermohonan'
+//import StatusPermohonan from '../../../Mohon/components/StatusPermohonan'
 
 
 const MohonIndex = ({status}) => {
@@ -99,7 +99,7 @@ const MohonIndex = ({status}) => {
             </Table>
 
             <div className="d-flex bd-highlight mb-3">
-                <StatusPermohonan />
+                {/* <StatusPermohonan /> */}
                 <div className="ms-auto p-2 bd-highlight">
                     <PaginatorLink items={mohons} />
                 </div>

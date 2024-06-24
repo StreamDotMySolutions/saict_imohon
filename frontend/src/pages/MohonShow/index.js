@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
 import EditModal from '../Mohon/modals/EditModal'
 import DeleteModal from '../Mohon/modals/DeleteModal'
-import StatusPermohonan from '../Mohon/components/StatusPermohonan'
-import StatusAgihan from '../Mohon/components/StatusAgihan'
+// import StatusPermohonan from '../Mohon/components/StatusPermohonan'
+// import StatusAgihan from '../Mohon/components/StatusAgihan'
 
 const MohonShow = () => {
     const { mohonRequestId } = useParams()
@@ -189,11 +189,11 @@ const MohonShow = () => {
                     
 
                 <Row className="mb-3 mt-3 border p-3" style={{backgroundColor:""}}>
-                    <Col>
+                    {/* <Col>
                             <StatusPermohonan />
                             <br />
                             <StatusAgihan />
-                    </Col>
+                    </Col> */}
 
                     <Col>
 

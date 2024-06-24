@@ -1,12 +1,13 @@
 import React from 'react';
-import RequestedDashboard from '../../Application/RequestedDashboard';
-
+import LegendPermohonan from '../../Info/LegendPermohonan';
+import StatusPermohonan from '../../Info/StatusPermohonan';
 const UserDashboard = () => {
     return (<>
-        <h3>Mohon</h3>
+        <h3>Sistem iMohon</h3>
         <hr />
-        Anda login sebagai User
-
+        <LegendPermohonan />
+        <br />
+        <StatusPermohonan />
         </>);
 };
 
