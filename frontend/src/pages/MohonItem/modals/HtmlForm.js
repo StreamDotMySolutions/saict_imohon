@@ -166,10 +166,10 @@ export default function HtmlForm({isLoading}) {
             </Row>
 
 
-            <h5>Maklumat Tambahan</h5>
+            <h5>Justifikasi</h5>
             <InputTextarea
               fieldName='description' 
-              placeholder='Maklumat tambahan'  
+              placeholder='Sila lengkapkan justifikasi permohonan'  
               icon='fa-solid fa-pencil'
               rows='6'
               isLoading={isLoading}

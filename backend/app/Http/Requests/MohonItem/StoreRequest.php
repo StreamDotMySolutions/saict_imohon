@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
             // 'unit' => 'required',
             'mobile' => 'required',
             'location' => 'required',
-            //'description' => 'required',
+            'description' => 'required',
         ];
     }
 
@@ -33,7 +33,7 @@ class StoreRequest extends FormRequest
             'category_id.required' => 'Sila pilih item',
             'department_id.required' => 'Sila pilih jabatan',
             'type.required' => 'Sila pilih jenis permohonan',
-            //'description.required' => 'Sila nyatakan tujuan permohonan',
+            'description.required' => 'Sila nyatakan justifikasi permohonan',
             'name.required' => 'Nama diperlukan',
             'occupation.required' => 'Sila nyatakan pekerjaan',
             //'department.required' => 'Sila nyatakan Jabatan / Bahagian',
