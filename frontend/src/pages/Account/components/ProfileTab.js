@@ -40,7 +40,7 @@ const ProfileTab = () => {
                 <InlineEditing 
                     url={store.update_url}
                     label='No telefon'
-                    placeholder='Sila letakkan no telefon pengenalan anda'
+                    placeholder='Sila letakkan no telefon anda'
                     fieldName='phone' 
                     fieldValue={store?.account?.profile?.phone}
                 />

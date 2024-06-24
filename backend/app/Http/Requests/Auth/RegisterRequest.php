@@ -36,17 +36,20 @@ class RegisterRequest extends FormRequest
             'occupation' => 'required',
             'nric' => [
                 'required',
-                'integer',
-                'regex:/^[0-9]{12}$/',
+                'numeric',
+                'digits:12',
+                // 'integer',
+                // 'regex:/^[0-9]{12}$/',
                 //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
                 //'unique:user_profiles,nric'
                 Rule::unique('users')
             ],
             //'phone' => 'required',
             'phone' => [
+                'sometimes',
                 'required',
-                'integer',
-                'max:12',
+                'numeric',
+                'digits_between:1,11',
             ],
 
             'address' => 'required',

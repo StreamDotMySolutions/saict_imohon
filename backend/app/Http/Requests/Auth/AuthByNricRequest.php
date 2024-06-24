@@ -29,9 +29,11 @@ class AuthByNricRequest extends FormRequest
         return [
             'nric' => [
                 'required',
-                'integer',
+                //'integer',
                 //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/'
-                'regex:/^[0-9]{12}$/' // 12 digits
+                //'regex:/^[0-9]{12}$/' // 12 digits
+                'numeric',
+                'digits:12',
             ],
             'password' => ['required', 'string'],
         ];

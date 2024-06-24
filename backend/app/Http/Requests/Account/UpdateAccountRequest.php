@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Account;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -40,15 +40,20 @@ class UpdateAccountRequest extends FormRequest
             'occupation' => 'sometimes|required',
             'nric' => [
                 'sometimes',
-                'string',
-                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+                'numeric',
+                'digits:12',
+                //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
 
                 // different table, need to provide pk
                 Rule::unique('users')->ignore($user->id,'id'),
             ],
-            'phone' => 'sometimes|required',
+            'phone' => [
+                'sometimes',
+                'required',
+                'numeric',
+                'digits_between:1,11',
+            ],
             'address' => 'sometimes|required',
-
             'user_department_id' => 'sometimes|required',
         ];
     }
