@@ -33,12 +33,21 @@ class StoreUserRequest extends FormRequest
 
             'name' => 'required',
             'occupation' => 'required',
+            // 'nric' => [
+            //     'required',
+            //     'string',
+            //     'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+            //     //'unique:user_profiles,nric'
+            //     Rule::unique('users')
+            // ],
             'nric' => [
-                'required',
-                'string',
-                'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
-                //'unique:user_profiles,nric'
-                Rule::unique('users')
+                'sometimes',
+                'numeric',
+                'digits:12',
+                //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+
+                // different table, need to provide pk
+                Rule::unique('users')->ignore($user->id,'id'),
             ],
             'phone' => 'required',
             'address' => 'required',

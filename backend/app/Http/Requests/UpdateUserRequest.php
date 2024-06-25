@@ -36,13 +36,22 @@ class UpdateUserRequest extends FormRequest
 
                 'name' => 'sometimes|required',
                 'occupation' => 'sometimes|required',
+                // 'nric' => [
+                //     'sometimes',
+                //     'string',
+                //     'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+
+                //     // different table, need to provide pk
+                //     Rule::unique('users')->ignore($this->user->id,'id'),
+                // ],
                 'nric' => [
                     'sometimes',
-                    'string',
-                    'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
-
+                    'numeric',
+                    'digits:12',
+                    //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
+    
                     // different table, need to provide pk
-                    Rule::unique('users')->ignore($this->user->id,'id'),
+                    Rule::unique('users')->ignore($user->id,'id'),
                 ],
                 'phone' => 'sometimes|required',
                 'address' => 'sometimes|required',
