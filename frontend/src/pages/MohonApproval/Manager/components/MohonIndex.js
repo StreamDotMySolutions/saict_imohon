@@ -59,7 +59,7 @@ const MohonIndex = ({status}) => {
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
                             {/* <td> <span className="badge bg-primary">{mohon.id}</span></td> */}
-                            <td>{mohon.user?.email}</td>
+                            <td>{mohon.user?.nric}</td>
                             {/* <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />
                             </td> */}

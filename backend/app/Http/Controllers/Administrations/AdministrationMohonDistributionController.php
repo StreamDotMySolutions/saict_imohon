@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Administrations;
 
+use App\Http\Controllers\Controller;
 use App\Models\MohonDistributionRequest;
-
 use App\Services\Administrations\MohonDistributionService;
 
 // use App\Http\Requests\DeleteMohonRequest;

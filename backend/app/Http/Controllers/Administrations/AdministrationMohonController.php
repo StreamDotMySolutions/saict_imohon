@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrations;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
 use App\Services\Administrations\MohonService;
