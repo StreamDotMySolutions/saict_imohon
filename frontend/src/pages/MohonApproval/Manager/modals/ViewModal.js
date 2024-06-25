@@ -15,7 +15,7 @@ export default function ViewModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
-    const [message, setMessage] = useState('') // Message
+    const [approvalDate, setApprovalDate] = useState('') // Message
     const requiredStep = 1 // manager
 
     const handleClose = () => setShow(false)
@@ -129,17 +129,18 @@ export default function ViewModal({id}) {
             <MohonData id={id} />
             <h5>Justifikasi</h5>
 
-         
-         
             <InputTextarea
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
               rows ="4"
-              isLoading={isLoading || store.getValue('message')} />
+              isLoading={isLoading || store.getValue('message') || step!==1} />
           </Modal.Body>
           
           <Modal.Footer>
+
+          {step ==1 &&
+          <>
             <Form.Check
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
@@ -153,7 +154,7 @@ export default function ViewModal({id}) {
             />
 
 
-          <Button 
+            <Button 
               disabled={ isLoading || step !== 1}
               variant="success" 
               onClick={handleApproveClick}>
@@ -166,6 +167,8 @@ export default function ViewModal({id}) {
               onClick={handleRejectClick}>
               Gagal
             </Button>
+
+          </>}
 
             <Button 
               disabled={isLoading}
