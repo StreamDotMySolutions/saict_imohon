@@ -78,6 +78,12 @@ export default function ViewModal({id}) {
         formData.append('status', store.getValue('status'));
       }
 
+      formData.append('message', 'Admin proses permohonan');
+      // message
+      // if (store.getValue('message') !== null ) {
+      //   formData.append('message', store.getValue('message'));
+      // }
+
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'put');
       
@@ -120,6 +126,17 @@ export default function ViewModal({id}) {
 
           <Modal.Body>
             <MohonData id={id} />
+            {/* <h5>Justifikasi</h5>
+
+          
+          <InputTextarea
+              fieldName="message"
+              placeholder="Sila lengkapkan justifikasi kelulusan"
+              icon="fas fa-pencil"
+              rows ="4"
+              isLoading={isLoading ||  step!==3} 
+            /> */}
+
           </Modal.Body>
           
           <Modal.Footer>
