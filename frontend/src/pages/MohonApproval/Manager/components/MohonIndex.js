@@ -45,7 +45,7 @@ const MohonIndex = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>No.</th>
+                        {/* <th style={{ 'width': '20px'}}>No.</th> */}
                         <th style={{ 'width': '120px'}}>Pemohon</th>
                         <th className="text-center" style={{ 'width': '100px'}}>Status Kelulusan</th>
                         {/* <th className='text-center' style={{ 'width': '300px'}}>Kelulusan Terkini</th> */}
@@ -58,7 +58,7 @@ const MohonIndex = ({status}) => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
+                            {/* <td> <span className="badge bg-primary">{mohon.id}</span></td> */}
                             <td>{mohon.user?.email}</td>
                             {/* <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval.step} currentStatus={mohon.mohon_approval.status} />

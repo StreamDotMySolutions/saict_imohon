@@ -34,7 +34,8 @@ import UserDepartment from './pages/UserDepartment'
 
 import Account from './pages/Account'
 import ResetPassword from './pages/Auth/components/ResetPassword'
-import SignInForm from './pages/Auth/components/SignIn'
+// import SignInForm from './pages/Auth/components/SignIn' // email
+import SignInForm from './pages/Auth/components/SignInByNric' // nric
 import SignInByEmailForm from './pages/Auth/components/SignIn'
 import SignInByNricForm from './pages/Auth/components/SignInByNric'
 import SignUpForm from './pages/Auth/components/SignUp'
@@ -73,14 +74,16 @@ import ShowAgihan from './pages/Agihan-v2/show.js';
 import MohonAdministration from './pages/Administrations/Mohon'
 import AgihanAdministration from './pages/Administrations/Agihan'
 
-
+import RefreshAlert from './components/global/RefreshAlert.js';
 
 library.add(fas)
 
 export default function App() {
 
   return (
-    <HelmetProvider>
+
+      <>
+      {/* <RefreshAlert /> */}
       <BrowserRouter>
         <Routes>            
           <Route path="*" element={<Error404 />} />
@@ -155,7 +158,7 @@ export default function App() {
 
         </Routes>
       </BrowserRouter>
-    </HelmetProvider>
+    </>
   );
 }
 

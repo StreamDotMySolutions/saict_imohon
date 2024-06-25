@@ -54,7 +54,7 @@ const MohonIndex = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th className="col-1">ID</th>
+                        {/* <th className="col-1">ID</th> */}
                         <th>Nama</th>
                         <th>Kad Pengenalan</th>
                         <th className='text-center'>Peralatan<br />Mohon</th>
@@ -71,7 +71,7 @@ const MohonIndex = () => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td > <span className="badge bg-primary">{mohon.id}</span></td>
+                            {/* <td > <span className="badge bg-primary">{mohon.id}</span></td> */}
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                

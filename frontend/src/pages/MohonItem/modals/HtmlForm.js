@@ -154,8 +154,6 @@ export default function HtmlForm({isLoading}) {
               />
             </Row> */}
 
-  
-
             <Row className='mt-3 mb-3'>
               <InputText 
                 fieldName='location' 
