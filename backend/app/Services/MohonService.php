@@ -256,6 +256,8 @@ class MohonService
                     ->with([
                         'mohonApprovals.user.userProfile',
                         'mohonApproval.user.userProfile',
+                        'mohonApprovalApprovedByUser', // jujst want the message for manager tab
+                        'mohonApprovalRejectedByUser', // jujst want the message for manager tab
                         //'mohonDistributionRequests',
                         'mohonDistributionRequests' => function ($query) {
                             $query->withCount('mohonDistributionItems');

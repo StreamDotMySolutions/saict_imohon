@@ -28,6 +28,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
             //console.log(response.data)
             let mohon = response.data.mohon
             setApproval(mohon.mohon_distribution_approval)
+            //console.log(approval)
             // items
            
         })
@@ -97,7 +98,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
 
     return (
       <>
-        <Button size="sm" variant="outline-info" onClick={handleShowClick}>
+        <Button size="sm" variant="outline-primary" onClick={handleShowClick}>
           Lihat 
         </Button>
   
@@ -112,7 +113,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
           
           <Modal.Footer>
 
-          {approval?.step === 2 && approval?.status === 'approved' ? 
+          {approval?.step == 2  ? 
             
             <Badge>Telah oleh disahkan pada {approval?.created_at}</Badge>
             :

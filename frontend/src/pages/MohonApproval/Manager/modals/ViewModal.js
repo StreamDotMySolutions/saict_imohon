@@ -31,13 +31,13 @@ export default function ViewModal({id}) {
             'url' : `${store.showUrl}/${id}`
       })
       .then( response => {
-          //console.log(response.data)
+          //console.log(response)
           let mohon = response.data.mohon
           //store.setValue('title', mohon.title) // set formValue
           //store.setValue('description', mohon.description) // set formValue
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
-          store.setValue('message',mohon.mohon_approval.message)
+          store.setValue('message',mohon.mohon_approval_rejected_by_user ? mohon.mohon_approval_rejected_by_user.message : mohon.mohon_approval_approved_by_user.message  ) 
 
           // items
           setIsLoading(false)
@@ -134,7 +134,7 @@ export default function ViewModal({id}) {
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
               rows ="4"
-              isLoading={isLoading || store.getValue('message') || step!==1} />
+              isLoading={isLoading ||  step!==1} />
           </Modal.Body>
           
           <Modal.Footer>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MohonRequest extends Model
 {
@@ -42,8 +43,31 @@ class MohonRequest extends Model
         /*
         * Latest Mohon Approval Status
         */
+        $userId = Auth::id(); // Get the logged-in user's ID
         return $this->hasOne(MohonApproval::class)
                     ->latest('id');
+                    
+    }
+
+    public function mohonApprovalApprovedByUser()
+    {
+        $userId = Auth::id(); // Get the logged-in user's ID
+    
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', 'approved')
+                    ->where('user_id', $userId); // Filter by the logged-in user's ID
+    }
+
+    
+    public function mohonApprovalRejectedByUser()
+    {
+        $userId = Auth::id(); // Get the logged-in user's ID
+    
+        return $this->hasOne(MohonApproval::class)
+                    ->latest('id')
+                    ->where('status', 'rejected')
+                    ->where('user_id', $userId); // Filter by the logged-in user's ID
     }
 
     public function mohonApprovalByStatus($status)
@@ -52,6 +76,7 @@ class MohonRequest extends Model
                     ->latest('id')
                     ->where('status', $status);
     }
+
 
 
 
