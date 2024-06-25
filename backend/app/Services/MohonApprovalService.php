@@ -80,7 +80,8 @@ class MohonApprovalService
             'manager_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
            
             'step' => 2, // 2 is for manager managing
-            'status' => $request->input('status')
+            'status' => $request->input('status'), // status
+            'message' => $request->input('message') // message by pelulus-1
         ]);
 
         // if status == approved

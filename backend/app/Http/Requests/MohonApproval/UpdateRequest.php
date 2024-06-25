@@ -11,6 +11,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'acknowledge' => 'required',
+            'message' => 'required',
             'status' => 'required',
         ];
     }
@@ -19,6 +20,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'acknowledge.required' => 'Sila sahkan tindakan anda',
+            'message.required' => 'Sila nyatakan justifikasi',
         ];
     }
 }

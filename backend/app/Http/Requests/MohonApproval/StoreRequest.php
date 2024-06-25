@@ -10,7 +10,7 @@ class StoreRequest extends FormRequest
         //\Log::info('Request Data:', $this->all());
         return [
             'acknowledge' => 'required',
-            'message' => 'required',
+            //'message' => 'required',
             'manager_id' => 'required|integer'
         ];
     }
@@ -18,7 +18,7 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'message.required' => 'Sila nyatakan justifikasi',
+            //'message.required' => 'Sila nyatakan justifikasi',
             'manager_id.required' => 'Sila pilih pelulus',
             'manager_id.integer' => 'Sila pilih pelulus',
             'acknowledge.required' => 'Sila sahkan tindakan anda',

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button, Badge } from 'react-bootstrap'
+import { Table,Pagination,Badge } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
-import { Link } from 'react-router-dom'
 import ViewModal from '../modals/ViewModal'
-import { ApproverStatus } from '../../../../components/global/Approval'
-//import StatusPermohonan from '../../../Mohon/components/StatusPermohonan'
-
 
 const MohonIndex = ({status}) => {
     const store = useMohonStore()
@@ -91,7 +87,6 @@ const MohonIndex = ({status}) => {
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 <ViewModal id={mohon.id} />
-                                
                             </td>
                         </tr>
                     ))}

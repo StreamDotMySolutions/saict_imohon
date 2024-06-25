@@ -15,6 +15,7 @@ export default function ViewModal({id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
+    const [message, setMessage] = useState('') // Message
     const requiredStep = 1 // manager
 
     const handleClose = () => setShow(false)
@@ -30,12 +31,13 @@ export default function ViewModal({id}) {
             'url' : `${store.showUrl}/${id}`
       })
       .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           //store.setValue('title', mohon.title) // set formValue
           //store.setValue('description', mohon.description) // set formValue
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
+          store.setValue('message',mohon.mohon_approval.message)
 
           // items
           setIsLoading(false)
@@ -67,9 +69,14 @@ export default function ViewModal({id}) {
       setIsLoading(true)
       const formData = new FormData()
 
-      // ackknowledge
+      // acknowledge
       if (store.getValue('acknowledge') !== null ) {
         formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
+      // message
+      if (store.getValue('message') !== null ) {
+        formData.append('message', store.getValue('message'));
       }
 
       // status
@@ -118,14 +125,22 @@ export default function ViewModal({id}) {
             <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
-      
           <Modal.Body>
             <MohonData id={id} />
+            <h5>Justifikasi</h5>
+
+         
+         
+            <InputTextarea
+              fieldName="message"
+              placeholder="Sila lengkapkan justifikasi kelulusan"
+              icon="fas fa-pencil"
+              rows ="4"
+              isLoading={isLoading || store.getValue('message')} />
           </Modal.Body>
           
           <Modal.Footer>
- 
-          <Form.Check
+            <Form.Check
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
@@ -140,7 +155,6 @@ export default function ViewModal({id}) {
 
           <Button 
               disabled={ isLoading || step !== 1}
-              
               variant="success" 
               onClick={handleApproveClick}>
               Lulus
