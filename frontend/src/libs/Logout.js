@@ -1,45 +1,42 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
-import { useAuthStore } from "../stores/AuthStore"
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../stores/AuthStore';
 
+const HandleLogout = () => {
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
-const HandleLogout = () =>  {
-
-    // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
-    // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
-    // set store isLoggedIn to false
-    // setIsLoggedIn(false)
-
-    // tell the server to destroy the token
-    // const url = 'http://localhost:8000/api/logout'
-    const url =   process.env.REACT_APP_BACKEND_URL + '/logout'
+  useEffect(() => {
+    const url = process.env.REACT_APP_BACKEND_URL + '/logout';
     const options = {
-        method: 'get',
-    }
+      method: 'get',
+      credentials: 'include', // include credentials to ensure cookies are sent with the request
+    };
 
-    fetch(url,options)
-    .then(response => {
-        // response.ok status 200-299
-        //console.log('sddd')
-        if(response.ok) {
-            // set false
-           
+    fetch(url, options)
+      .then((response) => {
+        if (response.ok) {
+          // Clear local storage
+          localStorage.removeItem('token');
 
-            // delete token from localstorage
-            localStorage.removeItem('token');
-            return response.json()
-        } 
-        return Promise.reject(response); // reject the promise
-    })
-    .then(json => {
+          // Update zustand state
+          logout();
 
-    })
-    .catch( error =>{
-        console.log(error)
-    })
+          // Redirect to login or home page
+          navigate('/login');
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [logout, navigate]);
 
-   
+  return null;
+};
 
- 
-  }
-  export default HandleLogout
+export default HandleLogout;
