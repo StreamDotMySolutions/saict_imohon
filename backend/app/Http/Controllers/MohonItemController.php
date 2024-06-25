@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\MohonItem;
 use App\Models\Category;
 use App\Services\MohonItemService;
+
 use App\Http\Requests\MohonItem\StoreRequest;
 use App\Http\Requests\MohonItem\UpdateRequest;
-// use App\Http\Requests\DeleteMohonRequest;
+use App\Http\Requests\MohonItem\DeleteRequest;
 
 class MohonItemController extends Controller
 {
@@ -55,7 +56,7 @@ class MohonItemController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(DeleteRequest $request, $id)
     {
         $deleted = MohonItemService::delete($id);
 

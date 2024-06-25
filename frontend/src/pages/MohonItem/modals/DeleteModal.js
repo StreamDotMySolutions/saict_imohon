@@ -1,16 +1,16 @@
-import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea, InputSelect} from './components/Inputs'
-import DynamicInputForm from './components/DynamicInputForm'
+import { useState} from 'react'
+import { Row, Button,Modal,Form} from 'react-bootstrap'
+
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function DeleteModal({id, step}) {
 
     const store = useMohonStore()
     const errors = store.errors
 
-    const [error, setError] = useState(false)
+    //const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [categories, setCategories] = useState([])
@@ -68,6 +68,11 @@ export default function DeleteModal({id, step}) {
       setIsLoading(true)
       const formData = new FormData()
 
+      // if user check the checkbox
+      if (store.getValue('acknowledge') != null ) {
+        formData.append('acknowledge', store.getValue('acknowledge'));
+      }
+
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'delete');
 
@@ -83,65 +88,49 @@ export default function DeleteModal({id, step}) {
           // set MohonIndex listener to true
           store.setValue('refresh', true)
 
-          // Add a delay of 1 second before closing
-          setTimeout(() => {
-            handleCloseClick();
-          }, 500);
         })
         .catch( error => {
-          //console.warn(error)
+          console.warn(error)
           setIsLoading(false)
           if(error.response.status === 422){
             store.setValue('errors',  error.response.data.errors )
+
           }
+      
         })
     }
   
     return (
       <>
         <Button size="sm" disabled={ step !== 0 } variant="outline-danger" onClick={handleShowClick}>
-          Padam
+          Hapus
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Padam Permohonan </Modal.Title>
+            <Modal.Title><span className="badge bg-primary">{id}</span> Hapus Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <Row>
-              <Col>
-                <InputSelect 
-                  fieldName='category_id' 
-                  options = {categories}
-                  placeholder='Sila Pilih Peralatan'  
-                  icon='fa-solid fa-computer'
-                  isLoading='true'
-                />
-              </Col>
-              <Col>
-                <InputSelect 
-                  fieldName='type' 
-                  options = {types}
-                  placeholder='Sila Pilih Jenis'  
-                  icon='fa-solid fa-info'
-                  isLoading={isLoading}
-                />
-              </Col>
+            <Row className='p-5 m-5'>
+              <FontAwesomeIcon icon="fas fa-trash" className='text-danger' style={{fontSize:"50pt"}}/>
+              <h4>Anda pasti ingin menghapuskan permohonan ?</h4>
+              <p>Semua maklumat item akan dihapuskan</p>
             </Row>
-            <br />
-            <InputTextarea
-              fieldName='description' 
-              placeholder='Maklumat tambahan'  
-              icon='fa-solid fa-pencil'
-              rows='6'
-              isLoading={isLoading}
-            />
-            <br />
-           
           </Modal.Body>
           
           <Modal.Footer>
+            <Form.Check
+              className='me-4'
+              isInvalid={store.getValue('errors')?.hasOwnProperty('acknowledge')}
+              //isInvalid
+              reverse
+              label="Saya sahkan tindakan ini"
+              type="checkbox"
+              onClick={ () => store.setValue({errors:null}) }
+              onChange={ (e) => store.setValue('acknowledge', true) }
+            />
+
             <Button 
               disabled={isLoading}
               variant="secondary" 
@@ -153,7 +142,7 @@ export default function DeleteModal({id, step}) {
               disabled={isLoading}
               variant="danger" 
               onClick={handleSubmitClick}>
-              Padam
+              Hapus
             </Button>
 
           </Modal.Footer>
