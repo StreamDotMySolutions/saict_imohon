@@ -10,6 +10,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'message' => 'required',
             'acknowledge' => 'required',
         ];
     }
@@ -17,6 +18,7 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'message.required' => 'Sila lengkapkan justifikasi',
             'acknowledge.required' => 'Sila sahkan tindakan anda',
         ];
     }

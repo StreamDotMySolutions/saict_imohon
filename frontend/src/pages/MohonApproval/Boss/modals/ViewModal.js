@@ -19,6 +19,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
 
     const handleShowClick = () =>{
       setIsLoading(true)
+      store.emptyData() // empty store data
       setShow(true) // show the modal
       axios({
         'method' : 'get',
@@ -28,6 +29,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
             //console.log(response.data)
             let mohon = response.data.mohon
             setApproval(mohon.mohon_distribution_approval)
+            store.setValue('message', mohon.mohon_distribution_approval.message)
             //console.log(approval)
             // items
            
@@ -65,6 +67,11 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
       // status
       if (store.getValue('status') != null ) {
         formData.append('status', store.getValue('status'));
+      }
+
+      // message
+      if (store.getValue('message') != null ) {
+        formData.append('message', store.getValue('message'));
       }
 
       // method PUT ( to simulate PUT in Laravel )
@@ -109,6 +116,12 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
 
           <Modal.Body>
             <MohonData mohonRequestId={mohonRequestId} />
+            <InputTextarea
+              fieldName="message"
+              placeholder="Sila lengkapkan justifikasi kelulusan"
+              icon="fas fa-pencil"
+              rows ="4"
+              isLoading={isLoading || approval?.step == 2 } />
           </Modal.Body>
           
           <Modal.Footer>

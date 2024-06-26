@@ -17,7 +17,7 @@ function TopNavbar() {
               <Nav>
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Utama</Nav.Link>
                 {/* <Nav.Link as={NavLink} to="/distribution-approvals"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> */}
-                <Nav.Link as={NavLink} to="/mohon-approval/by-boss"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Agihan</Nav.Link>
+                <Nav.Link as={NavLink} to="/mohon-approval/by-boss"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Kelulusan</Nav.Link>
           
               </Nav>
            <Account />

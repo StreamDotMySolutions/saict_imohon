@@ -70,7 +70,8 @@ class MohonDistributionApprovalService
             'user_id' => $user->id, // role is Boss
             'step' => 2, // upgrade from 1 to 2
             'boss_id' =>  $user->id, // role is Boss
-            'status' => $request->input('status') // status
+            'status' => $request->input('status'), // status
+            'message' => $request->input('message') // justifikasi
         ]);
     }
 
