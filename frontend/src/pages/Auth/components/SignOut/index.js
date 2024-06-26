@@ -18,6 +18,7 @@ const SignOut = () =>  {
     .then( response => {
         //console.log(response)
         localStorage.removeItem('token');
+        localStorage.clear(); // Clear all local storage items
         //setIsLoggedIn(false) // store
         useAuthStore.setState({isAuthenticated:false})
     })
