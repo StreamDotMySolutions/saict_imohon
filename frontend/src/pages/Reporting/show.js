@@ -100,6 +100,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                               <th className='text-center'>Peringkat</th>
                               <th className='text-center'>Tarikh</th>
                               <th>Status</th>
+                              <th>Mesej</th>
                             </tr>
                           </thead>
 
@@ -109,6 +110,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                                   <td className='text-center'>{approval.step}</td>
                                   <td className='text-center'>{approval.created_at}</td>
                                   <td>{approval.status}</td>
+                                  <td>{approval.message}</td>
                               </tr>
                             ))}
                            
