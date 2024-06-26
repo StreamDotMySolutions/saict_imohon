@@ -26,15 +26,14 @@ class MohonApprovalService
         return MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User that requesting approval to manager ( pelulus 1 )
-            
             'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
             'approver_id' =>  $request->input('manager_id'), // the one who will approve the request
-
             'manager_id' => $request->input('manager_id'), // which manager
 
 
             'step' => 1, // step 1 is for user requesting from manager
-            'status' => 'pending'
+            'status' => 'pending',
+            'message' => "{$user->name} ( {$user->nric} ) membuat permohonan ke Pelulus 1",
         ]);
     }
 
@@ -100,7 +99,7 @@ class MohonApprovalService
 
                 'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
                 'manager_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
-
+                'message' => "{$user->name} ( {$user->nric} ) membuat permohonan ke Admin",
                 'step' => 3, // step 3 is for admin maanaging
                 'status' => 'pending' // pending
             ]);
@@ -133,6 +132,7 @@ class MohonApprovalService
             'approver_id' => $user->id, // the one who will approve the request
             'admin_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
             'step' => 4,
+            'message' => "Admin memproses permohonan",
             'status' => $request->input('status')
         ]);
     }

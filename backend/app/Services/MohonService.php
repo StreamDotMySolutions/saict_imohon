@@ -21,7 +21,6 @@ class MohonService
             break;
             case 'manager':
                 $mohons = self::getMohonDataAsManager($user, $status);
-               
             break;
 
             case 'admin':
@@ -241,6 +240,7 @@ class MohonService
             'user_id' => $user->id, // owner
             'requester_id' => $user->id, // requester
             'step' => 0,
+            'message' => "{$user->name} ( {$user->nric} ) mencipta permohonan. ",
             'status' => 'pending',
         ]);
 
