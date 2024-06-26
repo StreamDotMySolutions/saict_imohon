@@ -46,7 +46,7 @@ const Index = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
+                        {/* <th style={{ 'width': '20px'}}>ID</th> */}
                         <th style={{ 'width': '120px'}}>Pemohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Status Kelulusan</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan</th>
@@ -58,8 +58,8 @@ const Index = ({status}) => {
                 <tbody>
                     {responses?.data?.map((data,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{data.id}</span></td>
-                            <td>{data.user?.name}</td>
+                            {/* <td> <span className="badge bg-primary">{data.id}</span></td> */}
+                            <td>{data.user?.name} ( {data.user?.nric} )</td>
                     
                             <td>
                                 <AgihanApprovalStatus step={data.mohon_distribution_approval.step} currentStatus={data.mohon_distribution_approval.status} /></td>

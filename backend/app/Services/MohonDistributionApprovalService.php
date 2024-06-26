@@ -30,7 +30,8 @@ class MohonDistributionApprovalService
                 'mohon_distribution_request_id' => $mohonDistributionRequestId, // belongsTo MohonDistributionRequest
                 'user_id' => $user->id, // role is User
                 'step' => 0, // initial step is 0
-                'status' => 'pending' // status is pending
+                'status' => 'pending', // status is pending
+                'message' => "Admin membuat Agihan"
             ]);
         } else {
             return false;
@@ -49,7 +50,8 @@ class MohonDistributionApprovalService
             'user_id' => $user->id, // role is Admin
             'boss_id' => $request->input('boss_id'), // which pelulus 2 ?
             'step' => 1, // upgrade from 0 to 1
-            'status' => 'pending' // status is pending
+            'status' => 'pending', // status is pending
+            'message' => "Admin memohon kelulusan dari Pelulus 2"
         ]);
     }
 

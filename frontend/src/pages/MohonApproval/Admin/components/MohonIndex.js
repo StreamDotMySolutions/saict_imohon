@@ -77,6 +77,7 @@ const MohonIndex = () => {
                
                         <th style={{ 'width': '200px'}}>Kelulusan Mohon</th>
                         <th style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
+                        <th style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
                         <th className='text-center' style={{ 'width': '350px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -93,6 +94,7 @@ const MohonIndex = () => {
                             <ApproverStatus step={mohon.mohon_approval?.step} currentStatus={mohon.mohon_approval?.status} />
                             </td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
+                            <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>
                                 {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>

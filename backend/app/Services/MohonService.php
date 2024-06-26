@@ -179,7 +179,12 @@ class MohonService
                         $query->where('status', 'pending')->where('step', 3);
                     })
 
-                    ->withCount(['mohonItems']) // to calculate how many items
+                    //->withCount(['mohonItems']) // to calculate how many items
+                    ->withCount([
+                        'mohonItems', // Mohon hasMany MohonItems
+                        'mohonDistributionItems' // Mohon hasMany MohonDistributionItems
+                        
+                        ]) // to calculate how many items
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String

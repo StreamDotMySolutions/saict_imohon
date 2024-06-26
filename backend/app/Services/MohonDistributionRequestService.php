@@ -181,13 +181,31 @@ class MohonDistributionRequestService
                                 ]);
     }
 
+    // public static function delete($id)
+    // {
+    //     $user =  auth('sanctum')->user();
+
+        
+        
+    //     return MohonDistributionRequest::query()
+    //                         ->where('user_id', $user->id)
+    //                         ->where('id',$id)
+    //                         ->delete();
+    // }
+
     public static function delete($id)
     {
-        $user =  auth('sanctum')->user();
-        
-        return MohonDistributionRequest::query()
-                            ->where('user_id', $user->id)
-                            ->where('id',$id)
-                            ->delete();
+        $user = auth('sanctum')->user();
+
+        $distributionRequest = MohonDistributionRequest::where('user_id', $user->id)
+                                                    ->findOrFail($id);
+
+        // Assuming you want to delete the related items as well
+        $distributionRequest->mohonDistributionItems()->each(function ($distributionItem) {
+            $distributionItem->delete();
+        });
+
+        return $distributionRequest->delete();
     }
+
 }
