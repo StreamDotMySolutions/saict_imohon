@@ -45,8 +45,6 @@ const User = () => {
           <Tab eventKey="boss" title="Pelulus 2">
             <UserTable role='boss'/>
           </Tab>  
-     
-   
         </Tabs>
       </Container>
     )

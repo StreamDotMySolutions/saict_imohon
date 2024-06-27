@@ -23,6 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
      
+        \Log::info($this->all());
         return [
           
             //'role' => 'required',
@@ -59,7 +60,6 @@ class RegisterRequest extends FormRequest
             ],
 
             'address' => 'required',
-
             'user_department_id' => 'required',
            
         ];
