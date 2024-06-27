@@ -9,7 +9,7 @@ const MohonApprovalByAdmin = () => {
         <div>
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>AGIHAN</Badge></Link></li>
+                    <li className="breadcrumb-item"><Link to='/mohon-approval/by-admin'><Badge>PERMOHONAN</Badge></Link></li>
                     <li className="breadcrumb-item">Senarai Permohonan</li>
                 </ol>
             </nav>
