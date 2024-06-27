@@ -124,7 +124,7 @@ function EditUserModal({id}) {
           data: formData, // payload is formData
       })
       .then( response => {
-          //console.log(response.data)
+          console.log(response.data)
      
           useUserStore.setState({ refresh: true }) // useEffect trigger
           handleClose() // close modal

@@ -51,7 +51,7 @@ class UpdateUserRequest extends FormRequest
                     //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
     
                     // different table, need to provide pk
-                    Rule::unique('users')->ignore($user->id,'id'),
+                    Rule::unique('users')->ignore($this->user->id,'id'),
                 ],
                 'phone' => 'sometimes|required',
                 'address' => 'sometimes|required',

@@ -18,6 +18,7 @@ const User = () => {
 
     return (
       <Container className='p-1'>
+        
         <Tabs
           defaultActiveKey="approve"
           id="userTab"
@@ -31,15 +32,21 @@ const User = () => {
           <Tab eventKey="user" title="Pengguna">
             <UserTable role='user'/>
           </Tab>
+          <Tab eventKey="boss" title="Pengguna Tidak Aktif">
+            pengguna tidak aktif
+          </Tab> 
+
           <Tab eventKey="admin" title="Admin">
             <UserTable role='admin'/>
           </Tab>
-          <Tab eventKey="manager" title="Manager">
+          <Tab eventKey="manager" title="Pelulus 1">
             <UserTable role='manager'/>
           </Tab>
-          <Tab eventKey="boss" title="Boss">
+          <Tab eventKey="boss" title="Pelulus 2">
             <UserTable role='boss'/>
           </Tab>  
+     
+   
         </Tabs>
       </Container>
     )
