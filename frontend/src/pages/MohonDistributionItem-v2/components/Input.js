@@ -44,11 +44,11 @@ export function PicPhone() {
         <InputGroup>
             <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone" /></InputGroup.Text>
             <FloatingLabel
-                label={errors.pic_phone ? errors.pic_phone : 'Nombor Telefon Pegawai Sokongan Teknikal'}
+                label={errors.pic_phone ? errors.pic_phone : 'Nombor Telefon'}
                 className={`col ${errors.pic_phone ? 'text-danger' : ''}`}
             >
                 <Form.Control
-                    placeholder='Sila lengkapkan nombor telefon Pegawai Sokongan Teknikal'
+                    placeholder='Sila lengkapkan nombor telefon'
                     readOnly={store.readonly}
                     value={store.getValue('pic_phone') || ''}
                     name='pic_phone'
