@@ -11,11 +11,11 @@ const SignUpLayout = () => {
       <section className="min-vh-100 d-flex flex-column">
         <div className="container-fluid flex-grow-1 d-flex align-items-center">
           <div className="row d-flex justify-content-center align-items-center w-100">
-            <div className="col-md-9 col-lg-6 col-xl-5">
+            {/* <div className="col-md-9 col-lg-6 col-xl-5">
               <img src={login_logo} className="img-fluid" alt="Content Management System" />
-            </div>
-            <div className="col-6 offset-xs-3">
-              <h2 className="text-muted mb-3">
+            </div> */}
+            <div className="col-6 offset-xs-3 mt-3">
+              <h2 className="text-muted mb-3 text-center">
                 <img src={rtm} width="100px" alt="RTM Logo" /> iMOHON
               </h2>
               <Outlet />
