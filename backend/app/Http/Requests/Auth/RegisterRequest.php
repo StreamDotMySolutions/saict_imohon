@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
      
-        \Log::info($this->all());
+        //\Log::info($this->all());
         return [
           
             //'role' => 'required',
