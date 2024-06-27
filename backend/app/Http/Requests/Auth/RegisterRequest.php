@@ -38,18 +38,24 @@ class RegisterRequest extends FormRequest
                 'required',
                 'numeric',
                 'digits:12',
-                // 'integer',
-                // 'regex:/^[0-9]{12}$/',
-                //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
-                //'unique:user_profiles,nric'
                 Rule::unique('users')
             ],
-            //'phone' => 'required',
+
             'phone' => [
-                'sometimes',
+      
                 'required',
                 'numeric',
-                'digits_between:1,11',
+                'digits_between:10,11',
+            ],
+
+            'level' => [
+                'required',
+                'max:255'
+            ],
+
+            'building' => [
+                'required',
+                'max:255'
             ],
 
             'address' => 'required',
@@ -65,18 +71,24 @@ class RegisterRequest extends FormRequest
             'email.required' => 'Sila berikan alamat email',
             'email.email' => 'Sila berikan alamat email yang sah',
 
+            'nric.required' => 'Sila lengkapkan nombor kad pengenalan tanpa ( - )',
+            'nric.numeric' => 'Nombor kad pengenalan tanpa ( - ).',
+            'nric.digits' => ' Hanya nombor digit sahaja dibenarkan.',
+
             'password.required' => 'Sila lengkapkan katalaluan',
             'password.min' => 'Sekurang-kurangnya 6 aksara',
             'password.confirmed' => 'Pengesahan katalaluan tidak sama',
 
             'name.required' => 'Sila lengkapkan nama anda',
-            'nric.required' => 'Sila lengkapkan nombor kad pengenalan (baharu)',
-
             'occupation.required' => 'Sila lengkapkan jawatan anda',
 
-            'phone.required' => 'Sila lengkapkan no telefon (pejabat)',
-            'address.required' => 'Sila lengkapkan alamat (pejabat)',
+            'phone.required' => 'Sila lengkapkan no telefon ( peribadi )',
+            'phone.numeric' => 'Hanya nombor sahaja dibenarkan. ',
+            'phone.digits_between' => 'Nombor telefon antara 10 atau 11 aksara.',
 
+            'level.required' => 'Sila lengkapkan aras tingkat',
+            'building.required' => 'Sila lengkapkan aras nama bangunan',
+            'address.required' => 'Sila lengkapkan alamat (pejabat)',
             'user_department_id.required' => 'Sila lengkapkan jabatan',
 
         ];
