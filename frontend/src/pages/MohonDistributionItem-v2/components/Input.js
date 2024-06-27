@@ -13,11 +13,11 @@ export function PicName() {
         <InputGroup>
             <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-user" /></InputGroup.Text>
             <FloatingLabel
-                label={errors.pic_name ? errors.pic_name : 'Nama PIC'}
+                label={errors.pic_name ? errors.pic_name : 'Pegawai Sokongan Teknikal'}
                 className={`col ${errors.pic_name ? 'text-danger' : ''}`}
             >
                 <Form.Control
-                    placeholder='Sila lengkapkan nama PIC'
+                    placeholder='Sila lengkapkan pegawai sokongan teknikal'
                     readOnly={store.readonly}
                     value={store.getValue('pic_name') || ''}
                     name='pic_name'
@@ -44,11 +44,11 @@ export function PicPhone() {
         <InputGroup>
             <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-phone" /></InputGroup.Text>
             <FloatingLabel
-                label={errors.pic_phone ? errors.pic_phone : 'No Telefon PIC'}
+                label={errors.pic_phone ? errors.pic_phone : 'Nombor Telefon Pegawai Sokongan Teknikal'}
                 className={`col ${errors.pic_phone ? 'text-danger' : ''}`}
             >
                 <Form.Control
-                    placeholder='Sila lengkapkan no telefon PIC'
+                    placeholder='Sila lengkapkan nombor telefon Pegawai Sokongan Teknikal'
                     readOnly={store.readonly}
                     value={store.getValue('pic_phone') || ''}
                     name='pic_phone'
