@@ -116,7 +116,7 @@ export default function ViewModal({id}) {
     return (
       <>
         <Button size="sm" variant="outline-info" onClick={handleShowClick}>
-          Pengesahan Mohon
+          Pengesahan
         </Button>
   
         <Modal size={'xl'} show={show} onHide={handleCloseClick}>
