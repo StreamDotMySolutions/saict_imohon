@@ -97,7 +97,9 @@ const SignUpForm = () => {
             }
 
             <Account />
+            <br />
             <Profile />
+            <br />
             <Department />
 
             {/* <Tabs 

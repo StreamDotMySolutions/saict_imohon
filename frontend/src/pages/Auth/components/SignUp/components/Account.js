@@ -30,7 +30,7 @@ const Account = () => {
                     <Form.Control 
                         placeholder='Alamat Emel'
                         name='email'
-                        size='lg' 
+                        //size='lg' 
                         type="email" 
                         required 
                         isInvalid={errors?.hasOwnProperty('email')}
@@ -52,7 +52,7 @@ const Account = () => {
                     <Form.Control 
                         placeholder='Katalaluan'
                         name='password'
-                        size='lg' 
+                        //size='lg' 
                         type="password" 
                         required 
                         isInvalid={errors?.hasOwnProperty('password')}
@@ -74,7 +74,7 @@ const Account = () => {
                     <Form.Control 
                         placeholder='Sahkan katalaluan'
                         name='password_confirm'
-                        size='lg' 
+                        //size='lg' 
                         type="password" 
                         required 
                         isInvalid={errors?.hasOwnProperty('password')}
