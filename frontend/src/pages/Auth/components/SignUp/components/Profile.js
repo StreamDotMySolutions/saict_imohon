@@ -81,7 +81,7 @@ const Profile = () => {
                     <InputGroup hasValidation className='mb-3'>
                         <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-id-card"></FontAwesomeIcon></InputGroup.Text>
                         <Form.Control 
-                            placeholder='No Kad Pengenalan ( xxxxxx-xx-xxxx )'
+                            placeholder='No Kad Pengenalan'
                             name='nric'
                             type="text" 
                             required 
