@@ -56,8 +56,8 @@ const Index = () => {
                 <thead>
                     <tr>
                         <th style={{ 'width': '20px'}}>ID</th>
-                        <th className='col-2'>Nama Pemohon</th>
-                        <th className='col-2'>Email</th>
+                        <th className='col-2'>Nama</th>
+                        <th className='col-2'>Kad Pengenalan</th>
                     
                         <th className='text-center' >Kelulusan Agihan Terkini</th>
                         <th style={{ 'width': '50px'}}>Jumlah Peralatan</th>
@@ -71,7 +71,7 @@ const Index = () => {
                         <tr key={index}>
                             <td> <span className="badge bg-primary">{mohon.id}</span></td>
                             <td>{mohon.user?.name}</td>
-                            <td>{mohon.user?.email}</td>
+                            <td>{mohon.user?.nric}</td>
                     
                             <td className='text-center'>
                               

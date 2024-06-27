@@ -93,7 +93,7 @@ export default function CreateModal() {
           </Modal.Header>
 
           <Modal.Body>
-            <h1 className='text-center mt-5 mb-5'>Cipta permohonan baharu ?</h1>
+            <h1 className='text-center mt-5 mb-5'>Cipta agihan baharu ?</h1>
             {/* <InputText 
               fieldName='title' 
               placeholder='Tajuk permohonan'  
