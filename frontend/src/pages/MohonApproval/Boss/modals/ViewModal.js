@@ -4,6 +4,7 @@ import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
 import MohonData from '../../../Reporting/show'
+import ShowForBoss from '../../../Reporting/ShowForBoss'
 
 export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) {
 
@@ -115,7 +116,8 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
           </Modal.Header>
 
           <Modal.Body>
-            <MohonData mohonRequestId={mohonRequestId} />
+            {/* <MohonData mohonRequestId={mohonRequestId} /> */}
+            <ShowForBoss mohonRequestId={mohonRequestId} />
             <InputTextarea
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
