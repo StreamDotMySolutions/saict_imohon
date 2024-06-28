@@ -180,11 +180,11 @@ export function ReceivedOn() {
                 <FontAwesomeIcon icon="fa-solid fa-calendar" />
             </InputGroup.Text>
             <FloatingLabel
-                label={errors.received_on ? errors.received_on : 'Tarikh terima'}
+                label={errors.received_on ? errors.received_on : 'Tarikh pembekalan peralatan'}
                 className={`col ${errors.received_on ? 'text-danger' : ''}`}
             >
             <Form.Control
-                placeholder='Tarikh terima'
+                placeholder='Tarikh pembekalan peralatan'
                 readOnly={store.readonly}
                 value={store.getValue('received_on') || ''}
                 name='received_on'
