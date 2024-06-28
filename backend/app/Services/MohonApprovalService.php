@@ -132,7 +132,7 @@ class MohonApprovalService
             'approver_id' => $user->id, // the one who will approve the request
             'admin_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
             'step' => 4,
-            'message' => "Admin memproses permohonan",
+            'message' => $request->input('message'),
             'status' => $request->input('status')
         ]);
     }

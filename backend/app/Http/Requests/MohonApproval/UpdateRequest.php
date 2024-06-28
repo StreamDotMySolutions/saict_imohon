@@ -9,6 +9,7 @@ class UpdateRequest extends FormRequest
 
     public function rules(): array
     {
+        //\Log::info($this->all());
         return [
             'acknowledge' => 'required',
             'message' => 'required',

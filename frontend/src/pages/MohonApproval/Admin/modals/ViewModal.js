@@ -31,13 +31,17 @@ export default function ViewModal({id}) {
             'url' : `${store.submitUrl}/${id}`
       })
       .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           let mohon = response.data.mohon
           //store.setValue('title', mohon.title) // set formValue
           //store.setValue('description', mohon.description) // set formValue
           setApproval(mohon.mohon_approval)
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
+
+          // message from user
+          store.setValue('message',mohon.mohon_approval_rejected_by_user ? mohon.mohon_approval_rejected_by_user.message : mohon.mohon_approval_approved_by_user.message  ) 
+
 
           // items
           setIsLoading(false)
@@ -78,11 +82,11 @@ export default function ViewModal({id}) {
         formData.append('status', store.getValue('status'));
       }
 
-      formData.append('message', 'Admin proses permohonan');
+      //formData.append('message', 'Admin proses permohonan');
       // message
-      // if (store.getValue('message') !== null ) {
-      //   formData.append('message', store.getValue('message'));
-      // }
+      if (store.getValue('message') !== null ) {
+        formData.append('message', store.getValue('message'));
+      }
 
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'put');
@@ -126,16 +130,15 @@ export default function ViewModal({id}) {
 
           <Modal.Body>
             <MohonData id={id} />
-            {/* <h5>Justifikasi</h5>
 
-          
-          <InputTextarea
+            <h5>Justifikasi</h5>
+            <InputTextarea
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
               rows ="4"
-              isLoading={isLoading ||  step!==3} 
-            /> */}
+              isLoading={isLoading || step==4 } 
+            />
 
           </Modal.Body>
           
