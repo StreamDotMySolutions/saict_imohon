@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class ChangeColumnTypeForMohonApprovalsTable extends Migration
+class ChangeColumnTypeForMohonApprovalsDistributionTable extends Migration
 {
     /**
      * Run the migrations.
