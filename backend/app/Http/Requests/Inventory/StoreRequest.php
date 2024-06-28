@@ -48,7 +48,7 @@ class StoreRequest extends FormRequest
             'date_end.required' => 'Sila pilih tarikh tamat kontrak',
             'received_on.required' => 'Sila pilih tarikh terima peralatan',
             'received_on.after_or_equal' => 'Tarikh penerimaan peralatan mesti di antara tarikh mula dan tarikh tamat kontrak',
-            'received_on.before_or_equal' => 'Tarikh penerimaan peralatan mesti di antara tarikh mula dan tarikh tamat kontrak',
+            'received_on.before_or_equal' => 'Tarikh penerimaan peralatan sebelum tarikh mula',
             'total.required' => 'Sila nyatakan jumlah dalam integer',
             'total.integer' => 'Sila nyatakan jumlah dalam integer',
 
