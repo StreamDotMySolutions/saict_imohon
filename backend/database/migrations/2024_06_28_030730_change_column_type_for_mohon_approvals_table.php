@@ -14,20 +14,20 @@ class ChangeColumnTypeForMohonApprovalsTable extends Migration
      */
     public function up()
     {
-        Schema::table('mohon_approvals', function (Blueprint $table) {
-            // Make the column nullable temporarily
-            $table->text('message')->nullable()->change();
-        });
+        // Schema::table('mohon_approvals', function (Blueprint $table) {
+        //     // Make the column nullable temporarily
+        //     $table->text('message')->nullable()->change();
+        // });
 
-        // If needed, you can update data here to ensure it fits the new column type
+        // // If needed, you can update data here to ensure it fits the new column type
 
-        Schema::table('mohon_approvals', function (Blueprint $table) {
-            // Convert the column type
-            $table->text('message')->change();
+        // Schema::table('mohon_approvals', function (Blueprint $table) {
+        //     // Convert the column type
+        //     $table->text('message')->change();
 
-            // Optionally make the column not null again
-            $table->text('message')->nullable(false)->change();
-        });
+        //     // Optionally make the column not null again
+        //     $table->text('message')->nullable(false)->change();
+        // });
     }
 
     /**
@@ -37,9 +37,9 @@ class ChangeColumnTypeForMohonApprovalsTable extends Migration
      */
     public function down()
     {
-        Schema::table('mohon_approvals', function (Blueprint $table) {
-            // Revert the column type
-            $table->string('message', 255)->change();
-        });
+        // Schema::table('mohon_approvals', function (Blueprint $table) {
+        //     // Revert the column type
+        //     $table->string('message', 255)->change();
+        // });
     }
 }
