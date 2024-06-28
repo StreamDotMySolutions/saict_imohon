@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mohon_distribution_approvals', function (Blueprint $table) {
-            $table->string('message')->nullable()->after('status');
+            $table->text('message')->nullable()->after('status');
         });
     }
 

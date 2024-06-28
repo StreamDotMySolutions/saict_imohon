@@ -103,12 +103,14 @@ const MohonIndex = () => {
                                 {' '}
                                 <ViewModal id={mohon.id} />
                                 {' '}
-                                {mohon.mohon_approval?.step == 4 ?
+                            
+                                {mohon.mohon_approval?.step == 4 && mohon.mohon_approval?.status == 'approved'  ?
                                     <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                         <Button size='sm' variant='outline-success'>Agihan</Button>
                                     </Link>
                                     :
-                                    <Button size='sm' disabled variant='success'>Agihan</Button>
+                                    // 
+                                    <></>
                                 }
                             </td>
                         </tr>
