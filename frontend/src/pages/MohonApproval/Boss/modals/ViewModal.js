@@ -8,6 +8,7 @@ import ShowForBoss from '../../../Reporting/ShowForBoss'
 
 export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) {
 
+    const base_url = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -24,13 +25,16 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
       setShow(true) // show the modal
       axios({
         'method' : 'get',
-        'url' : `${store.showUrl}/${mohonDistributionRequestId}` //mohon distribution request
+        'url' : `${base_url}/mohon-distribution/${mohonDistributionRequestId}` //mohon distribution request
         })
         .then( response => {
-            //console.log(response.data)
+            console.log(response.data)
             let mohon = response.data.mohon
             setApproval(mohon.mohon_distribution_approval)
-            store.setValue('message', mohon.mohon_distribution_approval.message)
+
+            let approved = mohon.mohon_distribution_approval_approved_by_user
+            let rejected = mohon.mohon_distribution_approval_approved_by_user
+            store.setValue('message', approved ? approved.message : rejected.message)
             //console.log(approval)
             // items
            

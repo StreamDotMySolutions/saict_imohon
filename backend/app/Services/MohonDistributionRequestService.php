@@ -151,6 +151,7 @@ class MohonDistributionRequestService
 
     public static function show($id)
     {
+       
         $request = MohonDistributionRequest::query()
                     ->where('id', $id)
                     ->with([
@@ -158,6 +159,8 @@ class MohonDistributionRequestService
                         'mohonRequest.mohonItems', 
                         'mohonRequest.mohonItems.category',
                         'mohonDistributionApproval',
+                        'mohonDistributionApprovalApprovedByUser',
+                        'mohonDistributionApprovalRejectedByUser',
                         'mohonDistributionItems.category',
                         'mohonDistributionItems.inventory', 
                         'mohonDistributionItems.mohonItem',

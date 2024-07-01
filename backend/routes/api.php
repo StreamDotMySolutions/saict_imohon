@@ -122,6 +122,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // mohon-distribution
+    // from MohonApproval role= boss
     Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
     Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
     Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);

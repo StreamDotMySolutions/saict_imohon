@@ -85,7 +85,7 @@ const MohonDistributionRequest = () => {
                 </ol>
             </Alert>
             <Container className='p-1'>
-                <Tabs
+                {/* <Tabs
                     defaultActiveKey="mohon-distribution-requests"
                     id="userTab"
                     className="mb-3"
@@ -99,7 +99,8 @@ const MohonDistributionRequest = () => {
                         <MohonRequest />
                     </Tab>
                 
-                </Tabs>
+                </Tabs> */}
+                <Index />
             </Container>
 
            

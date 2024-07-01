@@ -50,6 +50,27 @@ class MohonDistributionRequest extends Model
         return $this->hasMany(MohonDistributionApproval::class)->orderBy('step', 'desc')->orderBy('updated_at', 'desc');
     }
 
+    public function mohonDistributionApprovalApprovedByUser()
+    {
+        $userId = \Auth::id(); // Get the logged-in user's ID
+    
+        return $this->hasOne(MohonDistributionApproval::class)
+                    ->latest('id')
+                    ->where('status', 'approved')
+                    ->where('user_id', $userId); // Filter by the logged-in user's ID
+    }
+
+    
+    public function mohonDistributionApprovalRejectedByUser()
+    {
+        $userId = \Auth::id(); // Get the logged-in user's ID
+    
+        return $this->hasOne(MohonDistributionApproval::class)
+                    ->latest('id')
+                    ->where('status', 'rejected')
+                    ->where('user_id', $userId); // Filter by the logged-in user's ID
+    }
+
 
 
     public function mohonDistributionApprovals() 
