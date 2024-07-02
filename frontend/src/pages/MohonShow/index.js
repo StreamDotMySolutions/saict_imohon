@@ -12,6 +12,7 @@ import DeleteModal from '../Mohon/modals/DeleteModal'
 // import StatusAgihan from '../Mohon/components/StatusAgihan'
 
 const MohonShow = () => {
+    const base_url = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
     const store = useMohonStore()
     const [response, setResponse] = useState([])
@@ -21,7 +22,8 @@ const MohonShow = () => {
     useEffect( () => {
         axios({
                 'method' : 'get',
-                'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+                //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+                'url' : `${base_url}/mohon/${mohonRequestId}`
             })
             .then( response => {
                 //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
@@ -228,7 +230,7 @@ const MohonShow = () => {
 
                         <Row className='border rounded'>
 
-                            <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
+                            {/* <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
                             <Table>
                                 <thead>
                                     <tr>
@@ -254,7 +256,60 @@ const MohonShow = () => {
                                     )}
 
                                 </tbody>
+                            </Table> */}
+
+                            <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
+                            {response?.mohon_distribution_requests?.map((agihan) => 
+                            <>
+                            
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>ID Agihan</th>
+                                        <th>Tarikh</th>
+                                        <th>Kelulusan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><Badge>{agihan.id}</Badge></td>
+                                        <td>{agihan.created_at}</td>
+                                        <td>
+
+                                        <Table className="rounded" style={{backgroundColor:"#f0f0f0"}}>
+                                            <thead>
+                                                <tr>
+                                                    <th className='col-1'>Peringkat</th>
+                                                    <th className='col-1'>Status</th>
+                                                    <th className='col-2'>Nama</th>
+                                                    <th className='col-6'>Justifikasi</th>
+                                                    <th className='text-center'>Tarikh</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                            
+                                                
+                                                    {agihan.mohon_distribution_approvals?.map((item, index) => (
+                                                        <tr key={index}>
+                                                            <td className='text-center'>{item.step}</td>
+                                                            <td>{item.status}</td>
+                                                            <td>{item?.user?.name ?? 'N/A'}</td>
+                                                            <td>{item?.message}</td>
+                                                            <td className='text-center'>{item.created_at}</td>
+                                                        </tr>
+                                                    ))}
+                                            
+
+                                            </tbody>
+                                        </Table>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </Table>
+                            </>
+                            )}
+
 
                         </Row>
                         

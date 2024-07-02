@@ -16,7 +16,7 @@ const Index = () => {
         'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
         })
         .then( response => {
-            //console.log(response)
+            //console.log(response.data.mohon.mohon_distribution_requests)
             setResponse(response.data.mohon)
         })
         .catch ( error => {
@@ -56,7 +56,7 @@ const Index = () => {
                                         <th>Peralatan</th>
                                         <th>Jenis</th>
                                         <th className='text-center'>Pemohon</th>
-                                      
+                                        <th className='text-center'>Person In Charge</th>
                                         <th className='text-center'>Jangkamasa Penghantaran</th>
                                       
                                         <th className='text-center'>Status Penerimaan</th>
@@ -73,6 +73,30 @@ const Index = () => {
                                             <td>{item.category?.name}</td>
                                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                                             <td className='text-center'>{item.mohon_item?.name}</td>
+
+                                            <td>
+                                            {item.mohon_distribution_item_delivery != null ?
+                                            <Table className='rounded border ' style={{backgroundColor:"#f0f0f0"}}>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vendor</th>
+                                                            <th>Nama</th>
+                                                            <th>No Telefon</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{item.inventory.vendor}</td>
+                                                            <td>{item.mohon_distribution_item_delivery?.pic_name}</td>
+                                                            <td>{item.mohon_distribution_item_delivery?.pic_phone}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </Table>
+                                            :
+                                            <>Belum dibuat</>
+                                            }
+
+                                            </td>
                                             
                                             <td className='text-center'>
 
