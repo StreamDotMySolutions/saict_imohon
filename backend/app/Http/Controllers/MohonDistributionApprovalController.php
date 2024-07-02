@@ -15,7 +15,7 @@ class MohonDistributionApprovalController extends Controller
     */
     public function byAdmin(StoreRequest $request, $mohonDistributionRequestId)
     {
-        // \Log::info($mohonDistributionRequestId);
+        //\Log::info($request);
        
         // create new data in MohonDistributionApproval
         // step = 1 ( for Boss to view )

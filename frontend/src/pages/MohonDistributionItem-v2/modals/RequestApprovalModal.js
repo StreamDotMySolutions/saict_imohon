@@ -6,6 +6,7 @@ import useMohonStore from '../store'
 
 export default function RequestApprovalModal({agihanRequestId}) {
 
+    const base_url = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -63,12 +64,18 @@ export default function RequestApprovalModal({agihanRequestId}) {
         formData.append('boss_id', store.getValue('boss_id'));
       }
 
+      // message
+      if (store.getValue('message') != null ) {
+        formData.append('message', store.getValue('message'));
+      }
+
       // method PUT ( to simulate PUT in Laravel )
       formData.append('_method', 'post');
 
       axios({ 
           method: 'post',
-          url : `${store.bossApprovalUrl}/${agihanRequestId}`,
+          //url : `${store.bossApprovalUrl}/${agihanRequestId}`,
+          url:  `${base_url}/mohon-distribution-requests/by-admin/${agihanRequestId}`,
           data: formData
         })
         .then( response => {
@@ -108,7 +115,8 @@ export default function RequestApprovalModal({agihanRequestId}) {
 
           <Modal.Body>
 
-          <h5>Maklumat Pelulus</h5>
+          <Col className='mb-3'>
+            <h5>Maklumat Pelulus</h5>
             <InputSelect
                   fieldName='boss_id' 
                   options = {bosses}
@@ -116,6 +124,10 @@ export default function RequestApprovalModal({agihanRequestId}) {
                   icon='fa-solid fa-person'
                   isLoading={isLoading}
                 />
+          </Col>
+
+          <Col className='mb-3'>
+            <h5>Maklumat Agihan</h5>
             <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
               <thead>
                   <tr>
@@ -151,6 +163,21 @@ export default function RequestApprovalModal({agihanRequestId}) {
 
               </tbody>
             </Table>
+          </Col>
+           
+
+          <Col>
+            <h5>Justifikasi</h5>
+            <InputTextarea    
+              fieldName="message"
+              placeholder="Sila lengkapkan justifikasi agihan"
+              icon="fas fa-pencil"
+              rows ="4"
+              isLoading={isLoading} 
+            />
+          </Col>
+    
+            
           </Modal.Body>
           
           <Modal.Footer>

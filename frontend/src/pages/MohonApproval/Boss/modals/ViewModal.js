@@ -28,7 +28,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
         'url' : `${base_url}/mohon-distribution/${mohonDistributionRequestId}` //mohon distribution request
         })
         .then( response => {
-            console.log(response.data)
+            //console.log(response.data)
             let mohon = response.data.mohon
             setApproval(mohon.mohon_distribution_approval)
 

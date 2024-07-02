@@ -51,7 +51,7 @@ class MohonDistributionApprovalService
             'boss_id' => $request->input('boss_id'), // which pelulus 2 ?
             'step' => 1, // upgrade from 0 to 1
             'status' => 'pending', // status is pending
-            'message' => "Admin memohon kelulusan dari Pelulus 2"
+            'message' => $request->input('message') // admin key in justifikasi as message 
         ]);
     }
 

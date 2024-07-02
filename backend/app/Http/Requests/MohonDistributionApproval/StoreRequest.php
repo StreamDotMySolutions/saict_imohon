@@ -12,8 +12,9 @@ class StoreRequest extends FormRequest
 
         //\Log::info($this->all());
         return [
-            'boss_id' => 'required|integer',
             'acknowledge' => 'required',
+            'boss_id' => 'required|integer',
+            'message' => 'required',
         ];
     }
 
@@ -23,6 +24,7 @@ class StoreRequest extends FormRequest
             'boss_id.integer' => 'Sila pilih pelulus 2',
             'boss_id.required' => 'Sila pilih pelulus 2',
             'acknowledge.required' => 'Sila sahkan tindakan anda',
+            'message.required' => 'Sila lengkapkan justifikasi',
         ];
     }
 }
