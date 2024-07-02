@@ -245,7 +245,7 @@ class MohonService
             'user_id' => $user->id, // owner
             'requester_id' => $user->id, // requester
             'step' => 0,
-            'message' => "{$user->name} ( {$user->nric} ) mencipta permohonan. ",
+            'message' => "{$user->name} ( User ) mencipta permohonan. ",
             'status' => 'pending',
         ]);
 

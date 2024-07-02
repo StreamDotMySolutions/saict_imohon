@@ -33,7 +33,7 @@ class MohonApprovalService
 
             'step' => 1, // step 1 is for user requesting from manager
             'status' => 'pending',
-            'message' => "{$user->name} ( {$user->nric} ) membuat permohonan ke Pelulus 1",
+            'message' => "{$user->name} ( User ) membuat permohonan ke Pelulus 1",
         ]);
     }
 
@@ -99,7 +99,7 @@ class MohonApprovalService
 
                 'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
                 'manager_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
-                'message' => "{$user->name} ( {$user->nric} ) membuat permohonan ke Admin",
+                'message' => "{$user->name} ( Pelulus 1 ) membuat permohonan ke Admin",
                 'step' => 3, // step 3 is for admin maanaging
                 'status' => 'pending' // pending
             ]);
