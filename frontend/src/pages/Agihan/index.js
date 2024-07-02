@@ -135,7 +135,7 @@ const Index = () => {
                                             <td  className='text-center'>
                                                 {item.mohon_distribution_item_acceptance ? item.mohon_distribution_item_acceptance.created_at : <>Belum disahkan</> }
                                             </td>
-                                            <td  className='text-center'>
+                                            <td >
                                                 {!item.mohon_distribution_item_acceptance?.created_at ?
                                                 <>
                                                     {item.mohon_distribution_item_delivery != null ?
@@ -147,7 +147,15 @@ const Index = () => {
                                                     }
                                                 </> 
                                                 :
+                                                <>   
                                                 <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>
+
+                                                <Col className='border border-1 rounded mt-2 p-2'>
+                                                    {item.mohon_distribution_item_acceptance?.message}
+                                                </Col>
+                                     
+                                                </>
+                                             
                                                 }
                                             </td>
                                         </tr>
