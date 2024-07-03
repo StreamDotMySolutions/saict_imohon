@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Form,Collapse } from 'react-bootstrap';
+import { Row,Col,Form,Collapse } from 'react-bootstrap';
 import { InputText } from './include';
 import useUserStore from '../../../stores/UserStore';
 // import Collapse from 'react-bootstrap/Collapse';
@@ -36,31 +36,45 @@ const UserAccount = () => {
             
 
             <InputText
-                
                 label='Email'
                 placeholder={'Alamat email'}
                 type='text'
                 field='email'
             />
 
-            <Form.Check // prettier-ignore
-                type="switch"
-                id="custom-switch"
-                label="Tetapkan Password"
-                onChange={() => setTogglePassword(!togglePassword)}
-            />
+            
+            {/* <Col className="border border-1 rounded p-2">
+                Pengesahan Email
+                <Row className='col-6'>
+                    <Col>Belum</Col>
+                    <Col>Sudah</Col>
+                </Row>
+            </Col> */}
 
-            <Collapse in={togglePassword}>
-                <div>
-                    <InputText
-                    //label='Password'
-                    placeholder={'Password'}
-                    type='password'
-                    field='password'
-                    autoComplete="new-password"
-                    />
-                </div>
-            </Collapse>
+            
+            <Col className="border border-1 rounded p-2 mt-3">
+                Password
+                <Form.Check // prettier-ignore
+                    type="switch"
+                    id="custom-switch"
+                    label="Tetapkan Password"
+                    onChange={() => setTogglePassword(!togglePassword)}
+                />
+
+                <Collapse in={togglePassword}>
+                    <div>
+                        <InputText
+                        //label='Password'
+                        placeholder={'Password'}
+                        type='password'
+                        field='password'
+                        autoComplete="new-password"
+                        />
+                    </div>
+                </Collapse>
+            
+            </Col>
+           
             
    
             

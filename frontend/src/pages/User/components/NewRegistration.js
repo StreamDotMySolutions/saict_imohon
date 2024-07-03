@@ -20,7 +20,7 @@ function NewRegistration({role}) {
           method: 'get', // method is POST
       })
       .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
           //console.log('loading data...')
           setData(response.data.users)
           useUserStore.setState({refresh: false})

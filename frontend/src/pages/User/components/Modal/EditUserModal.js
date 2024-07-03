@@ -95,7 +95,6 @@ function EditUserModal({id}) {
                   'role',
                   'email', 
                   'password',
-
                   'name', 
                   'occupation',
                   'nric', 
@@ -103,7 +102,6 @@ function EditUserModal({id}) {
                   'level',
                   'building',
                   'address',
-
                   'user_department_id'
                 ];
 
@@ -124,7 +122,7 @@ function EditUserModal({id}) {
           data: formData, // payload is formData
       })
       .then( response => {
-          console.log(response.data)
+          //console.log(response.data)
      
           useUserStore.setState({ refresh: true }) // useEffect trigger
           handleClose() // close modal
