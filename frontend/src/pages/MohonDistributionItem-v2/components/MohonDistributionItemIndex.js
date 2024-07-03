@@ -68,6 +68,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   // get agihan
   useEffect( () => {
       //console.log( `${store.submitUrl}/${id}`)
+      console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       axios({
         'method' : 'get',
         'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
@@ -75,6 +76,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     .then( response => {
       //console.log(response)
       let data = response.data.mohon
+      console.log(data)
       setItems(data.mohon_distribution_items) // set formValue
     })
     .catch ( error => {
@@ -412,26 +414,86 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       <Table>
           <thead>
               <tr>
-                  <th className='col-3'>NAMA</th>
-                  <th className='col-3'>PERALATAN</th>
-                  <th className='col-4'>VENDOR</th>
-                  <th>TARIKH MULA</th>
-                  <th>TARIKH TAMAT</th>
-                  <th className='col-2'>NAMA PIC</th>
-                  <th>TELEFON</th>
-                  <th className='col-3'><span className='float-end'>TINDAKAN</span></th>
+                  <th className='col-1'>NAMA</th>
+                  <th className='col-1'>PERALATAN</th>
+                  <th className='col-1'>VENDOR</th>
+                  <th className='col-4 text-center'>PENGHANTARAN</th>
+                  <th className='col-6 text-center'>PENERIMAAN</th>
+                 
+                  <th className='col-1'><span className='float-end'>TINDAKAN</span></th>
               </tr>
           </thead>
           <tbody>
+          
             {items.length > 0 && items?.map( (item,index) => (
               <tr key={index}>
                   <td>{item.mohon_item?.name}</td>
                   <td>{item?.category.name}</td>
                   <td>{item.inventory?.vendor}</td>
-                  <td>{item.mohon_distribution_item_delivery?.date_start}</td>
-                  <td>{item.mohon_distribution_item_delivery?.date_end}</td>
-                  <td>{item.mohon_distribution_item_delivery?.pic_name}</td>
-                  <td>{item.mohon_distribution_item_delivery?.pic_phone}</td>
+                  <td>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>TARIKH MULA</th>
+                        <th>TARIKH TAMAT</th>
+                        <th className='col-2'>NAMA PIC</th>
+                        <th>TELEFON PIC</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {item.mohon_distribution_item_delivery ? (
+                        <tr>
+                          <td>{item.mohon_distribution_item_delivery.date_start}</td>
+                          <td>{item.mohon_distribution_item_delivery.date_end}</td>
+                          <td>{item.mohon_distribution_item_delivery.pic_name}</td>
+                          <td>{item.mohon_distribution_item_delivery.pic_phone}</td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <td colSpan="4">Data penghantaran belum ditetapkan</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+
+                  </td>
+
+                  <td>
+
+                  <Table>
+                    <thead>
+                      <tr>
+                        {/* <th>TARIKH PENGESAHAN</th> */}
+                        <th>TARIKH PEMASANGAN</th>
+                        <th className='col-2'>NAMA PIC</th>
+                        <th>TELEFON PIC</th>
+                        <th>JUSTIFIKASI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {item.mohon_distribution_item_acceptance ? (
+                        <tr>
+                          {/* <td>{item.mohon_distribution_item_acceptance?.created_at}</td> */}
+                          <td>{item.mohon_distribution_item_acceptance.installation_date}</td>
+                          <td>{item.mohon_distribution_item_acceptance.pic_name}</td>
+                          <td>{item.mohon_distribution_item_acceptance.pic_phone}</td>
+                          <td>
+                            <Col className='border border-1 rounded p-2'>
+                              {item.mohon_distribution_item_acceptance.message}
+                            </Col>
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <td colSpan="4">Data penerimaan belum ditetapkan</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+
+
+                  </td>
+                
                   <td>
                     <span  className='float-end'>
                     { mohon.mohon_distribution_approval.status === 'approved'  ?

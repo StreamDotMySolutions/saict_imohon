@@ -165,6 +165,7 @@ class MohonDistributionRequestService
                         'mohonDistributionItems.inventory', 
                         'mohonDistributionItems.mohonItem',
                         'mohonDistributionItems.mohonDistributionItemDelivery',
+                        'mohonDistributionItems.mohonDistributionItemAcceptance',
                         
                         ])
                     //->with(['application.user.userProfile.userDepartment'])
