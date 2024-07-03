@@ -132,20 +132,37 @@ class UserService
         }
 
         // to list Pendaftaran Baharu in FE, role = user with is_approved = false
+        \Log::info(\Request::input('is_approved'));
         if(\Request::has('is_approved')){
             //\Log::info('is_approved');
        
-            $role = 'user';       
+            //$role = 'user';       
             $paginate = User::query()
                             ->with('profile.userDepartment')
                             ->with('roles')
-                            ->whereHas('roles', function($q) use ($role) {
-                                $q->whereIn('name', [$role]);
-                            })
+                            // ->whereHas('roles', function($q) use ($role) {
+                            //     $q->whereIn('name', [$role]);
+                            // })
                             //->whereNotNull('email_verified_at')
-                            ->where('is_approved', false);
+                            ->where('is_approved', \Request::input('is_approved'));
             $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
         }
+
+        // to list disabled users
+        if(\Request::has('is_disabled')){
+                //\Log::info('is_approved');
+           
+                $role = 'user';       
+                $paginate = User::query()
+                                ->with('profile.userDepartment')
+                                ->with('roles')
+                                ->whereHas('roles', function($q) use ($role) {
+                                    $q->whereIn('name', [$role]);
+                                })
+                                //->whereNotNull('email_verified_at')
+                                ->where('is_approved', true);
+                $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+            }
         
        
         return $users;

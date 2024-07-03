@@ -7,6 +7,7 @@ import HeaderTable from './components/HeaderTable';
 import { Tabs,Tab } from 'react-bootstrap';
 import useUserStore from './stores/UserStore';
 import NewRegistration from './components/NewRegistration';
+import Disabled from './components/Disabled';
 
 const User = () => {
  
@@ -25,16 +26,17 @@ const User = () => {
           className="mb-3"
           onSelect={HandleTabChange}
         >
-          <Tab eventKey="approve" title="Pendaftaran Baharu">
+          <Tab eventKey="approve" title="Tidak Aktif">
             <NewRegistration role='user'/>
           </Tab>
 
           <Tab eventKey="user" title="Pengguna">
             <UserTable role='user'/>
           </Tab>
-          <Tab eventKey="boss" title="Pengguna Tidak Aktif">
-            pengguna tidak aktif
-          </Tab> 
+          
+          {/* <Tab eventKey="disabled" title="Pengguna Tidak Aktif">
+            <Disabled/>
+          </Tab>  */}
 
           <Tab eventKey="admin" title="Admin">
             <UserTable role='admin'/>
