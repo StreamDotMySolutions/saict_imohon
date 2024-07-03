@@ -12,6 +12,7 @@ class MohonDistributionItemAcceptance extends Model
     protected $casts = [
         //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
         'created_at' => 'datetime:d M Y', // Format as datetime
+        'installation_date' => 'datetime:d M Y', // Format as datetime
     ];
 
     public function mohonDistributionItem() 

@@ -495,15 +495,19 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   </td>
                 
                   <td>
-                    <span  className='float-end'>
-                    { mohon.mohon_distribution_approval.status === 'approved'  ?
-                      <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
-                      :
-                      <Button size={'sm'} disabled>Kemaskini</Button>
-                    }
+                    <span className='float-end'>
+                      {mohon.mohon_distribution_approval.status === 'approved' ? (
+                        item.mohon_distribution_item_delivery ? (
+                          <Button size={'sm'} disabled>Kemaskini</Button>
+                        ) : (
+                          <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
+                        )
+                      ) : (
+                        <Button size={'sm'} disabled>Kemaskini</Button>
+                      )}
                     </span>
-                    
                   </td>
+
               </tr>
             ))}
 
