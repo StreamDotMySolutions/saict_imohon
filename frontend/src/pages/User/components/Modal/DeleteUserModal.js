@@ -35,22 +35,22 @@ function DeleteUserModal({id}) {
   return (
     <>
      { message && <DisplayMessage variant='success' message={message} />}
-      <Button size={'sm'} variant='danger' onClick={handleShow}>Delete</Button>
+      <Button size={'sm'} variant='danger' onClick={handleShow}>Hapus</Button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Delete User</Modal.Title>
+          <Modal.Title>Hapus Pengguna</Modal.Title>
         </Modal.Header>
         <Modal.Body className='text-center'>
           {/* Add your form or content here */}
-          <h2>Are you sure ?</h2>
+          <h2>Adakah anda pasti ?</h2>
         </Modal.Body>
         <ModalFooter>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Tutup
           </Button>
           <Button variant="danger" onClick={ () => handleDeleteClick({id})}>
-            Delete
+            Hapus
           </Button>
         </ModalFooter>
       </Modal>

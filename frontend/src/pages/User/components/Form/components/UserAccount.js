@@ -25,10 +25,10 @@ const UserAccount = () => {
                 isInvalid={user.role?.error}
                 >
                 <option className='fs-5' value=''>Pilih peranan</option>
-                <option value='user'>User</option>
+                <option value='user'>Pengguna</option>
                 <option value='admin'>Admin</option>
-                <option value='manager'>Manager</option>
-                <option value='boss'>Boss</option>
+                <option value='manager'>Pelulus 1</option>
+                <option value='boss'>Pelulus 2</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
                 {user.role?.message}

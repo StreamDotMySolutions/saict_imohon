@@ -154,7 +154,7 @@ function EditUserModal({id}) {
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Edit User</Modal.Title>
+          <Modal.Title>Kemaskini Pengguna</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* <UserForm /> */}
@@ -168,10 +168,10 @@ function EditUserModal({id}) {
             </>}
           </Row>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Tutup
           </Button>
           <Button variant="primary" onClick={ () => handleSaveClick({id})}>
-            Save Changes
+            Kemaskini
           </Button>
         </ModalFooter>
       </Modal>
