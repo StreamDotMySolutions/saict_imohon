@@ -77,4 +77,20 @@ class MohonController extends Controller
         }
     }
 
+    public function openTicket($id)
+    {
+        return response()->json([
+            'message' => 'Tiket permohonan dibuka',
+            'id' => $id
+        ]);
+    }
+
+    public function closeTicket($id)
+    {
+        return response()->json([
+            'message' => 'Tiket permohonan ditutup',
+            'id' => $id
+        ]);
+    }
+
 }

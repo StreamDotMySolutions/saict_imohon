@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button, Alert, Badge } from 'react-bootstrap'
+import { Table,Pagination, Button, Alert, Badge, Form } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { ApproverStatus } from '../../../../components/global/Approval'
 //import ReportingModal from '../modals/ReportingModal'
 import ReportingModal from '../../../Reporting/ReportingModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import StatusModal from '../modals/StatusModal'
 
 const MohonIndex = () => {
     const store = useMohonStore()
@@ -75,10 +76,11 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>Nama</th>
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
                         <th style={{ 'width': '200px'}}>Jabatan</th>
-                        <th style={{ 'width': '200px'}}>Kelulusan Mohon</th>
-                        <th style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
-                        <th style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
-                        <th className='text-center' style={{ 'width': '350px'}}>Tindakan</th>
+                        {/* <th style={{ 'width': '200px'}}>Kelulusan Mohon</th> */}
+                        <th  className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
+                        <th  className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
+                     
+                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
                     </tr>
                 </thead>
 
@@ -89,16 +91,19 @@ const MohonIndex = () => {
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                             <td>{mohon.user?.user_profile?.user_department?.name}</td>
-                            <td className='text-center'>
+                            {/* <td className='text-center'>
                                 <ApproverStatus step={mohon.mohon_approval?.step} currentStatus={mohon.mohon_approval?.status} />
-                            </td>
+                            </td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                           
                             <td className='text-center'>
                                 {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
                                 </Link>*/}
 
+                                <StatusModal mohonRequestId={mohon.id} />
+                                {' '}
                                 <ReportingModal mohonRequestId={mohon.id} />    
                                 {' '}
                                 <ViewModal id={mohon.id} />

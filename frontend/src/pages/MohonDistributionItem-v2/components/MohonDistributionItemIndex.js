@@ -68,7 +68,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   // get agihan
   useEffect( () => {
       //console.log( `${store.submitUrl}/${id}`)
-      console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
+      //console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       axios({
         'method' : 'get',
         'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
@@ -76,7 +76,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     .then( response => {
       //console.log(response)
       let data = response.data.mohon
-      console.log(data)
+      //console.log(data)
       setItems(data.mohon_distribution_items) // set formValue
     })
     .catch ( error => {

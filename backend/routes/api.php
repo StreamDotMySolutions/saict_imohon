@@ -82,6 +82,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon/{id}', [MohonController::class, 'update']);
     Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
+    // close || open ticket by Admin
+    Route::put('/mohon/ticket/{id}/close', [MohonController::class, 'closeTicket']);
+    Route::put('/mohon/ticket/{id}/open', [MohonController::class, 'openTicket']);
+
     // mohon administration
     Route::get('/administrations/mohon', [AdministrationMohonController::class, 'index']);
     //Route::post('/administrations/mohon', [MohonController::class, 'store']);

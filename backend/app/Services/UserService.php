@@ -132,7 +132,7 @@ class UserService
         }
 
         // to list Pendaftaran Baharu in FE, role = user with is_approved = false
-        \Log::info(\Request::input('is_approved'));
+        //\Log::info(\Request::input('is_approved'));
         if(\Request::has('is_approved')){
             //\Log::info('is_approved');
        
