@@ -14,7 +14,7 @@ class MohonController extends Controller
 
     public function index(Request $request)
     {
-        $status = 'pending';
+        //$status = 'pending';
         //\Log::info($request->input('status'));
         $mohons = MohonService::index($request->input('status'));
 
@@ -75,6 +75,13 @@ class MohonController extends Controller
                 'message' => 'Permohonan gagal dipadam',
             ],422);
         }
+    }
+
+    public function ticketStatus($id){
+        return response()->json([
+            'message' => 'Status tiket',
+            'id' => $id
+        ]);
     }
 
     public function openTicket($id)
