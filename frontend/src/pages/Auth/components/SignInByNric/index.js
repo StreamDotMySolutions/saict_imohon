@@ -97,7 +97,7 @@ const SignInByNricForm = () => {
                 type="text" 
                 id="nric" 
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('nric') ? ' is-invalid' : '')}
-                placeholder="masukkan no kad pengenalan ( baharu ) anda" 
+                placeholder="masukkan no kad pengenalan ( baharu ) anda tanpa ('-')" 
                 value={nric}
                 onChange={handleNRICChange}
             />

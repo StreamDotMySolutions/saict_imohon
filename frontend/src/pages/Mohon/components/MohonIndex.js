@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Table,Pagination, Button, Badge,Col } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
-import EditModal from '../modals/EditModal'
 import DeleteModal from '../modals/DeleteModal'
-import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 import { Link } from 'react-router-dom'
-import ApprovalModal from '../modals/ApprovalModal'
-import { ApproverStatus } from '../../../components/global/Approval'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
+
 // import StatusPermohonan from '../../Info/StatusPermohonan'
 // import LegendPermohonan from '../../Info/LegendPermohonan'
 
@@ -61,9 +60,8 @@ const MohonIndex = () => {
                         <th className='text-center'>Peralatan<br />Agihan</th>
                         {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
                         <th className='text-center'>Tarikh <br /> Permohonan</th>
+                        <th className='text-center'>Status <br /> Tiket</th>
                         <th className='text-center'>Status Terkini Permohonan</th>
-                      
-                       
                         <th className='text-center'>Tindakan</th>
                     </tr>
                 </thead>
@@ -81,26 +79,18 @@ const MohonIndex = () => {
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
-                                { mohon.mohon_approval ?
-                                <Table>
-                                    <thead>
-                                        <tr>
-                                            <th>Status</th>
-                                            <th>Peringkat</th>
-                                            <th>Tarikh</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{mohon?.mohon_approval?.status}</td>
-                                            <td>{mohon?.mohon_approval?.step}</td>
-                                            <td>{mohon?.mohon_approval?.created_at}</td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-                                :
-                                <Badge>Belum buat permohonan</Badge>        
-                                }
+                                <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
+                            </td>
+                            <td className='text-center'>
+                            {mohon.ticket_status === 'close' ? (
+                                    <Badge variant="danger">Permohonan telah ditutup</Badge>
+                                ) : (
+                                    mohon.mohon_approval ? (
+                                    <Badge variant="success">Permohonan telah dibuat</Badge>
+                                    ) : (
+                                    <Badge variant="warning">Belum buat permohonan</Badge>
+                                    )
+                                )}
                             </td>
                            
                             {/* <td className='text-center'>{mohon.mohon_items_count}</td> */}
