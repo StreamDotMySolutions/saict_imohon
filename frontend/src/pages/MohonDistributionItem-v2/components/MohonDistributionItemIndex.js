@@ -268,7 +268,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
             <th style={{ width: '20px' }}>MOHON ID</th>
             <th style={{ width: '200px' }}>NAMA</th>
             <th>PERALATAN</th>
-            <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th>
+            {/* <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th> */}
             <th className='text-center'>AGIHAN</th>
             <th className='text-center'>VENDOR</th>
             {/* <th className='text-center'>TYPE</th> */}
@@ -282,7 +282,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               </td>
               <td>{item.name}</td>
               <td>{item.category.name}</td>
-              <td>
+              {/* <td>
                 {mohonDistributionItems.find(
                   (distributionItem) => distributionItem.mohon_item_id === item.id
                 )?.id}
@@ -297,7 +297,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   <p>Item is not assigned</p>
                 )}
 
-              </td>
+              </td> */}
               <td className='text-center'>
                 <Form.Check
                   name='mohon_item_id'
