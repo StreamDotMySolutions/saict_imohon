@@ -8,6 +8,7 @@ import { ApproverStatus } from '../../../../components/global/Approval'
 //import ReportingModal from '../modals/ReportingModal'
 import ReportingModal from '../../../Reporting/ReportingModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
 import StatusModal from '../modals/StatusModal'
 
 const MohonIndex = () => {
@@ -77,9 +78,9 @@ const MohonIndex = () => {
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
                         <th style={{ 'width': '200px'}}>Jabatan</th>
                         {/* <th style={{ 'width': '200px'}}>Kelulusan Mohon</th> */}
-                        <th  className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
-                        <th  className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
-                     
+                        <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
+                        <th className='text-center' style={{ 'width': '50px'}}>Status Tiket</th>
                         <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -96,12 +97,15 @@ const MohonIndex = () => {
                             </td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
+                            <td className='text-center'>
+
+                                <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
+                            </td>
                            
                             <td className='text-center'>
                                 {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
                                 </Link>*/}
-
                                 <StatusModal mohonRequestId={mohon.id} />
                                 {' '}
                                 <ReportingModal mohonRequestId={mohon.id} />    

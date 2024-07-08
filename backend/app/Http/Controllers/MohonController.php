@@ -7,7 +7,7 @@ use App\Models\MohonRequest;
 use App\Services\MohonService;
 use App\Http\Requests\Mohon\StoreMohonRequest;
 use App\Http\Requests\Mohon\UpdateMohonRequest;
-// use App\Http\Requests\DeleteMohonRequest;
+use App\Http\Requests\Mohon\TicketMohonRequest;
 
 class MohonController extends Controller
 {
@@ -77,10 +77,23 @@ class MohonController extends Controller
         }
     }
 
-    public function ticketStatus($id){
+    public function ticketStore(TicketMohonRequest $request, MohonRequest $mohonRequest){
+
+        //\Log::info($request);
+        $mohonRequest->ticket_status = $request->input('ticket_status');
+        $mohonRequest->ticket_close_date = $request->input('ticket_status') === 'close' ? now() : null;
+        $mohonRequest->save();
+    
         return response()->json([
-            'message' => 'Status tiket',
-            'id' => $id
+            'message' => 'Ticket status updated successfully',
+            'ticket_status' => $request->input('ticket_status'),
+            'ticket_close_date' => $mohonRequest->ticket_close_date,
+        ]);
+    }
+
+    public function ticketStatus(MohonRequest $mohonRequest){
+        return response()->json([
+            'mohon' => $mohonRequest
         ]);
     }
 
