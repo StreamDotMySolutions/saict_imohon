@@ -86,8 +86,8 @@ const MohonShow = () => {
                     <Table>
                         <thead>
                             <tr>
-                                <th>NAMA</th>
-                                <th>EMAIL</th>
+                                <th>KAD PENGENALAN</th>
+                                {/* <th>EMAIL</th> */}
                                 <th>TELEFON</th>
                                 <th>JABATAN</th>
                                 <th className='text-center'>JUMLAH PERALATAN</th>
@@ -97,8 +97,8 @@ const MohonShow = () => {
 
                         <tbody>
                             <tr>
-                                <td>{response.user?.name}</td>
-                                <td>{response.user?.email}</td>
+                                <td>{response.user?.nric}</td>
+                                {/* <td>{response.user?.email}</td> */}
                                 <td>{response.user?.user_profile?.phone}</td>
                                 <td>{response.user?.user_profile?.user_department?.name}</td>
                                 <td className='text-center'>{response.mohon_items_count} unit</td>
@@ -204,10 +204,11 @@ const MohonShow = () => {
                             <Table>
                                 <thead>
                                     <tr>
-                                        <th className='col-1'>Peringkat</th>
+                                        {/* <th className='col-1'>Peringkat</th> */}
+                                        {/* <th className='col-2'>Nama</th> */}
                                         <th className='col-1'>Status</th>
-                                        <th className='col-2'>Nama</th>
-                                        <th className='col-4'>Justifikasi</th>
+                                       
+                                        <th className='col-10'>Justifikasi</th>
                                         <th className='text-center'>Tarikh</th>
                                     </tr>
                                 </thead>
@@ -215,9 +216,10 @@ const MohonShow = () => {
                                     {response?.mohon_approvals?.map((item,index) => (
                                         <tr key={index}>
                                         
-                                            <td className='text-center'>{item.step}</td>
+                                            {/* <td className='text-center'>{item.step}</td> */}
+                                            {/* <td>{item?.user.name}</td> */}
                                             <td>{item.status}</td>
-                                            <td>{item?.user.name} ( {item?.user.nric} )</td>
+                                           
                                             <td>{item?.message}</td>
                                             <td className='text-center'>{item.created_at}</td>
                                 
@@ -279,10 +281,10 @@ const MohonShow = () => {
                                         <Table className="rounded" style={{backgroundColor:"#f0f0f0"}}>
                                             <thead>
                                                 <tr>
-                                                    <th className='col-1'>Peringkat</th>
+                                                    {/* <th className='col-1'>Peringkat</th> */}
                                                     <th className='col-1'>Status</th>
-                                                    <th className='col-2'>Nama</th>
-                                                    <th className='col-6'>Justifikasi</th>
+                                                    {/* <th className='col-2'>Nama</th> */}
+                                                    <th className='col-9'>Justifikasi</th>
                                                     <th className='text-center'>Tarikh</th>
                                                 </tr>
                                             </thead>
@@ -291,9 +293,9 @@ const MohonShow = () => {
                                                 
                                                     {agihan.mohon_distribution_approvals?.map((item, index) => (
                                                         <tr key={index}>
-                                                            <td className='text-center'>{item.step}</td>
+                                                            {/* <td className='text-center'>{item.step}</td> */}
                                                             <td>{item.status}</td>
-                                                            <td>{item?.user?.name ?? 'N/A'}</td>
+                                                            {/* <td>{item?.user?.name ?? 'N/A'}</td> */}
                                                             <td>{item?.message}</td>
                                                             <td className='text-center'>{item.created_at}</td>
                                                         </tr>

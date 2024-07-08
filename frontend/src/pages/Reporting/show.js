@@ -50,8 +50,8 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
           <Table>
             <thead>
               <tr>
-                  <th>Nama</th>
-                  <th>Email</th>
+                  <th>Kad Pengenalan</th>
+                  {/* <th>Email</th> */}
                   <th>Jabatan</th>
                   <th>Tarikh Permohonan</th>
               </tr>
@@ -59,8 +59,8 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
             <tbody>
               <tr>
                
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
+                  <td>{user.nric}</td>
+                  {/* <td>{user.email}</td> */}
                   <td>{user.user_profile?.user_department?.name}</td>
                   <td>{mohon.created_at}</td>
                   
@@ -97,7 +97,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                           <thead>
                             <tr>
                         
-                              <th className='text-center'>Peringkat</th>
+                              {/* <th className='text-center'>Peringkat</th> */}
                               <th className='text-center'>Tarikh</th>
                               <th>Status</th>
                               <th>Mesej</th>
@@ -107,7 +107,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                           <tbody>
                             {item.mohon_distribution_approvals.map( (approval, key) => (
                               <tr key={key}>
-                                  <td className='text-center'>{approval.step}</td>
+                                  {/* <td className='text-center'>{approval.step}</td> */}
                                   <td className='text-center'>{approval.created_at}</td>
                                   <td>{approval.status}</td>
                                   <td>{approval.message}</td>
