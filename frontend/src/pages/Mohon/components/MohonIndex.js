@@ -54,7 +54,7 @@ const MohonIndex = () => {
                 <thead>
                     <tr>
                         <th className="">No.</th>
-                        <th>Nama</th>
+                        {/* <th>Nama</th> */}
                         <th>Kad Pengenalan</th>
                         <th className='text-center'>Peralatan<br />Mohon</th>
                         <th className='text-center'>Peralatan<br />Agihan</th>
@@ -70,7 +70,7 @@ const MohonIndex = () => {
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
                             <td > <span className="badge bg-primary">{mohon.numbering}</span></td>
-                            <td>{mohon.user?.name}</td>
+                            {/* <td>{mohon.user?.name}</td> */}
                             <td>{mohon.user?.nric}</td>
                
          
