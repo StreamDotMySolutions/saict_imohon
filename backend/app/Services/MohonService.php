@@ -54,6 +54,7 @@ class MohonService
                     //->with(['mohonApproval'])
                     ->with([
                         'user.userProfile',
+                        'user.roles',
                         'mohonApproval.user',
                         'approver'
                         ])
@@ -106,7 +107,7 @@ class MohonService
         $paginate = MohonRequest::query(); // Intiate Paginate
         $mohons = $paginate->orderBy('id','DESC')
                     //->with(['mohonApproval'])
-                    ->with(['user.userProfile','mohonApproval'])
+                    ->with(['user.userProfile','user.roles','mohonApproval'])
 
                     
                     // MohonApproval 
