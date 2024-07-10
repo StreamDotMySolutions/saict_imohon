@@ -48,13 +48,11 @@ class AuthByNricRequest extends FormRequest
      public function authenticate()
      {
  
-         if (! Auth::attempt($this->only('nric', 'password'))) {
- 
-             throw ValidationException::withMessages([
-                 'nric' => __('auth.failed'),
-             ]);
-
-         }
+        if (! Auth::attempt($this->only('nric', 'password'))) {
+            throw ValidationException::withMessages([
+                'password' => 'Kata laluan anda salah, sila cuba lagi.',
+            ]);
+        }
  
      }
 
@@ -62,6 +60,8 @@ class AuthByNricRequest extends FormRequest
      {
          return [
              'nric.regex' => 'Format kad pengenalan anda salah, sila guna format xxxxxxxxxxxx',
+             'nric.digits' => 'Format kad pengenalan anda salah, 12 digit diperlukan',
+             //'auth.failed' => 'test123',
          ];
      }
 }
