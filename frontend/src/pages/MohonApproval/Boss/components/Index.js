@@ -46,7 +46,7 @@ const Index = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        {/* <th style={{ 'width': '20px'}}>ID</th> */}
+                        <th style={{ 'width': '20px'}}>No.</th>
                         <th style={{ 'width': '120px'}}>Pemohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Status Kelulusan</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan</th>
@@ -58,7 +58,7 @@ const Index = ({status}) => {
                 <tbody>
                     {responses?.data?.map((data,index) => (
                         <tr key={index}>
-                            {/* <td> <span className="badge bg-primary">{data.id}</span></td> */}
+                            <td> <span className="badge bg-primary">{data.numbering}</span></td>
                             <td>{data.user?.name}</td>
                     
                             <td>
