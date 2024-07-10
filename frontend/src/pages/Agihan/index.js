@@ -135,7 +135,7 @@ const Index = () => {
                                             <td  className='text-center'>
                                                 {item.mohon_distribution_item_acceptance ? item.mohon_distribution_item_acceptance.created_at : <>Belum disahkan</> }
                                             </td>
-                                            <td >
+                                            <td className='text-center' >
                                                 {!item.mohon_distribution_item_acceptance?.created_at ?
                                                 <>
                                                     {item.mohon_distribution_item_delivery != null ?

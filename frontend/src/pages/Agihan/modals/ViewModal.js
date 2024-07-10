@@ -144,7 +144,7 @@ export default function ViewModal({id}) {
             <br />
             <InstallationDate 
                fieldName='installation_date' 
-               placeholder='Tarikh terima'  
+               placeholder='Tarikh pemasangan'  
                icon='fa-solid fa-calendar'
                isLoading={isLoading}
             />

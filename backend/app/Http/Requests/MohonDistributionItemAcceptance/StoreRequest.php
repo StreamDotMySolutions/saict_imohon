@@ -24,8 +24,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'acknowledge.required' => 'Sila sahkan data',
-            'pic_name.required' => 'Nama Person In Change diperlukan',
-            'pic_phone.required' => 'No telefon Person In Change diperlukan',
+            'pic_name.required' => 'Nama Resident Engineer diperlukan',
+            'pic_phone.required' => 'No telefon Resident Engineer diperlukan',
             'installation_date.required' => 'Tarikh pemasangan diperlukan',
             'message.required' => 'Sila lengkapkan butiran tambahan.',
         ];
