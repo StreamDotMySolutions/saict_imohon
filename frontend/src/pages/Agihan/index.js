@@ -56,7 +56,7 @@ const Index = () => {
                                         <th>Peralatan</th>
                                         <th>Jenis</th>
                                         <th className='text-center'>Pemohon</th>
-                                        <th className='text-center'>Person In Charge</th>
+                                        <th className='text-center'>Resident Engineer</th>
                                         <th className='text-center'>Jangkamasa Penghantaran</th>
                                       
                                         <th className='text-center'>Status Penerimaan</th>
