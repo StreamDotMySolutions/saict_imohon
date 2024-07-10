@@ -59,7 +59,7 @@ const MohonIndex = () => {
                         <th className='text-center'>Peralatan<br />Mohon</th>
                         <th className='text-center'>Peralatan<br />Agihan</th>
                         {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
-                        <th className='text-center'>Tarikh <br /> Permohonan</th>
+                        <th className='text-center'>Tarikh <br /> Permohonan <br /> Cipta</th>
                         {/* <th className='text-center'>Status <br /> Tiket</th>
                         <th className='text-center'>Status Terkini Permohonan</th> */}
                         <th className='text-center'>Tindakan</th>
