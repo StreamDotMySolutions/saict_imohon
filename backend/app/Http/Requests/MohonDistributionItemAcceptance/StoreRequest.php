@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
             'pic_name.required' => 'Nama Resident Engineer diperlukan',
             'pic_phone.required' => 'No telefon Resident Engineer diperlukan',
             'installation_date.required' => 'Tarikh pemasangan diperlukan',
-            'message.required' => 'Sila lengkapkan butiran tambahan.',
+            'message.required' => 'Sila lengkapkan butiran nota penerimaan',
         ];
     }
 }
