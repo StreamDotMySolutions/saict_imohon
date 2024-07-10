@@ -46,8 +46,8 @@ const MohonIndex = ({status}) => {
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
                         {/* <th className="text-center" style={{ 'width': '100px'}}>Status Kelulusan</th> */}
                         {/* <th className='text-center' style={{ 'width': '300px'}}>Kelulusan Terkini</th> */}
-                        <th className="text-center" style={{ 'width': '50px'}}>Jumlah Peralatan</th>
-                        <th className="text-center" style={{ 'width': '50px'}}>Tarikh Permohonan</th>
+                        <th className="text-center" style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
+                        <th className="text-center" style={{ 'width': '50px'}}>Tarikh Permohonan Cipta</th>
                         <th className='text-center' style={{ 'width': '100px'}}>Tindakan</th>
                     </tr>
                 </thead>
