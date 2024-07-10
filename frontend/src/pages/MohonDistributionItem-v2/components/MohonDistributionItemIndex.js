@@ -197,9 +197,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       });
   };
 
-  const pending = "Sedang menunggu kelulusan";
-  const approved = "Telah diluluskan";
-  const rejected = "Permohonan gagal";
+  const pending = "Sedang menunggu kelulusan Pelulus 2";
+  const approved = "Telah diluluskan oleh Pelulus 2";
+  const rejected = "Permohonan digagalkan oleh Pelulus 2";
 
   const approvalStatusMessage = (status) => {
     switch (status.toUpperCase()) {
