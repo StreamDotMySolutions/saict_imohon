@@ -50,7 +50,7 @@ class AuthByNricRequest extends FormRequest
  
         if (! Auth::attempt($this->only('nric', 'password'))) {
             throw ValidationException::withMessages([
-                'password' => 'Nombor kad pengenalan atau katalaluan anda salah, sila log masuk semula.',
+                'password' => 'Nombor kad pengenalan / katalaluan anda salah,  masukkan nombor kad pengenalan / katalaluan yang betul',
             ]);
         }
  
