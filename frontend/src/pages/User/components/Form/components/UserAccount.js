@@ -13,9 +13,14 @@ const UserAccount = () => {
     const [toggleStatus, setToggleStatus] = useState(false)
 
     useEffect(() => {
-        // Set the initial toggleStatus based on user.is_approved.value
-        setToggleStatus(user.is_approved.value === 1);
-      }, [user.is_approved.value]);
+        // Check if user.is_approved and user.is_approved.value exist
+        if (user?.is_approved?.value !== undefined) {
+          // Set the initial toggleStatus based on user.is_approved.value
+          setToggleStatus(user.is_approved.value === 1);
+        } else {
+          setToggleStatus(0);
+        }
+      }, [user.is_approved]);
 
     const handleToggleChange = () => {
     const newStatus = !toggleStatus;
@@ -69,7 +74,7 @@ const UserAccount = () => {
             </Col> */}
 
             <Col className="border border-1 rounded p-2 mt-3">
-                Status {user.is_approved.value}
+                Status {user.is_approved?.value}
                 <Form.Check
                     type="switch"
                     id="status-switch"
