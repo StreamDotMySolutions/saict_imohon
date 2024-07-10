@@ -59,7 +59,7 @@ const Index = ({status}) => {
                     {responses?.data?.map((data,index) => (
                         <tr key={index}>
                             {/* <td> <span className="badge bg-primary">{data.id}</span></td> */}
-                            <td>{data.user?.name} ( {data.user?.nric} )</td>
+                            <td>{data.user?.name}</td>
                     
                             <td>
                                 <AgihanApprovalStatus step={data.mohon_distribution_approval.step} currentStatus={data.mohon_distribution_approval.status} /></td>
