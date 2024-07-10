@@ -74,7 +74,7 @@ const Index = () => {
                                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                                             <td className='text-center'>{item.mohon_item?.name}</td>
 
-                                            <td>
+                                            <td  className='text-center'>
                                             {item.mohon_distribution_item_delivery != null ?
                                             <Table className='rounded border ' style={{backgroundColor:"#f0f0f0"}}>
                                                     <thead>

@@ -129,7 +129,7 @@ export default function ViewModal({id}) {
 
             <InputText 
               fieldName='pic_name' 
-              placeholder='Nama Person In Charge'  
+              placeholder='Nama Resident Engineer (RE)'  
               icon='fa-solid fa-person'
               isLoading={isLoading}
             />
@@ -137,7 +137,7 @@ export default function ViewModal({id}) {
 
             <InputText 
               fieldName='pic_phone' 
-              placeholder='No Telefon Person In Charge'  
+              placeholder='No Telefon Resident Engineer (RE)'  
               icon='fa-solid fa-phone'
               isLoading={isLoading}
             />
