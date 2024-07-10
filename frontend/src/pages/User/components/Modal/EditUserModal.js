@@ -40,9 +40,13 @@ function EditUserModal({id}) {
       url: `${store.show_url}/${id}`,
     })
     .then( response =>{
-      //console.log(response)
+      console.log(response)
   
       useUserStore.setState({
+
+                  is_approved: {
+                          value: response.data?.user?.is_approved
+                        },
   
                   role:{
                           value: response.data?.user?.role
@@ -102,7 +106,8 @@ function EditUserModal({id}) {
                   'level',
                   'building',
                   'address',
-                  'user_department_id'
+                  'user_department_id',
+                  'is_approved'
                 ];
 
       const formData = new FormData();

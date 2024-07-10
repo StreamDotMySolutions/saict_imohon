@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Row,Col,Form,Collapse } from 'react-bootstrap';
 import { InputText } from './include';
 import useUserStore from '../../../stores/UserStore';
@@ -6,7 +6,24 @@ import useUserStore from '../../../stores/UserStore';
 
 const UserAccount = () => {
     const user = useUserStore()
+
+    //console.log(user)
     const [togglePassword, setTogglePassword] = useState(false)
+
+    const [toggleStatus, setToggleStatus] = useState(false)
+
+    useEffect(() => {
+        // Set the initial toggleStatus based on user.is_approved.value
+        setToggleStatus(user.is_approved.value === 1);
+      }, [user.is_approved.value]);
+
+    const handleToggleChange = () => {
+    const newStatus = !toggleStatus;
+    setToggleStatus(newStatus);
+    // Update the store with the new status
+    useUserStore.setState({ is_approved: newStatus ? 1 : 0 });
+    };
+
     //console.log(user.selectedRole)
     return (
         <Form>
@@ -51,6 +68,17 @@ const UserAccount = () => {
                 </Row>
             </Col> */}
 
+            <Col className="border border-1 rounded p-2 mt-3">
+                Status {user.is_approved.value}
+                <Form.Check
+                    type="switch"
+                    id="status-switch"
+                    label={toggleStatus ? 'Aktif' : 'Tidak Aktif'}
+                    checked={toggleStatus}
+                    //onChange={() => setToggleStatus(!toggleStatus)}
+                    onChange={handleToggleChange}
+                />
+            </Col>
             
             <Col className="border border-1 rounded p-2 mt-3">
                 Password
@@ -74,10 +102,6 @@ const UserAccount = () => {
                 </Collapse>
             
             </Col>
-           
-            
-   
-            
         </Form>
     );
 };
