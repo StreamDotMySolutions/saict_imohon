@@ -115,10 +115,10 @@ class MohonDistributionRequestService
                     ->withQueryString(); // with GET Query String
 
                 // Calculate the starting number based on the current page
-                $startNumber = ($mohons->currentPage() - 1) * $mohons->perPage() + 1;
+                $startNumber = ($requests->currentPage() - 1) * $requests->perPage() + 1;
 
                 // Add the numbering field to each item
-                $mohons->getCollection()->transform(function ($item, $index) use ($startNumber) {
+                $requests->getCollection()->transform(function ($item, $index) use ($startNumber) {
                     $item->numbering = $startNumber + $index;
                     return $item;
                 });  
