@@ -22,6 +22,7 @@ class StoreRequest extends FormRequest
                 'contract_number' => 'required',
                 'contract_pic' => 'required',
                 'contract_owner' => 'required',
+                'contract_value' => ['required', 'numeric', 'min:0'],
 
                 'total' => 'required|integer',
 

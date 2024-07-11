@@ -25,6 +25,7 @@ class UpdateRequest extends FormRequest
                 'contract_number' => 'sometimes',
                 'contract_pic' => 'sometimes',
                 'contract_owner' => 'sometimes',
+                'contract_value' => ['sometimes', 'numeric', 'min:0'],
 
                 'total' => 'sometimes|integer',
 

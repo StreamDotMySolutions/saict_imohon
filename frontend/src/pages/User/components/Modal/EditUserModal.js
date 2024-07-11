@@ -40,7 +40,7 @@ function EditUserModal({id}) {
       url: `${store.show_url}/${id}`,
     })
     .then( response =>{
-      console.log(response)
+      //console.log(response)
   
       useUserStore.setState({
 
@@ -112,6 +112,7 @@ function EditUserModal({id}) {
 
       const formData = new FormData();
       formData.append('_method', 'put')
+  
 
       // create payload
       fieldNames.forEach((fieldName) => {

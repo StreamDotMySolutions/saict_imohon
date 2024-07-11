@@ -1,5 +1,5 @@
 import { Row,Col } from 'react-bootstrap'
-import { Vendor,Email,Phone, Item,Model, Total, DateStart,DateEnd,ReceivedOn, ContractName, ContractNumber, ContractOwner, ContractPic} from './Input'
+import { Vendor,Email,Phone, Item,Model, Total, DateStart,DateEnd,ReceivedOn, ContractName, ContractNumber, ContractOwner, ContractPic, ContractValue} from './Input'
 import axios from '../../../libs/axios'
 import { useEffect,useState } from 'react'
 
@@ -33,6 +33,10 @@ const InventoryForm = () => {
             <Row  className='p-2 mb-3'>
                 <Col>
                     <ContractName />
+                </Col>
+
+                <Col>
+                    <ContractValue />
                 </Col>
 
                 <Col>

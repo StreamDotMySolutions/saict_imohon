@@ -38,6 +38,7 @@ class InventoryService
             'contract_number'  => $request->contract_number,
             'contract_owner'  => $request->contract_owner,
             'contract_pic'  => $request->contract_pic,
+            'contract_value'  => $request->contract_value,
         ]);
         return $inventory;
     }
@@ -64,6 +65,7 @@ class InventoryService
                                 'contract_number'  => $request->contract_number,
                                 'contract_owner'  => $request->contract_owner,
                                 'contract_pic'  => $request->contract_pic,
+                                'contract_value'  => $request->contract_value,
                                 ]);
     }
 

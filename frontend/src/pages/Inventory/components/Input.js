@@ -359,6 +359,37 @@ export function ContractNumber() {
     );
 }
 
+export function ContractValue() {
+    const store = useInventoryStore();
+    const errors = store.errors;
+
+    return (
+        <InputGroup>
+            <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-dollar" /></InputGroup.Text>
+            <FloatingLabel
+                label={errors.contract_value ? errors.contract_value : 'Nilai Kontrak'}
+                className={`col ${errors.contract_value ? 'text-danger' : ''}`}
+            >
+                <Form.Control
+                    placeholder='Nilai Kontrak'
+                    readOnly={store.readonly}
+                    value={store.getValue('contract_value') || ''}
+                    name='contract_value'
+                    size='md'
+                    required
+                    isInvalid={errors?.hasOwnProperty('contract_value')}
+                    onChange={(e) => store.setValue('contract_value', e.target.value)}
+                />
+            </FloatingLabel>
+            {errors?.contract_value && (
+                <Form.Control.Feedback type="invalid">
+                    {errors.contract_value}
+                </Form.Control.Feedback>
+            )}
+        </InputGroup>
+    );
+}
+
 export function ContractPic() {
     const store = useInventoryStore();
     const errors = store.errors;

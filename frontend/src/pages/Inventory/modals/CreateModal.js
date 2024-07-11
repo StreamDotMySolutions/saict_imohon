@@ -39,6 +39,10 @@ export default function CreateModal() {
         formData.append('contract_number', store.getValue('contract_number'));
       }
 
+      if (store.getValue('contract_value') != null ) {
+        formData.append('contract_value', store.getValue('contract_value'));
+      }
+
       if (store.getValue('contract_pic') != null ) {
         formData.append('contract_pic', store.getValue('contract_pic'));
       }

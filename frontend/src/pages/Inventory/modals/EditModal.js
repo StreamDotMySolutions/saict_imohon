@@ -30,6 +30,7 @@ export default function EditModal({id}) {
         'created_at': 'created_at',
         'received_on': 'received_on',
         'contract_name': 'contract_name',
+        'contract_value': 'contract_value',
         'contract_number': 'contract_number',
         'contract_pic': 'contract_pic',
         'contract_owner': 'contract_owner',
@@ -105,6 +106,11 @@ export default function EditModal({id}) {
       if (store.getValue('contract_name') != null ) {
         formData.append('contract_name', store.getValue('contract_name'));
       }
+
+      if (store.getValue('contract_value') != null ) {
+        formData.append('contract_value', store.getValue('contract_value'));
+      }
+
 
       if (store.getValue('contract_number') != null ) {
         formData.append('contract_number', store.getValue('contract_number'));

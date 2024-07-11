@@ -62,6 +62,8 @@ class UserService
     }
 
     public static function update(Request $request, $user){
+
+        \Log::info($request);
         
         // User
         if ($request->has('password')) {
@@ -93,6 +95,13 @@ class UserService
             // if change role
                 User::where('id', $user->id)->update($request->only(['nric']));
         }
+
+        // IS APPROVED
+        if ($request->has('is_approved')) {
+            // if change role
+                User::where('id', $user->id)->update($request->only(['is_approved']));
+        }
+        
 
         // User Profile
         return UserProfile::where('user_id', $user->id)->update($request->except(['is_approved','email', 'name','nric','password','_method','role','user_id']));
