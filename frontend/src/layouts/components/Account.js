@@ -16,7 +16,7 @@ const Account = () => {
                     <span className="visually-hidden">unread messages</span>
                 </Button> */}
             
-            <Nav.Link className='border border-1 ' as={NavLink} to="/account"> <FontAwesomeIcon icon="fa-solid fa-lock" />{' '}{store.user?.email}</Nav.Link>
+            <Nav.Link className='border border-1 ' as={NavLink} to="/account"> <FontAwesomeIcon icon="fa-solid fa-lock" />{' '}{store.user?.nric}</Nav.Link>
         </Nav>
             
         <Nav>
