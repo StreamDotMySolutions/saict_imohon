@@ -439,8 +439,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                       <tr>
                         <th>TARIKH MULA</th>
                         <th>TARIKH TAMAT</th>
-                        <th className='col-2'>NAMA PIC</th>
-                        <th>TELEFON PIC</th>
+                        <th className='col-2'>NAMA RE</th>
+                        <th>TELEFON RE</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -468,8 +468,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                       <tr>
                         {/* <th>TARIKH PENGESAHAN</th> */}
                         <th>TARIKH PEMASANGAN</th>
-                        <th className='col-2'>NAMA PIC</th>
-                        <th>TELEFON PIC</th>
+                        <th className='col-2'>NAMA RE</th>
+                        <th>TELEFON RE</th>
                         <th>JUSTIFIKASI</th>
                       </tr>
                     </thead>
