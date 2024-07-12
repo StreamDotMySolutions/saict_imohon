@@ -50,6 +50,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
           <Table>
             <thead>
               <tr>
+                  <th>Nama</th>
                   <th>Kad Pengenalan</th>
                   {/* <th>Email</th> */}
                   <th>Jabatan</th>
@@ -58,7 +59,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
             </thead>
             <tbody>
               <tr>
-               
+                  <td>{user.name}</td>
                   <td>{user.nric}</td>
                   {/* <td>{user.email}</td> */}
                   <td>{user.user_profile?.user_department?.name}</td>
