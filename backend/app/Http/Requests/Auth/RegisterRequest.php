@@ -87,7 +87,7 @@ class RegisterRequest extends FormRequest
             'phone.digits_between' => 'Nombor telefon antara 10 atau 11 aksara.',
 
             'level.required' => 'Sila lengkapkan aras tingkat',
-            'building.required' => 'Sila lengkapkan aras nama bangunan',
+            'building.required' => 'Sila lengkapkan nama bangunan',
             'address.required' => 'Sila lengkapkan alamat (pejabat)',
             'user_department_id.required' => 'Sila lengkapkan jabatan',
 

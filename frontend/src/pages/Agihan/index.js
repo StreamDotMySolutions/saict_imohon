@@ -54,6 +54,7 @@ const Index = () => {
                                     <tr>
                                         <th style={{ 'width': '20px'}}>ID</th>
                                         <th>Peralatan</th>
+                        
                                         <th>Jenis</th>
                                         <th className='text-center'>Pemohon</th>
                                         <th className='text-center'>Resident Engineer</th>
@@ -71,6 +72,7 @@ const Index = () => {
                                         <tr key={index}>
                                             <td> <span className="badge bg-primary">{item.id}</span></td>
                                             <td>{item.category?.name}</td>
+                                     
                                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                                             <td className='text-center'>{item.mohon_item?.name}</td>
 
@@ -135,7 +137,7 @@ const Index = () => {
                                             <td  className='text-center'>
                                                 {item.mohon_distribution_item_acceptance ? item.mohon_distribution_item_acceptance.created_at : <>Belum disahkan</> }
                                             </td>
-                                            <td className='text-center' >
+                                            <td>
                                                 {!item.mohon_distribution_item_acceptance?.created_at ?
                                                 <>
                                                     {item.mohon_distribution_item_delivery != null ?
@@ -150,9 +152,13 @@ const Index = () => {
                                                 <>   
                                                 <Badge>Telah disahkan pada {item.mohon_distribution_item_acceptance?.created_at}</Badge>
 
-                                                <Col className='border border-1 rounded mt-2 p-2'>
-                                                    {item.mohon_distribution_item_acceptance?.message}
-                                                </Col>
+
+                                                <div className='mt-2'>
+                                                    <label className='form-label'>Justifikasi</label>
+                                                    <Col className='border border-1 rounded p-2'>
+                                                        {item.mohon_distribution_item_acceptance?.message}
+                                                    </Col>
+                                                </div>
                                      
                                                 </>
                                              

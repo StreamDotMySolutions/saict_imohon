@@ -127,7 +127,7 @@ function RenderTable({items}) {
                       size='sm'
                       disabled
                       variant={'secondary'}>
-                        Approve
+                        Enable
                       </Button>
                 :
                 <>
