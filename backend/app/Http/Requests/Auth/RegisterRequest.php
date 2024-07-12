@@ -69,6 +69,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email.required' => 'Sila berikan alamat email',
+            'email.unique' => 'Alamat email telah digunakan',
             'email.email' => 'Sila berikan alamat email yang sah',
 
             'nric.required' => 'Sila lengkapkan nombor kad pengenalan tanpa ( - )',
