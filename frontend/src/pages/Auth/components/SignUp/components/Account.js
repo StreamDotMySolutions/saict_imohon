@@ -50,7 +50,7 @@ const Account = () => {
                 <InputGroup hasValidation className='mt-3 mb-3'>
                     <InputGroup.Text><FontAwesomeIcon icon="fa-solid fa-lock"></FontAwesomeIcon></InputGroup.Text>
                     <Form.Control 
-                        placeholder='Katalaluan'
+                        placeholder='Kata laluan'
                         name='password'
                         //size='lg' 
                         type="password" 

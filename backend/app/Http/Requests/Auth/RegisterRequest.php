@@ -68,17 +68,17 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Sila berikan alamat email',
-            'email.unique' => 'Alamat email telah digunakan',
-            'email.email' => 'Sila berikan alamat email yang sah',
+            'email.required' => 'Sila berikan alamat emel',
+            'email.unique' => 'Alamat emel telah digunakan',
+            'email.email' => 'Sila berikan alamat emel yang sah',
 
             'nric.required' => 'Sila lengkapkan nombor kad pengenalan tanpa ( - )',
             'nric.numeric' => 'Nombor kad pengenalan tanpa ( - ).',
             'nric.digits' => ' Hanya nombor digit sahaja dibenarkan.',
 
-            'password.required' => 'Sila lengkapkan katalaluan',
+            'password.required' => 'Sila lengkapkan kata laluan',
             'password.min' => 'Sekurang-kurangnya 6 aksara',
-            'password.confirmed' => 'Pengesahan katalaluan tidak sama',
+            'password.confirmed' => 'Pengesahan kata laluan tidak sama',
 
             'name.required' => 'Sila lengkapkan nama anda',
             'occupation.required' => 'Sila lengkapkan jawatan anda',

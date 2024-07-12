@@ -94,9 +94,9 @@ function RenderTable({items}) {
               <tr>
                   <th className="px-2">ID</th>
                   <th className="px-5 col-3">Nama</th>
-                  <th>Email</th>
+                  <th>Emel</th>
                   <th className="px-2 col-5 border border-end-0">Jabatan</th>
-                  <th>Sah Email</th>
+                  <th>Sah Emel</th>
                   <th className='text-center'>Tindakan</th>
               </tr>
           </thead>
