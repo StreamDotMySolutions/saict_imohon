@@ -59,6 +59,11 @@ export default function ViewModal({id}) {
         formData.append('message', store.getValue('message'));
       }
 
+      // nombor serial
+      if (store.getValue('serial_number') != null ) {
+        formData.append('serial_number', store.getValue('serial_number'));
+      }
+
       // pic_name
       if (store.getValue('pic_name') != null ) {
         formData.append('pic_name', store.getValue('pic_name'));
@@ -126,6 +131,14 @@ export default function ViewModal({id}) {
             />
             <br /> */}
             <h5>Nota penerimaan</h5>
+
+            <InputText 
+              fieldName='serial_number' 
+              placeholder='Nombor Serial Peralatan'  
+              icon='fa-solid fa-hashtag'
+              isLoading={isLoading}
+            />
+            <br />
 
             <InputText 
               fieldName='pic_name' 

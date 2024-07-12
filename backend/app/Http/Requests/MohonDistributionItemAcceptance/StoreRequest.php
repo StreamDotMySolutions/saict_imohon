@@ -17,6 +17,7 @@ class StoreRequest extends FormRequest
             'pic_phone' => 'required',
             'installation_date' => 'required|date',
             'message' => 'required',
+            'serial_number' => 'required',
         ];
     }
 
@@ -28,6 +29,7 @@ class StoreRequest extends FormRequest
             'pic_phone.required' => 'No telefon Resident Engineer diperlukan',
             'installation_date.required' => 'Tarikh pemasangan diperlukan',
             'message.required' => 'Sila lengkapkan butiran nota penerimaan',
+            'serial_number.required' => 'Sila lengkapkan butiran serial number peralatan',
         ];
     }
 }

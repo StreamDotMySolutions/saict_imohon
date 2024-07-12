@@ -28,6 +28,7 @@ class MohonDistributionItemAcceptanceController extends Controller
         // Define the attributes to update or create
         $values = [
             'user_id' =>  auth('sanctum')->user()->id, // user auth,
+            'serial_number' => $request->input('serial_number'),
             'message' => $request->input('message'),
             'description' => 'User accepted the item.',
             'pic_name' => $request->input('pic_name'),
