@@ -296,6 +296,7 @@ class MohonService
         $request = MohonRequest::query()
                     ->where('id', $id)
                     ->with([
+                        'mohonApprovals.user.roles', // need the role name
                         'mohonApprovals.user.userProfile',
                         'mohonApproval.user.userProfile',
                         'mohonApprovalApprovedByUser', // jujst want the message for manager tab

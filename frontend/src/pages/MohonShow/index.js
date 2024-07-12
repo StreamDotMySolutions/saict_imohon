@@ -207,19 +207,19 @@ const MohonShow = () => {
                                         {/* <th className='col-1'>Peringkat</th> */}
                                         {/* <th className='col-2'>Nama</th> */}
                                         <th className='col-1'>Status</th>
-                                        <th className='col-1'>User</th>
-                                        <th className='col-10'>Justifikasi</th>
+                                        <th className='col-1'>Peranan</th>
+                                        <th className='col-7'>Justifikasi</th>
                                         <th className='text-center'>Tarikh</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {response?.mohon_approvals?.map((item,index) => (
                                         <tr key={index}>
-                                    {console.log(item)}
+                                    {/* {console.log(item)} */}
                                             {/* <td className='text-center'>{item.step}</td> */}
                                             {/* <td>{item?.user.name}</td> */}
-                                            <td>{item.status}</td>
-                                            <td>{item.user?.roles?.name}</td>
+                                            <td>{item.status.toUpperCase()}</td>
+                                            <td>{item.user?.roles?.[0].name.toUpperCase()}</td>
                                             <td>{item?.message}</td>
                                             <td className='text-center'>{item.created_at}</td>
                                 

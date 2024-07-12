@@ -14,6 +14,8 @@ class MohonController extends Controller
 
     public function index(Request $request)
     {
+
+        //\Log::info($request);
         //$status = 'pending';
         //\Log::info($request->input('status'));
         $mohons = MohonService::index($request->input('status'));
