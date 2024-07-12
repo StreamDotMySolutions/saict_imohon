@@ -15,8 +15,8 @@ const AccountTab = () => {
             <InlineEditing 
                 type='text'
                 url={store.update_url}
-                label='Alamat Email'
-                placeholder='Sila letakkan alamat email'
+                label='Alamat emel'
+                placeholder='Sila letakkan alamat emel'
                 fieldName='email' 
                 fieldValue={store?.account?.email}
             />
@@ -35,7 +35,7 @@ const AccountTab = () => {
                     
                     url={store.update_url}
                     label='Password'
-                    placeholder='Sila tetapkan password baharu'
+                    placeholder='Sila tetapkan kata laluan baharu'
                     fieldName='password' 
     
                 />

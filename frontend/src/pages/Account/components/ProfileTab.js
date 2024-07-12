@@ -1,6 +1,6 @@
 import useAccountStore from '../stores/AccountStore'
 import InlineEditing from './InlineEditing'
-import { Form,Collapse, Row, Col } from 'react-bootstrap'
+import { Form,Collapse, Row, Col, FormControl } from 'react-bootstrap'
 import {useState} from 'react'
 
 const ProfileTab = () => {
@@ -12,13 +12,26 @@ const ProfileTab = () => {
         <Row className='p-3'>
             <Col className='col-4'>
 
-                <InlineEditing 
+                {/* <InlineEditing 
                     url={store.update_url}
                     label='Nama penuh'
                     placeholder='Sila letakkan nama anda'
                     fieldName='name' 
                     fieldValue={store?.account?.name}
-                />
+                /> */}
+
+                <Col className='mb-2'>
+                    <Form.Label>Nama</Form.Label>
+                    <Form.Control
+                        type="text"
+                        disabled
+                        placeholder="Enter email"
+                        value={store?.account?.name}
+                
+                    />
+                </Col>
+          
+
 
                 <InlineEditing 
                     url={store.update_url}
@@ -28,14 +41,25 @@ const ProfileTab = () => {
                     fieldValue={store?.account?.profile?.occupation}
                 />
 
-                <InlineEditing 
+                {/* <InlineEditing 
                     url={store.update_url}
                     label='No kad pengenalan'
                     placeholder='Sila letakkan no kad pengenalan anda'
                     fieldName='nric' 
                     //fieldValue={store?.account?.profile?.nric}
                     fieldValue={store?.account?.nric}
-                />
+                /> */}
+
+                <Col className='mb-2'>
+                    <Form.Label>No Kad Pengenalan</Form.Label>
+                    <Form.Control
+                        type="text"
+                        disabled
+                        placeholder="Enter email"
+                        value={store?.account?.nric}
+                
+                    />
+                </Col>
 
                 <InlineEditing 
                     url={store.update_url}
