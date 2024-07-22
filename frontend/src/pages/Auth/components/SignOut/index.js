@@ -1,46 +1,47 @@
-import { Navigate, useNavigate } from "react-router-dom"
-//import { useAuthStore } from "../../../../stores/AuthStore"
-import useAuthStore from "../../stores/AuthStore";
-import axios from "../../../../libs/axios"
-import { useState } from "react"
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../stores/AuthStore';
+import axios from '../../../../libs/axios';
 import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SignOut = () =>  {
-    // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
-    // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
-    const store = useAuthStore()
-    axios({
-        url:  `${process.env.REACT_APP_BACKEND_URL}/logout`,
-        method: 'post',
-    })
-    .then( response => {
-        //console.log(response)
-        localStorage.removeItem('token');
-        localStorage.clear(); // Clear all local storage items
-        //setIsLoggedIn(false) // store
-        useAuthStore.setState({isAuthenticated:false})
-    })
-    .catch( error => {
-        console.warn(error)
-    })
+const SignOut = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, logout } = useAuthStore();
 
-    //if (isLoggedIn === false) {
-    if(store.isAuthenticated === false){
-        window.location.href = '/sign-in-by-nric';
-        //return <Navigate to='/sign-in' replace />
+    useEffect(() => {
+        const performSignOut = async () => {
+            localStorage.clear(); // Clear all local storage items
+            try {
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/logout`);
+                localStorage.clear(); // Clear all local storage items
+                logout();
+                navigate('/sign-in-by-nric');
+            } catch (error) {
+                console.error('Error during logout:', error);
+                // Optionally, set an error state to display an error message to the user
+            }
+        };
+
+        performSignOut();
+    }, [logout, navigate]);
+
+    if (!isAuthenticated) {
+        navigate('/sign-in-by-nric');
+        return null;
     }
 
-    return (<>
+    return (
         <Alert variant='info'>
-            <h1> <i className="fa-solid fa-sync fa-spin"></i> {' '}Sedang keluar...</h1>
+            <h1><FontAwesomeIcon icon="fa-sync fa-spin" /> Sedang keluar...</h1>
             Sistem sedang memproses.
             <hr />
             <Link to='/sign-in'>
-                <FontAwesomeIcon icon="fa-solid fa-reply" /> Laman utama
+                <FontAwesomeIcon icon="fa-reply" /> Laman utama
             </Link>
         </Alert>
-    </>)
-  }
-  export default SignOut
+    );
+};
+
+export default SignOut;
