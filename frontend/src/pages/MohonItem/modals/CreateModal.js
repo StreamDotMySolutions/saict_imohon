@@ -193,7 +193,7 @@ export default function CreateModal() {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Tambah Item</Modal.Title>
+            <Modal.Title>Tambah Peralatan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
