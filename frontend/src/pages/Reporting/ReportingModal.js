@@ -24,7 +24,7 @@ export default function ReportingModal({mohonRequestId}) {
           Laporan
         </Button>
   
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal fullscreen size={'xl'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{mohonRequestId}</span> Laporan Permohonan </Modal.Title>
           </Modal.Header>
