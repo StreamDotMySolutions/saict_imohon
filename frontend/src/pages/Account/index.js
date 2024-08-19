@@ -17,9 +17,9 @@ const Account = () => {
         store?.account?.email == null ? '...loading' : (
             <Container className='p-1'>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                <Tab eventKey={1} title="Account">
+                <Tab eventKey={1} title="Akuan">
                     <Card className='mt-3'>
-                        <Card.Header>Maklumat Akaun</Card.Header>
+                        <Card.Header>Maklumat Emel</Card.Header>
                         <Card.Body className='p-3'><AccountTab /></Card.Body>
                     </Card>
                 </Tab>
