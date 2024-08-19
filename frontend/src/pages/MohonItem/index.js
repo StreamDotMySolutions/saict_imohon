@@ -34,7 +34,7 @@ const MohonItem = () => {
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to='/mohon'><Badge>Mohon</Badge></Link></li>
-                    <li className="breadcrumb-item"><Link to={`/mohon/${mohonRequestId}`}><Badge>{mohonRequestId}</Badge>{' '}{title}</Link></li>
+                    <li className="breadcrumb-item"><Link to={`/mohon/${mohonRequestId}`}>{title}</Link></li>
                     <li className="breadcrumb-item">Senarai peralatan</li>
                 </ol>
             </nav>
