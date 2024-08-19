@@ -481,7 +481,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                           <td>{item.mohon_distribution_item_acceptance.installation_date}</td>
                           <td>{item.mohon_distribution_item_acceptance.pic_name}</td>
                           <td>{item.mohon_distribution_item_acceptance.pic_phone}</td>
-                          <td>
+                          <td className='text-center'>
                    
                               <JustificationModal message={item.mohon_distribution_item_acceptance.message} />
                    
