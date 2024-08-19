@@ -6,7 +6,7 @@ const StatusPermohonan = () => {
     return (
         <div>
             <div className=" p-2 bd-highlight border rounded" style={{backgroundColor:'#f0f0f0'}}>
-            <h3><FontAwesomeIcon icon={'fas fa-question'}/> {' '} STATUS PERMOHONAN</h3>
+            <h3><FontAwesomeIcon icon={'fas fas fa-clipboard-list'}/> {' '} STATUS PERMOHONAN</h3>
                 <Table>
                     <thead>
                         <tr>

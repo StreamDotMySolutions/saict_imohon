@@ -6,7 +6,7 @@ const LegendPermohonan = () => {
     return (
         <div>
             <div className=" p-2 bd-highlight border rounded" style={{backgroundColor:'#f0f0f0'}}>
-            <h3><FontAwesomeIcon icon={'fas fa-question'}/> {' '}PENERANGAN</h3>
+            <h3><FontAwesomeIcon icon={'fas fa-clipboard-list'}/> {' '}PENERANGAN</h3>
                 <Table>
                     <thead>
                         <tr>
