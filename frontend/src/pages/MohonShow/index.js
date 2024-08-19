@@ -74,7 +74,7 @@ const MohonShow = () => {
                         <Link to='/mohon'><Badge>Mohon</Badge></Link>
                         
                         </li>
-                    <li className="breadcrumb-item"><Badge>{response?.id}</Badge>{' '}{response?.title}</li>
+                    <li className="breadcrumb-item">{response?.title}</li>
                 </ol>
             </nav>
          
