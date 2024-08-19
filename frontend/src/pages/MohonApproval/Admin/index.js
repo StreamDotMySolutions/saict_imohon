@@ -27,6 +27,13 @@ const MohonApprovalByAdmin = () => {
                 <Tab eventKey="mohon_rejected" title="Permohonan Gagal">
                     <MohonIndex />
                 </Tab>
+
+                <Tab eventKey="mohon_with_approved_agihan" title="Permohonan Beserta Agihan Diluluskan">
+                    <MohonIndex />
+                </Tab>
+                <Tab eventKey="mohon_with_rejected_agihan" title="Permohonan Beserta Agihan Ditolak">
+                    <MohonIndex />
+                </Tab>
             </Tabs>
             
          
