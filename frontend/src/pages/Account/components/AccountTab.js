@@ -25,7 +25,7 @@ const AccountTab = () => {
                 className='mt-4 mb-3'
                 type="switch"
                 id="custom-switch"
-                label="Tetapkan Password"
+                label="Tetapkan kata laluan"
                 onChange={() => setTogglePassword(!togglePassword)}
             />
 
