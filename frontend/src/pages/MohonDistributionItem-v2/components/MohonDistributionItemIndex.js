@@ -6,6 +6,7 @@ import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
 import RequestApprovalModal from '../modals/RequestApprovalModal';
 import UpdateDistributionItemModal from '../modals/UpdateDistributionItemModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import JustificationModal from '../modals/JustificationModal';
 
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
@@ -481,9 +482,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                           <td>{item.mohon_distribution_item_acceptance.pic_name}</td>
                           <td>{item.mohon_distribution_item_acceptance.pic_phone}</td>
                           <td>
-                            <Col className='border border-1 rounded p-2'>
-                              {item.mohon_distribution_item_acceptance.message}
-                            </Col>
+                   
+                              <JustificationModal message={item.mohon_distribution_item_acceptance.message} />
+                   
                           </td>
                         </tr>
                       ) : (
