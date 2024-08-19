@@ -49,7 +49,11 @@ const Footer = () => {
         </Col>
         <Col md={4}>
           
-          <FontAwesomeIcon icon="fa-solid fa-copyright" />{' '}Hak Cipta Terpelihara &copy; 2023 Seksyen Aplikasi ICT, Jabatan Penyiaran Malaysia
+          <FontAwesomeIcon icon="fa-solid fa-copyright" />{' '}Hak Cipta Terpelihara &copy; 2023 
+          <br />
+          Jabatan Penyiaran Malaysia
+          <br />
+          Seksyen Aplikasi ICT
           
           <p className="text-end">
             <a href="#" className="text-secondary text-decoration-none">
