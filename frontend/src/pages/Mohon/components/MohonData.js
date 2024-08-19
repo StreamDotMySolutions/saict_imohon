@@ -69,7 +69,7 @@ export default function MohonData({id}) {
             <Table className='mt-3'>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th style={{ 'width': '20px'}}>Bil.</th>
                         <th>Penerima</th>
                         <th>Jawatan</th>
                         <th>No. Telefon</th>
@@ -85,7 +85,7 @@ export default function MohonData({id}) {
                 <tbody>
                     {store.getValue('items')?.map((item,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td> <span className="badge bg-primary">{index + 1}</span></td>
                             <td>{item.name}</td>
                             <td>{item.occupation}</td>
                             <td>{item.mobile}</td>
