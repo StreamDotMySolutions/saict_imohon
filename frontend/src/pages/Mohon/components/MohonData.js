@@ -78,7 +78,7 @@ export default function MohonData({id}) {
                         <th>Lokasi</th>
                         <th>Peralatan</th>
                         <th>Jenis</th>
-                        <th>Maklumat Tambahan</th>
+                        <th>Justifikasi</th>
                     </tr>
                 </thead>
 

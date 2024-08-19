@@ -194,7 +194,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
                   <th>Lokasi</th>
                   <th>Item</th>
                   <th>Jenis</th>
-                  <th>Maklumat Tambahan</th>
+                  <th>Justifikasi</th>
               </tr>
           </thead>
 
@@ -232,7 +232,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
                   <th>Lokasi</th>
                   <th>Item</th>
                   <th>Jenis</th>
-                  <th>Maklumat Tambahan</th>
+                  <th>Justifikasi</th>
               </tr>
           </thead>
 
