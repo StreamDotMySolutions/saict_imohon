@@ -54,7 +54,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 <thead>
                     <tr>
                         {/* <th style={{ 'width': '20px'}}>No</th> */}
-                        <th>Item</th>
+                        <th>Peralatan</th>
                         <th>Jenis</th>
                         <th>Pemilik Peralatan</th>
                         <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
