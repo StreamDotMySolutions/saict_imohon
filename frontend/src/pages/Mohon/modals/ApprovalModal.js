@@ -119,7 +119,7 @@ export default function ApprovalModal({id,count,step}) {
           </Button>
         )}
           
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal fullscreen show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title>Lihat Permohonan</Modal.Title>
           </Modal.Header>
