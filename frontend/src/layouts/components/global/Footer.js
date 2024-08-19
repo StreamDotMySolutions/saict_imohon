@@ -38,12 +38,13 @@ const Footer = () => {
           
             <h5>Jabatan Penyiaran Malaysia</h5>
             <FontAwesomeIcon icon="fa-solid fa-location-dot" />{' '}
-            Angkasapuri Kota Media <br />
-            50614 Kuala Lumpur <br />
+            Tingkat 12, Menara Angkasapuri, Angkasapuri Kota Media, 50614 Kuala Lumpur
+            
+            <br />
+            <br />
             <FontAwesomeIcon icon="fa-solid fa-phone" /> {' '}
-            Tel: 03 - 2288 8796 <br />
-            <FontAwesomeIcon icon="fa-solid fa-fax" /> {' '}
-            Faks: 03 - 2282 1927
+            Tel: 03 - 2288 7703 <br />
+
           
         </Col>
         <Col md={4}>
