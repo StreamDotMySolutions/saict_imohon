@@ -121,7 +121,7 @@ export default function ApprovalModal({id,count,step}) {
           
         <Modal size={'xl'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
+            <Modal.Title>Lihat Permohonan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
