@@ -39,8 +39,10 @@ const Footer = () => {
             <h5>Jabatan Penyiaran Malaysia</h5>
             <FontAwesomeIcon icon="fa-solid fa-location-dot" />{' '}
             Tingkat 12, Menara Angkasapuri, Angkasapuri Kota Media, 50614 Kuala Lumpur
-            
             <br />
+            <br />
+            <FontAwesomeIcon icon="fa-solid fa-envelope" /> {' '}
+             itsupport@rtm.gov.my 
             <br />
             <FontAwesomeIcon icon="fa-solid fa-phone" /> {' '}
             Tel: 03 - 2288 7703 <br />
