@@ -91,7 +91,7 @@ const MohonShow = () => {
                                 <th>TELEFON</th>
                                 <th>JABATAN</th>
                                 <th className='text-center'>JUMLAH PERALATAN</th>
-                                <th>TARIKH</th>
+                                <th>TARIKH PERMOHONAN</th>
                             </tr>
                         </thead>
 
