@@ -157,7 +157,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
         <Table className='mt-3'>
           <thead>
               <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
+                  <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Nama</th>
                   <th className='text-center'>Peringkat</th>
                   <th>Status</th>
@@ -169,7 +169,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
           <tbody>
               {mohonApprovals?.map((item,index) => (
                   <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
+                      <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.user.name}</td>
                       <td className='text-center'>{item.step}</td>
                       <td>{item.status}</td>
@@ -187,7 +187,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
         <Table className='mt-3'>
           <thead>
               <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
+                  <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Penerima</th>
                   <th>Jawatan</th>
                   <th>No. Telefon</th>
@@ -203,7 +203,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
           <tbody>
               {items?.map((item,index) => (
                   <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
+                      <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.name}</td>
                       <td>{item.occupation}</td>
                       <td>{item.mobile}</td>
