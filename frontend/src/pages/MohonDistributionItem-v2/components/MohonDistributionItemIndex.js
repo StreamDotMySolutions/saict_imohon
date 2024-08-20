@@ -266,7 +266,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       <Table className='mt-3'>
         <thead>
           <tr>
-            <th style={{ width: '20px' }}>MOHON ID</th>
+            <th style={{ width: '20px' }}>Bil.</th>
             <th style={{ width: '200px' }}>NAMA</th>
             <th>PERALATAN</th>
             {/* <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th> */}
@@ -279,7 +279,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
           {mohonItems?.map((item, index) => (
             <tr key={index}>
               <td>
-                <span className="badge bg-primary">{item.id}</span>
+                <span className="badge bg-primary">{index + 1}</span>
               </td>
               <td>{item.name}</td>
               <td>{item.category.name}</td>
