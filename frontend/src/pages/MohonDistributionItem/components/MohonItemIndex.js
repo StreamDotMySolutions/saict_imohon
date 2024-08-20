@@ -54,7 +54,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th style={{ 'width': '20px'}}>Bil.</th>
                         <th>Item</th>
                         <th>Type</th>
                         <th>Description</th>
@@ -65,7 +65,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 <tbody>
                     {items?.data?.map((item,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                            <td> <span className="badge bg-primary">{ index + 1 }</span></td>
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
                             <td>{item.description}</td>
