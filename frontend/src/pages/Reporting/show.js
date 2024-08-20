@@ -160,7 +160,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                   <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Nama</th>
                   <th className='text-center'>Peringkat</th>
-                  <th>Status</th>
+                  <th>Justifikasi</th>
                   <th>Tarikh</th>
                  
               </tr>
@@ -172,7 +172,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                       <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.user.name}</td>
                       <td className='text-center'>{item.step}</td>
-                      <td>{item.status}</td>
+                      <td>{item.description}</td>
                       <td>{item.created_at}</td>
                      
                   </tr>
@@ -194,7 +194,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                   <th>Nama Bangunan</th>
                   <th>Tingkat</th>
                   <th>Lokasi</th>
-                  <th>Item</th>
+                  <th>Peralatan</th>
                   <th>Jenis</th>
                   <th>Justifikasi</th>
               </tr>
