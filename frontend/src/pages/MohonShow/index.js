@@ -206,7 +206,7 @@ const MohonShow = () => {
                                     <tr>
                                         {/* <th className='col-1'>Peringkat</th> */}
                                         {/* <th className='col-2'>Nama</th> */}
-                                        <th className='col-1'>Status</th>
+                                        {/* <th className='col-1'>Status</th> */}
                                         <th className='col-1'>Peranan</th>
                                         <th className='col-7'>Justifikasi</th>
                                         <th className='text-center'>Tarikh</th>
@@ -218,14 +218,14 @@ const MohonShow = () => {
                                     {/* {console.log(item)} */}
                                             {/* <td className='text-center'>{item.step}</td> */}
                                             {/* <td>{item?.user.name}</td> */}
-                                            <td>
+                                            {/* <td>
                                             {
                                                 item.status === 'pending' ? 'Dalam Tindakan' :
                                                 item.status === 'approved' ? 'Lulus' :
                                                 item.status === 'rejected' ? 'Tolak' :
                                                 'Tiada Status'
                                             }
-                                            </td>
+                                            </td> */}
                                             <td>{item.user?.roles?.[0].name.toUpperCase()}</td>
                                             <td>{item?.message}</td>
                                             <td className='text-center'>{item.created_at}</td>
