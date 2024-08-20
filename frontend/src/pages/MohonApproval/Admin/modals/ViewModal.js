@@ -123,7 +123,7 @@ export default function ViewModal({id}) {
           Pengesahan
         </Button>
   
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal fullscreen show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title>Lihat Permohonan </Modal.Title>
           </Modal.Header>
