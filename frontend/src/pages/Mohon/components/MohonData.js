@@ -3,6 +3,7 @@ import { Table,Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootst
 import { InputText, InputTextarea } from '../modals/components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
+import JustificationModal from '../modals/JustificationModal'
 
 export default function MohonData({id}) {
 
@@ -94,7 +95,9 @@ export default function MohonData({id}) {
                             <td>{item.location}</td>
                             <td>{item.category?.name}</td>
                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>{item.description}</td>
+                            <td>
+                              <JustificationModal message={item.description} />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
