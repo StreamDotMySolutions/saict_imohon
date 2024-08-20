@@ -218,7 +218,14 @@ const MohonShow = () => {
                                     {/* {console.log(item)} */}
                                             {/* <td className='text-center'>{item.step}</td> */}
                                             {/* <td>{item?.user.name}</td> */}
-                                            <td>{item.status.toUpperCase()}</td>
+                                            <td>
+                                            {
+                                                item.status === 'pending' ? 'Dalam Tindakan' :
+                                                item.status === 'approved' ? 'Lulus' :
+                                                item.status === 'rejected' ? 'Tolak' :
+                                                'Tiada Status'
+                                            }
+                                            </td>
                                             <td>{item.user?.roles?.[0].name.toUpperCase()}</td>
                                             <td>{item?.message}</td>
                                             <td className='text-center'>{item.created_at}</td>
