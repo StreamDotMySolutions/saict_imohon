@@ -96,7 +96,7 @@ export default function ApprovalModal({id,count,step}) {
           
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Lihat Permohonan </Modal.Title>
+            <Modal.Title>Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -111,7 +111,7 @@ export default function ApprovalModal({id,count,step}) {
               fieldName='description' 
               placeholder='Maklumat tambahan'  
               icon='fa-solid fa-question'
-              rows='6'
+              rows='8'
               isLoading={'true'}
             />
             <br />
