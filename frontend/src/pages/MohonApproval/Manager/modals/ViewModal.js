@@ -133,7 +133,7 @@ export default function ViewModal({id}) {
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
-              rows ="4"
+              rows ="8"
               isLoading={isLoading ||  step!==1} />
           </Modal.Body>
           
