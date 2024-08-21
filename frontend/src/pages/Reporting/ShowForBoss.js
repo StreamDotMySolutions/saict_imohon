@@ -186,7 +186,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
         <Table className='mt-3'>
           <thead>
               <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
+                  <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Penerima</th>
                   <th>Jawatan</th>
                   <th>No. Telefon</th>
@@ -202,7 +202,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
           <tbody>
               {items?.map((item,index) => (
                   <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
+                      <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.name}</td>
                       <td>{item.occupation}</td>
                       <td>{item.mobile}</td>
@@ -226,7 +226,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
         <Table className='mt-3'>
           <thead>
               <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
+                  <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Penerima</th>
                   <th>Jawatan</th>
                   <th>No. Telefon</th>
@@ -242,7 +242,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
           <tbody>
               {items?.map((item,index) => (
                   <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
+                      <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.name}</td>
                       <td>{item.occupation}</td>
                       <td>{item.mobile}</td>
@@ -251,7 +251,9 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
                       <td>{item.location}</td>
                       <td>{item.category?.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.description}</td>
+                      <td>
+                      <JustificationModal message={item.description} />
+                      </td>
                   </tr>
               ))}
           </tbody>

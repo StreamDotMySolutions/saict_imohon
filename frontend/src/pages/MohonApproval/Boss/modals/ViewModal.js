@@ -114,7 +114,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
           Lihat 
         </Button>
   
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal fullscreen show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title><span className="badge bg-primary">{mohonDistributionRequestId}</span> Lihat Permohonan </Modal.Title>
           </Modal.Header>
