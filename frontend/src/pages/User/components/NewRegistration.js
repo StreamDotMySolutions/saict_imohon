@@ -92,7 +92,7 @@ function RenderTable({items}) {
       <table className="table table-bordered">
           <thead>
               <tr>
-                  <th className="px-2">ID</th>
+                  {/* <th className="px-2">ID</th> */}
                   <th className="px-5 col-3">Nama</th>
                   <th>Emel</th>
                   <th className="px-2 col-5 border border-end-0">Jabatan</th>
@@ -106,7 +106,7 @@ function RenderTable({items}) {
           {items?.data?.map((user, index) => (
             
             <tr key={index}>
-              <td className='px-2'><Badge>{user.id}</Badge></td>
+              {/* <td className='px-2'><Badge>{user.id}</Badge></td> */}
               <td className='px-5'>{user.name.toUpperCase()}</td>
               <td className='px-2'>{user.email}</td>
               <td className='px-2'>{user.profile?.user_department?.name}</td>
