@@ -113,7 +113,7 @@ function RenderTable({items}) {
                     </>
                     :
                     <>
-                    Disable
+                    Nyahaktif
                     </>
                   }
                   </Button>
