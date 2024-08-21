@@ -131,7 +131,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
             <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
               <thead>
                   <tr>
-                      <th>ID</th>
+                      <th>Bil.</th>
                 
                       <th>PERALATAN</th>
                       <th>JENIS</th>
@@ -147,7 +147,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
               <tbody>
                 {items.length > 0 && items?.map( (item,index) => (
                   <tr key={index}>
-                      <td><Badge>{item.id}</Badge></td>
+                      <td><Badge>{index + 1}</Badge></td>
           
                       <td>{item.category.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
@@ -172,7 +172,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi agihan"
               icon="fas fa-pencil"
-              rows ="4"
+              rows ="8"
               isLoading={isLoading} 
             />
           </Col>

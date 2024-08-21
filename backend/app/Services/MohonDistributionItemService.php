@@ -17,6 +17,17 @@ class MohonDistributionItemService
                                 ->paginate(10) // 10 items per page
                                 ->withQueryString();
     
+        // Get the current page and items per page for calculating the row number
+        $currentPage = $items->currentPage();
+        $perPage = $items->perPage();
+
+        // Add a virtual column "row_number" to each item
+        $items->getCollection()->transform(function ($item, $index) use ($currentPage, $perPage) {
+            // Calculate row number
+            $item->numbering = ($currentPage - 1) * $perPage + $index + 1;
+            return $item;
+        });
+
         return $items;
     }
 
