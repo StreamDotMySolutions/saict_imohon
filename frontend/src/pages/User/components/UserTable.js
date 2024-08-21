@@ -90,8 +90,8 @@ function RenderTable({items}) {
             <tr>
                 <th className="px-5 col-2">Nama</th>
                 <th className="px-5">Email</th>
-                <th className="px-5 col-5 border border-end-0">Jabatan</th>
-                <th className='text-center'>Tindakan</th>
+                <th className="px-5 border border-end-0">Jabatan</th>
+                <th className='col-4 text-center'>Tindakan</th>
             </tr>
         </thead>
       <tbody>
@@ -100,7 +100,7 @@ function RenderTable({items}) {
             <td className='px-5'>{user?.name?.toUpperCase()}</td>
             <td className='px-5 col-2'>{user?.email}</td>
             <td className='px-5'>{user?.profile?.user_department?.name}</td>
-            <td style={{'width':'500px'}} className='col-5 px-5 text-center'>
+            <td className='px-5 text-center'>
               {/* <ShowUserModal id={user.id} /> */}
               <Button 
                   size={'sm'}
