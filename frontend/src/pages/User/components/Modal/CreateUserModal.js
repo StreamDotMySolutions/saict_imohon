@@ -81,10 +81,10 @@ export default function CreateUserModal({role}) {
   return (
     <>
       { message && <DisplayMessage variant='success' message={message} />}
-      <Button onClick={handleShow}>Create</Button>
+      <Button onClick={handleShow}>Cipta</Button>
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Add User</Modal.Title>
+          <Modal.Title>Cipta User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form />
@@ -93,14 +93,14 @@ export default function CreateUserModal({role}) {
           <Row className='text-danger'>
             { error &&
             <>
-            Please check all tabs for error
+            SIla lihat kesemua tabs untuk ralat
             </>}
           </Row>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Tutup
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Save Changes
+            Submit
           </Button>
         </ModalFooter>
       </Modal>
