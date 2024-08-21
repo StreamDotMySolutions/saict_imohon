@@ -143,7 +143,7 @@ function RenderTable({items}) {
                       </>
                       :
                       <>
-                      Approve
+                      Disahkan
                       </>
                     }
                   </Button>
