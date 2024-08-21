@@ -18,22 +18,20 @@ const MohonApprovalByAdmin = () => {
                 defaultActiveKey="mohon_pending"
                 className="mb-3"
                 >
-                <Tab eventKey="mohon_pending" title="Permohonan Baharu">
+                <Tab eventKey="mohon_pending" title="Baharu">
                     <MohonIndex />
                 </Tab>
-                <Tab eventKey="mohon_approved" title="Permohonan Lulus">
+                <Tab eventKey="mohon_approved" title="Lulus">
                     <MohonIndex />
                 </Tab>
-                <Tab eventKey="mohon_rejected" title="Permohonan Gagal">
+                <Tab eventKey="mohon_rejected" title="Gagal">
                     <MohonIndex />
                 </Tab>
 
-                <Tab eventKey="mohon_with_approved_agihan" title="Permohonan Beserta Agihan Diluluskan">
+                <Tab eventKey="mohon_with_approved_agihan" title="Agihan">
                     <MohonIndex />
                 </Tab>
-                <Tab eventKey="mohon_with_rejected_agihan" title="Permohonan Beserta Agihan Ditolak">
-                    <MohonIndex />
-                </Tab>
+         
             </Tabs>
             
          
