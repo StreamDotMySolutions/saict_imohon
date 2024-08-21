@@ -61,7 +61,7 @@ const Index = () => {
                     
                         <th className='text-center' >Kelulusan Agihan Terkini</th>
                         <th style={{ 'width': '50px'}}>Jumlah Peralatan</th>
-                        <th className='text-center' style={{ 'width': '100px'}}>Tarikh</th>
+                        <th className='text-center' style={{ 'width': '100px'}}>Tarikh Permohonan</th>
                         <th className='text-center 6-col'>Tindakan</th>
                     </tr>
                 </thead>
