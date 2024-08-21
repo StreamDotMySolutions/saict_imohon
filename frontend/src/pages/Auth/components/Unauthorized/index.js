@@ -20,7 +20,7 @@ const Unauthorized = () => {
 
     return (
     <Alert variant='warning'>
-        <h1><FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" /> {' '}Akses Terhad</h1>
+        <h1><FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" /> {' '}Selesai log keluar</h1>
         Anda telah keluar daripada akaun sistem ini.
         <hr />
         <Link to='/sign-in'>
