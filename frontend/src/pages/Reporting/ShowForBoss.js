@@ -3,6 +3,7 @@ import { Container, Table, Row, Col, Pagination, Button, Breadcrumb } from 'reac
 import useStore from './store';
 import axios from '../../libs/axios';
 import { Link, useParams } from 'react-router-dom';
+import JustificationModal from '../Mohon/modals/JustificationModal';
 
 const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
 
@@ -77,7 +78,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
         <Table className='mt-3'>
           <thead>
               <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
+                  <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Nama</th>
                   <th className='text-center'>Kelulusan</th>
                   <th className='text-center'>Peralatan</th>
@@ -88,7 +89,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
           <tbody>
               {distributionRequests?.map((item,index) => (
                   <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
+                      <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.user.name}</td>
           
                       <td>
@@ -210,7 +211,9 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
                       <td>{item.location}</td>
                       <td>{item.category?.name}</td>
                       <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.description}</td>
+                      <td>
+                        <JustificationModal message={item.description} />
+                      </td>
                   </tr>
               ))}
           </tbody>

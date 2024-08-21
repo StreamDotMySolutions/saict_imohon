@@ -126,7 +126,7 @@ export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) 
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
-              rows ="4"
+              rows ="8"
               isLoading={isLoading || approval?.step == 2 } />
           </Modal.Body>
           
