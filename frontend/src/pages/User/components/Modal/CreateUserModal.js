@@ -100,7 +100,7 @@ export default function CreateUserModal({role}) {
             Tutup
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Submit
+            Cipta
           </Button>
         </ModalFooter>
       </Modal>
