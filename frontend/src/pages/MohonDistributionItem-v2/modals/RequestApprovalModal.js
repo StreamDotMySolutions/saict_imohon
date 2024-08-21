@@ -142,7 +142,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
                       <th>TINGKAT</th>
                       <th>LOKASI</th>
                       <th>VENDOR</th>
-                      <th>MAKLUMAT TAMBAHAN</th>
+                      <th>JUSTIFIKASI</th>
                   </tr>
               </thead>
               <tbody>
@@ -158,7 +158,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
                       <td>{item.mohon_item?.building_level}</td>
                       <td>{item.mohon_item?.location}</td>
                       <td>{item.inventory?.vendor}</td>
-                      <td>
+                      <td className='text-center'>
                         <JustificationModal message={item.mohon_item?.description} />
                       </td>
                   </tr>

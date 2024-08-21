@@ -24,7 +24,7 @@ export default function JustificationModal({message}) {
     return (
       <>
         <Button size="sm" variant="outline-dark" onClick={handleShowClick}>
-          Mesej
+          Justifikasi
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
