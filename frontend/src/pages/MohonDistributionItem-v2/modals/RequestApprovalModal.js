@@ -3,6 +3,7 @@ import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'reac
 import { InputSelect, InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
+import JustificationModal from './JustificationModal'
 
 export default function RequestApprovalModal({agihanRequestId}) {
 
@@ -157,7 +158,9 @@ export default function RequestApprovalModal({agihanRequestId}) {
                       <td>{item.mohon_item?.building_level}</td>
                       <td>{item.mohon_item?.location}</td>
                       <td>{item.inventory?.vendor}</td>
-                      <td>{item.mohon_item?.description}</td>
+                      <td>
+                        <JustificationModal message={item.mohon_item?.description} />
+                      </td>
                   </tr>
                 ))}
 
