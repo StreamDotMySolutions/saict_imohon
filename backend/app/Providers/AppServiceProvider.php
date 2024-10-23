@@ -30,8 +30,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         VerifyEmail::createUrlUsing(function ($notifiable) {
-            //$appUrl = env('APP_URL');
-            $appUrl = 'https://imohon.rtm.gov.my';
+            $appUrl = env('APP_URL');
+            //$appUrl = 'https://imohon.rtm.gov.my';
             $token = sha1($notifiable->getEmailForVerification());
             return $appUrl . '/api/email/verify/' . $notifiable->getKey() . '/' . $token;
         });
