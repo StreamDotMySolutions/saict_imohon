@@ -47,7 +47,7 @@ class StoreUserRequest extends FormRequest
                 //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
 
                 // different table, need to provide pk
-                Rule::unique('users')->ignore($user->id,'id'),
+                Rule::unique('users'),
             ],
             'phone' => 'required',
             'address' => 'required',
@@ -55,5 +55,6 @@ class StoreUserRequest extends FormRequest
             'user_department_id' => 'required',
            
         ];
+
     }
 }
