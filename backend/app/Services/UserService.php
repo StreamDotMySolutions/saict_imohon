@@ -63,7 +63,7 @@ class UserService
 
     public static function update(Request $request, $user){
 
-        \Log::info($request);
+        //\Log::info($request);
         
         // User
         if ($request->has('password')) {
@@ -137,7 +137,7 @@ class UserService
                             })  
                             //->whereNotNull('email_verified_at')
                             ->where('is_approved', true);
-            $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+            $users = $paginate->orderBy('id','DESC')->paginate(1000)->withQueryString();
         }
 
         // to list Pendaftaran Baharu in FE, role = user with is_approved = false
