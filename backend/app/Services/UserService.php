@@ -137,7 +137,7 @@ class UserService
                             })  
                             //->whereNotNull('email_verified_at')
                             ->where('is_approved', true);
-            $users = $paginate->orderBy('id','DESC')->paginate(1000)->withQueryString();
+            $users = $paginate->orderBy('id','DESC')->paginate(1)->withQueryString();
         }
 
         // to list Pendaftaran Baharu in FE, role = user with is_approved = false

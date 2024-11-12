@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
         User::truncate();
         $user = User::create([
             'name' => 'System Administrator',
-            'nric' => '770309-11-0001',
+            'nric' => '770309110001',
             'email' => 'system@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
         // admin ########################################### start
         $user = User::create([
             'name' => 'Administrator',
-            'nric' => '770309-11-0002',
+            'nric' => '770309110002',
             'email' => 'admin@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
@@ -85,7 +85,7 @@ class UserSeeder extends Seeder
         // user ########################################### start
         $user = User::create([
             'name' => 'User',
-            'nric' => '770309-11-0003',
+            'nric' => '770309110003',
             'email' => 'user@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
@@ -105,7 +105,7 @@ class UserSeeder extends Seeder
         // manager ########################################### start
         $user = User::create([
             'name' => 'Manager',
-            'nric' => '770309-11-0004',
+            'nric' => '770309110004',
             'email' => 'manager@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
@@ -125,7 +125,7 @@ class UserSeeder extends Seeder
         // boss ########################################### start
         $user = User::create([
             'name' => 'Boss',
-            'nric' => '770309-11-0006',
+            'nric' => '770309110006',
             'email' => 'boss@local',
             'password' => Hash::make('password'),
             'is_approved' => true,
