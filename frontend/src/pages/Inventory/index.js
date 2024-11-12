@@ -97,6 +97,7 @@ const Inventories = () => {
 
             
             <div className="d-flex bd-highlight mb-3">
+                {store.url}
                 <div className="ms-auto p-2 bd-highlight">
                     <Paginator />
                 </div>

@@ -32,6 +32,7 @@ const useAuthStore = create(persist(
   {
     name: 'auth-storage', // unique name for localStorage key
     getStorage: () => localStorage, // (optional) by default, 'localStorage' is used
+    
   }
 ));
 
