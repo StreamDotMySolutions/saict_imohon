@@ -21,6 +21,46 @@ export default function CreateUserModal({role}) {
     const handleShow = () => {
       console.log('create user')
       useUserStore.setState({ user : null})
+
+      useUserStore.setState({
+
+                                is_approved: {
+                                        value:null
+                                      },
+
+                                role:{
+                                        value: null
+                                      },
+                                email:{
+                                        value: null
+                                      },
+                      
+                                name: {
+                                        value: null
+                                      },
+                          occupation: {
+                                        value: null
+                                      },     
+                                nric: {
+                                        value:null
+                                      },      
+                              phone: {
+                                        value: null
+                                      },      
+                            level:   {
+                                        value: null
+                                      },
+                            building:  {
+                                        value: null
+                                      },                        
+                            address:  {
+                                        value: null
+                                      },                                          
+                        user_department_id: {
+                                        value: null
+                                      },  
+        })
+
       setError(false)
       setShow(true);
     }
