@@ -55,6 +55,8 @@ class UpdateUserRequest extends FormRequest
                 ],
                 'phone' => 'sometimes|required',
                 'address' => 'sometimes|required',
+                'level' => 'sometimes|required',
+                'building' => 'sometimes|required',
 
                 'user_department_id' => 'sometimes|required',
            

@@ -41,7 +41,7 @@ class StoreUserRequest extends FormRequest
             //     Rule::unique('users')
             // ],
             'nric' => [
-                'sometimes',
+                'required',
                 'numeric',
                 'digits:12',
                 //'regex:/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/',
@@ -51,6 +51,8 @@ class StoreUserRequest extends FormRequest
             ],
             'phone' => 'required',
             'address' => 'required',
+            'level' => 'required',
+            'building' => 'required',
 
             'user_department_id' => 'required',
            
