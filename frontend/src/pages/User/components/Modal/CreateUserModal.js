@@ -34,13 +34,13 @@ export default function CreateUserModal({role}) {
                     'role',
                     'email', 
                     'password',
-
+                    'level',
+                    'building',
                     'name', 
                     'occupation',
                     'nric', 
                     'phone',
                     'address',
-
                     'user_department_id'
                   ];
         const formData = new FormData();
