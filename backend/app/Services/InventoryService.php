@@ -12,7 +12,7 @@ class InventoryService
         $paginate = Inventory::query();
         $inventories = $paginate->orderBy('id','DESC')
                                 ->with(['category'])
-                                ->paginate(2)
+                                ->paginate(10)
                                 ->withQueryString();
     
         return $inventories;

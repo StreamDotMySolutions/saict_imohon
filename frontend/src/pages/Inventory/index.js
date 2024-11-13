@@ -45,7 +45,7 @@ const Inventories = () => {
                 disabled={page.url === null}
                 onClick={() => handlePaginationClick(page.url)}
                 >
-                    <span dangerouslySetInnerHTML={{__html: page.url}} />
+                    <span dangerouslySetInnerHTML={{__html: page.label}} />
             </Pagination.Item>
         )
     
