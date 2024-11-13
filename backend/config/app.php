@@ -55,7 +55,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL'),
+    //'url' => env('APP_URL'),
+    'url' => 'https://imohon.rtm.gov.my',
 
     'asset_url' => env('ASSET_URL'),
 
