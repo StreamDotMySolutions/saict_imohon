@@ -45,7 +45,7 @@ const MohonIndex = ({status}) => {
 
     return (
         <div>
-        
+  
             <Alert variant='warning'>
                 <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
                 <hr />

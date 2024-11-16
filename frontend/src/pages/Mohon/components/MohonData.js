@@ -8,7 +8,9 @@ import JustificationModal from '../modals/JustificationModal'
 export default function MohonData({id}) {
 
     const store = useMohonStore()
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     useEffect( () => {
+
       store.setValue('title', '') // set formValue
       store.setValue('user', '') // set formValue
       store.setValue('department', '') // set formValue
@@ -16,7 +18,7 @@ export default function MohonData({id}) {
       store.setValue('items', []) // set formValue
         axios({
             'method' : 'get',
-            'url' : `${store.mohonRequestUrl}/${id}`
+            'url' : `${apiUrl}/user/mohon-requests/${id}`
         })
         .then( response => {
           //console.log(response)

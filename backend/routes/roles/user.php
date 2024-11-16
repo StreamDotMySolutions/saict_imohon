@@ -16,3 +16,6 @@ Route::get('/mohon-requests', [MohonRequestController::class, 'index']);
 Route::post('/mohon-requests', [MohonRequestController::class, 'store']);
 Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
 Route::delete('/mohon-requests/{id}', [MohonRequestController::class, 'delete']);
+
+// MohonApproval
+Route::get('/mohon-approvals/managers', [MohonApprovalController::class, 'managers']); 

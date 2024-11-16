@@ -7,6 +7,7 @@ import MohonData from '../../../Mohon/components/MohonData'
 
 export default function ViewModal({id}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -28,7 +29,7 @@ export default function ViewModal({id}) {
       //console.log( `${store.submitUrl}/${id}`)
       axios({
             'method' : 'get',
-            'url' : `${store.showUrl}/${id}`
+            'url' : `${apiUrl}/mohon/${id}`
       })
       .then( response => {
           //console.log(response)
@@ -89,7 +90,8 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.managerApprovalUrl}/${id}`, // role = mnager approve mohon to step = 2 && status = approved
+          //url : `${apiUrl}/mohon-approval/by-manager/${id}`, // role = mnager approve mohon to step = 2 && status = approved
+          url : `${apiUrl}/manager/mohon-approvals/${id}`, // role = mnager approve mohon to step = 2 && status = approved
           data: formData
         })
         .then( response => {

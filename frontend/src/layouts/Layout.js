@@ -5,6 +5,7 @@ import AdminLayout from './components/AdminLayout';
 import UserLayout from './components/UserLayout';
 import ManagerLayout from './components/ManagerLayout';
 import BossLayout from './components/BossLayout';
+import SystemLayout from './components/SystemLayout';
 
 const Layout = () => {
     const store = useAuthStore();
@@ -15,7 +16,7 @@ const Layout = () => {
 
     switch (store.user.role) {
         case 'system':
-            renderedComponent = <DefaultLayout />;
+            renderedComponent = <SystemLayout />;
         break;
 
         case 'admin':

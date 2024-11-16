@@ -23,7 +23,7 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${apiUrl}/user/mohon-requests` // eg GET http://localhost:8000/api/mohon/index
+                    url: `${apiUrl}/user/mohon-requests` // eg GET http://localhost:8000/api/user/mohon-requests
                 } 
             )
             .then( response => { // response block

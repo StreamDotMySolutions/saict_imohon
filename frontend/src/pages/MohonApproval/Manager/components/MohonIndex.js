@@ -5,6 +5,7 @@ import axios from '../../../../libs/axios'
 import ViewModal from '../modals/ViewModal'
 
 const MohonIndex = ({status}) => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
 
@@ -14,7 +15,7 @@ const MohonIndex = ({status}) => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${store.url}/?status=${status}` // eg GET http://localhost:8000/api/mohon/index
+                    url: `${apiUrl}/manager/mohon-requests/?status=${status}` // eg GET http://localhost:8000/api/mohon/index
                 } 
             )
             .then( response => { // response block

@@ -14,6 +14,7 @@ import { Navigate } from 'react-router-dom'
   */}
 export default function ApprovalModal({id,count,step}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     //const errors = store.errors
     const errors = store.getValue('errors')
@@ -31,7 +32,7 @@ export default function ApprovalModal({id,count,step}) {
       setShow(true) // show the modal
 
       // get managers
-      axios( `${store.mohonApprovalUrl}/list-managers`)
+      axios( `${apiUrl}/user/mohon-approvals/managers`)
       .then ( response => {
         setManagers(response.data.managers)
         //console.log(response)
