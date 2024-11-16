@@ -37,9 +37,9 @@ class MohonRequestController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($mohonRequestid)
     {
-        $mohon = MohonService::show($id);
+        $mohon = MohonService::show($mohonRequestid);
         return response()->json([
             'mohon' => $mohon
         ]);
@@ -64,14 +64,14 @@ class MohonRequestController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($mohonRequestid)
     {
-        $deleted = MohonService::delete($id);
+        $deleted = MohonService::delete($mohonRequestid);
 
         if($deleted){
             return response()->json([
                 'message' => 'Permohonan berjaya dipadam',
-                'id' => $id
+                'id' => $mohonRequestid
             ]);
         } else {
             return response()->json([

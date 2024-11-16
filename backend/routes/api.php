@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // mohon
     // Route::get('/mohon', [MohonController::class, 'index']); // for everyone
     // Route::post('/mohon', [MohonController::class, 'store']);
-    Route::get('/mohon/{id}', [UserMohonRequestController::class, 'show']);
+    // Route::get('/mohon/{id}', [UserMohonRequestController::class, 'show']);
     // Route::put('/mohon/{id}', [MohonController::class, 'update']);
     // Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
