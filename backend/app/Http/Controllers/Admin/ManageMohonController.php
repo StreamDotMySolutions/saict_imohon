@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Administrations;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
 use App\Services\Administrations\MohonService;
@@ -10,7 +11,7 @@ use App\Http\Requests\Mohon\StoreMohonRequest;
 use App\Http\Requests\Mohon\UpdateMohonRequest;
 // use App\Http\Requests\DeleteMohonRequest;
 
-class AdministrationMohonController extends Controller
+class ManageMohonController extends Controller
 {
 
     public function index()

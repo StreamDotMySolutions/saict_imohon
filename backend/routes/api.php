@@ -3,13 +3,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
-    UserController,
-    UserDepartmentController,
-    CategoryController,
-    AuthController,
-    AccountController,
+
+    Admin\UserController,
+    Admin\AgihanController,
+    Admin\InventoryController,
+    Admin\AdminMohonRequestController,
+    Admin\ManageMohonController,
+    Admin\ManageMohonDistributionController,
+
+    //User\UserMohonRequestController,
+    Auth\AuthController,
+
+    System\UserDepartmentController,
+    System\CategoryController,
+
+    Global\AccountController,
     ApplicationController,
-    InventoryController,
+ 
     ItemController,
     RequestController,
     StatisticsController,
@@ -27,10 +37,6 @@ use App\Http\Controllers\{
     MohonDistributionItemAcceptanceController,
     MohonDistributionApprovalController,
 
-    AdministrationMohonController,
-    Administrations\AdministrationMohonDistributionController,
-    
-    AgihanController,
 };
 
 
@@ -57,14 +63,6 @@ Route::get('/welcome', function () {
     return response()->json(['message' => 'hello']);
 });
 
-// Route::get('/cuba', function () {
-//     return response()->json(['message' => 'cuba']);
-// });
-
-Route::get('/cuba',  [MohonItemController::class, 'categories']);
-
-Route::get('/items', [MohonItemController::class, 'categories']);
-
 
 // Role guest
 Route::group(['middleware' => ['guest']], function () {
@@ -84,14 +82,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
     Route::put('/account', [AccountController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
-    Route::resource('requests', RequestController::class);
+
 
     Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
     // mohon
     // Route::get('/mohon', [MohonController::class, 'index']); // for everyone
     // Route::post('/mohon', [MohonController::class, 'store']);
-    // Route::get('/mohon/{id}', [MohonController::class, 'show']);
+    Route::get('/mohon/{id}', [UserMohonRequestController::class, 'show']);
     // Route::put('/mohon/{id}', [MohonController::class, 'update']);
     // Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
@@ -100,16 +98,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStore']);
 
 
-    // mohon administration
-    Route::get('/administrations/mohon', [AdministrationMohonController::class, 'index']);
-    //Route::post('/administrations/mohon', [MohonController::class, 'store']);
-    Route::get('/administrations/mohon/{id}', [AdministrationMohonController::class, 'show']);
-    Route::put('/administrations/mohon/{id}', [AdministrationMohonController::class, 'update']);
-    Route::delete('/administrations/mohon/{id}', [AdministrationMohonController::class, 'delete']);
 
-    // mohon distribution administration
-    Route::get('/administrations/mohon-distribution-requests', [AdministrationMohonDistributionController::class, 'index']);
-    Route::delete('/administrations/mohon-distribution-requests/{id}', [AdministrationMohonDistributionController::class, 'delete']);
 
     // mohon item
     Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
@@ -202,6 +191,16 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
 
+    // mohon administration
+    Route::get('/administrations/mohon', [ManageMohonController::class, 'index']);
+    Route::get('/administrations/mohon/{id}', [ManageMohonController::class, 'show']);
+    Route::put('/administrations/mohon/{id}', [ManageMohonController::class, 'update']);
+    Route::delete('/administrations/mohon/{id}', [ManageMohonController::class, 'delete']);
+
+    // mohon distribution administration
+    Route::get('/administrations/mohon-distribution-requests', [ManageMohonDistributionController::class, 'index']);
+    Route::delete('/administrations/mohon-distribution-requests/{id}', [ManageMohonDistributionController::class, 'delete']);
+
 
 });
 
@@ -238,29 +237,18 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
 });
 
+// Route::group(['middleware' => ['auth:sanctum','role:user']], function () {
 
-// Role User 
-use App\Http\Controllers\User\{
-    UserMohonRequestController,
-};
-
-Route::group(['middleware' => ['auth:sanctum','role:user']], function () {
-
-   // mohon
-   Route::get('/user/mohon-requests', [UserMohonRequestController::class, 'index']); 
-   Route::post('/user/mohon-requests', [UserMohonRequestController::class, 'store']);
-   Route::get('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'show']);
-   //Route::put('/mohon/{id}', [UserMohonRequestController::class, 'update']);
-   Route::delete('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'delete']);
+//    // mohon
+//    Route::get('/user/mohon-requests', [UserMohonRequestController::class, 'index']); 
+//    Route::post('/user/mohon-requests', [UserMohonRequestController::class, 'store']);
+//    Route::get('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'show']);
+//    //Route::put('/mohon/{id}', [UserMohonRequestController::class, 'update']);
+//    Route::delete('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'delete']);
    
-});
+// });
 
 
-// Role Admin 
-use App\Http\Controllers\Admin\{
-    AdminMohonRequestController,
-    AdminInventoryController
-};
 
 Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
 
@@ -268,9 +256,9 @@ Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
     Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
 
     // Inventory Related routes
-    Route::get('/inventories', [AdminInventoryController::class, 'index']);
-    Route::post('/inventories', [AdminInventoryController::class, 'store']);
-    Route::get('/inventories/{inventory}', [AdminInventoryController::class, 'show']);
-    Route::put('/inventories/{inventory}', [AdminInventoryController::class, 'update']);
-    Route::delete('/inventories/{inventory}', [AdminInventoryController::class, 'delete']);
+    Route::get('/inventories', [InventoryController::class, 'index']);
+    Route::post('/inventories', [InventoryController::class, 'store']);
+    Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
+    Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
+    Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 });

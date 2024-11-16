@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Administrations;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MohonDistributionRequest;
@@ -8,7 +8,7 @@ use App\Services\Administrations\MohonDistributionService;
 
 // use App\Http\Requests\DeleteMohonRequest;
 
-class AdministrationMohonDistributionController extends Controller
+class ManageMohonDistributionController extends Controller
 {
 
     public function index(){

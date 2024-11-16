@@ -10,7 +10,7 @@ use App\Http\Requests\Mohon\UpdateMohonRequest;
 use App\Http\Requests\Mohon\TicketMohonRequest;
 use App\Http\Controllers\Controller;
 
-class UserMohonRequestController extends Controller
+class MohonRequestController extends Controller
 {
 
     public function index(Request $request)

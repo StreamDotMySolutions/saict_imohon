@@ -10,7 +10,7 @@ use App\Http\Requests\Inventory\StoreRequest;
 use App\Http\Requests\Inventory\UpdateRequest;
 use App\Http\Requests\Inventory\DeleteRequest;
 
-class AdminInventoryController extends Controller
+class InventoryController extends Controller
 {
     public function index()
     {
