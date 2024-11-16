@@ -34,9 +34,6 @@ use App\Http\Controllers\{
 };
 
 
-
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     $user = $request->user(); // Get the authenticated user
@@ -207,12 +204,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
     Route::delete('/users/{user}', [UserController::class, 'delete']);
 
-    // Inventory Related routes
-    Route::get('/inventories', [InventoryController::class, 'index']);
-    Route::post('/inventories', [InventoryController::class, 'store']);
-    Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
-    Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
-    Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
+
 });
 
 // Distribution
@@ -251,11 +243,19 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 
 // Role Admin 
 use App\Http\Controllers\Admin\{
-    AdminMohonRequestController
+    AdminMohonRequestController,
+    AdminInventoryController
 };
 
 Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
 
     // GET /api/admin/mohon-requests
     Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
+
+    // Inventory Related routes
+    Route::get('/inventories', [AdminInventoryController::class, 'index']);
+    Route::post('/inventories', [AdminInventoryController::class, 'store']);
+    Route::get('/inventories/{inventory}', [AdminInventoryController::class, 'show']);
+    Route::put('/inventories/{inventory}', [AdminInventoryController::class, 'update']);
+    Route::delete('/inventories/{inventory}', [AdminInventoryController::class, 'delete']);
 });

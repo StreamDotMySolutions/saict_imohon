@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\InventoryService;
 use App\Models\Inventory;
@@ -9,7 +10,7 @@ use App\Http\Requests\Inventory\StoreRequest;
 use App\Http\Requests\Inventory\UpdateRequest;
 use App\Http\Requests\Inventory\DeleteRequest;
 
-class InventoryController extends Controller
+class AdminInventoryController extends Controller
 {
     public function index()
     {
