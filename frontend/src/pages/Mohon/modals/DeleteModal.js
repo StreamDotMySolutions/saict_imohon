@@ -8,7 +8,7 @@ export default function DeleteModal({id, step = 0, status }) {
 
     const store = useMohonStore()
     const errors = store.errors
-
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +34,7 @@ export default function DeleteModal({id, step = 0, status }) {
 
       axios({ 
           method: 'post',
-          url : `${store.submitUrl}/${id}`,
+          url : `${apiUrl}/user/mohon-requests/${id}`,
           data: formData
         })
         .then( response => {
@@ -81,7 +81,7 @@ export default function DeleteModal({id, step = 0, status }) {
           
           <Modal.Footer>
             <Button 
-              disabled={isLoading}
+              //disabled={isLoading}
               variant="secondary" 
               onClick={handleCloseClick}>
               Tutup

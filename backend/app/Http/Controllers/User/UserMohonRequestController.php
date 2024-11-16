@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
@@ -8,8 +8,9 @@ use App\Services\MohonService;
 use App\Http\Requests\Mohon\StoreMohonRequest;
 use App\Http\Requests\Mohon\UpdateMohonRequest;
 use App\Http\Requests\Mohon\TicketMohonRequest;
+use App\Http\Controllers\Controller;
 
-class MohonController extends Controller
+class UserMohonRequestController extends Controller
 {
 
     public function index(Request $request)

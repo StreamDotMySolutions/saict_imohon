@@ -6,6 +6,7 @@ import MohonItemIndex from './components/MohonItemIndex'
 import { Badge } from 'react-bootstrap'
 
 const MohonItem = () => {
+const apiUrl = process.env.REACT_APP_BACKEND_URL
   const { mohonRequestId } = useParams()
   const navigate = useNavigate()
   const store = useMohonStore()
@@ -14,7 +15,7 @@ const MohonItem = () => {
 
   axios({
     'method' : 'get',
-    'url' : `${store.submitUrl}/${mohonRequestId}`
+    'url' : `${apiUrl}/user/mohon-requests/${mohonRequestId}`
     })
     .then( response => {
         //console.log('get mohon_approval')

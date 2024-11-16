@@ -9,6 +9,7 @@ export default function CreateModal() {
 
     const store = useMohonStore()
     const errors = store.errors
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
@@ -54,7 +55,7 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: store.submitUrl,
+          url: `${apiUrl}/user/mohon-requests`,
           data: formData
         })
         .then( response => {

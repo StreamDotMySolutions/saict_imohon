@@ -15,6 +15,7 @@ import { faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
 const MohonIndex = () => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect( () => 
         {
@@ -22,7 +23,7 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${apiUrl}/user/mohon-requests` // eg GET http://localhost:8000/api/mohon/index
                 } 
             )
             .then( response => { // response block

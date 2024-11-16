@@ -12,7 +12,7 @@ import DeleteModal from '../Mohon/modals/DeleteModal'
 // import StatusAgihan from '../Mohon/components/StatusAgihan'
 
 const MohonShow = () => {
-    const base_url = process.env.REACT_APP_BACKEND_URL
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
     const store = useMohonStore()
     const [response, setResponse] = useState([])
@@ -23,7 +23,7 @@ const MohonShow = () => {
         axios({
                 'method' : 'get',
                 //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
-                'url' : `${base_url}/mohon/${mohonRequestId}`
+                'url' : `${apiUrl}/user/mohon-requests/${mohonRequestId}`
             })
             .then( response => {
                 //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)

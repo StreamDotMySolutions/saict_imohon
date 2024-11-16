@@ -89,18 +89,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
     // mohon
-    Route::get('/mohon', [MohonController::class, 'index']); // for everyone
-    //Route::get('/mohon/{status}', [MohonController::class, 'index']); // for Pelulus 1
-    Route::post('/mohon', [MohonController::class, 'store']);
-    Route::get('/mohon/{id}', [MohonController::class, 'show']);
-    Route::put('/mohon/{id}', [MohonController::class, 'update']);
-    Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
+    // Route::get('/mohon', [MohonController::class, 'index']); // for everyone
+    // Route::post('/mohon', [MohonController::class, 'store']);
+    // Route::get('/mohon/{id}', [MohonController::class, 'show']);
+    // Route::put('/mohon/{id}', [MohonController::class, 'update']);
+    // Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
     // close || open ticket by Admin
     Route::get('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStatus']);
     Route::put('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStore']);
-    //Route::put('/mohon/ticket/{id}/close', [MohonController::class, 'closeTicket']);
-    //Route::put('/mohon/ticket/{id}/open', [MohonController::class, 'openTicket']);
+
 
     // mohon administration
     Route::get('/administrations/mohon', [AdministrationMohonController::class, 'index']);
@@ -238,6 +236,23 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 // Role system|admin | agihan
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+});
+
+
+// Role User 
+use App\Http\Controllers\User\{
+    UserMohonRequestController,
+};
+
+Route::group(['middleware' => ['auth:sanctum','role:user']], function () {
+
+   // mohon
+   Route::get('/user/mohon-requests', [UserMohonRequestController::class, 'index']); 
+   Route::post('/user/mohon-requests', [UserMohonRequestController::class, 'store']);
+   Route::get('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'show']);
+   //Route::put('/mohon/{id}', [UserMohonRequestController::class, 'update']);
+   Route::delete('/user/mohon-requests/{id}', [UserMohonRequestController::class, 'delete']);
+   
 });
 
 
