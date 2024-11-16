@@ -33,8 +33,23 @@ use App\Http\Controllers\{
     AgihanController,
 };
 
+// src/libs/ProtectedRouted.js use this
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
+    $user = $request->user(); // Get the authenticated user
+    
+    // Retrieve the user's role using Spatie
+    $role = $user->roles->pluck('name')->first();
 
+    $user['role'] = $role;
+
+    return response()->json([
+        'message' => 'Logged user info',
+        'user' => $user,
+        'role' => $role,
+    ]);
+
+});
 
 
 Auth::routes();
