@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../stores/AuthStore';
+//import useAuthStore from '../stores/AuthStore';
 
 const HandleLogout = () => {
-  const logout = useAuthStore((state) => state.logout);
+  //const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,14 +13,18 @@ const HandleLogout = () => {
       credentials: 'include', // include credentials to ensure cookies are sent with the request
     };
 
+    // delete localstorage
+    localStorage.removeItem('token');
+
+    // delete sanctum cookie
     fetch(url, options)
       .then((response) => {
         if (response.ok) {
           // Clear local storage
-          localStorage.removeItem('token');
+          //localStorage.removeItem('token');
 
           // Update zustand state
-          logout();
+          //logout();
 
           // Redirect to login or home page
           navigate('/login');
@@ -34,7 +38,9 @@ const HandleLogout = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [logout, navigate]);
+  }, [navigate]);
+
+
 
   return null;
 };
