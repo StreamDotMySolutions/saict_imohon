@@ -60,7 +60,7 @@ const MohonIndex = () => {
                         <th className='text-center'>Peralatan<br />Agihan</th>
                         {/* <th className='text-center'>Peralatan<br />Diterima</th> */}
                         <th className='text-center'>Tarikh <br /> Permohonan <br /> Cipta</th>
-                        <th className='text-center'>Status <br /> Permohonan</th>
+                        {/* <th className='text-center'>Status <br /> Permohonan</th> */}
                         {/* <th className='text-center'>Status Terkini Permohonan</th> */}
                         <th className='text-center'>Tindakan</th>
                     </tr>
@@ -78,9 +78,9 @@ const MohonIndex = () => {
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                             <td className='text-center'>{mohon.created_at}</td>
-                            <td className='text-center'>
+                            {/* <td className='text-center'>
                                 <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
-                            </td>
+                            </td> */}
                             {/* <td className='text-center'>
                             {mohon.ticket_status === 'close' ? (
                                     <Badge variant="danger">Permohonan telah ditutup</Badge>
