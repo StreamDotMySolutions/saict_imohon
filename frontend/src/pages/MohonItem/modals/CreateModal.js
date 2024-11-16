@@ -134,7 +134,8 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: `${store.submitUrl}/${mohonRequestId}`,
+          //url: `${store.submitUrl}/${mohonRequestId}`,
+          url: `${apiUrl}/user/mohon-items/${mohonRequestId}`,
           data: formData
         })
         .then( response => {

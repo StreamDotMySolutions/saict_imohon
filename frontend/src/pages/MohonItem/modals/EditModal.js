@@ -6,7 +6,7 @@ import useMohonStore from '../store'
 import HtmlForm from './HtmlForm'
 
 export default function EditModal({id, step}) {
-
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.errors
 
@@ -29,7 +29,8 @@ export default function EditModal({id, step}) {
       // get item categories from /mohon-items/categories
       axios({
         'method' : 'get',
-        'url' : `${store.submitUrl}/categories`
+        //'url' : `${store.submitUrl}/categories`
+        'url' : `${apiUrl}/user/mohon-items/categories`
       })
       .then( response => {
         store.setValue('categories', response.data.categories)
@@ -53,7 +54,8 @@ export default function EditModal({id, step}) {
       //console.log( `${store.submitUrl}/show/${id}`)
       axios({
           'method' : 'get',
-          'url' : `${store.submitUrl}/show/${id}`
+          //'url' : `${store.submitUrl}/show/${id}`
+          'url': `${apiUrl}/user/mohon-items/show/${id}`,
       })
       .then( response => {
         //console.log(response.data)
@@ -159,7 +161,8 @@ export default function EditModal({id, step}) {
       
       axios({ 
           method: 'post',
-          url : `${store.submitUrl}/${id}`,
+          //url : `${store.submitUrl}/${id}`,
+          url: `${apiUrl}/user/mohon-items/${id}`,
           data: formData
         })
         .then( response => {
