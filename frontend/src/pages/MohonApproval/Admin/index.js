@@ -19,18 +19,16 @@ const MohonApprovalByAdmin = () => {
                 className="mb-3"
                 >
                 <Tab eventKey="mohon_pending" title="Baharu">
-                    <MohonIndex />
+                    <MohonIndex status={'pending'} />
                 </Tab>
                 <Tab eventKey="mohon_approved" title="Lulus">
-                    <MohonIndex />
+                    <MohonIndex status={'approved'} />
                 </Tab>
                 <Tab eventKey="mohon_rejected" title="Gagal">
-                    <MohonIndex />
+                    <MohonIndex status={'rejected'} />
                 </Tab>
 
-                <Tab eventKey="mohon_with_approved_agihan" title="Agihan">
-                    <MohonIndex />
-                </Tab>
+      
          
             </Tabs>
             

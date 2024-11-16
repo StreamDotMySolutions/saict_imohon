@@ -33,7 +33,10 @@ use App\Http\Controllers\{
     AgihanController,
 };
 
-// src/libs/ProtectedRouted.js use this
+
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     $user = $request->user(); // Get the authenticated user
@@ -51,18 +54,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 });
 
-
 Auth::routes();
 
 Route::get('/welcome', function () {
     return response()->json(['message' => 'hello']);
 });
 
-Route::get('/cuba', function () {
-    return response()->json(['message' => 'hello']);
-});
+// Route::get('/cuba', function () {
+//     return response()->json(['message' => 'cuba']);
+// });
 
-//Route::get('/cuba',  [MohonItemController::class, 'categories']);
+Route::get('/cuba',  [MohonItemController::class, 'categories']);
 
 Route::get('/items', [MohonItemController::class, 'categories']);
 
@@ -244,4 +246,16 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 // Role system|admin | agihan
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+});
+
+
+// Role Admin 
+use App\Http\Controllers\Admin\{
+    AdminMohonRequestController
+};
+
+Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
+
+    // GET /api/admin/mohon-requests
+    Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
 });

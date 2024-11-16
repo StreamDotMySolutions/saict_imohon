@@ -11,9 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
 import StatusModal from '../modals/StatusModal'
 
-const MohonIndex = () => {
+const MohonIndex = ({status}) => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect( () => 
         {
@@ -22,7 +23,7 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${apiUrl}/admin/mohon-requests?status=${status}` // eg GET http://localhost:8000/api/admin/mohon-requests
                 } 
             )
             .then( response => { // response block
@@ -44,6 +45,7 @@ const MohonIndex = () => {
 
     return (
         <div>
+        
             <Alert variant='warning'>
                 <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
                 <hr />
@@ -80,7 +82,7 @@ const MohonIndex = () => {
                         {/* <th style={{ 'width': '200px'}}>Kelulusan Mohon</th> */}
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
-                        <th className='text-center' style={{ 'width': '50px'}}>Status Tiket</th>
+                        {/* <th className='text-center' style={{ 'width': '50px'}}>Status Tiket</th> */}
                         <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
                     </tr>
                 </thead>
@@ -97,16 +99,16 @@ const MohonIndex = () => {
                             </td> */}
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
-                            <td className='text-center'>
+                            {/* <td className='text-center'>
 
                                 <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
-                            </td>
+                            </td> */}
                            
                             <td className='text-center'>
                                 {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
                                     <Button size='sm' variant='outline-success'>Lihat</Button>
                                 </Link>*/}
-                                <StatusModal mohonRequestId={mohon.id} />
+                                {/* <StatusModal mohonRequestId={mohon.id} /> */}
                                 {' '}
                                 <ReportingModal mohonRequestId={mohon.id} />    
                                 {' '}
