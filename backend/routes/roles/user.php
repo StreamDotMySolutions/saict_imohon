@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\{
     MohonRequestController,
     MohonApprovalController,
+    MohonItemController,
 };
 
 // MohonRequest
@@ -19,3 +20,11 @@ Route::delete('/mohon-requests/{mohonRequestId}', [MohonRequestController::class
 
 // MohonApproval
 Route::get('/mohon-approvals/managers', [MohonApprovalController::class, 'managers']); 
+
+// MohonItem
+Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
+Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
+Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store']);
+Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
+Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
+Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);

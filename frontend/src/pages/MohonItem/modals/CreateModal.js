@@ -7,7 +7,7 @@ import useMohonStore from '../store'
 import HtmlForm from './HtmlForm'
 
 export default function CreateModal() {
-
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.errors
     const { mohonRequestId } = useParams()
@@ -32,7 +32,7 @@ export default function CreateModal() {
       // get item categories from /mohon-items/categories
       axios({
         'method' : 'get',
-        'url' : `${store.submitUrl}/categories`
+        'url' : `${apiUrl}/user/mohon-items/categories`
       })
       .then( response => {
         //console.log(response.data.categories)
