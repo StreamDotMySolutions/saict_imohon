@@ -5,6 +5,7 @@ import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import JustificationModal from '../modals/JustificationModal'
 
+
 export default function MohonData({id}) {
 
     const store = useMohonStore()
@@ -18,7 +19,7 @@ export default function MohonData({id}) {
       store.setValue('items', []) // set formValue
         axios({
             'method' : 'get',
-            'url' : `${apiUrl}/user/mohon-requests/${id}`
+            'url' : `${apiUrl}/mohon-requests/${id}`
         })
         .then( response => {
           //console.log(response)

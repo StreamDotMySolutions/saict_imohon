@@ -23,7 +23,7 @@ const MohonShow = () => {
         axios({
                 'method' : 'get',
                 //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
-                'url' : `${apiUrl}/user/mohon-requests/${mohonRequestId}`
+                'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
             })
             .then( response => {
                 //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
