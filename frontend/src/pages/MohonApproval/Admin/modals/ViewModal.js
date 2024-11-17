@@ -7,6 +7,7 @@ import MohonData from '../../../Mohon/components/MohonData'
 
 export default function ViewModal({id}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -28,7 +29,7 @@ export default function ViewModal({id}) {
       //console.log( `${store.submitUrl}/${id}`)
       axios({
             'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
+            'url' : `${apiUrl}/mohon-requests/${id}`
       })
       .then( response => {
           //console.log(response.data)
