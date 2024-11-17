@@ -7,6 +7,7 @@ import JustificationModal from '../Mohon/modals/JustificationModal';
 
 const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId: paramMohonRequestId } = useParams();
     const mohonRequestId = propMohonRequestId || paramMohonRequestId;
     const store = useStore()
@@ -18,7 +19,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
 
     // get mohonRequest data from API
     useEffect( () => {
-      axios(`${store.url}/mohon/${mohonRequestId}`)
+      axios(`${apiUrl}/mohon-requests/${mohonRequestId}`)
       .then( response => {
           //console.log(response)
           let mohon = response.data.mohon
