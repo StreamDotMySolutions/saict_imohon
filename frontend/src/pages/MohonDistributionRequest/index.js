@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MohonDistributionRequest = () => {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
     const navigate = useNavigate()
     const store = useStore()
@@ -21,7 +22,7 @@ const MohonDistributionRequest = () => {
     // console.log( `${store.mohonUrl}/${mohonRequestId}`)
     axios({
         'method' : 'get',
-        'url' : `${store.mohonUrl}/${mohonRequestId}`
+        'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
         })
         .then( response => {
             //console.log('get mohon_approval')

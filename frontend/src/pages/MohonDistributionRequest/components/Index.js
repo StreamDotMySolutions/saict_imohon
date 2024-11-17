@@ -12,6 +12,7 @@ import { AgihanApprovalStatus } from '../../../components/global/AgihanApproval'
 import DeliveryDateModal from '../modals/DeliveryDateModal'
 
 const Index = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
     const store = useStore()
     const [mohons, setMohons] = useState([])
@@ -22,11 +23,11 @@ const Index = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${store.url}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-distributions/index
+                    url: `${apiUrl}/admin/mohon-distribution-requests/${mohonRequestId}/index` // eg GET http://localhost:8000/api/mohon-distributions/index
                 } 
             )
             .then( response => { // response block
-                console.log(response.data)   // output to console  
+                //console.log(response.data)   // output to console  
                 //console.log(`${store.url}/${mohonRequestId}`)
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE

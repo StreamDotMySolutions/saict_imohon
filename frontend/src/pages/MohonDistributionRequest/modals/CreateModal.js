@@ -6,7 +6,7 @@ import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function CreateModal() {
-  
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
     const store = useMohonStore()
     const errors = store.errors
@@ -49,7 +49,7 @@ export default function CreateModal() {
 
       axios({ 
           method: 'post',
-          url: `${store.createUrl}/${mohonRequestId}`,
+          url: `${apiUrl}/admin/mohon-distribution-requests/${mohonRequestId}`,
           data: formData
         })
         .then( response => {

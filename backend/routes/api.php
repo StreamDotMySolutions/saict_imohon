@@ -100,13 +100,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 
-    // mohon item
-    Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
-    Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
-    Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store']);
-    Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
-    Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
-    Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
+    // mohon item ( by user )
+    // Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
+    // Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
+    // Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store']);
+    // Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
+    // Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
+    // Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
+
+
     
     // mohon approval
     Route::post('/mohon-approval/by-user/{mohonRequestId}', [MohonApprovalController::class, 'byUser']);
@@ -115,10 +117,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-approval/by-admin/{mohonRequestId}', [MohonApprovalController::class, 'byAdmin']);
     Route::put('/mohon-approval/by-boss/{mohonRequestId}', [MohonApprovalController::class, 'byBoss']);
 
+    
     // mohon distribution request
     Route::get('/mohon-distribution-requests/by-boss/{status}', [MohonDistributionRequestController::class, 'byBoss']); 
-    Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']); 
-    Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
+    //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']); 
+    //Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
     // mohon-distribution from admin to boss ( requesting approval )
     Route::post('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
     //Route::delete('/mohon-distribution-requests/by-admin/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byAdmin']);
@@ -153,7 +156,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
     Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
     Route::get('/mohon-distribution-items/{mohonDistributionRequestId}/items', [MohonDistributionItemController::class, 'items']);
-
     Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
     
     Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemDeliveryController::class, 'updateOrCreate']);
