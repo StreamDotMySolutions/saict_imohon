@@ -5,7 +5,7 @@ import useMohonItemStore from '../store'
 import { PicName, PicPhone, DateStart, DateEnd, InputCheck } from '../components/Input'
 
 export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
-
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonItemStore()
     const errors = store.getValue('errors')
 
@@ -23,7 +23,9 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
       store.emptyData() // empty store data
 
       // get mohonDistributionItem detail
-      axios(`${store.mohonDistributionItemUrl}/show/${mohonDistributionItemId}`)
+      //axios(`${store.mohonDistributionItemUrl}/show/${mohonDistributionItemId}`)
+      axios(`${apiUrl}/admin/mohon-distribution-items/${mohonDistributionItemId}/show`)
+
       .then( response => {
         //console.log(response)
         let delivery = response.data.item.mohon_distribution_item_delivery
@@ -80,7 +82,8 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
 
       axios({ 
           method: 'post',
-          url : `${store.mohonDistributionItemDeliveryUrl}/${mohonDistributionItemId}/updateOrCreate`,
+          //url : `${store.mohonDistributionItemDeliveryUrl}/${mohonDistributionItemId}/updateOrCreate`,
+          url : `${apiUrl}/admin/mohon-distribution-item-deliveries/${mohonDistributionItemId}`,
           data: formData
         })
         .then( response => {
@@ -112,7 +115,7 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
       <>
  
         <Button size={'sm'} variant="outline-primary" onClick={handleShowClick}>
-          Kemaskini
+          Kemaskini 
         </Button>
       
           

@@ -98,8 +98,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStore']);
 
 
-
-
     // mohon item ( by user )
     // Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
     // Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
@@ -147,7 +145,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);
     Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
     Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
-    Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
+    //Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
     Route::put('/mohon-distribution-items/received/{id}', [MohonDistributionItemController::class, 'received']);
     Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
     Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
@@ -158,7 +156,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/mohon-distribution-items/{mohonDistributionRequestId}/items', [MohonDistributionItemController::class, 'items']);
     //Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
     
-    Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemDeliveryController::class, 'updateOrCreate']);
+    //Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemDeliveryController::class, 'updateOrCreate']);
     
     // User to acknowledge of receiving the requested item
     Route::post('/mohon-distribution-item-acceptances/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemAcceptanceController::class, 'updateOrCreate']);

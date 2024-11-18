@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 use App\Models\MohonDistributionItemDelivery;
 use App\Http\Requests\MohonDistributionItemDelivery\StoreRequest;
 
@@ -8,7 +9,7 @@ use Illuminate\Http\Request;
 
 class MohonDistributionItemDeliveryController extends Controller
 {
-    public function updateOrCreate(StoreRequest $request, $mohonDistributioItemId)
+    public function store(StoreRequest $request, $mohonDistributioItemId)
     {
         //\Log::info($mohonDistributioItemId);
         //\Log::info($request);

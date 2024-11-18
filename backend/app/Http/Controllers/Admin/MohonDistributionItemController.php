@@ -32,18 +32,18 @@ class MohonDistributionItemController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($mohonDistributionItemId)
     {
-        $item = MohonDistributionItemService::show($id);
+        $item = MohonDistributionItemService::show($mohonDistributionItemId);
 
         return response()->json([
             'item' => $item
         ]);
     }
 
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $mohonDistributionItemId)
     {
-        $updated = MohonDistributionItemService::update($request,$id);
+        $updated = MohonDistributionItemService::update($request,$mohonDistributionItemId);
 
         if($updated){
             return response()->json([
@@ -56,9 +56,9 @@ class MohonDistributionItemController extends Controller
         }
     }
 
-    public function received(ReceivedRequest $request, $id)
+    public function received(ReceivedRequest $request, $mohonDistributionItemId)
     {
-        $updated = MohonDistributionItemService::received($request,$id);
+        $updated = MohonDistributionItemService::received($request,$mohonDistributionItemId);
 
         if($updated){
             return response()->json([
@@ -71,9 +71,9 @@ class MohonDistributionItemController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($mohonDistributionItemId)
     {
-        $deleted = MohonDistributionItemService::delete($id);
+        $deleted = MohonDistributionItemService::delete($mohonDistributionItemId);
 
         if($deleted){
             return response()->json([

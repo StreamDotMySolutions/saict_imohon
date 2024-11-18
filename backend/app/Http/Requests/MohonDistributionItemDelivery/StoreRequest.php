@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
         return [
             'acknowledge.required' => 'Sila sahkan data',
             'pic_name.required' => 'Sila masukkan nama vendor peralatan',
-            'pic_phone.required' => 'Sila pilih peralatan',
+            'pic_phone.required' => 'Sila masukkan no telefon vendor',
             'date_start.required' => 'Sila pilih tarikh mula kontrak',
             'date_end.after' => 'Tarikh tamat kontrak mesti selepas tarikh mula',
             'date_end.required' => 'Sila pilih tarikh tamat kontrak',

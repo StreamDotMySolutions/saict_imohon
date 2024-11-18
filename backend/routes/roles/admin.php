@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     MohonDistributionRequestController,
     MohonDistributionItemController,
-    MohonDistributionApprovalController
+    MohonDistributionApprovalController,
+    MohonDistributionItemDeliveryController
 };
 
 // MohonDistributionRequestApproval
@@ -37,3 +38,9 @@ Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [Moho
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
 Route::get('/mohon-distribution-items/{mohonDistributionRequestId}/items', [MohonDistributionItemController::class, 'items']);
 Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
+
+// After Boss Approved the Request, admin need to update the Detail for each Item
+Route::get('/mohon-distribution-items/{mohonDistributionItemId}/show', [MohonDistributionItemController::class, 'show']);
+
+// Delivery Detail
+Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}', [MohonDistributionItemDeliveryController::class, 'store']);
