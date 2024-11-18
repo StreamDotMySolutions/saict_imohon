@@ -46,7 +46,7 @@ class UpdateRequest extends FormRequest
             'date_start.required' => 'Sila pilih tarikh mula kontrak',
             'date_end.after' => 'Tarikh tamat kontrak mesti selepas tarikh mula',
             'date_end.required' => 'Sila pilih tarikh tamat kontrak',
-            'date_end.required' => 'Sila pilih tarikh tamat kontrak',
+            //'date_end.required' => 'Sila pilih tarikh tamat kontrak',
             'received_on.required' => 'Sila pilih tarikh terima peralatan',
             'received_on.after_or_equal' => 'Tarikh penerimaan peralatan mesti di antara tarikh mula dan tarikh tamat kontrak',
             'received_on.before_or_equal' => 'Tarikh penerimaan peralatan mesti di antara tarikh mula dan tarikh tamat kontrak'

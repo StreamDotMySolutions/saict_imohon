@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\{
     MohonDistributionItemController,
     MohonDistributionApprovalController,
     MohonDistributionItemDeliveryController,
-    UserController
+    UserController,
+    InventoryController,
+    CategoryController
 };
 
 // MohonDistributionRequestApproval
@@ -46,7 +48,7 @@ Route::get('/mohon-distribution-items/{mohonDistributionItemId}/show', [MohonDis
 // Delivery Detail
 Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}', [MohonDistributionItemDeliveryController::class, 'store']);
 
-// User management
+// User Management
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
@@ -54,3 +56,13 @@ Route::put('/users/{user}', [UserController::class, 'update']);
 Route::patch('/users/{user}/approve', [UserController::class, 'approve']);
 Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
 Route::delete('/users/{user}', [UserController::class, 'delete']);
+
+// Inventory Management
+Route::get('/inventories', [InventoryController::class, 'index']);
+Route::post('/inventories', [InventoryController::class, 'store']);
+Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
+Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
+Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
+
+// Category Management
+Route::get('/categories', [CategoryController::class, 'index']);

@@ -66,21 +66,14 @@ Route::group(['middleware' => ['guest']], function () {
 
 // Role user
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
-
     Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
     Route::put('/account', [AccountController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
     Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
-
-    
 });
 
 // Role system|admin 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
-
-
-
     // mohon administration
     Route::get('/administrations/mohon', [ManageMohonController::class, 'index']);
     Route::get('/administrations/mohon/{id}', [ManageMohonController::class, 'show']);
@@ -90,8 +83,6 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
     // mohon distribution administration
     Route::get('/administrations/mohon-distribution-requests', [ManageMohonDistributionController::class, 'index']);
     Route::delete('/administrations/mohon-distribution-requests/{id}', [ManageMohonDistributionController::class, 'delete']);
-
-
 });
 
 
@@ -130,9 +121,9 @@ Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
     //Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
 
     // Inventory Related routes
-    Route::get('/inventories', [InventoryController::class, 'index']);
-    Route::post('/inventories', [InventoryController::class, 'store']);
-    Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
-    Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
-    Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
+    // Route::get('/inventories', [InventoryController::class, 'index']);
+    // Route::post('/inventories', [InventoryController::class, 'store']);
+    // Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);
+    // Route::put('/inventories/{inventory}', [InventoryController::class, 'update']);
+    // Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']);
 });
