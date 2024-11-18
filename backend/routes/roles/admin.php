@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
+    MohonRequestController,
+    ManageMohonDistributionController,
     MohonDistributionRequestController,
     MohonDistributionItemController,
     MohonDistributionApprovalController,
@@ -66,3 +68,11 @@ Route::delete('/inventories/{inventory}', [InventoryController::class, 'delete']
 
 // Category Management
 Route::get('/categories', [CategoryController::class, 'index']);
+
+// MohonRequest Management
+Route::get('/mohon-requests', [MohonRequestController::class, 'index']);
+Route::delete('/mohon-requests/{mohonRequestId}', [MohonRequestController::class, 'delete']);
+
+// MohonDistribution Management
+Route::get('/manage/mohon-distribution-requests', [ManageMohonDistributionController::class, 'index']);
+Route::delete('/manage/mohon-distribution-requests/{id}', [ManageMohonDistributionController::class, 'delete']);

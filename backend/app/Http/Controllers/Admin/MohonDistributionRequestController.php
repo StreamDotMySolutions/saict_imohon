@@ -35,21 +35,7 @@ class MohonDistributionRequestController extends Controller
     }
 
 
-    /*
-    * To list all requests for role = boss
-    * step = 1
-    * status = pending
-    */
-    public function byBoss($status = 'pending')
-    {
 
-        $mohons = MohonDistributionRequestService::getMohonDistributionRequestAsBoss($status);
-        //\Log::info($mohonRequestId);
-
-        return response()->json([
-            'mohons' => $mohons
-        ]);
-    }
 
     public function show($id)
     {

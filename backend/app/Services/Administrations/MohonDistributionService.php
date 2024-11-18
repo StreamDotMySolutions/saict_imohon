@@ -23,7 +23,7 @@ class MohonDistributionService
             // Iterate through and delete each mohonDistributionItem and its related mohonDistributionItemAcceptance records
             $distributionRequest->mohonDistributionItems()->each(function ($distributionItem) {
                 try {
-                    \Log::info('Processing Distribution Item ID: ' . $distributionItem->id);
+                    //\Log::info('Processing Distribution Item ID: ' . $distributionItem->id);
 
                     // Delete related mohonDistributionItemAcceptance if it exists
                     $acceptance = $distributionItem->mohonDistributionItemAcceptance;
