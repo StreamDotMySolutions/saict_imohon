@@ -11,6 +11,7 @@ import { AgihanApprovalStatus } from '../../../../components/global/AgihanApprov
 */}
 
 const Index = ({status}) => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useStore()
     const [responses, setResponses] = useState([])
     //console.log(status)
@@ -21,7 +22,8 @@ const Index = ({status}) => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${store.url}/${status}` // eg GET http://localhost:8000/api/mohon-distribution-requests/by-boss
+                    //url: `${store.url}/${status}` // eg GET http://localhost:8000/api/boss/mohon-distribution-requests/pending
+                    url: `${apiUrl}/boss/mohon-distribution-requests/${status}`
                 } 
             )
             .then( response => { // response block

@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     
     // mohon distribution request
-    Route::get('/mohon-distribution-requests/by-boss/{status}', [MohonDistributionRequestController::class, 'byBoss']); 
+    //Route::get('/mohon-distribution-requests/by-boss/{status}', [MohonDistributionRequestController::class, 'byBoss']); 
     //Route::get('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'index']); 
     //Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionRequestController::class, 'store']);
     // mohon-distribution from admin to boss ( requesting approval )
@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     
     // mohon distribution approval from boss to approve request agihan from admin
-    Route::put('/mohon-distribution-approval/by-boss/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byBoss']);
+    //Route::put('/mohon-distribution-approval/by-boss/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'byBoss']);
 
 
     // mohon distribution item

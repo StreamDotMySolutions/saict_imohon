@@ -48,6 +48,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api/admin')
                 ->group(base_path('routes/roles/admin.php'));
 
+            // Role = Boss
+            Route::middleware(['api', 'auth:sanctum', 'role:boss'])
+                ->prefix('api/boss')
+                ->group(base_path('routes/roles/boss.php'));   
+
             // Role = System
             Route::middleware(['api', 'auth:sanctum', 'role:system'])
                 ->prefix('api/system')
