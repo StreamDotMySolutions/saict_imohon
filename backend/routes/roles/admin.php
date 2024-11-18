@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     MohonDistributionRequestController,
     MohonDistributionItemController,
+    MohonDistributionApprovalController
 };
+
+// MohonDistributionRequestApproval
+Route::post('/mohon-distribution-approvals/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'store']);
 
 
 // MohonDistributionRequest
@@ -18,7 +22,6 @@ Route::post('/mohon-distribution-requests/{mohonRequestId}', [MohonDistributionR
 Route::get('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'show']);
 Route::put('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'update']);
 Route::delete('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'delete']);
-
 
 // MohonDistributionItem belongsTo MohonDistributionRequest
 Route::get('/mohon-distribution-items/vendors', [MohonDistributionItemController::class, 'vendors']);

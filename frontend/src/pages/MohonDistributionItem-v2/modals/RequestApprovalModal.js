@@ -7,7 +7,7 @@ import JustificationModal from './JustificationModal'
 
 export default function RequestApprovalModal({agihanRequestId}) {
 
-    const base_url = process.env.REACT_APP_BACKEND_URL
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -28,7 +28,8 @@ export default function RequestApprovalModal({agihanRequestId}) {
         //console.log( `${store.submitUrl}`)
         axios({
             'method' : 'get',
-            'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
+            //'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
+              'url' : `${apiUrl}/admin/mohon-distribution/${agihanRequestId}`
         })
         .then( response => {
           console.log(response)
@@ -76,7 +77,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
       axios({ 
           method: 'post',
           //url : `${store.bossApprovalUrl}/${agihanRequestId}`,
-          url:  `${base_url}/mohon-distribution-requests/by-admin/${agihanRequestId}`,
+          url:  `${apiUrl}/admin/mohon-distribution-approvals/${agihanRequestId}`,
           data: formData
         })
         .then( response => {
