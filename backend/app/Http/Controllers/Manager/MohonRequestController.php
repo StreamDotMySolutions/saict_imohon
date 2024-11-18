@@ -101,9 +101,9 @@ class MohonRequestController extends Controller
                               ->where('step',3);
                     })
 
-                    ->whereDoesntHave('mohonApproval', function ($query) {
-                        $query->where('step', [4]);
-                    })
+                    // ->whereDoesntHave('mohonApproval', function ($query) {
+                    //     $query->where('step', [4]);
+                    // })
 
                     ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
                         $query->where('user_department_id', $userDepartmentId);
