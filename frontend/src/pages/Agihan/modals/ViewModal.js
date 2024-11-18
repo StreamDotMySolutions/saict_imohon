@@ -6,6 +6,7 @@ import useStore from '../store'
 
 export default function ViewModal({id}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useStore()
     const errors = store.getValue('errors')
 
@@ -23,7 +24,8 @@ export default function ViewModal({id}) {
 
         axios({
             'method' : 'get',
-            'url' : `${store.mohonDistributionItemAcceptance}/${id}/show`
+            //'url' : `${store.mohonDistributionItemAcceptance}/${id}/show`
+            'url' : `${apiUrl}/user/mohon-distribution-item-acceptances/${id}`
         })
         .then( response => {
           //console.log(response.data)
@@ -89,7 +91,8 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.mohonDistributionItemAcceptance}/${id}/updateOrCreate`,
+          //url : `${store.mohonDistributionItemAcceptance}/${id}/updateOrCreate`,
+          url : `${apiUrl}/user/mohon-distribution-item-acceptances/${id}`,
           data: formData
         })
         .then( response => {

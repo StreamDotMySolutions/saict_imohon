@@ -6,6 +6,7 @@ import { Badge, Table, Col, Row, Button } from 'react-bootstrap'
 import ViewModal from './modals/ViewModal'
 
 const Index = () => {
+  const apiUrl = process.env.REACT_APP_BACKEND_URL
   const { mohonRequestId } = useParams()
   const store = useStore()
   const [response, setResponse] = useState([])
@@ -13,7 +14,8 @@ const Index = () => {
   useEffect( () => {
     axios({
         'method' : 'get',
-        'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+        //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
+        'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
         })
         .then( response => {
             //console.log(response.data.mohon.mohon_distribution_requests)
@@ -137,7 +139,7 @@ const Index = () => {
                                             <td  className='text-center'>
                                                 {item.mohon_distribution_item_acceptance ? item.mohon_distribution_item_acceptance.created_at : <>Belum disahkan</> }
                                             </td>
-                                            <td>
+                                            <td className='text-center'>
                                                 {!item.mohon_distribution_item_acceptance?.created_at ?
                                                 <>
                                                     {item.mohon_distribution_item_delivery != null ?

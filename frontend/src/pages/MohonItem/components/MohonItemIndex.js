@@ -20,7 +20,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: `${apiUrl}/mohon-items/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-items/123
+                    url: `${apiUrl}/user/mohon-items/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-items/123
                 } 
             )
             .then( response => { // response block

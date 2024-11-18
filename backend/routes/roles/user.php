@@ -10,6 +10,7 @@ use App\Http\Controllers\User\{
     MohonRequestController,
     MohonApprovalController,
     MohonItemController,
+    MohonDistributionItemAcceptanceController
 };
 
 // MohonRequest
@@ -28,3 +29,8 @@ Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store
 Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
 Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
 Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
+
+// User accepting Agihan
+// MohonDistributionAcceptance
+Route::get('/mohon-distribution-item-acceptances/{mohonDistributioItemId}', [MohonDistributionItemAcceptanceController::class, 'show']);
+Route::post('/mohon-distribution-item-acceptances/{mohonDistributioItemId}', [MohonDistributionItemAcceptanceController::class, 'updateOrCreate']);
