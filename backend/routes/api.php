@@ -4,14 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
 
-    Admin\UserController,
-    Admin\AgihanController,
-    Admin\InventoryController,
-    Admin\AdminMohonRequestController,
-    Admin\ManageMohonController,
-    Admin\ManageMohonDistributionController,
-
-    //User\UserMohonRequestController,
+    
     Auth\AuthController,
 
     System\UserDepartmentController,
@@ -19,6 +12,10 @@ use App\Http\Controllers\{
 
     Global\AccountController,
     Global\MohonRequestController,
+
+    Admin\InventoryController,
+    Admin\ManageMohonController,
+    Admin\ManageMohonDistributionController
    
 
 };
@@ -41,14 +38,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 });
 
-Auth::routes();
+
 
 Route::get('/welcome', function () {
     return response()->json(['message' => 'hello']);
 });
 
+Auth::routes();
+// Auth::routes([
+//     'login'    => true,
+//     'logout'   => true,
+//     'register' => true,
+//     'reset'    => true,  // for resetting passwords
+//     'confirm'  => false, // for additional password confirmations
+//     'verify'   => false, // for email verification
+// ]);
 
-// Role guest
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
     Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -74,14 +79,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // Role system|admin 
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
 
-    // User-related routes
-    Route::get('/users', [UserController::class, 'index']);
-    Route::post('/users', [UserController::class, 'store']);
-    Route::get('/users/{user}', [UserController::class, 'show']);
-    Route::put('/users/{user}', [UserController::class, 'update']);
-    Route::patch('/users/{user}/approve', [UserController::class, 'approve']);
-    Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
-    Route::delete('/users/{user}', [UserController::class, 'delete']);
+
 
     // mohon administration
     Route::get('/administrations/mohon', [ManageMohonController::class, 'index']);
@@ -96,14 +94,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 
 });
 
-// Distribution
-Route::group(['middleware' => ['auth:sanctum','role:system|admin|boss']], function () {
 
-    // DistributionApproval Related routes
-    Route::apiResource('distribution-approvals', DistributionApprovalController::class);
-    Route::apiResource('distributions', DistributionController::class);
-});
-    
 // Role system
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
     
@@ -126,7 +117,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 
 // Role system|admin | agihan
 Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function () {
-    Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+    //Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
 });
 
 
@@ -136,7 +127,7 @@ Route::group(['middleware' => ['auth:sanctum','role:system|admin']], function ()
 Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
 
     // GET /api/admin/mohon-requests
-    Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
+    //Route::get('/admin/mohon-requests', [AdminMohonRequestController::class, 'index']);
 
     // Inventory Related routes
     Route::get('/inventories', [InventoryController::class, 'index']);

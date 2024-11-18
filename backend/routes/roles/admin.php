@@ -10,7 +10,8 @@ use App\Http\Controllers\Admin\{
     MohonDistributionRequestController,
     MohonDistributionItemController,
     MohonDistributionApprovalController,
-    MohonDistributionItemDeliveryController
+    MohonDistributionItemDeliveryController,
+    UserController
 };
 
 // MohonDistributionRequestApproval
@@ -44,3 +45,12 @@ Route::get('/mohon-distribution-items/{mohonDistributionItemId}/show', [MohonDis
 
 // Delivery Detail
 Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}', [MohonDistributionItemDeliveryController::class, 'store']);
+
+// User management
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{user}', [UserController::class, 'show']);
+Route::put('/users/{user}', [UserController::class, 'update']);
+Route::patch('/users/{user}/approve', [UserController::class, 'approve']);
+Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
+Route::delete('/users/{user}', [UserController::class, 'delete']);
