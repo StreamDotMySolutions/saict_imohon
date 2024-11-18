@@ -14,6 +14,7 @@ import { Navigate } from 'react-router-dom'
   */}
 export default function ApprovalModal({id,count,step}) {
 
+    const mohonRequestid = id
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     //const errors = store.errors
@@ -72,10 +73,11 @@ export default function ApprovalModal({id,count,step}) {
         formData.append('acknowledge', store.getValue('acknowledge'));
       }
 
-      console.log(`${store.userApprovalUrl}/${id}`)
+      //console.log(`${store.userApprovalUrl}/${id}`)
       axios({ 
           method: 'post',
-          url : `${store.userApprovalUrl}/${id}`,
+          //url : `${store.userApprovalUrl}/${id}`,
+          url : `${apiUrl}/user/mohon-approvals/${mohonRequestid}`,
           data: formData
         })
         .then( response => {

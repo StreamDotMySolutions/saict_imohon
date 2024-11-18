@@ -45,15 +45,9 @@ import SignOut from './pages/Auth/components/SignOut'
 import VerifySuccess from './pages/Auth/components/EmailVerifiy/success.js'
 import VerifyFailed from './pages/Auth/components/EmailVerifiy/failed.js'
 
-// import Application from './pages/Application'
-// import ApprovalByManager from './pages/Approval/ByManager'
-// import ApprovalByAdmin from './pages/Approval/ByAdmin'
 
 import Inventory from './pages/Inventory'
 
-// import Distribution from './pages/Distribution'
-// import DistributionApproval from './pages/DistributionApproval'
-// import DistributionAcceptance from './pages/DistributionAcceptance'
 
 import Mohon from './pages/Mohon'
 import MohonShow from './pages/MohonShow'
@@ -65,7 +59,7 @@ import MohonApprovalByBoss from './pages/MohonApproval/Boss'
 import MohonDistributionRequest from './pages/MohonDistributionRequest'
 //import MohonDistributionItem from './pages/MohonDistributionItem'
 import MohonDistributionItem from './pages/MohonDistributionItem-v2'
-import ManageMohonDistributionRequest from './pages/ManageDistributionRequest'
+// import ManageMohonDistributionRequest from './pages/ManageDistributionRequest'
 
 import Agihan from './pages/Agihan'
 import Agihan2 from './pages/Agihan-v2'
@@ -144,15 +138,8 @@ export default function App() {
 
 
                 <Route path="/inventories" element={<Inventory />} />
-                <Route path="/manage/mohon-distribution-requests" element={<ManageMohonDistributionRequest />} />
-              {/*<Route path="/applications" element={<Application />} />
-                <Route path="/approvals/by-manager" element={<ApprovalByManager />} />
-                <Route path="/approvals/by-admin" element={<ApprovalByAdmin />} />
-                <Route path="/approvals/by-boss" element={<ApprovalByManager />} />
-                <Route path="/inventories" element={<Inventory />} />
-                <Route path="/distributions" element={<Distribution />} />
-                <Route path="/distribution-approvals" element={<DistributionApproval />} />
-                <Route path="/distribution-acceptances" element={<DistributionAcceptance />} /> */}
+                {/* <Route path="/manage/mohon-distribution-requests" element={<ManageMohonDistributionRequest />} /> */}
+   
               </Route>
             </Route>
 

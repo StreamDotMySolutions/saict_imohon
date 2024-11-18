@@ -33,5 +33,23 @@ class MohonApprovalController extends Controller
         ]);
     }
 
+    // User process MohonRequest from step 1 to 2 
+    public function store(StoreRequest $request, $mohonRequestId)
+    {
+
+        $mohonApprovalService = MohonApprovalService::storeByUser($request, $mohonRequestId);
+
+        if($mohonApprovalService)
+        {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 1 berjaya diterima',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan ke Pelulus 1 gagal',
+            ],422);
+        }
+    }
+
     
 }

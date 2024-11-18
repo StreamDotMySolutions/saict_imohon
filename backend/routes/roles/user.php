@@ -21,6 +21,7 @@ Route::delete('/mohon-requests/{mohonRequestId}', [MohonRequestController::class
 
 // MohonApproval
 Route::get('/mohon-approvals/managers', [MohonApprovalController::class, 'managers']); 
+Route::post('/mohon-approvals/{mohonRequestId}', [MohonApprovalController::class, 'store']);
 
 // MohonItem
 Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);

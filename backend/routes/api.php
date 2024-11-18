@@ -18,24 +18,8 @@ use App\Http\Controllers\{
     System\CategoryController,
 
     Global\AccountController,
-    ApplicationController,
- 
-    ItemController,
-    RequestController,
-    StatisticsController,
-
-    DistributionController,
-    DistributionApprovalController,
-    DistributionAcceptanceController,
-
-    MohonRequestController,
-    MohonItemController,
-    MohonApprovalController,
-    MohonDistributionRequestController,
-    MohonDistributionItemController,
-    MohonDistributionItemDeliveryController,
-    MohonDistributionItemAcceptanceController,
-    MohonDistributionApprovalController,
+    Global\MohonRequestController,
+   
 
 };
 
@@ -82,20 +66,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
     Route::put('/account', [AccountController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
+    Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
 
-
-    Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
+    //Route::get('/statistics/{item}/requested', [StatisticsController::class, 'requested']);
 
     // mohon-requests
     // Route::get('/mohon', [MohonController::class, 'index']); // for everyone
     // Route::post('/mohon', [MohonController::class, 'store']);
-    Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
+  
     // Route::put('/mohon/{id}', [MohonController::class, 'update']);
     // Route::delete('/mohon/{id}', [MohonController::class, 'delete']);
 
     // close || open ticket by Admin
-    Route::get('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStatus']);
-    Route::put('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStore']);
+    // Route::get('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStatus']);
+    // Route::put('/mohon/ticket/{mohonRequest}', [MohonController::class, 'ticketStore']);
 
 
     // mohon item ( by user )
@@ -109,8 +93,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     
     // mohon approval
-    Route::post('/mohon-approval/by-user/{mohonRequestId}', [MohonApprovalController::class, 'byUser']);
-    Route::get('/mohon-approval/list-managers', [MohonApprovalController::class, 'listManager']);
+    
+    //Route::post('/mohon-approval/by-user/{mohonRequestId}', [MohonApprovalController::class, 'byUser']);
+    
+    //Route::get('/mohon-approval/list-managers', [MohonApprovalController::class, 'listManager']);
     Route::put('/mohon-approval/by-manager/{mohonRequestId}', [MohonApprovalController::class, 'byManager']);
     Route::put('/mohon-approval/by-admin/{mohonRequestId}', [MohonApprovalController::class, 'byAdmin']);
     Route::put('/mohon-approval/by-boss/{mohonRequestId}', [MohonApprovalController::class, 'byBoss']);
@@ -131,9 +117,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // mohon-distribution
     // from MohonApproval role= boss
-    Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
-    Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
-    Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
+    // Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
+    // Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
+    // Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
 
     
     // mohon distribution approval from boss to approve request agihan from admin
@@ -163,20 +149,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Route::get('/mohon-distribution-item-acceptances/{mohonDistributioItemId}/show', [MohonDistributionItemAcceptanceController::class, 'show']);
 
     // application
-    Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
-    Route::get('/applications', [ApplicationController::class, 'index']);
-    Route::get('/applications/{application}', [ApplicationController::class, 'show']);
-    Route::post('/applications', [ApplicationController::class, 'store']);
-    Route::put('/applications/{application}', [ApplicationController::class, 'update']);
-    Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
+    // Route::get('/applications/items', [CategoryController::class, 'applicationItems']);
+    // Route::get('/applications', [ApplicationController::class, 'index']);
+    // Route::get('/applications/{application}', [ApplicationController::class, 'show']);
+    // Route::post('/applications', [ApplicationController::class, 'store']);
+    // Route::put('/applications/{application}', [ApplicationController::class, 'update']);
+    // Route::delete('/applications/{application}', [ApplicationController::class, 'delete']);
 
     // approval 
-    Route::post('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
-    Route::post('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
-    Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
+    // Route::post('/applications/approval/{application}/{status}/by-manager', [ApplicationController::class, 'approvalByManager']);
+    // Route::post('/applications/approval/{application}/{status}/by-admin', [ApplicationController::class, 'approvalByAdmin']);
+    // Route::get('/applications/approval/{application}/{status}/by-boss', [Controller::class, 'approvalByBoss']);
 
-    // distribution-acceptances
-    Route::apiResource('distribution-acceptances', DistributionAcceptanceController::class);
+    // // distribution-acceptances
+    // Route::apiResource('distribution-acceptances', DistributionAcceptanceController::class);
 });
 
 // Role system|admin 
