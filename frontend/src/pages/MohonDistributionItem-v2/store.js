@@ -8,7 +8,7 @@ const useMohonItemStore  = create((set) => ({
     submitUrl: `${base_url}/mohon-distribution-items`,
 
     mohonUrl: `${base_url}/mohon`,
-    mohonDistributionUrl: `${base_url}/mohon-distribution`,
+    mohonDistributionUrl: `${base_url}/admin/mohon-distribution`,
     mohonDistributionItemUrl: `${base_url}/mohon-distribution-items`,
     mohonDistributionItemDeliveryUrl: `${base_url}/mohon-distribution-item-deliveries`,
     bossApprovalUrl: `${base_url}/mohon-distribution-requests/by-admin`, // admin requesting to Boss

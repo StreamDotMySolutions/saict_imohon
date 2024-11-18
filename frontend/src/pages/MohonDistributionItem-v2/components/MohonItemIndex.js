@@ -9,6 +9,7 @@ import CreateModal from '../modals/CreateModal'
 import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal'
 
 const MohonItemIndex = ({mohonRequestId, step}) => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonItemStore()
     const [items, setItems] = useState([])
 
@@ -20,6 +21,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 {
                     method: 'get', // method is GET
                     url: `${store.url}/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-items/123
+                   
                 } 
             )
             .then( response => { // response block

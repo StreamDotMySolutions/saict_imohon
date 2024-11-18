@@ -21,10 +21,16 @@ Route::delete('/mohon-distribution-requests/{id}', [MohonDistributionRequestCont
 
 
 // MohonDistributionItem belongsTo MohonDistributionRequest
-Route::get('/mohon-distribution-items/show/{id}', [MohonDistributionItemController::class, 'show']);
 Route::get('/mohon-distribution-items/vendors', [MohonDistributionItemController::class, 'vendors']);
-Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
-Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
+Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
+Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
+Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'delete']);
+
+// add item 
+Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
+
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/create', [MohonDistributionItemController::class, 'create']);
-Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
+Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
+Route::get('/mohon-distribution-items/{mohonDistributionRequestId}/items', [MohonDistributionItemController::class, 'items']);
+Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);

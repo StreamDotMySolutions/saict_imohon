@@ -8,7 +8,6 @@ import { Alert, Badge, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MohonDistributionItem = () => {
-  const apiUrl = process.env.REACT_APP_BACKEND_URL
   const { mohonDistributionRequestId } = useParams()
   const navigate = useNavigate()
   const store = useMohonItemStore()
@@ -19,8 +18,7 @@ const MohonDistributionItem = () => {
 
   axios({
     'method' : 'get',
-    //'url' : `${store.mohonDistributionUrl}/${mohonDistributionRequestId}`
-    'url' : `${apiUrl}/admin/mohon-distribution/${mohonDistributionRequestId}`
+    'url' : `${store.mohonDistributionUrl}/${mohonDistributionRequestId}`
     })
     .then( response => {
         //console.log('get mohon_approval')

@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // mohon distribution item
-    Route::get('/mohon-distribution-items/vendors', [MohonDistributionItemController::class, 'vendors']);
+    //Route::get('/mohon-distribution-items/vendors', [MohonDistributionItemController::class, 'vendors']);
     Route::get('/mohon-distribution-items/categories', [MohonDistributionItemController::class, 'categories']);
     Route::get('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'index']);
     Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
@@ -152,11 +152,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'update']);
     Route::delete('/mohon-distribution-items/{id}', [MohonDistributionItemController::class, 'delete']);
     
-    Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/create', [MohonDistributionItemController::class, 'create']);
-    Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
-    Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
+    //Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/create', [MohonDistributionItemController::class, 'create']);
+    //Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
+    //Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
     Route::get('/mohon-distribution-items/{mohonDistributionRequestId}/items', [MohonDistributionItemController::class, 'items']);
-    Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
+    //Route::get('/mohon-distribution-items/{mohonRequestId}/{agihanRequestId}/check', [MohonDistributionItemController::class, 'listMohonItemsInMohonDistributionItems']);
     
     Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}/updateOrCreate', [MohonDistributionItemDeliveryController::class, 'updateOrCreate']);
     

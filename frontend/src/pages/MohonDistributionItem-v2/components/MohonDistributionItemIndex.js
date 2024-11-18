@@ -10,6 +10,7 @@ import JustificationModal from '../modals/JustificationModal';
 
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
+  const apiUrl = process.env.REACT_APP_BACKEND_URL
   const store = useMohonItemStore();
 
   const [mohon, setMohon] = useState(null);
@@ -24,7 +25,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   // list mohonDistributionRequest under $agihanRequestId
   useEffect(() => {
-    axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
+    //axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
+    axios(`${apiUrl}/admin/mohon-distribution/${agihanRequestId}`)
       .then((response) => {
         //console.log(response);
         setMohon(response.data.mohon);
@@ -43,8 +45,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
   useEffect(() => {
     if (mohon) {
       //console.log('check');
-      axios(`${store.submitUrl}/${mohon.mohon_request_id}/${agihanRequestId}/check`)
-        .then((response) => {
+      //axios(`${store.submitUrl}/${mohon.mohon_request_id}/${agihanRequestId}/check`)
+      axios(`${apiUrl}/admin/mohon-distribution-items/${mohon.mohon_request_id}/${agihanRequestId}/check`)
+      .then((response) => {
           //console.log(response);
           setAssignedItems(response.data.items)
         })
@@ -54,9 +57,10 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     }
   }, [mohon]);
   
-  // get vendors
+  // get vendors from Inventory
   useEffect(() => {
-    axios(`${store.submitUrl}/vendors`)
+    //axios(`${store.submitUrl}/vendors`)
+    axios(`${apiUrl}/admin/mohon-distribution-items/vendors`)
       .then((response) => {
         //console.log(response);
         setVendors(response.data.items);
@@ -72,7 +76,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       //console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
       axios({
         'method' : 'get',
-        'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
+        //'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
+        'url' : `${apiUrl}/admin/mohon-distribution/${agihanRequestId}`
     })
     .then( response => {
       //console.log(response)
@@ -119,7 +124,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         type: typeSelections[itemId] || '',
       };
 
-      axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
+      //axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
+      axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/create`, payload)
         .then(response => {
           //console.log('Save successful:', response);
         })
@@ -128,8 +134,9 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
         });
     } else {
       const payload = { itemId, mohon_item_id: itemId, mohon_distribution_id };
-      axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
-        .then(response => {
+      //axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
+      axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/remove`, payload)
+      .then(response => {
           //console.log('Delete successful:', response);
 
           // Reset vendor and type selections
@@ -161,7 +168,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       vendor,
     };
 
-    axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+    //axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+    axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/sync`, payload)
       .then(response => {
         //console.log('Vendor update successful:', response);
       })
@@ -189,7 +197,8 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       type,
     };
 
-    axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+    //axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
+    axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/sync`, payload)
       .then(response => {
         //console.log('Type update successful:', response);
       })
