@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->nestedSet();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
     }
 

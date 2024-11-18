@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserDepartment;
+use App\Models\Category;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -17,6 +18,22 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+        // Create ITEMS for Category
+        $categoryParent = Category::create([
+            'name' => 'ITEMS',
+        ]);
+
+        $categoryChild1 = Category::create([
+            'name' => 'PC',
+        ]);
+        $categoryChild2 = Category::create([
+            'name' => 'PRINTER',
+        ]);
+
+        $categoryNode = Category::find($categoryParent->id); // find the node
+        $categoryNode->appendNode($categoryChild1); // assign created department to t
+        $categoryNode->appendNode($categoryChild2); // assign created department to t
+
         // Roles
         Role::create(['name' => 'system']);
         Role::create(['name' => 'admin']);
