@@ -94,7 +94,8 @@ export default function ViewModal({id}) {
       
       axios({ 
           method: 'post',
-          url : `${store.adminApprovalUrl}/${id}`, // role = admin approve mohon to step = 3 && status = approved || rejected
+          //url : `${store.adminApprovalUrl}/${id}`, // role = admin approve mohon to step = 3 && status = approved || rejected
+          url : `${apiUrl}/admin/mohon-approvals/${id}`, 
           data: formData
         })
         .then( response => {

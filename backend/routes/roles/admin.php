@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
     MohonRequestController,
+    MohonApprovalController,
     ManageMohonDistributionController,
     MohonDistributionRequestController,
     MohonDistributionItemController,
@@ -17,10 +18,11 @@ use App\Http\Controllers\Admin\{
     InventoryController,
     CategoryController
 };
+// MohonApproval
+Route::put('/mohon-approvals/{mohonRequestId}', [MohonApprovalController::class, 'update']);
 
 // MohonDistributionRequestApproval
 Route::post('/mohon-distribution-approvals/{mohonDistributionRequestId}', [MohonDistributionApprovalController::class, 'store']);
-
 
 // MohonDistributionRequest
 Route::get('/mohon-distribution-requests/{mohonRequestId}/index', [MohonDistributionRequestController::class, 'index']); 
@@ -29,7 +31,7 @@ Route::get('/mohon-distribution-requests/{id}', [MohonDistributionRequestControl
 Route::put('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'update']);
 Route::delete('/mohon-distribution-requests/{id}', [MohonDistributionRequestController::class, 'delete']);
 
-// MohonDistributionItem belongsTo MohonDistributionRequest
+// MohonDistributionItem
 Route::get('/mohon-distribution-items/vendors', [MohonDistributionItemController::class, 'vendors']);
 Route::get('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'show']);
 Route::put('/mohon-distribution/{id}', [MohonDistributionRequestController::class, 'update']);
@@ -37,7 +39,6 @@ Route::delete('/mohon-distribution/{id}', [MohonDistributionRequestController::c
 
 // add item 
 Route::post('/mohon-distribution-items/{mohonRequestId}', [MohonDistributionItemController::class, 'store']);
-
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/create', [MohonDistributionItemController::class, 'create']);
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/sync', [MohonDistributionItemController::class, 'sync']);
 Route::post('/mohon-distribution-items/{mohonDistributionRequestId}/remove', [MohonDistributionItemController::class, 'remove']);
@@ -49,6 +50,8 @@ Route::get('/mohon-distribution-items/{mohonDistributionItemId}/show', [MohonDis
 
 // Delivery Detail
 Route::post('/mohon-distribution-item-deliveries/{mohonDistributioItemId}', [MohonDistributionItemDeliveryController::class, 'store']);
+
+
 
 // User Management
 Route::get('/users', [UserController::class, 'index']);
