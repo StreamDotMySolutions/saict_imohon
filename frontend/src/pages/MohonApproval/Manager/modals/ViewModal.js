@@ -30,7 +30,7 @@ export default function ViewModal({id}) {
       //console.log( `${store.submitUrl}/${id}`)
       axios({
             'method' : 'get',
-            'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
+            'url' : `${apiUrl}/global/mohon-requests/${mohonRequestId}`
       })
       .then( response => {
           //console.log(response)

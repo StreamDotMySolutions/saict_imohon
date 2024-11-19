@@ -22,7 +22,7 @@ const MohonDistributionRequest = () => {
     // console.log( `${store.mohonUrl}/${mohonRequestId}`)
     axios({
         'method' : 'get',
-        'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
+        'url' : `${apiUrl}/global/mohon-requests/${mohonRequestId}`
         })
         .then( response => {
             //console.log('get mohon_approval')

@@ -15,7 +15,7 @@ const Index = () => {
     axios({
         'method' : 'get',
         //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
-        'url' : `${apiUrl}/mohon-requests/${mohonRequestId}`
+        'url' : `${apiUrl}/global/mohon-requests/${mohonRequestId}`
         })
         .then( response => {
             //console.log(response.data.mohon.mohon_distribution_requests)

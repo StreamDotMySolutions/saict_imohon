@@ -19,7 +19,7 @@ export default function MohonData({id}) {
       store.setValue('items', []) // set formValue
         axios({
             'method' : 'get',
-            'url' : `${apiUrl}/mohon-requests/${id}`
+            'url' : `${apiUrl}/global/mohon-requests/${id}`
         })
         .then( response => {
           //console.log(response)
