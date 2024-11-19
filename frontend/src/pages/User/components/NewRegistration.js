@@ -11,12 +11,14 @@ import DisplayMessage from '../../../components/DisplayMessage';
 
 function NewRegistration({role}) {
 
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const store = useUserStore()
   const [data, setData] = useState([])
   //console.log(store.index_url)
   useEffect( () => {
       axios({
-          url: `${store.index_url}&is_approved=0`,  // user store API
+          //url: `${store.index_url}&is_approved=0`,  // user store API
+          url: `${apiUrl}/admin/users/?page=1&is_approved=0`, 
           method: 'get', // method is POST
       })
       .then( response => {
@@ -51,6 +53,7 @@ function NewRegistration({role}) {
 export default NewRegistration;
 
 function RenderTable({items}) {
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   //console.log(items)
   const store = useUserStore()
   const [message, setMessage] = useState(false)
@@ -68,7 +71,8 @@ function RenderTable({items}) {
     formData.append('id', id);
 
     axios({
-      url: `${store.approve_url}/${id}/approve`,
+      //url: `${store.approve_url}/${id}/approve`,
+      url: `${apiUrl}/admin/users/${id}/approve`, 
       method: 'post',
       data: formData
     })

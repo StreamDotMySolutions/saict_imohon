@@ -6,12 +6,13 @@ import { Button, Col,Row,Form, Toast} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const UserDepartment = () => {
-    const category = useUserDepartmentStore()
+    const apiUrl =  process.env.REACT_APP_BACKEND_URL
+    const store = useUserDepartmentStore()
     const [data, setData] = useState([])
 
     useEffect( () => {
         axios({
-            url: category.index_url,  // user store API
+            url: `${apiUrl}/system/user-departments/?page=1`,  // user store API
             method: 'get', // method is POST
         })
         .then( response => {
@@ -19,22 +20,23 @@ const UserDepartment = () => {
             setData(response.data.user_departments)
             useUserDepartmentStore.setState({refresh: false})
         })
-    },[category.refresh])
+    },[store.refresh])
   
 
     function handleSubmit(){
         const formData = new FormData();
 
-        if (category?.name?.value) {
-          formData.append('name', category.name.value);
+        if (store?.name?.value) {
+          formData.append('name', store.name.value);
         }
 
-        if (category?.parent_id?.value) {
-            formData.append('parent_id', category.parent_id.value);
+        if (store?.parent_id?.value) {
+            formData.append('parent_id', store.parent_id.value);
         }
         
         axios({
-          url: category.store_url,
+          //url: category.store_url,
+          url: `${apiUrl}/system/user-departments`,
           method: 'post',
           data: formData,
         })
@@ -123,7 +125,7 @@ function CategoryDropdown({ data, depth = 0 }) {
 }
 
 function CategoryItem({ category }) {
-
+  const apiUrl=  process.env.REACT_APP_BACKEND_URL
   const [isEditing, setIsEditing] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState(category.name);
@@ -146,6 +148,7 @@ function CategoryItem({ category }) {
   };
 
   const handleDeleteClick = (id) => {
+    
 
     const store = useUserDepartmentStore.getState()
     const formData = new FormData();
@@ -154,7 +157,8 @@ function CategoryItem({ category }) {
     formData.append('_method', 'delete');
     
     axios({
-      url: `${store.delete_url}/${id}`,
+      //url: `${store.delete_url}/${id}`,
+      url: `${apiUrl}/system/user-departments/${id}`,
       method: 'post',
       data: formData,
     })
@@ -180,7 +184,8 @@ function CategoryItem({ category }) {
     formData.append('name', newCategoryName);
     
     axios({
-      url: `${store.update_url}/${id}`,
+      //url: `${store.update_url}/${id}`,
+      url: `${apiUrl}/system/user-departments/${id}`,
       method: 'post',
       data: formData,
     })
@@ -205,7 +210,8 @@ function CategoryItem({ category }) {
     formData.append('_method', 'patch');
     
     axios({
-      url: `${store.ordering_url}/${id}/${direction}`,
+      //url: `${store.ordering_url}/${id}/${direction}`,
+      url: `${apiUrl}/system/user-departments/ordering/${id}/${direction}`,
       method: 'post',
       data: formData,
     })

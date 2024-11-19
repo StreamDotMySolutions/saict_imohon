@@ -6,12 +6,14 @@ import { Button, Col,Row,Form, Toast} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CategoryIndex = () => {
+    const apiUrl =  process.env.REACT_APP_BACKEND_URL
+
     const category = useCategoryStore()
     const [data, setData] = useState([])
 
     useEffect( () => {
         axios({
-            url: category.index_url,  // user store API
+            url: `${apiUrl}/system/categories/?page=1`,  // user store API
             method: 'get', // method is POST
         })
         .then( response => {
@@ -33,7 +35,7 @@ const CategoryIndex = () => {
         }
         
         axios({
-          url: category.store_url,
+          url: `${apiUrl}/system/categories`,
           method: 'post',
           data: formData,
         })
@@ -120,7 +122,7 @@ function CategoryDropdown({ data, depth = 0 }) {
 }
 
 function CategoryItem({ category }) {
-
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const [isEditing, setIsEditing] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState(category.name);
@@ -151,7 +153,8 @@ function CategoryItem({ category }) {
     formData.append('_method', 'delete');
     
     axios({
-      url: `${store.delete_url}/${id}`,
+      //url: `${store.delete_url}/${id}`,
+      url: `${apiUrl}/system/categories/${id}`,
       method: 'post',
       data: formData,
     })
@@ -177,7 +180,8 @@ function CategoryItem({ category }) {
     formData.append('name', newCategoryName);
     
     axios({
-      url: `${store.update_url}/${id}`,
+      //url: `${store.update_url}/${id}`,
+      url: `${apiUrl}/system/categories/${id}`,
       method: 'post',
       data: formData,
     })
@@ -202,7 +206,8 @@ function CategoryItem({ category }) {
     formData.append('_method', 'patch');
     
     axios({
-      url: `${store.ordering_url}/${id}/${direction}`,
+      //url: `${store.ordering_url}/${id}/${direction}`,
+      url: `${apiUrl}/system/categories/ordering/${id}/${direction}`,
       method: 'post',
       data: formData,
     })

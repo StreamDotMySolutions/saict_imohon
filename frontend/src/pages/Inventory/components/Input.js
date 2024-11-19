@@ -146,8 +146,8 @@ export function DateEnd() {
                 <FontAwesomeIcon icon="fa-solid fa-calendar" />
             </InputGroup.Text>
             <FloatingLabel
-                label={errors.date_start ? errors.date_start : 'Tarikh tamat kontrak'}
-                className={`col ${errors.date_start ? 'text-danger' : ''}`}
+                label={errors.date_end ? errors.date_end : 'Tarikh tamat kontrak'}
+                className={`col ${errors.date_end ? 'text-danger' : ''}`}
             >
                 <Form.Control
                     placeholder='Tarikh tamat'

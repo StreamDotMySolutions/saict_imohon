@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Row,Col,Button, Form } from 'react-bootstrap'
 
 const UserDepartment = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
+
     const category = useDepartmentStore()
     const user = useAccountStore()
 
@@ -66,7 +68,7 @@ const UserDepartment = () => {
 
     useEffect( () => {
         axios({
-            url: category.index_url,  // user store API
+            url: `${apiUrl}/global/user-departments`,  // user store API
             method: 'get', // method is POST
         })
         .then( response => {

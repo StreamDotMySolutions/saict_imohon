@@ -5,6 +5,7 @@ import axios from '../../../../libs/axios'
 import DisplayMessage from '../../../../components/DisplayMessage'
 
 function DeleteUserModal({id}) {
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const store = useUserStore()
   const [show, setShow] = useState(false)
   const [message, setMessage] = useState(false)
@@ -20,7 +21,8 @@ function DeleteUserModal({id}) {
     const formData = new FormData()
     formData.append('_method', 'delete')
     axios({
-      url: `${store.delete_url}/${id}`,
+      //url: `${store.delete_url}/${id}`,
+      url: `${apiUrl}/admin/users/${id}`, 
       method: 'post',
       data: formData
     })

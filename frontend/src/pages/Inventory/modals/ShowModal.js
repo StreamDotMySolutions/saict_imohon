@@ -5,6 +5,7 @@ import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
 
 export default function ShowModal({id}) {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useInventoryStore()
     const errors = store.errors
 
@@ -25,7 +26,7 @@ export default function ShowModal({id}) {
       console.log(id)
       setIsLoading(true)
 
-      axios(`${store.show_url}/${id}`)
+      axios(`${apiUrl}/admin/inventories/${id}`)
       .then( response => {
 
         //console.log(response)

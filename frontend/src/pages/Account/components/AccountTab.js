@@ -5,6 +5,8 @@ import {useState} from 'react'
 import { Row } from 'react-bootstrap'
 
 const AccountTab = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
+
     const store = useAccountStore()
     const [togglePassword, setTogglePassword] = useState(false)
     
@@ -14,7 +16,7 @@ const AccountTab = () => {
         <Row className='col-6 p-3'>
             <InlineEditing 
                 type='text'
-                url={store.update_url}
+                url={`${apiUrl}/global/account`}
                 label='Alamat emel'
                 placeholder='Sila letakkan alamat emel'
                 fieldName='email' 
@@ -31,14 +33,13 @@ const AccountTab = () => {
 
             <Collapse in={togglePassword}>
                 <div>
-                <InlineEditing 
-                    
-                    url={store.update_url}
-                    label='Password'
-                    placeholder='Sila tetapkan kata laluan baharu'
-                    fieldName='password' 
-    
+                <InlineEditing
+                    url={`${apiUrl}/global/account`}
+                    label="Password"
+                    placeholder="Sila tetapkan kata laluan baharu"
+                    fieldName="password"
                 />
+
                 </div>
             </Collapse>
 

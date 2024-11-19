@@ -11,12 +11,14 @@ import DisplayMessage from '../../../components/DisplayMessage';
 
 function UserTable({role}) {
 
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const store = useUserStore()
   const [data, setData] = useState([])
   //console.log(store.index_url)
   useEffect( () => {
       axios({
-          url: `${store.index_url}&role=${role}`,  // user store API
+          //url: `${store.index_url}&role=${role}`,  // user store API
+          url: `${apiUrl}/admin/users/?page=1&role=${role}`, 
           method: 'get', // method is POST
       })
       .then( response => {
@@ -52,6 +54,7 @@ export default UserTable;
 function RenderTable({items}) {
   //console.log(items)
   const store = useUserStore()
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const [message, setMessage] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
   const [selectedId,setSelectedId] = useState(null)
@@ -66,7 +69,8 @@ function RenderTable({items}) {
     formData.append('id', id);
 
     axios({
-      url: `${store.approve_url}/${id}/disable`,
+      //url: `${store.approve_url}/${id}/disable`,
+      url: `${apiUrl}/admin/users/${id}/disable`, 
       method: 'post',
       data: formData
     })
@@ -91,7 +95,7 @@ function RenderTable({items}) {
                 <th className="px-5 col-2">Nama</th>
                 <th className="px-5">Email</th>
                 <th className="px-5 border border-end-0">Jabatan</th>
-                <th className='col-3 text-center'>Tindakan</th>
+                <th className='col-4 text-center'>Tindakan</th>
             </tr>
         </thead>
       <tbody>

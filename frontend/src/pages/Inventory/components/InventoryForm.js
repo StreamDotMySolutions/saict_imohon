@@ -5,7 +5,7 @@ import { useEffect,useState } from 'react'
 
 const InventoryForm = () => {
 
-    const url = process.env.REACT_APP_BACKEND_URL
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const [categories, setCategories] = useState([])
 
     // get items
@@ -14,7 +14,7 @@ const InventoryForm = () => {
         //console.log(url)
         axios({
             'method' : 'get',
-            'url' : `${url}/mohon-items/categories`
+            'url' : `${apiUrl}/admin/categories`
             })
             .then( response => {
             //console.log(response.data.categories)

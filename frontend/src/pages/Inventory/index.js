@@ -1,18 +1,22 @@
 import {useEffect, useState } from 'react'
 import axios from '../../libs/axios'
 import { Row,Col, Table, Badge,Pagination } from 'react-bootstrap'
-import ShowModal from './modals/ShowModal'
+
 import useInventoryStore from './stores/InventoryStore'
+
+import ShowModal from './modals/ShowModal'
 import CreateModal from './modals/CreateModal'
 import EditModal from './modals/EditModal'
 import DeleteModal from './modals/DeleteModal'
 
 const Inventories = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useInventoryStore()
     const [data, setData] = useState([])
 
     useEffect( () => {
-        axios({url: store.url})
+        //axios({url: store.url})
+        axios({url: `${apiUrl}/admin/inventories`})
         .then( response => {
 
           //console.log(response.data)

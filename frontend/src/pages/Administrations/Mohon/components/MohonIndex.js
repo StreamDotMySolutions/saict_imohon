@@ -10,6 +10,7 @@ import ReportingModal from '../../../Reporting/ReportingModal'
 
 
 const MohonIndex = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
 
@@ -19,7 +20,7 @@ const MohonIndex = () => {
             axios( 
                 {
                     method: 'get', // method is GET
-                    url: store.url // eg GET http://localhost:8000/api/mohon/index
+                    url: `${apiUrl}/admin/mohon-requests` // eg GET http://localhost:8000/api/mohon/index
                 } 
             )
             .then( response => { // response block

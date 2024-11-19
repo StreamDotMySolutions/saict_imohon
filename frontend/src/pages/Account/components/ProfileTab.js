@@ -4,6 +4,7 @@ import { Form,Collapse, Row, Col, FormControl } from 'react-bootstrap'
 import {useState} from 'react'
 
 const ProfileTab = () => {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useAccountStore()
     const [togglePassword, setTogglePassword] = useState(false)
     
@@ -34,7 +35,7 @@ const ProfileTab = () => {
 
 
                 <InlineEditing 
-                    url={store.update_url}
+                    url={`${apiUrl}/global/account`}
                     label='Jawatan'
                     placeholder='Sila letakkan jawatan anda'
                     fieldName='occupation' 
@@ -42,7 +43,7 @@ const ProfileTab = () => {
                 />
 
                 {/* <InlineEditing 
-                    url={store.update_url}
+                      url={`${apiUrl}/global/account`}
                     label='No kad pengenalan'
                     placeholder='Sila letakkan no kad pengenalan anda'
                     fieldName='nric' 
@@ -62,7 +63,7 @@ const ProfileTab = () => {
                 </Col>
 
                 <InlineEditing 
-                    url={store.update_url}
+                    url={`${apiUrl}/global/account`}
                     label='No telefon'
                     placeholder='Sila letakkan no telefon anda'
                     fieldName='phone' 
@@ -74,7 +75,7 @@ const ProfileTab = () => {
 
 
                 <InlineEditing 
-                    url={store.update_url}
+                    url={`${apiUrl}/global/account`}
                     label='Tingkat'
                     placeholder='Tingkat bangunan'
                     fieldName='level' 
@@ -82,7 +83,7 @@ const ProfileTab = () => {
                 />
 
                 <InlineEditing 
-                    url={store.update_url}
+                    url={`${apiUrl}/global/account`}
                     label='Nama Bangunan'
                     placeholder='Nama bangunan'
                     fieldName='building' 
@@ -90,7 +91,7 @@ const ProfileTab = () => {
                 />
 
                 <InlineEditing 
-                    url={store.update_url}
+                    url={`${apiUrl}/global/account`}
                     as='textarea'
                     rows='5'
                     label='Alamat '

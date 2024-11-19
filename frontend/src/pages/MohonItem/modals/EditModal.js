@@ -42,7 +42,8 @@ export default function EditModal({id, step}) {
       // get departments
       axios({
         'method' : 'get',
-        'url' : `${store.departmentUrl}`
+        //'url' : `${store.departmentUrl}`
+        'url' : `${apiUrl}/global/user-departments`
       })
       .then( response => {
         //console.log(response.data)

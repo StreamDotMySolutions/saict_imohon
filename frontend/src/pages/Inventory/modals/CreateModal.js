@@ -5,6 +5,7 @@ import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
 
 export default function CreateModal() {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useInventoryStore()
     const errors = store.errors
     const [show, setShow] = useState(false);
@@ -88,7 +89,8 @@ export default function CreateModal() {
       }
 
       axios({
-        'url' : store.store_url,
+        //'url' : store.store_url,
+        'url' : `${apiUrl}/admin/inventories`,
         'method' : 'post',
         'data' : formData
       })

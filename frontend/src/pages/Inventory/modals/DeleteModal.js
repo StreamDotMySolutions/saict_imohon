@@ -5,6 +5,7 @@ import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
 
 export default function DeleteModal({id}) {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useInventoryStore()
     const errors = store.errors
 
@@ -26,7 +27,8 @@ export default function DeleteModal({id}) {
       console.log(id)
       setIsLoading(true)
 
-      axios(`${store.show_url}/${id}`)
+      //axios(`${store.show_url}/${id}`)
+      axios(`${apiUrl}/admin/inventories/${id}`)
       .then( response => {
 
         //console.log(response)
@@ -55,7 +57,8 @@ export default function DeleteModal({id}) {
       }
 
       axios({
-        url: `${store.delete_url}/${id}`,
+        //url: `${store.delete_url}/${id}`,
+        url : `${apiUrl}/admin/inventories/${id}`,
         data: formData,
         method: 'post'
       }).then( response => {

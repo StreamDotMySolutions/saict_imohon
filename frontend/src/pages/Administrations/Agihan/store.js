@@ -4,8 +4,8 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/administrations/mohon-distribution-requests`,
-    submitUrl: `${base_url}/administrations/mohon-distribution-requests`,
+    url: `${base_url}/admin/manage/mohon-distribution-requests`,
+    submitUrl: `${base_url}/admin/manage/mohon-distribution-requests`,
 
     refresh: false,
     errors: null,

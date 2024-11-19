@@ -19,7 +19,7 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
 
     // get mohonRequest data from API
     useEffect( () => {
-      axios(`${apiUrl}/mohon-requests/${mohonRequestId}`)
+      axios(`${apiUrl}/global/mohon-requests/${mohonRequestId}`)
       .then( response => {
           //console.log(response)
           let mohon = response.data.mohon

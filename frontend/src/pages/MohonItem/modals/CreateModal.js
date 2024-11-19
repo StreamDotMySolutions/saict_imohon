@@ -43,7 +43,8 @@ export default function CreateModal() {
       // get departments
       axios({
         'method' : 'get',
-        'url' : `${store.departmentUrl}`
+        //'url' : `${store.departmentUrl}`
+        'url' : `${apiUrl}/global/user-departments`
       })
       .then( response => {
         //console.log(response.data)

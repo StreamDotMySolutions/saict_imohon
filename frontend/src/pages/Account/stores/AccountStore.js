@@ -4,9 +4,9 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const account = {
    
-    store_url :  `${base_url}/account`,
-    show_url :  `${base_url}/account`,
-    update_url :  `${base_url}/account`,
+    store_url :  `${base_url}/global/account`,
+    show_url :  `${base_url}/global/account`,
+    update_url :  `${base_url}/global.account`,
     refresh: false,
     email : null,
 }

@@ -7,7 +7,7 @@ import { setFormError , resetStore } from '../libs/include'
 import DisplayMessage from '../../../../components/DisplayMessage'
 
 function EditUserModal({id}) {
-
+  const apiUrl =  process.env.REACT_APP_BACKEND_URL
   const user = useUserStore()
   const [show, setShow] = useState(false)
   const [error, setError] = useState(false)
@@ -37,7 +37,8 @@ function EditUserModal({id}) {
     setIsloading(true)
     const store = useUserStore.getState()
     axios({
-      url: `${store.show_url}/${id}`,
+      //url: `${store.show_url}/${id}`,
+      url: `${apiUrl}/admin/users/${id}`,
     })
     .then( response =>{
       //console.log(response)
@@ -123,7 +124,8 @@ function EditUserModal({id}) {
       });
 
       axios({
-          url: `${user.update_url}/${id}`,  // user update API
+          //url: `${user.update_url}/${id}`,  // user update API
+          url: `${apiUrl}/admin/users/${id}`,
           method: 'post', // method is POST
           data: formData, // payload is formData
       })

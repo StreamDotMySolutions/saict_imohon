@@ -5,7 +5,7 @@ import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
 
 export default function DeleteModal({id}) {
-
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.errors
 
@@ -24,7 +24,8 @@ export default function DeleteModal({id}) {
         //console.log( `${store.submitUrl}/${id}`)
         axios({
             'method' : 'get',
-            'url' : `${store.submitUrl}/${id}`
+            //'url' : `${store.submitUrl}/${id}`
+            'url' : `${apiUrl}/admin/mohon-requests/${id}`
         })
         .then( response => {
           //console.log(response.data)
@@ -54,7 +55,8 @@ export default function DeleteModal({id}) {
 
       axios({ 
           method: 'post',
-          url : `${store.submitUrl}/${id}`,
+          //url : `${store.submitUrl}/${id}`,
+          url : `${apiUrl}/admin/mohon-requests/${id}`,
           data: formData
         })
         .then( response => {

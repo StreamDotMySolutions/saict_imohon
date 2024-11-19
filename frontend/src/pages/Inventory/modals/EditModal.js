@@ -5,6 +5,7 @@ import useInventoryStore from '../stores/InventoryStore'
 import InventoryForm from '../components/InventoryForm';
 
 export default function EditModal({id}) {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useInventoryStore()
     const errors = store.errors
 
@@ -50,7 +51,8 @@ export default function EditModal({id}) {
       setShow(true);
       setIsLoading(true)
 
-      axios(`${store.show_url}/${id}`)
+      //axios(`${store.show_url}/${id}`)
+      axios(`${apiUrl}/admin/inventories/${id}`)
       .then( response => {
         setInventoryValues(response.data);
         setIsLoading(false)
@@ -127,7 +129,8 @@ export default function EditModal({id}) {
       formData.append('_method', 'put');
 
       axios({
-        'url' : `${store.edit_url}/${id}`,
+        //'url' : `${store.edit_url}/${id}`,
+        'url' : `${apiUrl}/admin/inventories/${id}`,
         'method' : 'post',
         'data' : formData
       })

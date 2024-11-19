@@ -132,13 +132,11 @@ export default function App() {
                 <Route path="/mohon-distribution-items/:mohonDistributionRequestId" element={<MohonDistributionItem/>} />
 
                 <Route path="/agihan/:mohonRequestId" element={<Agihan/>} />
-
                 <Route path="/agihan-2" element={<Agihan2/>} />
                 <Route path="/agihan-2/:mohonRequestId" element={<ShowAgihan/>} />
-
-
+                
                 <Route path="/inventories" element={<Inventory />} />
-                {/* <Route path="/manage/mohon-distribution-requests" element={<ManageMohonDistributionRequest />} /> */}
+               
    
               </Route>
             </Route>
