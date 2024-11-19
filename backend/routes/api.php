@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     Auth\AuthController,
+    System\UserDepartmentController,
     Global\AccountController,
     Global\MohonRequestController,
 };
