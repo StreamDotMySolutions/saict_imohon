@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     Auth\AuthController,
-    System\UserDepartmentController,
-    Global\AccountController,
     Global\MohonRequestController,
 };
 Auth::routes();
@@ -33,13 +31,11 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
     Route::post('/password/email', [AuthController::class, 'email']);
     Route::post('/password/reset', [AuthController::class, 'resetPassword']);
-    Route::get('/user-departments', [UserDepartmentController::class, 'index']);
+
 });
 
 // Role user
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
-    Route::put('/account', [AccountController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
     Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
 });
