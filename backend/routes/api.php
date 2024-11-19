@@ -37,7 +37,7 @@ Route::group(['middleware' => ['guest']], function () {
 // Role user
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
-    Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
+    //Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
 });
 
 
