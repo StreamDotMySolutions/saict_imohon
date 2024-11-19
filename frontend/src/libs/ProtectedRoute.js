@@ -16,7 +16,7 @@ const ProtectedRoute = () => {
     
         axios({
             method: 'get',
-            url: `${url}/user`, // localhist:8080/api/user ( sanctum protected )
+            url: `${url}/logged-user`, // localhist:8080/api/user ( sanctum protected )
         })
         .then(response => {
             console.log(response.data);

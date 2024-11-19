@@ -27,6 +27,21 @@ use App\Http\Requests\Auth\RegisterRequest;
 class AuthController extends Controller
 {
 
+
+    public function loggedUser(Request $request)
+    {
+        $user = $request->user(); // Get the authenticated user
+        // Retrieve the user's role using Spatie
+        $role = $user->roles->pluck('name')->first();
+        $user['role'] = $role;
+    
+        return response()->json([
+            'message' => 'Logged user info',
+            'user' => $user,
+            'role' => $role,
+        ]);
+    }
+
     public function register(RegisterRequest $request)
     {
         //\Log::info($request);
