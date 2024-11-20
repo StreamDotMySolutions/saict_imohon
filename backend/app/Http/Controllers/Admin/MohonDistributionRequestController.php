@@ -35,8 +35,6 @@ class MohonDistributionRequestController extends Controller
     }
 
 
-
-
     public function show($id)
     {
         // get users with role = boss
