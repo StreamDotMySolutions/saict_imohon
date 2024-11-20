@@ -56,7 +56,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 
         return Redirect::to($frontendUrl . '/verify-failed');
     } 
-})->name('verification.verify');
+});
 
 /*
 * Registered user want to verify email
@@ -79,7 +79,7 @@ Route::get('/api/email/verify/{id}/{hash}', function (Request $request, $id, $ha
 
         return Redirect::to($frontendUrl . '/verify-failed');
     } 
-})->name('verification.verify');
+});
 
 // Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
 //     $test = $request->fulfill();
@@ -93,4 +93,4 @@ Route::get('/login', function () {
         // redirect to reactjs login
         echo 'login';
     }
-)->name('login');
+);

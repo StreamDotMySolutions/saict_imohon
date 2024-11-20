@@ -9,11 +9,14 @@ use App\Http\Controllers\{
 Auth::routes();
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/login-by-nric', [AuthController::class, 'loginByNric']);
     Route::post('/password/email', [AuthController::class, 'email']);
     Route::post('/password/reset', [AuthController::class, 'resetPassword']);
+    Route::get('/global/hello', function () {
+        return 'world';
+    });
 });
 
 // Role user
