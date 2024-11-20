@@ -28,7 +28,7 @@ const MohonIndex = ({status}) => {
             )
             .then( response => { // response block
                 //console.log(store.url)
-                //console.log(response.data)   // output to console  
+                console.log(response.data)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -90,7 +90,7 @@ const MohonIndex = ({status}) => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.numbering}</span></td>
+                            <td> <span className="badge bg-primary">{mohon?.numbering}</span></td>
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                             <td>{mohon.user?.user_profile?.user_department?.name}</td>
