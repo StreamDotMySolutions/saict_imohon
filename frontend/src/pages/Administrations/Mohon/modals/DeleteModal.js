@@ -17,29 +17,7 @@ export default function DeleteModal({id}) {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
-      setIsLoading(true)
-      store.emptyData() // empty store data
-      //console.log(id)
-
-        //console.log( `${store.submitUrl}/${id}`)
-        axios({
-            'method' : 'get',
-            //'url' : `${store.submitUrl}/${id}`
-            'url' : `${apiUrl}/admin/mohon-requests/${id}`
-        })
-        .then( response => {
-          //console.log(response.data)
-          let mohon = response.data.mohon
-          store.setValue('title', mohon.title) // set formValue
-          store.setValue('description', mohon.description) // set formValue
-          setIsLoading(false)
-        })
-        .catch ( error => {
-          console.warn(error)
-          setIsLoading(false)
-        })
-
-        setShow(true) // show the modal
+      setShow(true) // show the modal
     }
 
     const handleCloseClick = () => {

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
+use App\Services\Administrations\MohonService;
 
 class MohonRequestController extends Controller
 {
@@ -10,18 +11,34 @@ class MohonRequestController extends Controller
     public function index(Request $request)
     {
         
-        //$mohons = [];
+       // $mohons = [];
 
         switch($request->query('status')){
             case 'pending': $mohons = $this->pending(); break;
             case 'approved': $mohons = $this->approved(); break;
             case 'rejected': $mohons = $this->rejected(); break;
+            default: $mohons = $this->default(); break;
         }
                                
     
         return response()->json([
             'mohons' => $mohons
         ]);
+    }
+
+    public function default()
+    {
+        $paginate = MohonRequest::query(); // Intiate Paginate
+        $mohons = $paginate->orderBy('id','DESC')
+                    //->with(['mohonApproval'])
+                    ->with(['user.userProfile.userDepartment','mohonApproval'])
+
+                    ->withCount(['mohonItems']) // to calculate how many items
+                    
+                    ->paginate(10) // 10 items per page
+                    ->withQueryString(); // with GET Query String
+
+        return $mohons;
     }
 
     public function pending()
@@ -146,5 +163,21 @@ class MohonRequestController extends Controller
         });  
                                
         return $mohons;
+    }
+
+    public function delete($id)
+    {
+        $deleted = MohonService::delete($id);
+
+        if($deleted){
+            return response()->json([
+                'message' => 'Permohonan berjaya dipadam',
+                'id' => $id
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Permohonan gagal dipadam',
+            ],422);
+        }
     }
 }
