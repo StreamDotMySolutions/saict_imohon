@@ -12,21 +12,12 @@ import DisplayMessage from '../../../components/DisplayMessage';
 function UserTable({role}) {
 
   const apiUrl =  process.env.REACT_APP_BACKEND_URL
-
   const store = useUserStore()
-  const paginatedUrl = `${apiUrl}/admin/users/?page=1&role=${role}`
-  
-  // initial
-  useEffect( () => {
-    useUserStore.setState({index_url: paginatedUrl})
-  },[])
-  
   const [data, setData] = useState([])
   //console.log(store.index_url)
   useEffect( () => {
       axios({
-          //url: `${store.index_url}&role=${role}`,  // user store API
-          url: store.index_url ? `${store.index_url}&role=${role}` : paginatedUrl, 
+          url: `${store.index_url}&role=${role}`,  // user store API
           method: 'get', // method is POST
       })
       .then( response => {
@@ -149,7 +140,7 @@ function RenderTable({items}) {
 function PaginatorLink ({items}){
   //console.log(items.links)
   const handlePaginationClick = (url) => {
-    console.log(url)
+    //console.log(url)
     useUserStore.setState({index_url: url})
   }
   const links = items?.links?.map( (page,index) => 
