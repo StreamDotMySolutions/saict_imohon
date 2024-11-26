@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Row,Col,Button, Form, InputGroup, Alert } from 'react-bootstrap'
 
 const Department = () => {
-
+    const apiUrl =  process.env.REACT_APP_BACKEND_URL
     const store = useAuthStore()
     const errors = store.errors
     const auth = useAuthStore()
@@ -17,7 +17,8 @@ const Department = () => {
 
     useEffect( () => {
         axios({
-            url: auth.user_departments_url,  // user store API
+            //url: auth.user_departments_url,  // user store API
+            url: `${apiUrl}/global/user-departments`,  // user store API
             method: 'get', // method is POST
         })
         .then( response => {
