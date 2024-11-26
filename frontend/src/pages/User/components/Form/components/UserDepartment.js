@@ -5,6 +5,7 @@ import axios from '../../../../../libs/axios'
 import { Form } from 'react-bootstrap';
 
 const UserDepartment = () => {
+    const apiUrl =  process.env.REACT_APP_BACKEND_URL
     const category = useUserDepartmentStore()
     const user = useUserStore()
     const [data,setData] = useState([])
@@ -13,7 +14,7 @@ const UserDepartment = () => {
 
     useEffect( () => {
         axios({
-            url: category.index_url,  // user store API
+            url: `${apiUrl}/global/user-departments`,  // user store API
             method: 'get', // method is POST
         })
         .then( response => {
