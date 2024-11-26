@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
 
             // Authenticated users     
-            Route::middleware(['api', 'auth:sanctum'])
+            Route::middleware(['api'])
                 ->prefix('api/global')
                 ->group(base_path('routes/roles/global.php'));       
 
