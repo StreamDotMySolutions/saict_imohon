@@ -154,14 +154,46 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
     }
 
     const MohonApprovals = () => {
+
+      function ApprovalLevel({step}){
+        const [level,setLevel] = useState('')
+
+        useEffect( () => {
+            switch (step) {
+                case 0:
+                    setLevel('User cipta permohonan');
+                    break;
+                case 1:
+                    setLevel('User mohon kelulusan dari Pelulus 1');
+                    break;   
+                case 2:
+                    setLevel('Di peringkat Pelulus 1');
+                break;   
+                case 3:
+                    setLevel('Pelulus 1 mohon kelulusan dari Admin');
+                break;   
+
+                case 4:
+                    setLevel('Di peringkat Admin');
+                break;   
+            }
+        })
+
+        return (
+            <>
+            {level}
+            </>
+        )
+    }
+    
       return (
         <Table className='mt-3'>
           <thead>
               <tr>
                   <th style={{ 'width': '20px'}}>Bil.</th>
                   <th>Nama</th>
-                  <th className='text-center'>Peringkat</th>
-                  <th>Status</th>
+                  <th className='text-left'>Peringkat</th>
+                  {/* <th>Status</th> */}
                   <th>Tarikh</th>
                  
               </tr>
@@ -172,8 +204,8 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                   <tr key={index}>
                       <td> <span className="badge bg-primary">{index + 1}</span></td>
                       <td>{item.user.name}</td>
-                      <td className='text-center'>{item.step}</td>
-                      <td>{item.status}</td>
+                      <td className='text-left'><ApprovalLevel step={item.step} /></td>
+                      {/* <td>{item.status}</td> */}
                       <td>{item.created_at}</td>
                      
                   </tr>
