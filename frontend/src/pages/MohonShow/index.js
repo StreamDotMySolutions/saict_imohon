@@ -271,27 +271,13 @@ const MohonShow = () => {
                             {response?.mohon_distribution_requests?.map((agihan) => 
                             <>
                             
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th>ID Agihan</th>
-                                        <th>Tarikh</th>
-                                        <th>Kelulusan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Badge>{agihan.id}</Badge></td>
-                                        <td>{agihan.created_at}</td>
-                                        <td>
-
-                                        <Table className="rounded" style={{backgroundColor:"#f0f0f0"}}>
+                            <Table className="rounded">
                                             <thead>
                                                 <tr>
                                                     {/* <th className='col-1'>Peringkat</th> */}
                                                     <th className='col-1'>Status</th>
                                                     {/* <th className='col-2'>Nama</th> */}
-                                                    <th className='col-9'>Justifikasi</th>
+                                                    <th className='col-7'>Justifikasi</th>
                                                     <th className='text-center'>Tarikh</th>
                                                 </tr>
                                             </thead>
@@ -311,11 +297,6 @@ const MohonShow = () => {
 
                                             </tbody>
                                         </Table>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
                             </>
                             )}
 
