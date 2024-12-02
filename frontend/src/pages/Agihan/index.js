@@ -18,7 +18,7 @@ const Index = () => {
         'url' : `${apiUrl}/global/mohon-requests/${mohonRequestId}`
         })
         .then( response => {
-            //console.log(response.data.mohon.mohon_distribution_requests)
+            console.log(response.data)
             setResponse(response.data.mohon)
         })
         .catch ( error => {
@@ -32,7 +32,7 @@ const Index = () => {
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to='/mohon'><Badge>Mohon</Badge></Link></li>
-                    <li className="breadcrumb-item"><Link to={`/mohon/${mohonRequestId}`}><Badge>{mohonRequestId}</Badge>{' '}{response.title}</Link></li>
+                    <li className="breadcrumb-item"><Link to={`/mohon/${mohonRequestId}`}>{response.title}</Link></li>
                     <li className="breadcrumb-item">Senarai agihan</li>
                 </ol>
             </nav>
@@ -49,12 +49,12 @@ const Index = () => {
                     <div className='p-3 border border-2 rounded mb-3' key ={index}>
              
 
-                        <h2 className='mt-2'><Badge>{distribution.id}</Badge>{' '}Peralatan Agihan</h2>
+                        <h2 className='mt-2'>Peralatan Agihan</h2>
                     
                         <Table>
                                 <thead>
                                     <tr>
-                                        <th style={{ 'width': '20px'}}>ID</th>
+                                        <th style={{ 'width': '20px'}}>Bil.</th>
                                         <th>Peralatan</th>
                         
                                         <th>Jenis</th>
@@ -72,7 +72,7 @@ const Index = () => {
                                 <tbody>
                                     {distribution?.mohon_distribution_items?.map((item,index) => (
                                         <tr key={index}>
-                                            <td> <span className="badge bg-primary">{item.id}</span></td>
+                                            <td> <span className="badge bg-primary">{index+1}</span></td>
                                             <td>{item.category?.name}</td>
                                      
                                             <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
