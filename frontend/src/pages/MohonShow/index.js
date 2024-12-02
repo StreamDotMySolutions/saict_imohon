@@ -272,31 +272,31 @@ const MohonShow = () => {
                             <>
                             
                             <Table className="rounded">
-                                            <thead>
-                                                <tr>
-                                                    {/* <th className='col-1'>Peringkat</th> */}
-                                                    <th className='col-1'>Status</th>
-                                                    {/* <th className='col-2'>Nama</th> */}
-                                                    <th className='col-7'>Justifikasi</th>
-                                                    <th className='text-center'>Tarikh</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                            
-                                                
-                                                    {agihan.mohon_distribution_approvals?.map((item, index) => (
-                                                        <tr key={index}>
-                                                            {/* <td className='text-center'>{item.step}</td> */}
-                                                            <td>{item.status}</td>
-                                                            {/* <td>{item?.user?.name ?? 'N/A'}</td> */}
-                                                            <td>{item?.message}</td>
-                                                            <td className='text-center'>{item.created_at}</td>
-                                                        </tr>
-                                                    ))}
-                                            
+                                <thead>
+                                    <tr>
+                                        {/* <th className='col-1'>Peringkat</th> */}
+                                        <th className='col-1'>Status</th>
+                                        {/* <th className='col-2'>Nama</th> */}
+                                        <th className='col-7'>Justifikasi</th>
+                                        <th className='text-center'>Tarikh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    
+                                        {agihan.mohon_distribution_approvals?.map((item, index) => (
+                                            <tr key={index}>
+                                                {/* <td className='text-center'>{item.step}</td> */}
+                                                <td>{item.status}</td>
+                                                {/* <td>{item?.user?.name ?? 'N/A'}</td> */}
+                                                <td>{item?.message}</td>
+                                                <td className='text-center'>{item.created_at}</td>
+                                            </tr>
+                                        ))}
+                                
 
-                                            </tbody>
-                                        </Table>
+                                </tbody>
+                            </Table>
                             </>
                             )}
 
