@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserToManager extends Mailable
+class MohonNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class UserToManager extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.sample')
+        return $this->view('emails.mohon_notification')
                     ->subject('Notifikasi Permohonan Peralatan')
                     ->with('data', $this->data);
     }

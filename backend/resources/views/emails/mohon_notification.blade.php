@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sample Email</title>
+    <title>Notifikasi iMohon</title>
 </head>
 <body>
     <h1>Hello, {{ $data['name'] }}</h1>

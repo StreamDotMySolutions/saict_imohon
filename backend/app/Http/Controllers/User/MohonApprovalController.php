@@ -8,7 +8,7 @@ use App\Services\MohonApprovalService;
 use App\Http\Requests\MohonApproval\UpdateRequest;
 use App\Http\Requests\MohonApproval\StoreRequest;
 
-use App\Mail\UserToManager;
+use App\Mail\MohonNotification;
 use Illuminate\Support\Facades\Mail;
 
 class MohonApprovalController extends Controller
@@ -53,7 +53,7 @@ class MohonApprovalController extends Controller
                 'message' => 'Notifikasi Permohonan Peralatan'
             ];
             
-            Mail::to($manager->email)->send(new UserToManager($data));
+            Mail::to($manager->email)->send(new MohonNotification($data));
         }
   
         //\Log::info('email done');
