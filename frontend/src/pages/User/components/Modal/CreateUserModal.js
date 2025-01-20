@@ -12,6 +12,7 @@ export default function CreateUserModal({role}) {
     const [show, setShow] = useState(false)
     const [error, setError] = useState(false)
     const [message, setMessage] = useState(false)
+    const apiUrl =  process.env.REACT_APP_BACKEND_URL
 
     const handleClose = () => {
         setShow(false)
@@ -94,7 +95,8 @@ export default function CreateUserModal({role}) {
         });
 
         axios({
-            url: user.store_url,  // user store API
+            //url: user.store_url,  // user store API
+            url: `${apiUrl}/admin/users`,
             method: 'post', // method is POST
             data: formData, // payload is formData
         })
@@ -124,7 +126,7 @@ export default function CreateUserModal({role}) {
       <Button onClick={handleShow}>Cipta</Button>
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Cipta User</Modal.Title>
+          <Modal.Title>Cipta Pengguna</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form />
