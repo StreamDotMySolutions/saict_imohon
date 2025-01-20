@@ -36,7 +36,7 @@ function TopNavbar() {
                   </Dropdown.Menu>
                </Dropdown>
               </Nav>
-           <Account />
+          <Account />
         </Navbar.Collapse>
       </Container>
     </Navbar>

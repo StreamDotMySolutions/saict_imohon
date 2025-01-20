@@ -6,6 +6,10 @@ use App\Http\Controllers\{
     Auth\AuthController,
 };
 
+use App\Http\Controllers\Global\{
+    AccountController,
+};
+
 Auth::routes();
 Route::group(['middleware' => ['guest']], function () {
     // Auth-related routes
@@ -23,6 +27,9 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logged-user', [AuthController::class, 'loggedUser']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
+    Route::get('/account', [AccountController::class, 'show'])->middleware(['auth', 'verified']);
+    Route::put('/account', [AccountController::class, 'update']);
+
 });
 
 

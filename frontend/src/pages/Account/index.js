@@ -57,7 +57,7 @@ function fetchData(store){
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     useAccountStore.setState({account: null})
     axios({
-        url: `${apiUrl}/global/account`
+        url: `${apiUrl}/account`
     })
     .then( response => {
         //console.log(response.data)
