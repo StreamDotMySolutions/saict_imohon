@@ -39,8 +39,8 @@ export default function ViewModal({id}) {
           //store.setValue('description', mohon.description) // set formValue
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
-          store.setValue('message',mohon.mohon_approval_rejected_by_user ? mohon.mohon_approval_rejected_by_user.message : mohon.mohon_approval_approved_by_user.message  ) 
-
+          //store.setValue('message',mohon.mohon_approval_rejected_by_user ? mohon.mohon_approval_rejected_by_user.message : mohon.mohon_approval_approved_by_user.message  ) 
+          store.setValue('message' , mohon.mohon_approval.message)
           // items
           setIsLoading(false)
       })
@@ -130,14 +130,19 @@ export default function ViewModal({id}) {
 
           <Modal.Body>
             <MohonData id={id} />
-            <h5>Justifikasi</h5>
 
+
+            <h5>Justifikasi</h5>
+              {}
             <InputTextarea
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi kelulusan"
               icon="fas fa-pencil"
               rows ="8"
-              isLoading={isLoading ||  step!==1} />
+              isLoading={isLoading ||  step!==1} 
+            />
+
+
           </Modal.Body>
           
           <Modal.Footer>
