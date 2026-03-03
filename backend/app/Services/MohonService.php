@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\MohonRequest;
 use App\Models\MohonApproval;
+use App\Helpers\PaginationHelper;
 use Illuminate\Http\Request;
 
 class MohonService
@@ -77,16 +78,8 @@ class MohonService
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
 
-        // Calculate the starting number based on the current page
-        $startNumber = ($mohons->currentPage() - 1) * $mohons->perPage() + 1;
+        PaginationHelper::addNumbering($mohons);
 
-        // Add the numbering field to each item
-        $mohons->getCollection()->transform(function ($item, $index) use ($startNumber) {
-            $item->numbering = $startNumber + $index;
-            return $item;
-        });            
-                               
-    
         return $mohons;
     }
 
@@ -167,20 +160,12 @@ class MohonService
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
 
-        // Calculate the starting number based on the current page
-        $startNumber = ($mohons->currentPage() - 1) * $mohons->perPage() + 1;
+        PaginationHelper::addNumbering($mohons);
 
-        // Add the numbering field to each item
-        $mohons->getCollection()->transform(function ($item, $index) use ($startNumber) {
-            $item->numbering = $startNumber + $index;
-            return $item;
-        });  
-
-                
         return $mohons;
     }
 
-    
+
 
     /*
     * Only list MohonRequest Step = 2 && status == 'approved'
@@ -208,17 +193,8 @@ class MohonService
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
 
+        PaginationHelper::addNumbering($mohons);
 
-        // Calculate the starting number based on the current page
-        $startNumber = ($mohons->currentPage() - 1) * $mohons->perPage() + 1;
-
-        // Add the numbering field to each item
-        $mohons->getCollection()->transform(function ($item, $index) use ($startNumber) {
-            $item->numbering = $startNumber + $index;
-            return $item;
-        });  
-                               
-    
         return $mohons;
     }
 
@@ -247,15 +223,8 @@ class MohonService
                     
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
-                               
-        // Calculate the starting number based on the current page
-        $startNumber = ($mohons->currentPage() - 1) * $mohons->perPage() + 1;
 
-        // Add the numbering field to each item
-        $mohons->getCollection()->transform(function ($item, $index) use ($startNumber) {
-            $item->numbering = $startNumber + $index;
-            return $item;
-        });  
+        PaginationHelper::addNumbering($mohons);
 
         return $mohons;
     }

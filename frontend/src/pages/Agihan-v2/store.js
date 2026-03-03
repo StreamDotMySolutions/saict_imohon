@@ -4,7 +4,7 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}`,
+    url: `${base_url}/admin`,
 
     setValue: (fieldName, value) => {
       set((state) => ({

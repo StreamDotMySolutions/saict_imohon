@@ -3,6 +3,9 @@ namespace App\Services;
 
 use App\Models\MohonRequest;
 use App\Models\MohonApproval;
+use App\Models\User;
+use App\Mail\MohonNotification;
+use Illuminate\Support\Facades\Mail;
 
 class MohonApprovalService
 {
@@ -23,7 +26,7 @@ class MohonApprovalService
         ]);
 
         // create record in MohonApproval for record keeping
-        return MohonApproval::create([
+        $approval = MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id, // User that requesting approval to manager ( pelulus 1 )
             'requester_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
@@ -35,6 +38,18 @@ class MohonApprovalService
             'status' => 'pending',
             'message' => "{$user->name} ( User ) membuat permohonan ke Pelulus 1",
         ]);
+
+        // send email to manager
+        $manager = User::where('id', $request->input('manager_id'))->first();
+        if ($manager) {
+            $data = [
+                'name' => $manager->name,
+                'message' => 'Notifikasi Permohonan Peralatan'
+            ];
+            Mail::to($manager->email)->send(new MohonNotification($data));
+        }
+
+        return $approval;
     }
 
     public static function storeByManager($request, $mohonRequestId)

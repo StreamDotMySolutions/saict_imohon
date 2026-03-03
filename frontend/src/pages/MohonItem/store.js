@@ -4,10 +4,10 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useMohonItemStore  = create((set) => ({
 
-    url: `${base_url}/mohon-items`,
-    submitUrl: `${base_url}/mohon-items`,
-    mohonUrl: `${base_url}/mohon`,
-    departmentUrl: `${base_url}/user-departments`,
+    url: `${base_url}/user/mohon-items`,
+    submitUrl: `${base_url}/user/mohon-items`,
+    mohonUrl: `${base_url}/user/mohon`,
+    departmentUrl: `${base_url}/global/user-departments`,
     refresh: false,
     errors: null,
     latestId: null,

@@ -4,15 +4,15 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/mohon-distribution-requests`,
-    createUrl: `${base_url}/mohon-distribution-requests`,
-    updateUrl: `${base_url}/mohon-distribution`,
-    deleteUrl: `${base_url}/mohon-distribution`,
-    bossApprovalUrl: `${base_url}/mohon-distribution-requests/by-admin`, // admin requesting to Boss
-    mohonDistributionRequestUrl: `${base_url}/mohon-distribution`,
+    url: `${base_url}/admin/mohon-distribution-requests`,
+    createUrl: `${base_url}/admin/mohon-distribution-requests`,
+    updateUrl: `${base_url}/admin/mohon-distribution`,
+    deleteUrl: `${base_url}/admin/mohon-distribution`,
+    bossApprovalUrl: `${base_url}/admin/mohon-distribution-approvals`,
+    mohonDistributionRequestUrl: `${base_url}/admin/mohon-distribution`,
 
-    submitUrl: `${base_url}/mohon-distribution`,
-    mohonUrl: `${base_url}/mohon`,
+    submitUrl: `${base_url}/admin/mohon-distribution`,
+    mohonUrl: `${base_url}/global/mohon-requests`,
     refresh: false,
     errors: null,
     latestId: null,

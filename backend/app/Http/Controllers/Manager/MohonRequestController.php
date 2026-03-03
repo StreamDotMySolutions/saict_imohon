@@ -19,8 +19,8 @@ class MohonRequestController extends Controller
             case 'pending': $mohons = $this->pending(); break;
             case 'approved': $mohons = $this->approved(); break;
             case 'rejected': $mohons = $this->rejected(); break;
+            default: return response()->json(['mohons' => []], 200);
         }
-                            
 
         return response()->json([
             'mohons' => $mohons
@@ -29,7 +29,7 @@ class MohonRequestController extends Controller
 
     public function show(MohonRequest $mohonRequest)
     {
-        $mohon = MohonService::show($id);
+        $mohon = MohonService::show($mohonRequest->id);
         return response()->json([
             'mohon' => $mohon
         ]);

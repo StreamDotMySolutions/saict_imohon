@@ -4,9 +4,9 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/mohon-distribution-requests/by-boss`,
-    showUrl: `${base_url}/mohon-distribution`,
-    bossApprovalUrl: `${base_url}/mohon-distribution-approval/by-boss`,
+    url: `${base_url}/boss/mohon-distribution-requests`,
+    showUrl: `${base_url}/boss/mohon-distribution`,
+    bossApprovalUrl: `${base_url}/boss/mohon-distribution-approvals`,
     refresh: false,
     errors: null,
     latestId: null,

@@ -8,9 +8,6 @@ use App\Services\MohonApprovalService;
 use App\Http\Requests\MohonApproval\UpdateRequest;
 use App\Http\Requests\MohonApproval\StoreRequest;
 
-use App\Mail\MohonNotification;
-use Illuminate\Support\Facades\Mail;
-
 class MohonApprovalController extends Controller
 {
 
@@ -36,27 +33,10 @@ class MohonApprovalController extends Controller
         ]);
     }
 
-    // User process MohonRequest from step 1 to 2 
+    // User process MohonRequest from step 1 to 2
     public function store(StoreRequest $request, $mohonRequestId)
     {
-
         $mohonApprovalService = MohonApprovalService::storeByUser($request, $mohonRequestId);
-
-        // send email to pelulus 1
-        $manager_id =  $request->input('manager_id');
-        $manager = User::where('id', $manager_id)->first();
-
-        //\Log::info($manager);
-        if($manager){
-            $data = [
-                'name' => $manager->name,
-                'message' => 'Notifikasi Permohonan Peralatan'
-            ];
-            
-            Mail::to($manager->email)->send(new MohonNotification($data));
-        }
-  
-        //\Log::info('email done');
 
         if($mohonApprovalService)
         {

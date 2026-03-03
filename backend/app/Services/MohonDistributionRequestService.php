@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\MohonDistributionRequest;
 use App\Models\MohonDistributionApproval;
 use App\Services\MohonDistributionApprovalService;
+use App\Helpers\PaginationHelper;
 use DB;
 
 class MohonDistributionRequestService
@@ -114,15 +115,7 @@ class MohonDistributionRequestService
                     ->paginate(10) // 10 items per page
                     ->withQueryString(); // with GET Query String
 
-                // Calculate the starting number based on the current page
-                $startNumber = ($requests->currentPage() - 1) * $requests->perPage() + 1;
-
-                // Add the numbering field to each item
-                $requests->getCollection()->transform(function ($item, $index) use ($startNumber) {
-                    $item->numbering = $startNumber + $index;
-                    return $item;
-                });  
-
+                PaginationHelper::addNumbering($requests);
 
                 return $requests;
 

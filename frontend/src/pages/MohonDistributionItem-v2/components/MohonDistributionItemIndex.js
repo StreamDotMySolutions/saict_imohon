@@ -37,7 +37,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       .finally(
         store.setValue('refresh', false)
       )
-  }, [agihanRequestId, checkedItems, vendorSelections,typeSelections,store.getValue('refresh')]);
+  }, [agihanRequestId, store.getValue('refresh')]);
 
   
   // to check mohonDistributionItem being assigned to other MohonDistributionRequest
@@ -91,7 +91,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     .finally(
       store.setValue('refresh', false)
     )
-  },[agihanRequestId, checkedItems, vendorSelections,typeSelections, store.getValue('refresh') ])
+  },[agihanRequestId, store.getValue('refresh') ])
 
   //console.log(`${store.submitUrl}/vendors`)
 

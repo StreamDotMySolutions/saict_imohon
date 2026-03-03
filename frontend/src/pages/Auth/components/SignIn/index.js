@@ -6,6 +6,14 @@ import useAuthStore from '../../stores/AuthStore'
 import axios from '../../../../libs/axios'
 import { Row } from 'react-bootstrap'
 
+const DEV_USERS = [
+    { role: 'System',   email: 'system@local',  password: 'password' },
+    { role: 'Admin',    email: 'admin@local',   password: 'password' },
+    { role: 'Manager',  email: 'manager@local', password: 'password' },
+    { role: 'Boss',     email: 'boss@local',    password: 'password' },
+    { role: 'User',     email: 'user@local',    password: 'password' },
+]
+
 const SignInForm = () => {
     // set system variables
     const store = useAuthStore()
@@ -14,6 +22,8 @@ const SignInForm = () => {
     const [unauthorized, setUnauthorized] = useState(false)
     const [errors, setErrors] = useState([]); // validation errors
     const [isLoading, setIsLoading] = useState(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     
     // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
     // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
@@ -83,13 +93,15 @@ const SignInForm = () => {
         <form  onSubmit={handleSubmit}>
           <div className="form-outline mb-4">
             <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-envelope" /> Alamat Emel</label>
-            <input 
+            <input
                 required
-                name="email" 
-                type="email" 
-                id="email" 
+                name="email"
+                type="email"
+                id="email"
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('email') ? ' is-invalid' : '')}
-                placeholder="masukkan alamat emel anda" 
+                placeholder="masukkan alamat emel anda"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
             />
             {errors?.hasOwnProperty('email') ? <span className="invalid-feedback" >
                 <strong>
@@ -101,13 +113,16 @@ const SignInForm = () => {
 
           <div className="form-outline mb-3">
           <label className="form-label" ><FontAwesomeIcon icon="fa-solid fa-lock" /> Katalaluan</label>
-            <input 
+            <input
                 required
-                name="password" 
-                type="password" 
-                id="password" 
+                name="password"
+                type="password"
+                id="password"
                 className={"form-control form-control-lg" + (errors?.hasOwnProperty('password') ? ' is-invalid' : '')}
-                placeholder="masukkan katalaluan anda" />
+                placeholder="masukkan katalaluan anda"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+            />
             {errors?.hasOwnProperty('password') ? <span className="invalid-feedback" >
                 <strong>
                     { errors.password ? errors.password : null }
@@ -145,6 +160,22 @@ const SignInForm = () => {
           </div>
 
          </form>
+
+        <div className='mt-4 p-3 border rounded bg-light'>
+            <small className='text-muted d-block mb-2'><strong>DEV — Test Credentials</strong></small>
+            <div className='d-flex flex-wrap gap-2'>
+                {DEV_USERS.map(u => (
+                    <button
+                        key={u.role}
+                        type='button'
+                        className='btn btn-sm btn-outline-secondary'
+                        onClick={() => { setEmail(u.email); setPassword(u.password) }}
+                    >
+                        {u.role}
+                    </button>
+                ))}
+            </div>
+        </div>
         </>
     )
 }

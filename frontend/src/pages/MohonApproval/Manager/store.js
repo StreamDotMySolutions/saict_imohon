@@ -4,11 +4,11 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useMohonStore  = create((set) => ({
 
-    url: `${base_url}/mohon`,
-    submitUrl: `${base_url}/mohon`,
-    showUrl: `${base_url}/mohon`,
-    mohonApproval: `${base_url}/mohon-approval`,
-    managerApprovalUrl: `${base_url}/mohon-approval/by-manager`,
+    url: `${base_url}/manager/mohon-requests`,
+    submitUrl: `${base_url}/manager/mohon-requests`,
+    showUrl: `${base_url}/manager/mohon-requests`,
+    mohonApproval: `${base_url}/manager/mohon-approvals`,
+    managerApprovalUrl: `${base_url}/manager/mohon-approvals`,
     refresh: false,
     errors: null,
     latestId: null,

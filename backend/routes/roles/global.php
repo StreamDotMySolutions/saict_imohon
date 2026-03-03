@@ -22,8 +22,4 @@ Route::get('/user-departments', [UserDepartmentController::class, 'index']);
 // MohonRequestController
 Route::get('/mohon-requests/{id}', [MohonRequestController::class, 'show']);
 
-    Route::get('/nasi', function () {
-        return 'lemak';
-    });
-
 

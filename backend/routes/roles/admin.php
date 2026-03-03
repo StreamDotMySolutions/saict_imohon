@@ -16,8 +16,12 @@ use App\Http\Controllers\Admin\{
     MohonDistributionItemDeliveryController,
     UserController,
     InventoryController,
-    CategoryController
+    CategoryController,
+    AgihanController
 };
+// Agihan (list approved mohon requests for distribution)
+Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+
 // MohonApproval
 Route::put('/mohon-approvals/{mohonRequestId}', [MohonApprovalController::class, 'update']);
 

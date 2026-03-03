@@ -4,11 +4,11 @@ const base_url = process.env.REACT_APP_BACKEND_URL
 
 const useStore  = create((set) => ({
 
-    url: `${base_url}/mohon`,
-    mohonRequestUrl: `${base_url}/mohon`,
-    mohonDistributionItemShow: `${base_url}/mohon-distribution-items/show`,
-    mohonDistributionItemReceived: `${base_url}/mohon-distribution-items/received`,
-    mohonDistributionItemAcceptance: `${base_url}/mohon-distribution-item-acceptances`,
+    url: `${base_url}/user/mohon-requests`,
+    mohonRequestUrl: `${base_url}/user/mohon-requests`,
+    mohonDistributionItemShow: `${base_url}/user/mohon-distribution-items/show`,
+    mohonDistributionItemReceived: `${base_url}/user/mohon-distribution-items/received`,
+    mohonDistributionItemAcceptance: `${base_url}/user/mohon-distribution-item-acceptances`,
     refresh: false,
     errors: null,
     latestId: null,
