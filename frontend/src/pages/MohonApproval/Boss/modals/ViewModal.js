@@ -1,181 +1,164 @@
-import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
+import { useState } from 'react'
+import { Badge, Button, Form, Modal } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
-import MohonData from '../../../Reporting/show'
 import ShowForBoss from '../../../Reporting/ShowForBoss'
 
-export default function ViewModal({mohonDistributionRequestId, mohonRequestId}) {
-
+export default function ViewModal({ mohonDistributionRequestId, mohonRequestId }) {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
-    const errors = store.getValue('errors')
 
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [approval, setApproval] = useState() // MohonDistributionApproval
+    const [approval, setApproval] = useState(null)
+    const [message, setMessage] = useState('')
+    const [acknowledge, setAcknowledge] = useState(false)
+    const [errors, setErrors] = useState(null)
 
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
-
-    const handleShowClick = () =>{
-      setIsLoading(true)
-      store.emptyData() // empty store data
-      setShow(true) // show the modal
-      axios({
-        'method' : 'get',
-        'url' : `${apiUrl}/boss/mohon-distribution/${mohonDistributionRequestId}` //mohon distribution request
+    const handleShowClick = () => {
+        setShow(true)
+        setIsLoading(true)
+        setMessage('')
+        setAcknowledge(false)
+        setErrors(null)
+        setApproval(null)
+        axios({
+            method: 'get',
+            url: `${apiUrl}/boss/mohon-distribution/${mohonDistributionRequestId}`,
         })
-        .then( response => {
-            //console.log(response.data)
-            let mohon = response.data.mohon
-            setApproval(mohon.mohon_distribution_approval)
-
-            let approved = mohon.mohon_distribution_approval_approved_by_user
-            let rejected = mohon.mohon_distribution_approval_approved_by_user
-            store.setValue('message', approved ? approved.message : rejected.message)
-            //console.log(approval)
-            // items
-           
-        })
-        .catch ( error => {
-            console.warn(error)
-           
-        })
-        .finally( setIsLoading(false) )
+            .then(response => {
+                const mohon = response.data.mohon
+                setApproval(mohon.mohon_distribution_approval)
+                const existing = mohon.mohon_distribution_approval_approved_by_user
+                    ?? mohon.mohon_distribution_approval_rejected_by_user
+                if (existing?.message) setMessage(existing.message)
+            })
+            .catch(error => console.warn(error))
+            .finally(() => setIsLoading(false))
     }
 
-    const handleCloseClick = () => {
-      handleClose()
+    const handleClose = () => {
+        if (isLoading) return
+        setShow(false)
     }
 
-    const handleApproveClick = () => {
-      store.setValue('status', 'approved')
-      handleSubmitClick()
-    }
-
-    const handleRejectClick = () => {
-      store.setValue('status', 'rejected')
-      handleSubmitClick()
-    }
-
-    const handleSubmitClick = () => {
-      setIsLoading(true)
-      const formData = new FormData()
-
-      // ackknowledge
-      if (store.getValue('acknowledge') != null ) {
-        formData.append('acknowledge', store.getValue('acknowledge'));
-      }
-
-      // status
-      if (store.getValue('status') != null ) {
-        formData.append('status', store.getValue('status'));
-      }
-
-      // message
-      if (store.getValue('message') != null ) {
-        formData.append('message', store.getValue('message'));
-      }
-
-      // method PUT ( to simulate PUT in Laravel )
-      formData.append('_method', 'put');
-      
-      axios({ 
-          method: 'post',
-          //url : `${store.bossApprovalUrl}/${mohonDistributionRequestId}`, // role = boss to approve agihan && status = approved || rejected
-          url : `${apiUrl}/boss/mohon-distribution-approvals/${mohonDistributionRequestId}`, // role = boss to approve agihan && status = approved || rejected
-          data: formData
+    const handleSubmit = (status) => {
+        setIsLoading(true)
+        setErrors(null)
+        const formData = new FormData()
+        formData.append('status', status)
+        formData.append('message', message)
+        formData.append('acknowledge', acknowledge ? 1 : 0)
+        formData.append('_method', 'put')
+        axios({
+            method: 'post',
+            url: `${apiUrl}/boss/mohon-distribution-approvals/${mohonDistributionRequestId}`,
+            data: formData,
         })
-        .then( response => {
-          //console.log(response)
-
-          // set MohonIndex listener to true
-          store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
-          setTimeout(() => {
-            setIsLoading(false)
-            handleCloseClick();
-          }, 500);
-        })
-        .catch( error => {
-          console.warn(error)
-          setIsLoading(false)
-          if(error.response.status === 422){
-            store.setValue('errors',  error.response.data.errors )
-          }
-        })
+            .then(() => {
+                store.setValue('refresh', true)
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setShow(false)
+                }, 500)
+            })
+            .catch(error => {
+                console.warn(error)
+                setIsLoading(false)
+                if (error.response?.status === 422) {
+                    setErrors(error.response.data.errors)
+                }
+            })
     }
+
+    const isActioned = approval?.step === 2
 
     return (
-      <>
-        <Button size="sm" variant="outline-primary" onClick={handleShowClick}>
-          Lihat 
-        </Button>
-  
-        <Modal fullscreen show={show} onHide={handleCloseClick}>
-          <Modal.Header closeButton>
-            <Modal.Title> Lihat Permohonan </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            {/* <MohonData mohonRequestId={mohonRequestId} /> */}
-            <ShowForBoss mohonRequestId={mohonRequestId} />
-            <InputTextarea
-              fieldName="message"
-              placeholder="Sila lengkapkan justifikasi kelulusan"
-              icon="fas fa-pencil"
-              rows ="8"
-              isLoading={isLoading || approval?.step == 2 } />
-          </Modal.Body>
-          
-          <Modal.Footer>
-
-          {approval?.step == 2  ? 
-            
-            <Badge>Telah oleh disahkan pada {approval?.created_at}</Badge>
-            :
-            <>
-            <Form.Check
-                className='me-4'
-                isInvalid={errors?.hasOwnProperty('acknowledge')}
-                reverse
-                disabled={isLoading}
-                //disabled={step !== requiredStep }
-                label="Saya mengesahkan telah memeriksa permohonan ini"
-                type="checkbox"
-                onClick={ () => useMohonStore.setState({errors:null}) }
-                onChange={ (e) => store.setValue('acknowledge', true) }
-              />
-            <Button 
-                //disabled={ isLoading || step !== 3}
-                disabled={isLoading}
-                variant="success" 
-                onClick={handleApproveClick}>
-                Lulus
-              </Button>
-
-              <Button 
-                //disabled={ isLoading || step !== 3}
-                disabled={isLoading}
-                variant="danger" 
-                onClick={handleRejectClick}>
-                Gagal
-              </Button>
-              </>
-            }
-
-            <Button 
-              disabled={isLoading}
-              variant="secondary" 
-              onClick={handleCloseClick}>
-              Tutup
+        <>
+            <Button size='sm' variant='outline-primary' onClick={handleShowClick}>
+                <FontAwesomeIcon icon='fas fa-eye' className='me-1' />
+                Lihat
             </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-}
 
+            <Modal fullscreen show={show} onHide={handleClose} scrollable>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <FontAwesomeIcon icon='fas fa-truck' className='me-2 text-primary' />
+                        Kelulusan Agihan
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    {isLoading && !approval
+                        ? <p className='text-muted text-center py-5'>Memuatkan...</p>
+                        : (
+                            <>
+                                <ShowForBoss mohonRequestId={mohonRequestId} />
+
+                                <hr />
+
+                                <div className='mb-3' style={{ maxWidth: 640 }}>
+                                    <h6 className='text-uppercase text-muted mb-2'>Justifikasi Kelulusan</h6>
+                                    <Form.Control
+                                        as='textarea'
+                                        rows={4}
+                                        placeholder='Sila lengkapkan justifikasi kelulusan'
+                                        value={message}
+                                        onChange={e => setMessage(e.target.value)}
+                                        disabled={isLoading || isActioned}
+                                        isInvalid={!!errors?.message}
+                                    />
+                                    {errors?.message && (
+                                        <Form.Control.Feedback type='invalid'>{errors.message[0]}</Form.Control.Feedback>
+                                    )}
+                                </div>
+                            </>
+                        )
+                    }
+                </Modal.Body>
+
+                <Modal.Footer>
+                    {isActioned ? (
+                        <Badge bg='secondary' className='me-auto py-2 px-3'>
+                            <FontAwesomeIcon icon='fas fa-check-circle' className='me-1' />
+                            Telah disahkan pada {approval?.created_at}
+                        </Badge>
+                    ) : (
+                        <>
+                            <Form.Check
+                                className='me-auto'
+                                reverse
+                                disabled={isLoading}
+                                label='Saya mengesahkan telah memeriksa permohonan ini'
+                                type='checkbox'
+                                checked={acknowledge}
+                                isInvalid={!!errors?.acknowledge}
+                                onChange={e => setAcknowledge(e.target.checked)}
+                            />
+                            <Button
+                                variant='success'
+                                disabled={isLoading || !acknowledge}
+                                onClick={() => handleSubmit('approved')}
+                            >
+                                <FontAwesomeIcon icon='fas fa-check' className='me-1' />
+                                Lulus
+                            </Button>
+                            <Button
+                                variant='danger'
+                                disabled={isLoading || !acknowledge}
+                                onClick={() => handleSubmit('rejected')}
+                            >
+                                <FontAwesomeIcon icon='fas fa-times' className='me-1' />
+                                Gagal
+                            </Button>
+                        </>
+                    )}
+                    <Button variant='secondary' disabled={isLoading} onClick={handleClose}>
+                        Tutup
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    )
+}

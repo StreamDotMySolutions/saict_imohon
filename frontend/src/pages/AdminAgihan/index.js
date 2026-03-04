@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Container, Nav, Pagination, Table } from 'react-bootstrap';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import axios from '../../libs/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReportingModal from '../Reporting/ReportingModal';
-import AgihanDraftModal from './AgihanDraftModal';
+import AgihanDraftModal from './AgihanDraftModal'
+import AgihanViewModal from './AgihanViewModal';
 
 const TABS = [
     { key: 'baharu',   label: 'Baharu',   bg: 'warning', text: 'dark'  },
@@ -94,12 +95,15 @@ const AdminAgihan = () => {
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 {tab === 'baharu'
-                                    ? <AgihanDraftModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} onDelete={() => setRefreshKey(k => k + 1)} />
-                                    : <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                        <Button size='sm' variant='outline-success'>
-                                            <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Agihan
-                                        </Button>
-                                    </Link>
+                                    ? (
+                                        <div className='d-flex gap-1 justify-content-center'>
+                                            <AgihanDraftModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} onDelete={() => setRefreshKey(k => k + 1)} />
+                                            {(mohon.mohon_distribution_items_count ?? 0) > 0 && (
+                                                <AgihanViewModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} />
+                                            )}
+                                        </div>
+                                    )
+                                    : <AgihanViewModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} />
                                 }
                             </td>
                         </tr>

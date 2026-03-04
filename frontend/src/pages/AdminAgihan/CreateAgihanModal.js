@@ -31,13 +31,13 @@ export default function CreateAgihanModal({ mohonId, referenceNo }) {
     return (
         <>
             <Button size='sm' variant='success' onClick={() => setShow(true)}>
-                <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Mohon Agihan
+                <FontAwesomeIcon icon='fas fa-truck' /> Mohon Agihan
             </Button>
 
             <Modal show={show} onHide={() => !isLoading && setShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        <FontAwesomeIcon icon='fas fa-boxes-stacked' className='me-2 text-success' />
+                        <FontAwesomeIcon icon='fas fa-truck' className='me-2 text-success' />
                         Cipta Agihan Baharu
                     </Modal.Title>
                 </Modal.Header>

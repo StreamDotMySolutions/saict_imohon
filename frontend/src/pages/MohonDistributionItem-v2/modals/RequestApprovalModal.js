@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
+import { Alert,Row,Col, Card, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from 'react-router-dom'
 import { InputSelect, InputText, InputTextarea } from './components/Inputs'
@@ -112,7 +112,7 @@ export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
           
         <Modal size='xl' show={show} onHide={handleCloseClick} enforceFocus={false} scrollable>
           <Modal.Header closeButton>
-            <Modal.Title>Lihat Permohonan Agihan</Modal.Title>
+            <Modal.Title>Mohon Agihan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -166,44 +166,34 @@ export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
           </Col>
 
           <Col className='mb-3'>
-            <h5>Maklumat Agihan</h5>
-            <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
-              <thead>
-                  <tr>
-                      <th>Bil.</th>
-                
-                      <th>PERALATAN</th>
-                      <th>JENIS</th>
-                      <th>PENERIMA</th>
-                      <th>JAWATAN</th>
-                      <th>NAMA BANGUNAN</th>
-                      <th>TINGKAT</th>
-                      <th>LOKASI</th>
-                      <th>VENDOR</th>
-                      <th>JUSTIFIKASI</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {items.length > 0 && items?.map( (item,index) => (
-                  <tr key={index}>
-                      <td><Badge>{index + 1}</Badge></td>
-          
-                      <td>{item.category.name}</td>
-                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.mohon_item?.name}</td>
-                      <td>{item.mohon_item?.occupation}</td>
-                      <td>{item.mohon_item?.building_name}</td>
-                      <td>{item.mohon_item?.building_level}</td>
-                      <td>{item.mohon_item?.location}</td>
-                      <td>{item.inventory?.vendor}</td>
-                      <td className='text-center'>
+            <h5>Maklumat Agihan ( {items.length} unit )</h5>
+            <Row className='g-2 mt-0'>
+              {items.map((item, index) => (
+                <Col xs={12} md={6} lg={4} key={index}>
+                  <Card className='h-100 shadow-sm'>
+                    <Card.Header className='d-flex align-items-center justify-content-between py-2'>
+                      <strong>{item.category?.name}</strong>
+                      <Badge bg={item.type === 'new' ? 'success' : 'warning'} text={item.type === 'new' ? undefined : 'dark'}>
+                        {item.type === 'new' ? 'Baharu' : 'Ganti'}
+                      </Badge>
+                    </Card.Header>
+                    <Card.Body className='py-2 px-3'>
+                      <InfoRow label='Penerima' value={item.mohon_item?.name} />
+                      <InfoRow label='Jawatan' value={item.mohon_item?.occupation} />
+                      <InfoRow label='Bangunan' value={item.mohon_item?.building_name} />
+                      <InfoRow label='Tingkat' value={item.mohon_item?.building_level} />
+                      <InfoRow label='Lokasi' value={item.mohon_item?.location} />
+                      <InfoRow label='Vendor' value={item.inventory?.vendor} />
+                    </Card.Body>
+                    {item.mohon_item?.description && (
+                      <Card.Footer className='py-2 text-end'>
                         <JustificationModal message={item.mohon_item?.description} />
-                      </td>
-                  </tr>
-                ))}
-
-              </tbody>
-            </Table>
+                      </Card.Footer>
+                    )}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </Col>
            
 
@@ -213,7 +203,7 @@ export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi agihan"
               icon="fas fa-pencil"
-              rows ="8"
+              rows ="3"
               isLoading={isLoading} 
             />
           </Col>
@@ -254,3 +244,9 @@ export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
     );
   }
 
+const InfoRow = ({ label, value }) => (
+  <div className='d-flex justify-content-between mb-1' style={{ fontSize: '0.85rem' }}>
+    <span className='text-muted'>{label}</span>
+    <span className='fw-semibold text-end ms-2'>{value ?? '-'}</span>
+  </div>
+)

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(do wc:*)"
+      "Bash(do wc:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(php artisan:*)"
     ]
   }
 }
