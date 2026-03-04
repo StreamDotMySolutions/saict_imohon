@@ -58,26 +58,19 @@ class InventoryService
 
     public static function update($inventory,$request)
     {
-        $user =  auth('sanctum')->user();
-        return Inventory::query()
-                            //->where('user_id', $user->id)
-                            ->where('id',$inventory->id)
-                            ->update([
-                                'vendor'          => $request->vendor,
-                                'model'           => $request->model,
-                                'phone'           => $request->phone,
-                                'email'           => $request->email,
-                                'category_id'     => $request->category_id,
-                                'total'           => $request->total,
-                                'date_start'      => $request->date_start,
-                                'date_end'        => $request->date_end,
-                                'received_on'     => $request->received_on,
-                                'contract_name'   => $request->contract_name,
-                                'contract_number' => $request->contract_number,
-                                'contract_owner'  => $request->contract_owner,
-                                'contract_pic'    => $request->contract_pic,
-                                'contract_value'  => $request->contract_value,
-                                ]);
+        $fields = [
+            'vendor', 'model', 'phone', 'email', 'category_id',
+            'total', 'date_start', 'date_end', 'received_on',
+            'contract_name', 'contract_number', 'contract_owner',
+            'contract_pic', 'contract_value',
+        ];
+
+        $data = collect($fields)
+            ->filter(fn($field) => $request->has($field))
+            ->mapWithKeys(fn($field) => [$field => $request->input($field)])
+            ->toArray();
+
+        return Inventory::where('id', $inventory->id)->update($data);
     }
 
     public static function delete($inventory)

@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
 
                 'date_start' => 'sometimes|date',
                 'date_end' => 'sometimes|date|after:date_start',
-                'received_on' => 'required|date|after_or_equal:date_start|before_or_equal:date_end',
+                'received_on' => 'sometimes|date|after_or_equal:date_start|before_or_equal:date_end',
         ];
     }
 
