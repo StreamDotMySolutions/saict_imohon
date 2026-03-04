@@ -131,9 +131,18 @@ class MohonDistributionRequestService
     public static function generateReferenceNo()
     {
         $year = now()->year;
-        $count = MohonDistributionRequest::whereYear('created_at', $year)->count();
-        $sequence = str_pad($count + 1, 5, '0', STR_PAD_LEFT);
-        return "AGIHAN-{$year}-{$sequence}";
+        $prefix = "AGIHAN-{$year}-";
+
+        $latest = MohonDistributionRequest::whereYear('created_at', $year)
+            ->where('reference_no', 'like', "{$prefix}%")
+            ->orderByRaw('CAST(SUBSTRING(reference_no, ' . (strlen($prefix) + 1) . ') AS UNSIGNED) DESC')
+            ->value('reference_no');
+
+        $sequence = $latest
+            ? (int) substr($latest, strlen($prefix)) + 1
+            : 1;
+
+        return $prefix . str_pad($sequence, 5, '0', STR_PAD_LEFT);
     }
 
     public static function store($request, $mohonRequestId)

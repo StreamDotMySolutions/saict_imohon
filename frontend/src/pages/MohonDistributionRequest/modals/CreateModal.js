@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { Link, useParams,Navigate } from 'react-router-dom'
+import { Link, useParams, useSearchParams, Navigate } from 'react-router-dom'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
@@ -8,22 +8,31 @@ import useMohonStore from '../store'
 export default function CreateModal() {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const { mohonRequestId } = useParams()
+    const [searchParams] = useSearchParams()
     const store = useMohonStore()
     const errors = store.errors
-    
+
 
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
-  
+
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
+
+    // Auto-open if ?create=true in URL
+    useEffect(() => {
+      if (searchParams.get('create') === 'true') {
+        store.emptyData()
+        setShow(true)
+      }
+    }, [])
 
     const handleShowClick = () =>{
       store.emptyData() // empty store data
       setShow(true)
-    } 
+    }
 
     const handleCloseClick = () => {
       handleClose()

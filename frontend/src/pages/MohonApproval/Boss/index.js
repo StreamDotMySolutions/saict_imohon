@@ -1,8 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Index from './components/Index';
-import { Badge, Tab, Tabs } from 'react-bootstrap';
+import { Badge, Nav } from 'react-bootstrap';
+
+const TABS = [
+    { key: 'pending',  label: 'Menunggu', bg: 'warning', text: 'dark'  },
+    { key: 'approved', label: 'Lulus',    bg: 'success', text: 'white' },
+    { key: 'rejected', label: 'Gagal',    bg: 'danger',  text: 'white' },
+];
 
 const MohonApprovalByBoss = () => {
+    const [tab, setTab] = useState('pending');
+
     return (
         <div>
             <nav aria-label="breadcrumb">
@@ -12,20 +21,22 @@ const MohonApprovalByBoss = () => {
                 </ol>
             </nav>
 
-            <Tabs
-                 defaultActiveKey="pending"
-            >
-                <Tab eventKey="pending" title="Menunggu Kelulusan">
-                    <Index status={'pending'} />
-                </Tab>
-                <Tab eventKey="approved" title="Lulus">
-                    <Index status={'approved'} />
-                </Tab>
-                <Tab eventKey="rejected" title="Gagal">
-                    <Index status={'rejected'} />
-                </Tab>
-            </Tabs>
-           
+            <Nav variant='tabs' className='mb-3'>
+                {TABS.map(t => (
+                    <Nav.Item key={t.key}>
+                        <Nav.Link
+                            active={tab === t.key}
+                            onClick={() => setTab(t.key)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Badge bg={t.bg} text={t.text} className='me-1'>&nbsp;</Badge>
+                            {t.label}
+                        </Nav.Link>
+                    </Nav.Item>
+                ))}
+            </Nav>
+
+            <Index key={tab} status={tab} />
         </div>
     );
 };

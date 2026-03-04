@@ -19,7 +19,15 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Utama</Nav.Link>
                 <Nav.Link as={NavLink} to="/users"> <FontAwesomeIcon icon="fa-solid fa-user" />{' '}Pengguna</Nav.Link>
               
-                <Nav.Link as={NavLink} to="/mohon-approval/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Permohonan</Nav.Link>
+                <Dropdown>
+                  <Dropdown.Toggle variant="default" id="dropdown-mohon">
+                    <FontAwesomeIcon icon="fa-solid fa-file-pen" />{' '}Mohon
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Nav.Link as={NavLink} to="/mohon-approval/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Permohonan</Nav.Link>
+                    <Nav.Link as={NavLink} to="/admin/agihan"> <FontAwesomeIcon icon="fa-solid fa-boxes-stacked" />{' '}Agihan</Nav.Link>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <Nav.Link as={NavLink} to="/inventories"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Inventori</Nav.Link>
                 {/* <Nav.Link as={NavLink} to="/distributions"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link> */}
                 

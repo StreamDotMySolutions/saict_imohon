@@ -19,6 +19,8 @@
         .body { padding: 32px; }
         .greeting { font-size: 15px; margin-bottom: 20px; }
         .info-box { background-color: #f0f4ff; border-left: 4px solid #003087; border-radius: 4px; padding: 16px 20px; margin: 20px 0; }
+        .info-box.success { background-color: #f0fff4; border-left-color: #27ae60; }
+        .info-box.danger  { background-color: #fff0f0; border-left-color: #c0392b; }
         .info-box table { width: 100%; border-collapse: collapse; }
         .info-box td { padding: 5px 0; font-size: 14px; vertical-align: top; }
         .info-box td:first-child { color: #666; width: 45%; }
@@ -37,7 +39,8 @@
             font-weight: bold;
             letter-spacing: 0.3px;
         }
-        .cta-btn:hover { background-color: #00205f; }
+        .cta-btn.success { background-color: #27ae60; }
+        .cta-btn.danger  { background-color: #c0392b; }
 
         /* Disclaimer */
         .disclaimer {
@@ -73,30 +76,50 @@
             <p>Sistem Agihan ICT</p>
         </div>
 
+        {{-- Resolve role helpers --}}
+        @php
+            $role         = $data['role'] ?? 'manager';
+            $isApproved   = in_array($role, ['user_admin_approved', 'manager_admin_approved']);
+            $isRejected   = in_array($role, ['requester_rejected', 'user_admin_rejected', 'manager_admin_rejected']);
+            $byAdmin      = in_array($role, ['user_admin_approved', 'user_admin_rejected', 'manager_admin_approved', 'manager_admin_rejected']);
+            $deciderLabel = $isApproved ? 'Diluluskan Oleh' : 'Ditolak Oleh';
+            $deciderName  = $byAdmin ? ($data['admin_name'] ?? '-') : ($data['manager_name'] ?? '-');
+            $deciderRole  = $byAdmin ? 'Admin' : 'Pelulus 1';
+        @endphp
+
         {{-- Body --}}
         <div class="body">
             <p class="greeting">Assalamualaikum w.b.t dan Salam Sejahtera,</p>
             <p>Yang Berhormat <strong>{{ $data['name'] }}</strong>,</p>
 
-            @if(($data['role'] ?? '') === 'admin')
-            <p>
-                Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT</strong>
-                yang telah diluluskan oleh Pelulus 1 dan kini menunggu tindakan pemprosesan daripada pihak Admin.
-            </p>
-            @elseif(($data['role'] ?? '') === 'requester_rejected')
-            <p>
-                Kami ingin memaklumkan bahawa <strong>permohonan peralatan ICT</strong> anda telah
-                <span style="color:#c0392b;"><strong>DITOLAK</strong></span> oleh Pelulus 1.
-            </p>
-            @else
-            <p>
-                Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT baharu</strong>
-                yang memerlukan kelulusan anda melalui sistem SAICT iMohon.
-            </p>
+            {{-- Context paragraph --}}
+            @if($role === 'manager')
+                <p>Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT baharu</strong> yang memerlukan kelulusan anda melalui sistem SAICT iMohon.</p>
+
+            @elseif($role === 'admin')
+                <p>Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT</strong> yang telah diluluskan oleh Pelulus 1 dan kini menunggu tindakan pemprosesan daripada pihak Admin.</p>
+
+            @elseif($role === 'requester_rejected')
+                <p>Kami ingin memaklumkan bahawa <strong>permohonan peralatan ICT</strong> anda telah <span style="color:#c0392b;"><strong>DITOLAK</strong></span> oleh Pelulus 1.</p>
+
+            @elseif($role === 'user_admin_approved')
+                <p>Kami dengan sukacitanya memaklumkan bahawa <strong>permohonan peralatan ICT</strong> anda telah <span style="color:#27ae60;"><strong>DILULUSKAN</strong></span> oleh Admin. Proses pengagihan peralatan akan dijalankan tidak lama lagi.</p>
+
+            @elseif($role === 'user_admin_rejected')
+                <p>Kami ingin memaklumkan bahawa <strong>permohonan peralatan ICT</strong> anda telah <span style="color:#c0392b;"><strong>DITOLAK</strong></span> oleh Admin.</p>
+
+            @elseif($role === 'manager_admin_approved')
+                <p>Kami ingin memaklumkan bahawa <strong>permohonan peralatan ICT</strong> yang anda luluskan telah <span style="color:#27ae60;"><strong>DILULUSKAN</strong></span> oleh Admin dan akan diteruskan ke peringkat pengagihan.</p>
+
+            @elseif($role === 'manager_admin_rejected')
+                <p>Kami ingin memaklumkan bahawa <strong>permohonan peralatan ICT</strong> yang anda luluskan telah <span style="color:#c0392b;"><strong>DITOLAK</strong></span> oleh Admin.</p>
             @endif
 
             {{-- Info Box --}}
-            <div class="info-box">
+            @php
+                $boxClass = $isApproved ? 'info-box success' : ($isRejected ? 'info-box danger' : 'info-box');
+            @endphp
+            <div class="{{ $boxClass }}">
                 <table>
                     <tr>
                         <td>Pemohon</td>
@@ -106,10 +129,10 @@
                         <td>E-mel Pemohon</td>
                         <td>: {{ $data['requester_email'] }}</td>
                     </tr>
-                    @if(in_array($data['role'] ?? '', ['admin', 'requester_rejected']))
+                    @if($byAdmin || $isRejected)
                     <tr>
-                        <td>{{ ($data['role'] ?? '') === 'admin' ? 'Diluluskan Oleh' : 'Ditolak Oleh' }}</td>
-                        <td>: {{ $data['manager_name'] }}</td>
+                        <td>{{ $deciderLabel }} ({{ $deciderRole }})</td>
+                        <td>: {{ $deciderName }}</td>
                     </tr>
                     @endif
                     <tr>
@@ -120,16 +143,16 @@
                         <td>Tarikh</td>
                         <td>: {{ $data['date'] }}</td>
                     </tr>
-                    @if(($data['role'] ?? '') === 'requester_rejected' && !empty($data['message']))
+                    @if($isRejected && !empty($data['message']))
                     <tr>
                         <td>Sebab Penolakan</td>
-                        <td>: {{ $data['message'] }}</td>
+                        <td>: <span style="color:#c0392b;">{{ $data['message'] }}</span></td>
                     </tr>
                     @endif
-                    @if(($data['role'] ?? '') !== 'requester_rejected')
+                    @if(in_array($role, ['manager', 'admin']))
                     <tr>
                         <td>Tindakan Diperlukan</td>
-                        @if(($data['role'] ?? '') === 'admin')
+                        @if($role === 'admin')
                         <td>: <span style="color:#c0392b;">Proses Permohonan</span></td>
                         @else
                         <td>: <span style="color:#c0392b;">Semak &amp; Luluskan Permohonan</span></td>
@@ -145,12 +168,11 @@
 
             {{-- CTA --}}
             <div class="cta-wrap">
-                @if(($data['role'] ?? '') === 'requester_rejected')
-                <a href="{{ $data['system_url'] }}" class="cta-btn" style="background-color:#c0392b;">
-                    Lihat Permohonan Saya
-                </a>
+                @if(in_array($role, ['requester_rejected', 'user_admin_approved', 'user_admin_rejected', 'manager_admin_approved', 'manager_admin_rejected']))
+                    @php $btnClass = $isApproved ? 'cta-btn success' : 'cta-btn danger'; @endphp
+                    <a href="{{ $data['system_url'] }}" class="{{ $btnClass }}">Lihat Permohonan</a>
                 @else
-                <a href="{{ $data['system_url'] }}" class="cta-btn">Log Masuk ke SAICT iMohon</a>
+                    <a href="{{ $data['system_url'] }}" class="cta-btn">Log Masuk ke SAICT iMohon</a>
                 @endif
             </div>
 

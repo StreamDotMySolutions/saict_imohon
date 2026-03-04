@@ -4,31 +4,72 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MohonRequest;
+use App\Models\Inventory;
 
 class AgihanController extends Controller
 {
-    public function mohon()
+    public function vendors($categoryId)
     {
+        $vendors = Inventory::where('category_id', $categoryId)->get();
+        return response()->json(['vendors' => $vendors]);
+    }
 
-        $paginate = MohonRequest::query(); // Intiate Paginate
-        $items = $paginate->orderBy('id','DESC')
-                    //->with(['mohonApproval'])
+    public function show($mohonId)
+    {
+        $mohon = MohonRequest::with([
+            'user.userProfile.userDepartment',
+            'mohonItems.category',
+            'mohonDistributionRequests.mohonDistributionItems.mohonItem',
+            'mohonDistributionRequests.mohonDistributionItems.category',
+            'mohonDistributionRequests.mohonDistributionItems.inventory',
+            'mohonDistributionRequests.mohonDistributionApprovals',
+        ])->findOrFail($mohonId);
 
-                    ->with(['user.userProfile.userDepartment','mohonApproval'])
+        return response()->json(['mohon' => $mohon]);
+    }
 
-                    // step=1 is where user requesting approval
-                    // step=2 is where manager approved
-                    ->whereHas('mohonApproval', function ($query) {
-                        $query->where('status', 'approved')->where('step', 2);
-                    })
+    public function mohon(Request $request)
+    {
+        $tab = $request->input('tab', 'baharu');
 
-                    ->withCount(['mohonItems']) // to calculate how many items
-                    
-                    ->paginate(10) // 10 items per page
-                    ->withQueryString(); // with GET Query String
+        // Base: only mohon requests fully approved by admin (step=4, approved)
+        $query = MohonRequest::query()
+            ->with(['user.userProfile.userDepartment', 'mohonApproval'])
+            ->where('step', 4)
+            ->where('status', 'approved')
+            ->withCount(['mohonItems', 'mohonDistributionItems']);
+
+        if ($tab === 'menunggu') {
+            // Submitted to boss (step=1 pending), no boss decision yet
+            $query->whereHas('mohonDistributionRequests.mohonDistributionApprovals', function ($q) {
+                $q->where('step', 1)->where('status', 'pending');
+            })->whereDoesntHave('mohonDistributionRequests.mohonDistributionApprovals', function ($q) {
+                $q->where('step', 2);
+            });
+        } elseif ($tab === 'lulus') {
+            // Boss approved (step=2 approved)
+            $query->whereHas('mohonDistributionRequests.mohonDistributionApprovals', function ($q) {
+                $q->where('step', 2)->where('status', 'approved');
+            });
+        } elseif ($tab === 'gagal') {
+            // Boss rejected (step=2 rejected)
+            $query->whereHas('mohonDistributionRequests.mohonDistributionApprovals', function ($q) {
+                $q->where('step', 2)->where('status', 'rejected');
+            });
+        } else {
+            // Baharu: admin approved but no distribution submitted to boss yet
+            $query->whereDoesntHave('mohonDistributionRequests', function ($q) {
+                $q->whereHas('mohonDistributionApprovals', function ($q2) {
+                    $q2->where('step', '>=', 1);
+                });
+            });
+        }
+
+        $items = $query->orderBy('id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
 
         return response()->json(['items' => $items]);
-        
     }
 
 

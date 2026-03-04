@@ -3,7 +3,7 @@ import useStore from './store'
 import { useEffect, useState } from 'react'
 import axios from '../../../libs/axios'
 import { Button, Container, Pagination, Row, Table } from 'react-bootstrap';
-import ReportingModal from '../../MohonApproval/Admin/modals/ReportingModal'
+import ReportingModal from '../../Reporting/ReportingModal'
 import DeleteModal from './modals/DeleteModal';
 
 
@@ -51,7 +51,7 @@ const ManageDistributionRequest = () => {
                     <td className='text-center'>{item.created_at}</td>
              
                     <td className='text-center'>
-                        <ReportingModal id={item.mohon_request_id} />
+                        <ReportingModal mohonRequestId={item.mohon_request_id} />
                         {' '}
                         <DeleteModal id={item.id} />
                     </td>

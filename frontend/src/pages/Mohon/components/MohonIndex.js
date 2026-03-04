@@ -34,22 +34,22 @@ const agihanLabel = (distributionRequests) => {
 const canDelete = (step, status) =>
     step === 0 || (step === 2 && status === 'rejected');
 
-const MohonIndex = () => {
+const MohonIndex = ({ tab }) => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
     const apiUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: `${apiUrl}/user/mohon-requests`
-        })
+        const url = tab
+            ? `${apiUrl}/user/mohon-requests?tab=${tab}`
+            : `${apiUrl}/user/mohon-requests`
+        axios({ method: 'get', url })
         .then(response => {
             setMohons(response.data.mohons)
             store.setValue('refresh', false)
         })
         .catch(error => console.warn(error))
-    }, [store.getValue('refresh'), store.url])
+    }, [store.getValue('refresh'), store.url, tab])
 
     const data = mohons?.data ?? [];
 

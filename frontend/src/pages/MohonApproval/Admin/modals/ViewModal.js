@@ -125,14 +125,15 @@ export default function ViewModal({id}) {
           Pengesahan
         </Button>
   
-        <Modal fullscreen show={show} onHide={handleCloseClick}>
+        <Modal size="xl" show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title>Lihat Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
+            
             <MohonData id={id} />
-
+            <br />
             <h5>Justifikasi</h5>
             <InputTextarea
               fieldName="message"

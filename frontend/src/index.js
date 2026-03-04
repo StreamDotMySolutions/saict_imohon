@@ -68,6 +68,8 @@ import ShowAgihan from './pages/Agihan-v2/show.js';
 import UserAgihan from './pages/UserAgihan'
 import MohonAdministration from './pages/Administrations/Mohon'
 import AgihanAdministration from './pages/Administrations/Agihan'
+import AdminAgihan from './pages/AdminAgihan'
+import AdminAgihanShow from './pages/AdminAgihan/show'
 
 import RefreshAlert from './components/global/RefreshAlert.js';
 
@@ -125,6 +127,9 @@ export default function App() {
 
                 <Route path="/administration/mohon" element={<MohonAdministration />} />
                 <Route path="/administration/agihan" element={<AgihanAdministration />} />
+
+                <Route path="/admin/agihan" element={<AdminAgihan />} />
+                <Route path="/admin/agihan/:mohonId" element={<AdminAgihanShow />} />
 
                 <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
                 <Route path="/mohon-approval/by-admin" element={<MohonApprovalByAdmin />} />    
