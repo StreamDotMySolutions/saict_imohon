@@ -9,6 +9,7 @@ use App\Http\Requests\Mohon\StoreMohonRequest;
 use App\Http\Requests\Mohon\UpdateMohonRequest;
 use App\Http\Requests\Mohon\TicketMohonRequest;
 use App\Http\Controllers\Controller;
+use App\Models\MohonDistributionRequest;
 
 class MohonRequestController extends Controller
 {
@@ -78,6 +79,33 @@ class MohonRequestController extends Controller
                 'message' => 'Permohonan gagal dipadam',
             ],422);
         }
+    }
+
+    public function agihan()
+    {
+        $user = auth('sanctum')->user();
+
+        $agihan = MohonDistributionRequest::query()
+            ->whereHas('mohonRequest', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->whereHas('mohonDistributionApproval', function ($q) {
+                $q->where('status', 'approved');
+            })
+            ->with([
+                'mohonRequest',
+                'mohonDistributionApproval',
+                'mohonDistributionItems.category',
+                'mohonDistributionItems.inventory',
+                'mohonDistributionItems.mohonItem',
+                'mohonDistributionItems.mohonDistributionItemDelivery',
+                'mohonDistributionItems.mohonDistributionItemAcceptance',
+            ])
+            ->orderBy('id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
+
+        return response()->json(['agihan' => $agihan]);
     }
 
     public function ticketStore(TicketMohonRequest $request, MohonRequest $mohonRequest){

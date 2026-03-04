@@ -1,10 +1,16 @@
 import React from 'react';
+import LegendPermohonan from '../../Info/LegendPermohonan';
+import StatusPermohonan from '../../Info/StatusPermohonan';
 
 const Boss = () => {
     return (
-        <div>
-            Anda login sebagai Pelulus 2
-        </div>
+        <>
+            <h3>Sistem iMohon</h3>
+            <hr />
+            <LegendPermohonan />
+            <br />
+            <StatusPermohonan />
+        </>
     );
 };
 

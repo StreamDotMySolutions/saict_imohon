@@ -161,6 +161,7 @@ const SignInForm = () => {
 
          </form>
 
+        {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
         <div className='mt-4 p-3 border rounded bg-light'>
             <small className='text-muted d-block mb-2'><strong>DEV — Test Credentials</strong></small>
             <div className='d-flex flex-wrap gap-2'>
@@ -176,6 +177,7 @@ const SignInForm = () => {
                 ))}
             </div>
         </div>
+        )}
         </>
     )
 }

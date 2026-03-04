@@ -1,42 +1,26 @@
-import { Link, useParams, useNavigate} from 'react-router-dom'
-import useMohonItemStore from './store'
-import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import axios from '../../libs/axios'
-import MohonItemIndex from './components/MohonItemIndex'
 import MohonDistributionItemIndex from './components/MohonDistributionItemIndex'
-import { Alert, Badge, Button } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Badge } from 'react-bootstrap'
 
 const MohonDistributionItem = () => {
   const apiUrl = process.env.REACT_APP_BACKEND_URL
   const { mohonDistributionRequestId } = useParams()
-  const navigate = useNavigate()
-  const store = useMohonItemStore()
-  const [title, setTitle] = useState('')
-  const [step, setStep] = useState('')
   const [mohonRequestId, setMohonRequestId] = useState('')
-  const [response, setResponse] = useState([])
 
-  axios({
-    'method' : 'get',
-    //'url' : `${store.mohonDistributionUrl}/${mohonDistributionRequestId}`
-    'url' : `${apiUrl}/admin/mohon-distribution/${mohonDistributionRequestId}`
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `${apiUrl}/admin/mohon-distribution/${mohonDistributionRequestId}`
     })
-    .then( response => {
-        //console.log('get mohon_approval')
-        //console.log(response.data.mohon)
-        setResponse(response.data.mohon)
-        let mohon = response.data.mohon
-        //setMohon(mohon.mohon_)
-        //store.setValue('title', mohon.title) // set formValue
-        setTitle(mohon.title)
-        setStep(mohon.mohon_distribution_approval.step)
-        setMohonRequestId(mohon.mohon_request_id)
-        //store.setValue('description', mohon.description) // set formValue
-    })
-    .catch ( error => {
+      .then(response => {
+        setMohonRequestId(response.data.mohon.mohon_request_id)
+      })
+      .catch(error => {
         console.warn(error)
-    })
+      })
+  }, [mohonDistributionRequestId])
 
     return (
         <div>
@@ -50,8 +34,7 @@ const MohonDistributionItem = () => {
                     <li className="breadcrumb-item"> Senarai Peralatan</li>
                 </ol>
             </nav>
-            {/* <MohonItemIndex mohonRequestId={mohonDistributionRequestId} step={step} />  */}
-            <MohonDistributionItemIndex agihanRequestId={mohonDistributionRequestId} step={step} />
+            <MohonDistributionItemIndex agihanRequestId={mohonDistributionRequestId} />
         </div>
     );
 };

@@ -42,9 +42,15 @@ class MohonApprovalService
         // send email to manager
         $manager = User::where('id', $request->input('manager_id'))->first();
         if ($manager) {
+            $mohon = MohonRequest::find($mohonRequestId);
             $data = [
-                'name' => $manager->name,
-                'message' => 'Notifikasi Permohonan Peralatan'
+                'name'           => $manager->name,
+                'requester_name' => $user->name,
+                'requester_email'=> $user->email,
+                'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                'system_url'     => env('FRONTEND_URL', config('app.url')),
+                'date'           => now()->translatedFormat('d F Y'),
+                'role'           => 'manager',
             ];
             Mail::to($manager->email)->send(new MohonNotification($data));
         }
@@ -108,7 +114,7 @@ class MohonApprovalService
                 //'approver_id' => $user->id, // requesting  ANY admin
             ]);
 
-            return MohonApproval::create([
+            $step3 = MohonApproval::create([
                 'mohon_request_id' => $mohonRequestId,
                 'user_id' => $user->id, // Manager
 
@@ -118,7 +124,42 @@ class MohonApprovalService
                 'step' => 3, // step 3 is for admin maanaging
                 'status' => 'pending' // pending
             ]);
+
+            // notify all admins
+            $mohon = MohonRequest::with('user')->find($mohonRequestId);
+            $admins = User::whereHas('roles', fn($q) => $q->where('name', 'admin'))->get();
+            foreach ($admins as $admin) {
+                $data = [
+                    'name'           => $admin->name,
+                    'requester_name' => $mohon->user->name ?? '-',
+                    'requester_email'=> $mohon->user->email ?? '-',
+                    'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                    'manager_name'   => $user->name,
+                    'system_url'     => env('FRONTEND_URL', config('app.url')),
+                    'date'           => now()->translatedFormat('d F Y'),
+                    'role'           => 'admin',
+                ];
+                Mail::to($admin->email)->send(new MohonNotification($data));
+            }
+
+            return $step3;
         } else {
+            // notify requester of rejection
+            $mohon = MohonRequest::with('user')->find($mohonRequestId);
+            if ($mohon && $mohon->user) {
+                $data = [
+                    'name'           => $mohon->user->name,
+                    'requester_name' => $mohon->user->name,
+                    'requester_email'=> $mohon->user->email,
+                    'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                    'manager_name'   => $user->name,
+                    'system_url'     => env('FRONTEND_URL', config('app.url')),
+                    'date'           => now()->translatedFormat('d F Y'),
+                    'role'           => 'requester_rejected',
+                    'message'        => $request->input('message'),
+                ];
+                Mail::to($mohon->user->email)->send(new MohonNotification($data));
+            }
             return $approval;
         }
   

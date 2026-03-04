@@ -128,6 +128,14 @@ class MohonDistributionRequestService
     * on allocated Item based on Permohonan
     */
 
+    public static function generateReferenceNo()
+    {
+        $year = now()->year;
+        $count = MohonDistributionRequest::whereYear('created_at', $year)->count();
+        $sequence = str_pad($count + 1, 5, '0', STR_PAD_LEFT);
+        return "AGIHAN-{$year}-{$sequence}";
+    }
+
     public static function store($request, $mohonRequestId)
     {
 
@@ -136,6 +144,7 @@ class MohonDistributionRequestService
         $mohonDistributionRequest = MohonDistributionRequest::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id,
+            'reference_no' => self::generateReferenceNo(),
             'title' => $request->input('title'),
             'description' => $request->input('description')
         ]);

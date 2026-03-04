@@ -143,7 +143,9 @@ const SignInByNricForm = () => {
             {' '}
             
             <span className='fs-6 ms-4'>
-            {/* <Link to='/sign-in'><FontAwesomeIcon icon="fa-solid fa-envelope" />{' '}Log In Guna Email</Link> */}
+                {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
+                    <Link to='/sign-in-by-email'><FontAwesomeIcon icon="fa-solid fa-envelope" />{' '}Log In Guna Email</Link>
+                )}
 
                 <Link className='ms-3' to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
                 

@@ -196,7 +196,7 @@ export default function EditModal({id, step}) {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Kemaskini Permohonan </Modal.Title>
+            <Modal.Title>Kemaskini Permohonan </Modal.Title>
           </Modal.Header>
 
           {/* <Modal.Body>

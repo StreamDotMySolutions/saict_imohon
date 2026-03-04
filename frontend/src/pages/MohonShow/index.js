@@ -1,319 +1,224 @@
-import { Link } from 'react-router-dom'
-import MohonIndex from './components/MohonIndex'
-import { Badge } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
-import useMohonStore from './store'
-import axios from '../../libs/axios'
+import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Table,Pagination, Button,Row,Col } from 'react-bootstrap'
-import EditModal from '../Mohon/modals/EditModal'
-import DeleteModal from '../Mohon/modals/DeleteModal'
-// import StatusPermohonan from '../Mohon/components/StatusPermohonan'
-// import StatusAgihan from '../Mohon/components/StatusAgihan'
+import axios from '../../libs/axios'
+import { Alert, Badge, Button, Card, Col, Container, Row, Table } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+const stepLabel = (step, status) => {
+    if (step === 0) return { text: 'Draf', bg: 'secondary' };
+    if (step === 1 && status === 'pending') return { text: 'Menunggu Pelulus 1', bg: 'warning' };
+    if (step === 2 && status === 'approved') return { text: 'Diluluskan', bg: 'success' };
+    if (step === 2 && status === 'rejected') return { text: 'Ditolak', bg: 'danger' };
+    if (step === 3 && status === 'pending') return { text: 'Dalam Proses Admin', bg: 'warning' };
+    if (step === 3 && status === 'approved') return { text: 'Diluluskan', bg: 'success' };
+    if (step === 4 && status === 'approved') return { text: 'Selesai', bg: 'success' };
+    if (step === 4 && status === 'rejected') return { text: 'Ditolak', bg: 'danger' };
+    return { text: 'Belum Memohon', bg: 'secondary' };
+};
+
+const approvalStatusBadge = (status) => {
+    switch (status) {
+        case 'approved': return <Badge bg='success'>Lulus</Badge>;
+        case 'rejected': return <Badge bg='danger'>Tolak</Badge>;
+        case 'pending':  return <Badge bg='warning' text='dark'>Dalam Tindakan</Badge>;
+        default:         return <Badge bg='secondary'>{status}</Badge>;
+    }
+};
 
 const MohonShow = () => {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL
-    const { mohonRequestId } = useParams()
-    const store = useMohonStore()
-    const [response, setResponse] = useState([])
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    const { mohonRequestId } = useParams();
+    const [mohon, setMohon] = useState(null);
 
-    //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
+    useEffect(() => {
+        axios({ method: 'get', url: `${apiUrl}/global/mohon-requests/${mohonRequestId}` })
+            .then(response => setMohon(response.data.mohon))
+            .catch(error => console.warn(error));
+    }, [mohonRequestId]);
 
-    useEffect( () => {
-        axios({
-                'method' : 'get',
-                //'url' : `${store.mohonRequestUrl}/${mohonRequestId}`
-                'url' : `${apiUrl}/global/mohon-requests/${mohonRequestId}`
-            })
-            .then( response => {
-                //console.log(`${store.mohonRequestUrl}/${mohonRequestId}`)
-                //console.log(response.data.mohon)
-                setResponse(response.data.mohon)
-            })
-            .catch ( error => {
-                console.warn(error)
-            })
-    }, [mohonRequestId])
+    if (!mohon) return <div className='text-center py-5 text-muted'>Memuatkan...</div>;
 
-    function ApprovalLevel({step}){
-        const [level,setLevel] = useState('')
-
-        useEffect( () => {
-            switch (step) {
-                case 0:
-                    setLevel('User cipta permohonan');
-                    break;
-                case 1:
-                    setLevel('User mohon kelulusan dari Pelulus 1');
-                    break;   
-                case 2:
-                    setLevel('Di peringkat Pelulus 1');
-                break;   
-                case 3:
-                    setLevel('Pelulus 1 mohon kelulusan dari Admin');
-                break;   
-
-                case 4:
-                    setLevel('Di peringkat Admin');
-                break;   
-            }
-        })
-
-        return (
-            <>
-            {level}
-            </>
-        )
-    }
+    const approval = mohon.mohon_approval;
+    const { text: statusText, bg: statusBg } = stepLabel(approval?.step, approval?.status);
 
     return (
-        <div>
+        <Container>
+            {/* Breadcrumb */}
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                        <Link to='/mohon'><Badge>Mohon</Badge></Link>
-                        
-                        </li>
-                    <li className="breadcrumb-item">{response?.title}</li>
+                    <li className="breadcrumb-item"><Link to='/mohon'><Badge bg='secondary'>Mohon</Badge></Link></li>
+                    <li className="breadcrumb-item active">Butiran Permohonan</li>
                 </ol>
             </nav>
-         
 
-            <Row>
+            {/* Page header */}
+            <div className='d-flex align-items-center justify-content-between mb-3'>
+                <div>
+                    <h4 className='mb-1'>{mohon.reference_no ?? `Permohonan #${mohon.id}`}</h4>
+                    <Badge bg={statusBg} text={statusBg === 'warning' ? 'dark' : undefined} className='fs-6'>
+                        {statusText}
+                    </Badge>
+                </div>
+                <div className='d-flex gap-2'>
+                    <Link to={`/mohon-items/${mohon.id}`}>
+                        <Button size='sm' variant='outline-primary'>
+                            <FontAwesomeIcon icon='fas fa-tools' /> Peralatan
+                        </Button>
+                    </Link>
+                    {mohon.mohon_distribution_requests?.length > 0 ? (
+                        <Link to={`/agihan/${mohon.id}`}>
+                            <Button size='sm' variant='outline-success'>
+                                <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Agihan
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Button size='sm' variant='outline-secondary' disabled>
+                            <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Agihan
+                        </Button>
+                    )}
+                </div>
+            </div>
 
-                <Row className="mb-3 mt-3 border p-3" style={{backgroundColor:""}}>
-                    <h2>MAKLUMAT PEMOHON</h2>
-                    <Table>
-                        <thead>
+            <hr />
+
+            {/* Notifikasi tiada peralatan */}
+            {mohon.mohon_items_count === 0 && approval?.step === 0 && (
+                <Alert variant='warning' className='d-flex align-items-center gap-2'>
+                    <FontAwesomeIcon icon='fas fa-circle-exclamation' />
+                    <span>
+                        Permohonan ini belum mempunyai peralatan. Sila{' '}
+                        <Alert.Link as={Link} to={`/mohon-items/${mohon.id}?create=true`}>
+                            tambah peralatan
+                        </Alert.Link>{' '}
+                        sebelum menghantar permohonan.
+                    </span>
+                </Alert>
+            )}
+
+            {/* Maklumat Pemohon */}
+            <h6 className='text-muted text-uppercase mb-2'>Maklumat Pemohon</h6>
+            <Row className='g-2 mb-4'>
+                {[
+                    { label: 'Kad Pengenalan', value: mohon.user?.nric },
+                    { label: 'Telefon', value: mohon.user?.user_profile?.phone },
+                    { label: 'Jabatan', value: mohon.user?.user_profile?.user_department?.name },
+                    { label: 'Jumlah Peralatan', value: `${mohon.mohon_items_count} unit` },
+                    { label: 'Tarikh Permohonan', value: mohon.created_at },
+                ].map(({ label, value }) => (
+                    <Col xs={6} md={4} lg={3} key={label}>
+                        <Card className='h-100' style={{ backgroundColor: '#f8f9fa' }}>
+                            <Card.Body className='py-2 px-3'>
+                                <div className='text-muted' style={{ fontSize: '0.75rem' }}>{label}</div>
+                                <div className='fw-semibold'>{value ?? '-'}</div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+
+            {/* Senarai Peralatan */}
+            <h6 className='text-muted text-uppercase mb-2'>Senarai Peralatan Dimohon</h6>
+            <Table hover responsive className='mb-4'>
+                <thead className='table-light'>
+                    <tr>
+                        <th>Peralatan</th>
+                        <th>Jenis</th>
+                        <th>Penerima</th>
+                        <th>Jawatan</th>
+                        <th>Telefon</th>
+                        <th>Bangunan</th>
+                        <th>Tingkat</th>
+                        <th>Lokasi</th>
+                        <th className='text-center'>Status Agihan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {mohon.mohon_items?.map((item, index) => {
+                        const delivery = item.mohon_distribution_item?.mohon_distribution_item_delivery;
+                        const acceptance = item.mohon_distribution_item?.mohon_distribution_item_acceptance;
+                        return (
+                            <tr key={index}>
+                                <td>{item.category?.name}</td>
+                                <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
+                                <td>{item.name}</td>
+                                <td>{item.occupation}</td>
+                                <td>{item.mobile}</td>
+                                <td>{item.building_name}</td>
+                                <td>{item.building_level}</td>
+                                <td>{item.location}</td>
+                                <td className='text-center'>
+                                    {acceptance ? (
+                                        <Badge bg='success'>Diterima</Badge>
+                                    ) : delivery ? (
+                                        <Badge bg='warning' text='dark'>
+                                            {delivery.date_start} – {delivery.date_end}
+                                        </Badge>
+                                    ) : (
+                                        <Badge bg='secondary'>Belum Diagih</Badge>
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </Table>
+
+            <Row className='g-3'>
+                {/* Kelulusan Permohonan */}
+                <Col md={6}>
+                    <h6 className='text-muted text-uppercase mb-2'>Kelulusan Permohonan</h6>
+                    <Table hover responsive>
+                        <thead className='table-light'>
                             <tr>
-                                <th>KAD PENGENALAN</th>
-                                {/* <th>EMAIL</th> */}
-                                <th>TELEFON</th>
-                                <th>JABATAN</th>
-                                <th className='text-center'>JUMLAH PERALATAN</th>
-                                <th>TARIKH PERMOHONAN</th>
+                                <th>Peranan</th>
+                                <th>Status</th>
+                                <th>Justifikasi</th>
+                                <th className='text-center'>Tarikh</th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <tr>
-                                <td>{response.user?.nric}</td>
-                                {/* <td>{response.user?.email}</td> */}
-                                <td>{response.user?.user_profile?.phone}</td>
-                                <td>{response.user?.user_profile?.user_department?.name}</td>
-                                <td className='text-center'>{response.mohon_items_count} unit</td>
-                                <td>{response.created_at}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Row>
-
-                <Row className='border p-3'>
-                    <div className="d-flex mb-3 mt-3" style={{backgroundColor:""}}>
-                        <h5 className="me-auto"><h2>MAKLUMAT PERALATAN YANG DIMOHON</h2></h5>
-                        <div className="ms-auto">
-                        
-                    
-                            <Link to={`/mohon-items/${response.id}`}>
-                                <Button size='sm'>Peralatan</Button>
-                            </Link>
-                            {' '}
-                                { response?.mohon_distribution_requests?.length > 0 ?
-                                <Link to={`/agihan/${response.id}`}>
-                                    <Button size="sm">Agihan</Button>
-                                </Link>
-                                :
-                                    <Button disabled size="sm">Agihan</Button>
-                                }
-                        </div>
-                    </div>
-                    <Table>
-                        <thead>
-                            <tr>
-                            
-                                <th>Peralatan</th>
-                                <th>Jenis</th>
-                                <th>Pengguna</th>
-                                <th>Jawatan</th>
-                                <th>Telefon</th>
-                            
-                                <th>Nama Bangunan</th>
-                                <th>Tingkat</th>
-                                <th>Lokasi</th>
-                                <th className='text-center'>Agihan</th>
-                        
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {response?.mohon_items?.map((item,index) => (
+                            {mohon.mohon_approvals?.map((item, index) => (
                                 <tr key={index}>
-                        
-                                    <td>{item.category?.name}</td>
-                                    <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.occupation}</td>
-                                    <td>{item.mobile}</td>
-                                
-                                    <td>{item.building_name}</td>
-                                    <td>{item.building_level}</td>
-                                    <td>{item.location}</td>
-                                    <td>
-                                    {item.mohon_distribution_item?.mohon_distribution_item_delivery  ?
-
-                                        <Table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tarikh Mula</th>
-                                                    <th>Tarikh Tamat</th>
-                                                    <th>Tarikh Terima</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <tr>
-                                                    <td>{item.mohon_distribution_item?.mohon_distribution_item_delivery?.date_start}</td>
-                                                    <td>{item.mohon_distribution_item?.mohon_distribution_item_delivery?.date_end}</td>
-                                                    <td>{item.mohon_distribution_item?.mohon_distribution_item_acceptance?.created_at}</td>
-                                                </tr>
-                                            </tbody>
-                                        </Table>
-                                        :
-                                        <Badge>Agihan belum bermula</Badge>
-                                         }
-
-                                    </td>
+                                    <td>{item.user?.roles?.[0]?.name.toUpperCase()}</td>
+                                    <td>{approvalStatusBadge(item.status)}</td>
+                                    <td>{item.message}</td>
+                                    <td className='text-center'>{item.created_at}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </Table>
-                </Row>
-                    
+                </Col>
 
-                <Row className="mb-3 mt-3 border p-3" style={{backgroundColor:""}}>
-                    {/* <Col>
-                            <StatusPermohonan />
-                            <br />
-                            <StatusAgihan />
-                    </Col> */}
-
-                    <Col>
-
-                        <Row className='border rounded mb-3'>
-                            <h2>MAKLUMAT KELULUSAN PERMOHONAN</h2>
-                            <Table>
-                                <thead>
+                {/* Kelulusan Agihan */}
+                <Col md={6}>
+                    <h6 className='text-muted text-uppercase mb-2'>Kelulusan Agihan</h6>
+                    {mohon.mohon_distribution_requests?.length > 0 ? (
+                        mohon.mohon_distribution_requests.map((agihan, i) => (
+                            <Table hover responsive key={i}>
+                                <thead className='table-light'>
                                     <tr>
-                                        {/* <th className='col-1'>Peringkat</th> */}
-                                        {/* <th className='col-2'>Nama</th> */}
-                                        {/* <th className='col-1'>Status</th> */}
-                                        <th className='col-1'>Peranan</th>
-                                        <th className='col-7'>Justifikasi</th>
+                                        <th>Status</th>
+                                        <th>Justifikasi</th>
                                         <th className='text-center'>Tarikh</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {response?.mohon_approvals?.map((item,index) => (
+                                    {agihan.mohon_distribution_approvals?.map((item, index) => (
                                         <tr key={index}>
-                                    {/* {console.log(item)} */}
-                                            {/* <td className='text-center'>{item.step}</td> */}
-                                            {/* <td>{item?.user.name}</td> */}
-                                            {/* <td>
-                                            {
-                                                item.status === 'pending' ? 'Dalam Tindakan' :
-                                                item.status === 'approved' ? 'Lulus' :
-                                                item.status === 'rejected' ? 'Tolak' :
-                                                'Tiada Status'
-                                            }
-                                            </td> */}
-                                            <td>{item.user?.roles?.[0].name.toUpperCase()}</td>
-                                            <td>{item?.message}</td>
+                                            <td>{approvalStatusBadge(item.status)}</td>
+                                            <td>{item.message}</td>
                                             <td className='text-center'>{item.created_at}</td>
-                                
                                         </tr>
                                     ))}
                                 </tbody>
                             </Table>
-                        </Row>
-                        
-
-                        <Row className='border rounded'>
-
-                            {/* <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th className='col-1'>Peringkat</th>
-                                        <th className='col-1'>Status</th>
-                                        <th className='col-2'>Nama</th>
-                                        <th className='col-6'>Justifikasi</th>
-                                        <th className='text-center'>Tarikh</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    {response?.mohon_distribution_requests?.map((request) => 
-                                        request.mohon_distribution_approvals?.map((item, index) => (
-                                            <tr key={index}>
-                                                <td className='text-center'>{item.step}</td>
-                                                <td>{item.status}</td>
-                                                <td>{item?.user?.name ?? 'N/A'}</td>
-                                                <td>{item?.message}</td>
-                                                <td className='text-center'>{item.created_at}</td>
-                                            </tr>
-                                        ))
-                                    )}
-
-                                </tbody>
-                            </Table> */}
-
-                            <h2>MAKLUMAT KELULUSAN AGIHAN</h2>
-                            {response?.mohon_distribution_requests?.map((agihan) => 
-                            <>
-                            
-                            <Table className="rounded">
-                                <thead>
-                                    <tr>
-                                        {/* <th className='col-1'>Peringkat</th> */}
-                                        <th className='col-1'>Status</th>
-                                        {/* <th className='col-2'>Nama</th> */}
-                                        <th className='col-7'>Justifikasi</th>
-                                        <th className='text-center'>Tarikh</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    
-                                        {agihan.mohon_distribution_approvals?.map((item, index) => (
-                                            <tr key={index}>
-                                                {/* <td className='text-center'>{item.step}</td> */}
-                                                <td>{item.status}</td>
-                                                {/* <td>{item?.user?.name ?? 'N/A'}</td> */}
-                                                <td>{item?.message}</td>
-                                                <td className='text-center'>{item.created_at}</td>
-                                            </tr>
-                                        ))}
-                                
-
-                                </tbody>
-                            </Table>
-                            </>
-                            )}
-
-
-                        </Row>
-                        
-
-                    </Col>
-                  
-                </Row>
-                
-
-
+                        ))
+                    ) : (
+                        <p className='text-muted'>Tiada agihan lagi.</p>
+                    )}
+                </Col>
             </Row>
-
-            
-        </div>
+        </Container>
     );
 };
 

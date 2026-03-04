@@ -57,7 +57,8 @@ class MohonService
                         'user.userProfile',
                         'user.roles',
                         'mohonApproval.user',
-                        'approver'
+                        'approver',
+                        'mohonDistributionRequests.mohonDistributionApproval',
                         ])
 
                     // list ad LoggedIn User
@@ -229,18 +230,27 @@ class MohonService
         return $mohons;
     }
 
+    public static function generateReferenceNo()
+    {
+        $year = now()->year;
+        $count = MohonRequest::whereYear('created_at', $year)->count();
+        $sequence = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+        return "MOHON-{$year}-{$sequence}";
+    }
+
     public static function store($request)
     {
         //\Log::info($request);
         $user =  auth('sanctum')->user();
         $mohonRequest = MohonRequest::create([
             'user_id' => $user->id,
+            'reference_no' => self::generateReferenceNo(),
             'title' => 'Permohonan Peralatan',
             // 'description' => $request->input('description')
             'step' => 0,
             'status' => 'pending',
             //'description' => 'Maklumat permohonan'
-            
+
         ]);
 
         

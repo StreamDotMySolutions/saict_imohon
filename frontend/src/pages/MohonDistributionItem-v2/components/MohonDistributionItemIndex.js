@@ -25,19 +25,17 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
 
   // list mohonDistributionRequest under $agihanRequestId
   useEffect(() => {
-    //axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
     axios(`${apiUrl}/admin/mohon-distribution/${agihanRequestId}`)
       .then((response) => {
-        //console.log(response);
-        setMohon(response.data.mohon);
+        const mohonData = response.data.mohon;
+        setMohon(mohonData);
+        setItems(mohonData.mohon_distribution_items);
       })
       .catch((error) => {
         console.warn(error);
       })
-      .finally(
-        store.setValue('refresh', false)
-      )
-  }, [agihanRequestId, store.getValue('refresh')]);
+      .finally(() => store.setValue('refresh', false))
+  }, [agihanRequestId, store.data?.refresh?.value]);
 
   
   // to check mohonDistributionItem being assigned to other MohonDistributionRequest
@@ -70,28 +68,6 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
       })
   },[])
 
-  // get agihan
-  useEffect( () => {
-      //console.log( `${store.submitUrl}/${id}`)
-      //console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
-      axios({
-        'method' : 'get',
-        //'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
-        'url' : `${apiUrl}/admin/mohon-distribution/${agihanRequestId}`
-    })
-    .then( response => {
-      //console.log(response)
-      let data = response.data.mohon
-      //console.log(data)
-      setItems(data.mohon_distribution_items) // set formValue
-    })
-    .catch ( error => {
-      console.warn(error)
-    })
-    .finally(
-      store.setValue('refresh', false)
-    )
-  },[agihanRequestId, store.getValue('refresh') ])
 
   //console.log(`${store.submitUrl}/vendors`)
 
@@ -115,33 +91,31 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
     )?.id;
 
     if (isChecked) {
+      const autoVendor = vendors.length === 1 ? vendors[0].id : '';
       const payload = {
         itemId,
         mohon_item_id: itemId,
         category_name,
         category_id,
-        vendor: vendorSelections[itemId] || '',
+        vendor: vendorSelections[itemId] || autoVendor,
         type: typeSelections[itemId] || '',
       };
 
       //axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
       axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/create`, payload)
-        .then(response => {
-          //console.log('Save successful:', response);
+        .then(() => {
+          store.setValue('refresh', true);
         })
         .catch(error => {
           console.error('Save error:', error);
         });
     } else {
       const payload = { itemId, mohon_item_id: itemId, mohon_distribution_id };
-      //axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
       axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/remove`, payload)
-      .then(response => {
-          //console.log('Delete successful:', response);
-
-          // Reset vendor and type selections
+        .then(() => {
           setVendorSelections((prevState) => ({ ...prevState, [itemId]: '' }));
           setTypeSelections((prevState) => ({ ...prevState, [itemId]: '' }));
+          store.setValue('refresh', true);
         })
         .catch(error => {
           console.error('Delete error:', error);
@@ -242,7 +216,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               <strong>PERMOHONAN</strong> mewakili senarai peralatan yang dimohon oleh Permohonan ID <Badge>{mohon.mohon_request_id}</Badge>.
             </li>
             <li>
-              Senarai peralatan ini dikumpul dalam Agihan ID <Badge>{mohon.id}</Badge>
+              Senarai peralatan ini dikumpul dalam Agihan <Badge>{mohon.reference_no ?? `#${mohon.id}`}</Badge>
             </li>
             <li>
               Untuk menambah peralatan ke dalam Agihan, anda kena pilih <i><strong>Checkbox</strong></i> peralatan di senarai Permohonan
@@ -312,7 +286,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                 <Form.Check
                   name='mohon_item_id'
                   value={item.id}
-                  disabled={ mohon.mohon_distribution_approval.step != 0 
+                  disabled={ mohon.mohon_distribution_approval.step !== 0
                             ||
                             assignedItems.some(
                               (assignedItem) => assignedItem.mohon_item_id === item.id
@@ -341,7 +315,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                     disabled={
                       !mohonDistributionItems.some(
                         (distributionItem) => distributionItem.mohon_item_id === item.id
-                      ) || mohon.mohon_distribution_approval.step != 0
+                      ) || mohon.mohon_distribution_approval.step !== 0
                     }
                     value={vendorSelections[item.id] || mohonDistributionItems.find(
                       (distributionItem) => distributionItem.mohon_item_id === item.id
@@ -355,10 +329,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
                   >
                     <option value="">Pilih Vendor</option>
                     {vendors.map((item) => (
-                      <>
-                  
                       <option key={item.id} value={item.id}>{item.vendor} ( {item.contract_number} )</option>
-                      </>
                     ))}
 
                   </Form.Select>

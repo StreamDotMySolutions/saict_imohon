@@ -56,7 +56,7 @@ const Index = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>ID</th>
+                        <th>No. Rujukan</th>
                         <th className='col-2'>Nama</th>
                         <th className='col-2'>Kad Pengenalan</th>
                     
@@ -70,7 +70,7 @@ const Index = () => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.id}</span></td>
+                            <td> <span className="badge bg-primary">{mohon.reference_no ?? `#${mohon.id}`}</span></td>
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                     
