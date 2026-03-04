@@ -14,7 +14,7 @@ export default function CreateModal() {
     const [error, setError] = useState(false)
     const [show, setShow] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [mohonId, setMohonId] = useState('')
+    const [navigateTo, setNavigateTo] = useState(null)
     const [categories, setCategories] = useState([])
   
     const handleClose = () => setShow(false)
@@ -59,19 +59,8 @@ export default function CreateModal() {
           data: formData
         })
         .then( response => {
-          //console.log(response.data)
-          // redirect to mohon-items
-          store.setValue('mohonId', response.data?.id)
-          // set MohonIndex listener to true
           store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
-          setTimeout( () => {
-            setIsLoading(false)
-
-            // close the modal
-            //handleCloseClick()
-          }, 500);
+          setNavigateTo(`/mohon-items/${response.data?.id}?create=true`)
         })
         .catch( error => {
           //console.warn(error)
@@ -82,19 +71,12 @@ export default function CreateModal() {
         })
     }
 
-    // redirect to store-items
-    if( store.getValue('mohonId') !== null ) {
-      const mohonId = store.getValue('mohonId')
-      //console.log(mohonId)
-      store.emptyData()
-      //return <Navigate to={`/mohon/${mohonId}`} replace /> // this is to MohonShow
-      return <Navigate to={`/mohon-items/${mohonId}`} replace /> // this is to MohonItem
-    }
+    if (navigateTo) return <Navigate to={navigateTo} replace />
   
     return (
       <>
         <Button variant="primary" onClick={handleShowClick}>
-          Tambah
+          + Permohonan Baharu
         </Button>
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>

@@ -7,8 +7,11 @@ import DeleteModal from '../modals/DeleteModal'
 import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 import ApprovalModal from '../../Mohon/modals/ApprovalModal'
+import { useSearchParams } from 'react-router-dom'
 
 const MohonItemIndex = ({mohonRequestId, step}) => {
+    const [searchParams] = useSearchParams()
+    const autoOpen = searchParams.get('create') === 'true'
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonItemStore()
     const [items, setItems] = useState([])
@@ -44,7 +47,7 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
-                    {step === 0 && <CreateModal /> }
+                    {step === 0 && <CreateModal autoOpen={autoOpen} /> }
                     {' '}
                     <ApprovalModal id={mohonRequestId} count={items.data?.length} step={step}/>
                 </div>
