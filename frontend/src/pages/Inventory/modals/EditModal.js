@@ -77,54 +77,19 @@ export default function EditModal({id}) {
       setIsLoading(true)
       const formData = new FormData()
 
-      if (store.getValue('acknowledge') != null ) {
-        formData.append('acknowledge', store.getValue('acknowledge'));
-      }
-      
-      if (store.getValue('vendor') != null ) {
-        formData.append('vendor', store.getValue('vendor'));
-      }
+      const fields = [
+        'acknowledge',
+        'vendor', 'email', 'phone', 'model', 'category_id',
+        'total',
+        'date_start', 'date_end', 'received_on',
+        'contract_name', 'contract_value', 'contract_number',
+        'contract_pic', 'contract_owner',
+      ]
 
-      if (store.getValue('item') != null ) {
-        formData.append('item', store.getValue('item'));
-      }
-
-      if (store.getValue('total') != null ) {
-        formData.append('total', store.getValue('total'));
-      }
-
-      if (store.getValue('date_start') != null ) {
-        formData.append('date_start', store.getValue('date_start'));
-      }
-
-      if (store.getValue('date_end') != null ) {
-        formData.append('date_end', store.getValue('date_end'));
-      }
-
-      if (store.getValue('received_on') != null ) {
-        formData.append('received_on', store.getValue('received_on'));
-      }
-
-      if (store.getValue('contract_name') != null ) {
-        formData.append('contract_name', store.getValue('contract_name'));
-      }
-
-      if (store.getValue('contract_value') != null ) {
-        formData.append('contract_value', store.getValue('contract_value'));
-      }
-
-
-      if (store.getValue('contract_number') != null ) {
-        formData.append('contract_number', store.getValue('contract_number'));
-      }
-
-      if (store.getValue('contract_pic') != null ) {
-        formData.append('contract_pic', store.getValue('contract_pic'));
-      }
-
-      if (store.getValue('contract_owner') != null ) {
-        formData.append('contract_owner', store.getValue('contract_owner'));
-      }
+      fields.forEach(field => {
+        const value = store.getValue(field)
+        if (value != null) formData.append(field, value)
+      })
 
       formData.append('_method', 'put');
 
