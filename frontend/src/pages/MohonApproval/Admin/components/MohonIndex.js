@@ -28,7 +28,7 @@ const MohonIndex = ({status}) => {
             )
             .then( response => { // response block
                 //console.log(store.url)
-                //console.log(response.data)   // output to console  
+                console.log(response.data)   // output to console  
                 setMohons(response.data.mohons) // assign data to const = mohons
                 store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
@@ -46,7 +46,7 @@ const MohonIndex = ({status}) => {
     return (
         <div>
   
-            {/* <Alert variant='warning'>
+            <Alert variant='warning'>
                 <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
                 <hr />
                 {' '}
@@ -70,7 +70,7 @@ const MohonIndex = ({status}) => {
                      Setiap <strong>Permohonan</strong> boleh mempunyai satu atau lebih <strong>Agihan</strong>.  
                     </li>
                 </ol>
-            </Alert> */}
+            </Alert>
 
             <Table>
                 <thead>
