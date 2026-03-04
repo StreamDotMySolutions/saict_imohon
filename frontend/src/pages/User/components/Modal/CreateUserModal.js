@@ -8,6 +8,7 @@ import DisplayMessage from '../../../../components/DisplayMessage'
 
 export default function CreateUserModal({role}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const user = useUserStore()
     const [show, setShow] = useState(false)
     const [error, setError] = useState(false)
@@ -94,9 +95,9 @@ export default function CreateUserModal({role}) {
         });
 
         axios({
-            url: user.store_url,  // user store API
-            method: 'post', // method is POST
-            data: formData, // payload is formData
+            url: `${apiUrl}/admin/users`,
+            method: 'post',
+            data: formData,
         })
         .then( response => {
             //console.log('refresh - true')

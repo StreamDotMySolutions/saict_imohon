@@ -47,6 +47,7 @@ import VerifyFailed from './pages/Auth/components/EmailVerifiy/failed.js'
 
 
 import Inventory from './pages/Inventory'
+import AdminDashboard from './pages/AdminDashboard'
 
 
 import Mohon from './pages/Mohon'
@@ -142,6 +143,7 @@ export default function App() {
                 <Route path="/agihan-2" element={<Agihan2/>} />
                 <Route path="/agihan-2/:mohonRequestId" element={<ShowAgihan/>} />
                 
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/inventories" element={<Inventory />} />
                
    

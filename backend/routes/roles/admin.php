@@ -17,8 +17,12 @@ use App\Http\Controllers\Admin\{
     UserController,
     InventoryController,
     CategoryController,
-    AgihanController
+    AgihanController,
+    DashboardController
 };
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index']);
 // Agihan (list approved mohon requests for distribution)
 Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
 Route::get('/agihan/vendors/{categoryId}', [AgihanController::class, 'vendors']);

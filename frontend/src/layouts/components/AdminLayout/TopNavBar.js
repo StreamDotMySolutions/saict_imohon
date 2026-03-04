@@ -17,6 +17,7 @@ function TopNavbar() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
                 <Nav.Link as={NavLink} to="/"> <FontAwesomeIcon icon="fa-solid fa-home" />{' '}Utama</Nav.Link>
+                <Nav.Link as={NavLink} to="/admin/dashboard"> <FontAwesomeIcon icon="fa-solid fa-gauge" />{' '}Dashboard</Nav.Link>
                 <Nav.Link as={NavLink} to="/users"> <FontAwesomeIcon icon="fa-solid fa-user" />{' '}Pengguna</Nav.Link>
               
                 <Dropdown>
