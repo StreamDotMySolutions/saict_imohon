@@ -1,82 +1,67 @@
-import React, { useState,useEffect } from 'react'
-
-//import useDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore'
+import React, { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Form } from 'react-bootstrap'
 import useAuthStore from '../../../stores/AuthStore'
 import axios from '../../../../../libs/axios'
-//import useAccountStore from '../../../../Account/stores/AccountStore'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import { Row,Col,Button, Form, InputGroup, Alert } from 'react-bootstrap'
 
 const Department = () => {
-    const apiUrl =  process.env.REACT_APP_BACKEND_URL
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useAuthStore()
     const errors = store.errors
-    const auth = useAuthStore()
-    const [data,setData] = useState([])
+    const [data, setData] = useState([])
 
-    useEffect( () => {
+    useEffect(() => {
         axios({
-            //url: auth.user_departments_url,  // user store API
-            url: `${apiUrl}/global/user-departments`,  // user store API
-            method: 'get', // method is POST
+            url: `${apiUrl}/global/user-departments`,
+            method: 'get',
         })
-        .then( response => {
-            //console.log(response.data)
-            setData(response.data.user_departments)
-        })
-    },[])
+            .then(response => {
+                setData(response.data.user_departments)
+            })
+    }, [])
 
     return (
-        <>
-        <InputGroup hasValidation>
-            <InputGroup.Text className='fs-2'><FontAwesomeIcon icon="fa-solid fa-home"></FontAwesomeIcon></InputGroup.Text>
-            <Form.Select 
-                htmlSize={10}
-                isInvalid={errors?.hasOwnProperty('user_department_id')}
-                onChange={ (e) => useAuthStore.setState({ user_department_id: { value: e.target.value}} )}  
+        <Form.Group>
+            <Form.Label className='fw-semibold'>
+                <FontAwesomeIcon icon='fa-solid fa-home' className='me-2' />
+                Jabatan
+            </Form.Label>
+            <Form.Select
+                size='lg'
+                isInvalid={!!errors?.user_department_id}
+                onChange={e => useAuthStore.setState({ user_department_id: { value: e.target.value } })}
             >
+                <option value=''>Pilih Jabatan</option>
                 <CategoryDropdown data={data} />
             </Form.Select>
-
-            {errors?.hasOwnProperty('user_department_id') &&
-
-                <Form.Control.Feedback type="invalid">   
-                { errors.user_department_id ? errors.user_department_id : null }
+            {errors?.user_department_id && (
+                <Form.Control.Feedback type='invalid'>
+                    {errors.user_department_id}
                 </Form.Control.Feedback>
-            
-            }
-
-            <Form.Control.Feedback type="invalid">
-               
-            </Form.Control.Feedback>
-        </InputGroup>
-        </>
-       
-    );
-};
-
-function CategoryDropdown({ data, depth = 0 }) {
-    const indent = '_ _'.repeat(depth);
-    
-    return (
-      <>
-        {data.map((category,index) => (
-        <>
-        <option
-            key={index}
-            value={category.id}
-            className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
-            disabled={category.parent_id === null}
-            >
-            {depth != 0 && 'I'}{indent}{' '}{category.name}
-        </option>
-        <CategoryDropdown data={category.children}  depth={depth + 1} />
-        </>
-        ))}
-  
-    </>
-    );
+            )}
+        </Form.Group>
+    )
 }
 
-export default Department;
+function CategoryDropdown({ data, depth = 0 }) {
+    const indent = '_ _'.repeat(depth)
+
+    return (
+        <>
+            {data.map((category, index) => (
+                <React.Fragment key={index}>
+                    <option
+                        value={category.id}
+                        disabled={category.parent_id === null}
+                        style={{ paddingLeft: `${depth * 20}px` }}
+                    >
+                        {depth !== 0 && 'I'}{indent} {category.name}
+                    </option>
+                    <CategoryDropdown data={category.children} depth={depth + 1} />
+                </React.Fragment>
+            ))}
+        </>
+    )
+}
+
+export default Department

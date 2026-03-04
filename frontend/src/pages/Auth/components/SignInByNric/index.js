@@ -1,179 +1,191 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Navigate,Link } from 'react-router-dom'
-//import { useAuthStore } from '../../../../stores/AuthStore'
+import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Navigate, Link } from 'react-router-dom'
+import { Button, Card, Container, Form, Row, Col, Alert } from 'react-bootstrap'
 import useAuthStore from '../../stores/AuthStore'
 import axios from '../../../../libs/axios'
-import { Row } from 'react-bootstrap'
+
+const DEV_USERS = [
+    { role: 'System',   nric: '800101011234', password: 'password' },
+    { role: 'Admin',    nric: '800102021234', password: 'password' },
+    { role: 'Manager',  nric: '800103031234', password: 'password' },
+    { role: 'Boss',     nric: '800104041234', password: 'password' },
+    { role: 'User',     nric: '800105051234', password: 'password' },
+]
 
 const SignInByNricForm = () => {
-    // set system variables
     const store = useAuthStore()
-    const [message, setMessage] = useState(''); // system message
-    const [invalid, setInvalid] = useState(true)
-    const [unauthorized, setUnauthorized] = useState(false)
-    const [errors, setErrors] = useState([]); // validation errors
+    const [nric, setNRIC] = useState('')
+    const [password, setPassword] = useState('')
+    const [errors, setErrors] = useState({})
+    const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [nric, setNRIC] = useState('');
-  
+
     const handleNRICChange = (event) => {
-      const input = event.target.value;
-      const formattedNRIC = input
-        .replace(/\D/g, '') // Remove non-numeric characters
-        .slice(0, 12) // Keep the first 12 digits (ignoring any extras)
-        //.replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
-        .replace(/(\d{6})(\d{2})(\d{4})/, '$1$2$3'); // Insert dashes
-  
-      setNRIC(formattedNRIC);
-    };
-    
-    // const isLoggedIn = useAuthStore( (state) => state.isLoggedIn ) // get state
-    // const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn) // set state
-    // const isAuthenticated = useAuthStore( (state) => state.isAuthenticated ) // get state
-
-    // handle form submission
-    function handleSubmit(event){
-        event.preventDefault()
-        setMessage('authentication with server ...')
-
-        // clear the message & errors
-        setMessage(null)
-        setErrors(null)
-        setInvalid(false)
-        setIsLoading(true)
-
-        const url =   process.env.REACT_APP_BACKEND_URL + '/login-by-nric'
-        const formData = new FormData(event.target);
-
-        axios({
-            url: url,
-            method: 'post',
-            data: formData
-        })
-        .then(response => {
-            //console.log(response.data)
-            setMessage(response.message)
-            localStorage.setItem('token', response.data.token) // localstorate
-            useAuthStore.setState({user : response.data.user}) // user data
-            useAuthStore.setState({isAuthenticated : true}) // system wide
-
-            //setIsLoggedIn(true) // store
-            setIsLoading(false)
-        })
-        .catch( error => {
-            if( error.response?.status == 401 ){
-                setUnauthorized(true)
-            }
-
-            if( error.response?.status == 422 ){
-                setErrors(error.response.data.errors)
-            } else {
-                setMessage(error.message)
-            }
-            setIsLoading(false)
-        })
+        const input = event.target.value
+        const formatted = input
+            .replace(/\D/g, '')
+            .slice(0, 12)
+            .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3')
+        setNRIC(formatted)
     }
 
-    // redirect
-    //if (isLoggedIn === true) {
-    if(store.isAuthenticated === true) {
+    function handleSubmit(event) {
+        event.preventDefault()
+        setMessage('')
+        setErrors({})
+        setIsLoading(true)
+
+        const formData = new FormData(event.target)
+
+        axios({
+            url: `${process.env.REACT_APP_BACKEND_URL}/login-by-nric`,
+            method: 'post',
+            data: formData,
+        })
+            .then(response => {
+                localStorage.setItem('token', response.data.token)
+                useAuthStore.setState({ user: response.data.user })
+                useAuthStore.setState({ isAuthenticated: true })
+                setIsLoading(false)
+            })
+            .catch(error => {
+                setIsLoading(false)
+                if (error.response?.status === 422) {
+                    setErrors(error.response.data.errors || {})
+                } else if (error.response?.status === 401) {
+                    setMessage('No. Kad Pengenalan atau katalaluan salah')
+                } else {
+                    setMessage(error.message || 'Ralat melayan server')
+                }
+            })
+    }
+
+    if (store.isAuthenticated === true) {
         return <Navigate to='/' replace />
     }
 
-    // if (unauthorized === true) {
-    //     return <Navigate to='/unauthorized' replace />
-    // }
-
-    // JSX return
     return (
-        <>
-        <h1>Log in guna NRIC</h1>
-        <form  onSubmit={handleSubmit}>
-          <div className="form-outline mb-4">
-            <label className="form-label"><FontAwesomeIcon icon="fa-solid fa-id-card" /> No Kad Pengenalan</label>
-            <input 
-                required
-                name="nric" 
-                type="text" 
-                id="nric" 
-                className={"form-control form-control-lg" + (errors?.hasOwnProperty('nric') ? ' is-invalid' : '')}
-                placeholder="masukkan no kad pengenalan ( baharu ) anda tanpa ('-')" 
-                value={nric}
-                onChange={handleNRICChange}
-            />
-            {errors?.hasOwnProperty('nric') ? <span className="invalid-feedback" >
-                <strong>
-                    { errors.nric ? errors.nric : null }
-                </strong></span> : null 
-            }  
-    
-          </div>
+        <Container className='py-5' style={{ maxWidth: '450px' }}>
+            <Card className='border-0 shadow-lg'>
+                <Card.Body className='p-5'>
+                    <div className='text-center mb-4'>
+                        <h3 className='fw-bold mb-1'>Log Masuk</h3>
+                        <p className='text-muted'>Guna Kad Pengenalan Diri</p>
+                    </div>
 
-          <div className="form-outline mb-3">
-          <label className="form-label" ><FontAwesomeIcon icon="fa-solid fa-lock" /> Katalaluan</label>
-            <input 
-                required
-                name="password" 
-                type="password" 
-                id="password" 
-                className={"form-control form-control-lg" + (errors?.hasOwnProperty('password') ? ' is-invalid' : '')}
-                placeholder="masukkan katalaluan anda" />
-            
-            {errors?.hasOwnProperty('password') ? <span className="invalid-feedback" >
-                <strong>
-                    { errors.password ? errors.password : null }
-                </strong></span> : null 
-            }  
-          </div>
-        
-          <div className="text-lg-start mt-4 pt-2">
-            <button type="submit" className="btn btn-primary btn-lg login-button">
-                { isLoading ? 
-                <>
-                <i className="fa-solid fa-sync fa-spin"></i>
-                </>
-                :
-                <>
-                Log Masuk
-                </>
-                }
-                
-            
-            </button>
-            {' '}
-            
-            <span className='fs-6 ms-4'>
-                {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
-                    <Link to='/sign-in-by-email'><FontAwesomeIcon icon="fa-solid fa-envelope" />{' '}Log In Guna Email</Link>
-                )}
+                    {message && (
+                        <Alert variant='danger' className='mb-4'>
+                            <FontAwesomeIcon icon='fa-solid fa-exclamation-circle' className='me-2' />
+                            {message}
+                        </Alert>
+                    )}
 
-                <Link className='ms-3' to='/password/email'><FontAwesomeIcon icon="fa-solid fa-question" />{' '}Lupa katalaluan</Link>
-                
-                <Link className='ms-3' to='/sign-up'><FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Pendaftaran</Link>
-            </span>     
-          </div>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className='mb-3'>
+                            <Form.Label className='fw-semibold'>
+                                <FontAwesomeIcon icon='fa-solid fa-id-card' className='me-2' />
+                                No. Kad Pengenalan
+                            </Form.Label>
+                            <Form.Control
+                                size='lg'
+                                type='text'
+                                name='nric'
+                                placeholder='XXXXXX-XX-XXXX'
+                                value={nric}
+                                onChange={handleNRICChange}
+                                isInvalid={!!errors.nric}
+                                disabled={isLoading}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                                {errors.nric}
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-          <div className='mt-4 pt-2' >
-            {  message ? <span className="text-danger"><FontAwesomeIcon icon="fas fa-exclamation-triangle" />{' '}{message}</span>  : null }
-          </div>
+                        <Form.Group className='mb-4'>
+                            <Form.Label className='fw-semibold'>
+                                <FontAwesomeIcon icon='fa-solid fa-lock' className='me-2' />
+                                Katalaluan
+                            </Form.Label>
+                            <Form.Control
+                                size='lg'
+                                type='password'
+                                name='password'
+                                placeholder='Masukkan katalaluan anda'
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                isInvalid={!!errors.password}
+                                disabled={isLoading}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                                {errors.password}
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-         </form>
-        </>
+                        <Button
+                            type='submit'
+                            size='lg'
+                            className='w-100 fw-semibold mb-4'
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <>
+                                    <FontAwesomeIcon icon='fa-solid fa-sync' spin className='me-2' />
+                                    Sedang memproses...
+                                </>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon icon='fa-solid fa-arrow-right-to-bracket' className='me-2' />
+                                    Log Masuk
+                                </>
+                            )}
+                        </Button>
+
+                        <div className='d-flex gap-2 flex-wrap justify-content-center text-center' style={{ fontSize: '0.9rem' }}>
+                            {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
+                                <Link to='/sign-in'>
+                                    <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-1' />
+                                    Emel
+                                </Link>
+                            )}
+                            <Link to='/password/email'>
+                                <FontAwesomeIcon icon='fa-solid fa-question' className='me-1' />
+                                Lupa Katalaluan
+                            </Link>
+                            <Link to='/sign-up'>
+                                <FontAwesomeIcon icon='fa-solid fa-user-plus' className='me-1' />
+                                Daftar
+                            </Link>
+                        </div>
+                    </Form>
+                </Card.Body>
+            </Card>
+
+            {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
+                <Card className='mt-4 border-light bg-light'>
+                    <Card.Body className='p-3'>
+                        <small className='text-muted fw-semibold d-block mb-2'>
+                            <FontAwesomeIcon icon='fa-solid fa-flask' className='me-1' />
+                            DEV — Akaun Ujian
+                        </small>
+                        <div className='d-flex flex-wrap gap-2'>
+                            {DEV_USERS.map(u => (
+                                <Button
+                                    key={u.role}
+                                    variant='outline-secondary'
+                                    size='sm'
+                                    onClick={() => { setNRIC(u.nric); setPassword(u.password) }}
+                                    disabled={isLoading}
+                                >
+                                    {u.role}
+                                </Button>
+                            ))}
+                        </div>
+                    </Card.Body>
+                </Card>
+            )}
+        </Container>
     )
 }
 
 export default SignInByNricForm
-
-function NRICInput() {
-    const [nric, setNRIC] = useState('');
-  
-    const handleNRICChange = (event) => {
-      const input = event.target.value;
-      const formattedNRIC = input
-        .replace(/\D/g, '') // Remove non-numeric characters
-        .slice(0, 12) // Keep the first 12 digits (ignoring any extras)
-        .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3'); // Insert dashes
-  
-      setNRIC(formattedNRIC);
-    };
-}
