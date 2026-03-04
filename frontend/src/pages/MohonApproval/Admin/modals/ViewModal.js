@@ -1,5 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../../libs/axios'
 import useMohonStore from '../store'
@@ -122,7 +123,7 @@ export default function ViewModal({id}) {
     return (
       <>
         <Button size="sm" variant="outline-info" onClick={handleShowClick}>
-          Pengesahan
+          <FontAwesomeIcon icon='fas fa-clipboard-check' className='me-1' />Pengesahan
         </Button>
   
         <Modal size="xl" show={show} onHide={handleCloseClick}>

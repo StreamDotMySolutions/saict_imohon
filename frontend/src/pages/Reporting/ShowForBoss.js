@@ -1,281 +1,144 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Table, Row, Col, Pagination, Button, Breadcrumb } from 'react-bootstrap';
-import useStore from './store';
-import axios from '../../libs/axios';
-import { Link, useParams } from 'react-router-dom';
-import JustificationModal from '../Mohon/modals/JustificationModal';
+import { useEffect, useState } from 'react'
+import { Badge, Card, Col, Row, Table } from 'react-bootstrap'
+import axios from '../../libs/axios'
+import JustificationModal from '../Mohon/modals/JustificationModal'
 
 const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
-
     const apiUrl = process.env.REACT_APP_BACKEND_URL
-    const { mohonRequestId: paramMohonRequestId } = useParams();
-    const mohonRequestId = propMohonRequestId || paramMohonRequestId;
-    const store = useStore()
-    const [items,setItems] = useState([])
-    const [mohonApprovals,setMohonApprovals] = useState([])
-    const [distributionRequests,setDistributionRequests] = useState([])
-    const [user,setUser] = useState()
-    const [mohon,setMohon] = useState()
+    const [mohon, setMohon] = useState(null)
 
-    // get mohonRequest data from API
-    useEffect( () => {
-      axios(`${apiUrl}/global/mohon-requests/${mohonRequestId}`)
-      .then( response => {
-          //console.log(response)
-          let mohon = response.data.mohon
-          setItems(mohon?.mohon_items != null ? mohon?.mohon_items : []);
-          setMohonApprovals(mohon?.mohon_approvals != null ? mohon?.mohon_approvals : []);
-          setDistributionRequests(mohon?.mohon_distribution_requests != null ? mohon?.mohon_distribution_requests : []);
-          setUser(mohon?.user != null ? mohon?.user : null);
-          setMohon(mohon);
-      })
-    },[])
+    useEffect(() => {
+        axios(`${apiUrl}/global/mohon-requests/${propMohonRequestId}`)
+            .then(response => setMohon(response.data.mohon))
+            .catch(error => console.warn(error))
+    }, [])
 
+    if (!mohon) return <p className='text-muted text-center py-4'>Memuatkan...</p>
 
-    //console.log(items)
+    const user = mohon.user
+    const items = mohon.mohon_items ?? []
+    const distributionRequests = mohon.mohon_distribution_requests ?? []
 
-    const BreadcrumbData = () => {
-        return (
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/agihan-2">Agihan</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Butiran Permohonan</Breadcrumb.Item>
-          </Breadcrumb>
-        );
-      }
-
-    const Department = () => {
-
-      if(user){
-        return(
-          <Table>
-            <thead>
-              <tr>
-                  <th>Nama</th>
-                  <th>Email</th>
-                  <th>Jabatan</th>
-                  <th>Tarikh Permohonan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-               
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.user_profile?.user_department?.name}</td>
-                  <td>{mohon.created_at}</td>
-                  
-              </tr>
-            </tbody>
-          </Table>
-        )
-      }
-      
-    }
-
-    const DistributionRequests = () => {
-      return (
-        <Table className='mt-3'>
-          <thead>
-              <tr>
-                  <th style={{ 'width': '20px'}}>Bil.</th>
-                  <th>Nama</th>
-                  <th className='text-center'>Kelulusan</th>
-                  <th className='text-center'>Peralatan</th>
-                 
-              </tr>
-          </thead>
-
-          <tbody>
-              {distributionRequests?.map((item,index) => (
-                  <tr key={index}>
-                      <td> <span className="badge bg-primary">{index + 1}</span></td>
-                      <td>{item.user.name}</td>
-          
-                      <td>
-
-                      <Table style={{backgroundColor:"#f0f0f0"}} className='rounded'>
-                          <thead>
-                            <tr>
-                        
-                              <th className='text-center'>Peringkat</th>
-                              <th className='text-center'>Tarikh</th>
-                              <th>Status</th>
-                              <th>Mesej</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {item.mohon_distribution_approvals.map( (approval, key) => (
-                              <tr key={key}>
-                                  <td className='text-center'>{approval.step}</td>
-                                  <td className='text-center'>{approval.created_at}</td>
-                                  <td>{approval.status}</td>
-                                  <td>{approval.message}</td>
-                              </tr>
-                            ))}
-                           
-                          </tbody>
-                        </Table>
-
-                      </td>
-               
-                      <td>
-
-                        <Table style={{backgroundColor:"#f0f0f0"}} className='rounded'>
-                          <thead>
-                            <tr>
-                        
-                              <th>Nama</th>
-                              <th>Peralatan</th>
-                              <th>Vendor</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {item.mohon_distribution_items.map( (distributionItem, key) => (
-                              <tr key={key}>
-                                  <td>{distributionItem.mohon_item.name}</td>
-                                  <td>{distributionItem.category.name}</td>
-                                  <td>{distributionItem.inventory.vendor}</td>
-                              </tr>
-                            ))}
-                           
-                          </tbody>
-                        </Table>
-                      </td>
-                  </tr>
-              ))}
-          </tbody>
-      </Table>
-      )
-    }
-
-    const MohonApprovals = () => {
-      return (
-        <Table className='mt-3'>
-          <thead>
-              <tr>
-                  <th style={{ 'width': '20px'}}>ID</th>
-                  <th>Nama</th>
-                  <th className='text-center'>Peringkat</th>
-                  <th>Status</th>
-                  <th>Tarikh</th>
-                 
-              </tr>
-          </thead>
-
-          <tbody>
-              {mohonApprovals?.map((item,index) => (
-                  <tr key={index}>
-                      <td> <span className="badge bg-primary">{item.id}</span></td>
-                      <td>{item.user.name}</td>
-                      <td className='text-center'>{item.step}</td>
-                      <td>{item.status}</td>
-                      <td>{item.created_at}</td>
-                     
-                  </tr>
-              ))}
-          </tbody>
-      </Table>
-      )
-    }
-
-    const MohonItems = () => {
-      return (
-        <Table className='mt-3'>
-          <thead>
-              <tr>
-                  <th style={{ 'width': '20px'}}>Bil.</th>
-                  <th>Penerima</th>
-                  <th>Jawatan</th>
-                  <th>No. Telefon</th>
-                  <th>Nama Bangunan</th>
-                  <th>Tingkat</th>
-                  <th>Lokasi</th>
-                  <th>Item</th>
-                  <th>Jenis</th>
-                  <th>Justifikasi</th>
-              </tr>
-          </thead>
-
-          <tbody>
-              {items?.map((item,index) => (
-                  <tr key={index}>
-                      <td> <span className="badge bg-primary">{index + 1}</span></td>
-                      <td>{item.name}</td>
-                      <td>{item.occupation}</td>
-                      <td>{item.mobile}</td>
-                      <td>{item.building_name}</td>
-                      <td>{item.building_level}</td>
-                      <td>{item.location}</td>
-                      <td>{item.category?.name}</td>
-                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>
-                        <JustificationModal message={item.description} />
-                      </td>
-                  </tr>
-              ))}
-          </tbody>
-      </Table>
-      )
-    } 
-
-    const MohonDistributionRequests = () => {
-      return (
-        <Table className='mt-3'>
-          <thead>
-              <tr>
-                  <th style={{ 'width': '20px'}}>Bil.</th>
-                  <th>Penerima</th>
-                  <th>Jawatan</th>
-                  <th>No. Telefon</th>
-                  <th>Nama Bangunan</th>
-                  <th>Tingkat</th>
-                  <th>Lokasi</th>
-                  <th>Item</th>
-                  <th>Jenis</th>
-                  <th>Justifikasi</th>
-              </tr>
-          </thead>
-
-          <tbody>
-              {items?.map((item,index) => (
-                  <tr key={index}>
-                      <td> <span className="badge bg-primary">{index + 1}</span></td>
-                      <td>{item.name}</td>
-                      <td>{item.occupation}</td>
-                      <td>{item.mobile}</td>
-                      <td>{item.building_name}</td>
-                      <td>{item.building_level}</td>
-                      <td>{item.location}</td>
-                      <td>{item.category?.name}</td>
-                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>
-                      <JustificationModal message={item.description} />
-                      </td>
-                  </tr>
-              ))}
-          </tbody>
-      </Table>
-      )
-    } 
-    
     return (
         <div>
-            <BreadcrumbData />
-            
-            <h2>Maklumat Pemohon</h2>
-            <Department />
+            {/* ── Maklumat Pemohon ─────────────────────────────────── */}
+            <div className='mb-4'>
+                <h6 className='text-uppercase text-muted mb-2'>Maklumat Pemohon</h6>
+                <Table size='sm' borderless style={{ maxWidth: 480 }} className='mb-0'>
+                    <tbody>
+                        <InfoRow label='No. Rujukan' value={mohon.reference_no ?? `#${mohon.id}`} />
+                        <InfoRow label='Pemohon' value={user?.name} />
+                        <InfoRow label='Emel' value={user?.email} />
+                        <InfoRow label='Jabatan' value={user?.user_profile?.user_department?.name} />
+                        <InfoRow label='Tarikh Permohonan' value={mohon.created_at} />
+                    </tbody>
+                </Table>
+            </div>
 
-            <h2>Maklumat Peralatan Yang Di Pohon ( { mohon && mohon.mohon_items_count} unit )</h2>
-            <MohonItems />
-  
-            <h2>Maklumat Agihan</h2>
-            <DistributionRequests />
+            {/* ── Peralatan Dipohon ────────────────────────────────── */}
+            <div className='mb-4'>
+                <h6 className='text-uppercase text-muted mb-2'>
+                    Peralatan Dipohon ({items.length} unit)
+                </h6>
+                <Table size='sm' hover responsive>
+                    <thead className='table-light'>
+                        <tr>
+                            <th style={{ width: 40 }}>No.</th>
+                            <th>Penerima</th>
+                            <th>Jawatan</th>
+                            <th>No. Telefon</th>
+                            <th>Bangunan</th>
+                            <th>Tingkat</th>
+                            <th>Lokasi</th>
+                            <th>Peralatan</th>
+                            <th>Jenis</th>
+                            <th>Justifikasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length === 0 && (
+                            <tr><td colSpan={10} className='text-center text-muted py-3'>Tiada peralatan.</td></tr>
+                        )}
+                        {items.map((item, index) => (
+                            <tr key={index}>
+                                <td className='text-center align-middle'>{index + 1}</td>
+                                <td className='align-middle'>{item.name}</td>
+                                <td className='align-middle'>{item.occupation}</td>
+                                <td className='align-middle'>{item.mobile ?? '-'}</td>
+                                <td className='align-middle'>{item.building_name ?? '-'}</td>
+                                <td className='align-middle'>{item.building_level ?? '-'}</td>
+                                <td className='align-middle'>{item.location ?? '-'}</td>
+                                <td className='align-middle'>{item.category?.name}</td>
+                                <td className='align-middle'>
+                                    <Badge
+                                        bg={item.type === 'new' ? 'success' : 'warning'}
+                                        text={item.type === 'new' ? undefined : 'dark'}
+                                    >
+                                        {item.type === 'new' ? 'Baharu' : 'Ganti'}
+                                    </Badge>
+                                </td>
+                                <td className='align-middle'>
+                                    <JustificationModal message={item.description} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+
+            {/* ── Maklumat Agihan ──────────────────────────────────── */}
+            {distributionRequests.length > 0 && (
+                <div className='mb-2'>
+                    <h6 className='text-uppercase text-muted mb-2'>Maklumat Agihan</h6>
+                    {distributionRequests.map((req, reqIndex) => {
+                        const approval = req.mohon_distribution_approvals?.[0]
+                        return (
+                            <Card key={reqIndex} className='mb-3 shadow-sm'>
+                                <Card.Header className='d-flex align-items-center justify-content-between py-2'>
+                                    <strong>{req.reference_no ?? `Agihan #${req.id}`}</strong>
+                                    {approval && (
+                                        <Badge
+                                            bg={approval.status === 'approved' ? 'success' : approval.status === 'rejected' ? 'danger' : 'warning'}
+                                            text={approval.status === 'pending' ? 'dark' : undefined}
+                                        >
+                                            {approval.status === 'approved' ? 'Diluluskan' : approval.status === 'rejected' ? 'Ditolak' : 'Menunggu'}
+                                        </Badge>
+                                    )}
+                                </Card.Header>
+                                <Card.Body className='p-0'>
+                                    <Table size='sm' hover className='mb-0'>
+                                        <thead className='table-light'>
+                                            <tr>
+                                                <th>Penerima</th>
+                                                <th>Peralatan</th>
+                                                <th>Vendor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {req.mohon_distribution_items?.map((dItem, dKey) => (
+                                                <tr key={dKey}>
+                                                    <td>{dItem.mohon_item?.name ?? '-'}</td>
+                                                    <td>{dItem.category?.name ?? '-'}</td>
+                                                    <td>{dItem.inventory?.vendor ?? '-'}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </Card.Body>
+                            </Card>
+                        )
+                    })}
+                </div>
+            )}
         </div>
-    );
-};
+    )
+}
 
-export default ShowForBoss;
+const InfoRow = ({ label, value }) => (
+    <tr>
+        <td className='text-muted' style={{ width: 160 }}>{label}</td>
+        <td className='fw-semibold'>{value ?? '-'}</td>
+    </tr>
+)
+
+export default ShowForBoss

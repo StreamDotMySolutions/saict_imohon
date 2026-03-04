@@ -128,23 +128,6 @@ class MohonDistributionRequestService
     * on allocated Item based on Permohonan
     */
 
-    public static function generateReferenceNo()
-    {
-        $year = now()->year;
-        $prefix = "AGIHAN-{$year}-";
-
-        $latest = MohonDistributionRequest::whereYear('created_at', $year)
-            ->where('reference_no', 'like', "{$prefix}%")
-            ->orderByRaw('CAST(SUBSTRING(reference_no, ' . (strlen($prefix) + 1) . ') AS UNSIGNED) DESC')
-            ->value('reference_no');
-
-        $sequence = $latest
-            ? (int) substr($latest, strlen($prefix)) + 1
-            : 1;
-
-        return $prefix . str_pad($sequence, 5, '0', STR_PAD_LEFT);
-    }
-
     public static function store($request, $mohonRequestId)
     {
 
@@ -153,7 +136,6 @@ class MohonDistributionRequestService
         $mohonDistributionRequest = MohonDistributionRequest::create([
             'mohon_request_id' => $mohonRequestId,
             'user_id' => $user->id,
-            'reference_no' => self::generateReferenceNo(),
             'title' => $request->input('title'),
             'description' => $request->input('description')
         ]);
@@ -176,8 +158,8 @@ class MohonDistributionRequestService
         $request = MohonDistributionRequest::query()
                     ->where('id', $id)
                     ->with([
-                        'mohonRequest',
-                        'mohonRequest.mohonItems', 
+                        'mohonRequest.user.userProfile.userDepartment',
+                        'mohonRequest.mohonItems',
                         'mohonRequest.mohonItems.category',
                         'mohonDistributionApproval',
                         'mohonDistributionApprovalApprovedByUser',

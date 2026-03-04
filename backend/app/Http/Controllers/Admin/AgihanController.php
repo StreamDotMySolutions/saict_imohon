@@ -22,7 +22,8 @@ class AgihanController extends Controller
             'mohonDistributionRequests.mohonDistributionItems.mohonItem',
             'mohonDistributionRequests.mohonDistributionItems.category',
             'mohonDistributionRequests.mohonDistributionItems.inventory',
-            'mohonDistributionRequests.mohonDistributionApprovals',
+            'mohonDistributionRequests.mohonDistributionItems.mohonDistributionItemDelivery',
+            'mohonDistributionRequests.mohonDistributionApprovals.boss',
         ])->findOrFail($mohonId);
 
         return response()->json(['mohon' => $mohon]);
@@ -37,7 +38,16 @@ class AgihanController extends Controller
             ->with(['user.userProfile.userDepartment', 'mohonApproval'])
             ->where('step', 4)
             ->where('status', 'approved')
-            ->withCount(['mohonItems', 'mohonDistributionItems']);
+            ->withCount([
+                'mohonItems',
+                'mohonDistributionItems',
+                'mohonDistributionItems as mohon_distribution_items_with_delivery_count' => function ($q) {
+                    $q->whereHas('mohonDistributionItemDelivery');
+                },
+                'mohonDistributionItems as mohon_distribution_items_with_acceptance_count' => function ($q) {
+                    $q->whereHas('mohonDistributionItemAcceptance');
+                },
+            ]);
 
         if ($tab === 'menunggu') {
             // Submitted to boss (step=1 pending), no boss decision yet

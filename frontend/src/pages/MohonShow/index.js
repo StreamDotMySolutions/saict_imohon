@@ -68,12 +68,12 @@ const MohonShow = () => {
                     {mohon.mohon_distribution_requests?.length > 0 ? (
                         <Link to={`/agihan/${mohon.id}`}>
                             <Button size='sm' variant='outline-success'>
-                                <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Agihan
+                                <FontAwesomeIcon icon='fas fa-truck' /> Agihan
                             </Button>
                         </Link>
                     ) : (
                         <Button size='sm' variant='outline-secondary' disabled>
-                            <FontAwesomeIcon icon='fas fa-boxes-stacked' /> Agihan
+                            <FontAwesomeIcon icon='fas fa-truck' /> Agihan
                         </Button>
                     )}
                 </div>
