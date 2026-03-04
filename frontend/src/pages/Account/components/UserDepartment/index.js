@@ -1,14 +1,9 @@
-import React, { useState,useEffect } from 'react'
-// import useUserDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore'
-// import useUserStore from '../../../stores/UserStore'
-// import axios from '../../../../../libs/axios'
-
+import React, { useState, useEffect } from 'react'
 import useDepartmentStore from '../../../UserDepartment/stores/UserDepartmentStore'
 import axios from '../../../../libs/axios'
 import useAccountStore from '../../stores/AccountStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import { Row,Col,Button, Form } from 'react-bootstrap'
+import { Row, Col, Button, Form, Alert } from 'react-bootstrap'
 
 const UserDepartment = () => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
@@ -28,16 +23,14 @@ const UserDepartment = () => {
 
     const handleInputClick = () => {
         setIsEditing(true)
-        //console.log('edit')
     }
+
     const handleCancelClick = () => {
         setIsEditing(false)
     }
-    
+
     const handleSaveClick = () => {
-        //console.log('saving')
         setIsSaving(true)
-        //console.log(user.user_department_id)
 
         //Send to server
         const formData = new FormData();
@@ -62,55 +55,84 @@ const UserDepartment = () => {
           });
         
         // Exit the editing mode
-        setIsEditing(false);
+        setIsEditing(false)
     }
 
-
-    useEffect( () => {
+    useEffect(() => {
         axios({
-            url: `${apiUrl}/global/user-departments`,  // user store API
-            method: 'get', // method is POST
+            url: `${apiUrl}/global/user-departments`,
+            method: 'get',
         })
-        .then( response => {
-            //console.log(response.data)
-            setData(response.data.user_departments)
-        })
-    },[])
+            .then(response => {
+                setData(response.data.user_departments)
+            })
+    }, [])
+
+    // Auto-hide success message after 2 seconds
+    useEffect(() => {
+        if (isSuccess) {
+            const timer = setTimeout(() => {
+                setIsSuccess(false)
+            }, 2000)
+            return () => clearTimeout(timer)
+        }
+    }, [isSuccess])
     
 
     return (
-        <>
+        <div className='mt-3'>
+            <p className='text-muted small mb-2'>Klik pada senarai untuk memilih jabatan anda.</p>
 
-        <select
-            className={`form-select ${user.user_department_id?.message ? 'is-invalid' : ''}`}
-            size='20'
-            onClick={handleInputClick}
-            style={isEditing ? { backgroundColor: 'lightyellow' } : {}}
-            onChange={(e) => { 
-                const data = {
-                    value: e.target.value
-                }
-                useAccountStore.setState({user_department_id: data})}
-            }
-        >
-            <CategoryDropdown data={data} selected={user?.account?.profile?.user_department_id} />
-        </select>
-        <Form.Control.Feedback type="invalid">
+            <select
+                className={`form-select ${user.user_department_id?.message ? 'is-invalid' : ''}`}
+                size='20'
+                defaultValue={user?.account?.profile?.user_department_id}
+                onClick={handleInputClick}
+                style={isEditing ? { backgroundColor: 'lightyellow' } : {}}
+                onChange={(e) => {
+                    const data = {
+                        value: e.target.value
+                    }
+                    useAccountStore.setState({ user_department_id: data })
+                }}
+            >
+                <CategoryDropdown data={data} selected={user?.account?.profile?.user_department_id} />
+            </select>
+            <Form.Control.Feedback type='invalid'>
                 {user.user_department_id?.message}
-        </Form.Control.Feedback>
+            </Form.Control.Feedback>
 
-        { isEditing && (
-            <Row className='mt-2 text-end'>
-                <Col>
-                    <Button onClick={handleSaveClick} variant={'light'} className='border border-1 border-success text-success'><FontAwesomeIcon icon="fa-solid fa-save" /></Button>
-                    {' '}
-                    <Button onClick={handleCancelClick} variant={'light'} className='border border-1 border-danger text-danger'><FontAwesomeIcon icon="fa-solid fa-times" /></Button>
-                </Col>
-            </Row>
-        )}
-    
-        </>
-    );
+            {isSuccess && (
+                <Alert variant='success' className='mt-2' dismissible>
+                    Jabatan berjaya dikemaskini.
+                </Alert>
+            )}
+
+            {isEditing && (
+                <Row className='mt-2 text-end'>
+                    <Col>
+                        <Button
+                            onClick={handleSaveClick}
+                            size='sm'
+                            variant='success'
+                            className='me-2'
+                        >
+                            <FontAwesomeIcon icon='fa-solid fa-save' className='me-1' />
+                            Simpan
+                        </Button>
+                        <Button
+                            onClick={handleCancelClick}
+                            size='sm'
+                            variant='outline-secondary'
+                        >
+                            <FontAwesomeIcon icon='fa-solid fa-times' className='me-1' />
+                            Batal
+                        </Button>
+                    </Col>
+                </Row>
+            )}
+        </div>
+    )
 };
 
 function CategoryDropdown({ data, selected, depth = 0 }) {

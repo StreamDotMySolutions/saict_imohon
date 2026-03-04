@@ -60,12 +60,14 @@ const Inventories = () => {
 
     return (
         <Container>
-            <h4 className='mb-1'>Inventori</h4>
-            <p className='text-muted'>Senarai peralatan dan kontrak yang direkodkan dalam sistem.</p>
+            <div className='mb-4'>
+                <h4 className='mb-2'>Inventori</h4>
+                <p className='text-muted mb-0'>Senarai peralatan dan kontrak yang direkodkan dalam sistem.</p>
+            </div>
             <hr />
 
             {/* Tabs */}
-            <div className='d-flex justify-content-between align-items-center mb-3'>
+            <div className='d-flex justify-content-between align-items-center mb-4'>
                 <Nav variant='tabs'>
                     <Nav.Item>
                         <Nav.Link active={tab === 'rekod'} onClick={() => setTab('rekod')} style={{ cursor: 'pointer' }}>
@@ -135,7 +137,7 @@ const Inventories = () => {
                                         {item.date_start} – {item.date_end}
                                     </td>
                                     <td className='text-center'>
-                                        <div className='d-flex gap-1 justify-content-center'>
+                                        <div className='d-flex gap-2 justify-content-center flex-wrap'>
                                             <ShowModal id={item.id} />
                                             <EditModal id={item.id} />
                                             <DeleteModal id={item.id} />

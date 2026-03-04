@@ -132,7 +132,7 @@ export default function CreateModal() {
   
     return (
       <>
-        <Button variant="primary"  onClick={handleShow}>
+        <Button variant="primary" size="sm" onClick={handleShow}>
          Tambah
         </Button>
   
@@ -147,23 +147,20 @@ export default function CreateModal() {
           </Modal.Body>
           <Modal.Footer>
             <Form.Check
-              className='me-4'
+              className='me-auto'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
               label="Saya telah mengesahkan data ini"
               type="checkbox"
-              //onClick={ () =>useInventoryStore.setState({errors:null}) }
               onClick={ () =>store.setValue('error', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick} disabled={isLoading}>
+            <Button variant="secondary" size="sm" onClick={handleCloseClick} disabled={isLoading}>
               Tutup
             </Button>
-
-            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
+            <Button variant="primary" size="sm" onClick={handleSubmitClick} disabled={isLoading}>
               Tambah
             </Button>
-
           </Modal.Footer>
         </Modal>
       </>

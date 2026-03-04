@@ -65,7 +65,7 @@ export default function ShowModal({id}) {
 
     return (
       <>
-        <Button variant="secondary"  onClick={handleShow}>
+        <Button variant="secondary" size="sm" onClick={handleShow}>
          Lihat
         </Button>
   
@@ -78,7 +78,7 @@ export default function ShowModal({id}) {
           </Modal.Body>
           <Modal.Footer>
             <Form.Check
-              className='me-4'
+              className='me-auto'
               disabled
               readonly
               isInvalid={errors?.hasOwnProperty('acknowledge')}
@@ -89,7 +89,7 @@ export default function ShowModal({id}) {
               onClick={ () =>useInventoryStore.setState({errors:null}) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button variant="secondary" size="sm" onClick={handleCloseClick}>
               Tutup
             </Button>
           </Modal.Footer>

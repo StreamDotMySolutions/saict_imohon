@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navigate, Link } from 'react-router-dom'
-import { Button, Card, Container, Form, Row, Col, Alert } from 'react-bootstrap'
+import { Button, Card, Container, Form, Row, Col, Alert, InputGroup } from 'react-bootstrap'
 import useAuthStore from '../../stores/AuthStore'
 import axios from '../../../../libs/axios'
 
@@ -17,6 +17,7 @@ const SignInByNricForm = () => {
     const store = useAuthStore()
     const [nric, setNRIC] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const [errors, setErrors] = useState({})
     const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -107,19 +108,29 @@ const SignInByNricForm = () => {
                                 <FontAwesomeIcon icon='fa-solid fa-lock' className='me-2' />
                                 Katalaluan
                             </Form.Label>
-                            <Form.Control
-                                size='lg'
-                                type='password'
-                                name='password'
-                                placeholder='Masukkan katalaluan anda'
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                isInvalid={!!errors.password}
-                                disabled={isLoading}
-                            />
-                            <Form.Control.Feedback type='invalid'>
-                                {errors.password}
-                            </Form.Control.Feedback>
+                            <InputGroup>
+                                <Form.Control
+                                    size='lg'
+                                    type={showPassword ? 'text' : 'password'}
+                                    name='password'
+                                    placeholder='Masukkan katalaluan anda'
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    isInvalid={!!errors.password}
+                                    disabled={isLoading}
+                                />
+                                <InputGroup.Text
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'}
+                                    />
+                                </InputGroup.Text>
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </Form.Group>
 
                         <Button
@@ -142,14 +153,8 @@ const SignInByNricForm = () => {
                         </Button>
 
                         <div className='d-flex gap-2 flex-wrap justify-content-center text-center fs-6'>
-                            {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
-                                <Link to='/sign-in'>
-                                    <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-1' />
-                                    Emel
-                                </Link>
-                            )}
                             <Link to='/password/email'>
-                                <FontAwesomeIcon icon='fa-solid fa-question' className='me-1' />
+                                <FontAwesomeIcon icon='fa-solid fa-key' className='me-1' />
                                 Lupa Katalaluan
                             </Link>
                             <Link to='/sign-up'>

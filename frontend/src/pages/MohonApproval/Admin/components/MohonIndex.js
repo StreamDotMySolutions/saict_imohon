@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button, Alert, Badge, Form } from 'react-bootstrap'
+import { Table,Pagination, Button, Badge, Form } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
@@ -45,33 +45,6 @@ const MohonIndex = ({status}) => {
 
     return (
         <div>
-  
-            <Alert variant='warning'>
-                <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
-                <hr />
-                {' '}
-                <ol>
-                    <li>
-                        Senarai permohonan dari User. Setiap Permohonan perlu disahkan dahulu dengan klik butang <Button className={'bg-light'} size={'sm'} variant='info'>Pengesahan Permohonan</Button>
-                    </li>
-                    <li>
-                    Setelah Admin mengesahkan Permohonan, butang <Button className={'bg-light text-dark'} size={'sm'} variant='success'>Pengesahan Permohonan</Button> adalah untuk membuat Agihan Peralatan
-                    </li>
-                    <li>
-                    <Badge>ID</Badge> pula merujuk kepada <i><strong>running number</strong></i> permohonan. Setiap <Badge>ID</Badge> adalah unik.
-                    </li>
-                    <li>
-                    Butang <Button className={'bg-light text-dark'} size={'sm'} variant='primary'>Laporan</Button> merujuk kepada laporan lengkap Permohonan.
-                    </li>
-                    <li>
-                    Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='success'>Agihan</Button> pula hanya aktif selepas kelulusan diluluskan oleh Admin. Setiap Agihan akan mempunyai set peralatan sendiri.
-                    </li>
-                    <li>
-                     Setiap <strong>Permohonan</strong> boleh mempunyai satu atau lebih <strong>Agihan</strong>.  
-                    </li>
-                </ol>
-            </Alert>
-
             <Table>
                 <thead>
                     <tr>

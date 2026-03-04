@@ -132,7 +132,7 @@ export default function EditModal({id}) {
 
     return (
       <>
-        <Button variant="primary"  onClick={handleShow}>
+        <Button variant="primary" size="sm" onClick={handleShow}>
          Edit
         </Button>
   
@@ -145,7 +145,7 @@ export default function EditModal({id}) {
           </Modal.Body>
           <Modal.Footer>
             <Form.Check
-              className='me-4'
+              className='me-auto'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
               label="Saya telah mengesahkan data ini"
@@ -153,11 +153,10 @@ export default function EditModal({id}) {
               onClick={ () => store.setValue('errors', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button variant="secondary" size="sm" onClick={handleCloseClick}>
               Tutup
             </Button>
-            
-            <Button variant="primary" onClick={handleSubmitClick} disabled={isLoading}>
+            <Button variant="primary" size="sm" onClick={handleSubmitClick} disabled={isLoading}>
               Kemaskini
             </Button>
           </Modal.Footer>

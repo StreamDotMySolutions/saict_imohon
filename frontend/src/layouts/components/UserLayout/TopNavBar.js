@@ -31,7 +31,7 @@ function TopNavbar() {
               </Nav>
 
               <Nav>
-                <Nav.Link as={NavLink} to="/user/agihan"> <FontAwesomeIcon icon="fa-solid fa-boxes-stacked" />{' '}Agihan</Nav.Link>
+                <Nav.Link as={NavLink} to="/user/agihan"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link>
               </Nav>
 
            <Account />
