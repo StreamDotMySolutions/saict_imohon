@@ -118,6 +118,7 @@ const Inventories = () => {
                                 <th>Vendor</th>
                                 <th>No. Kontrak</th>
                                 <th>Kategori</th>
+                                <th className='text-center'>Jumlah Peralatan</th>
                                 <th className='text-center'>Tempoh</th>
                                 <th className='text-center'>Tindakan</th>
                             </tr>
@@ -129,6 +130,7 @@ const Inventories = () => {
                                     <td>{item.vendor}</td>
                                     <td>{item.contract_number ?? '-'}</td>
                                     <td>{item.category?.name ?? '-'}</td>
+                                    <td className='text-center'>{item.total ?? '-'}</td>
                                     <td className='text-center'>
                                         {item.date_start} – {item.date_end}
                                     </td>
@@ -143,7 +145,7 @@ const Inventories = () => {
                             ))}
                             {inventories?.length === 0 && (
                                 <tr>
-                                    <td colSpan={6} className='text-center text-muted py-4'>Tiada rekod.</td>
+                                    <td colSpan={7} className='text-center text-muted py-4'>Tiada rekod.</td>
                                 </tr>
                             )}
                         </tbody>
