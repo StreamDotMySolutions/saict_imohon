@@ -31,6 +31,9 @@ Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
 Route::put('/mohon-items/{id}', [MohonItemController::class, 'update']);
 Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
 
+// User viewing approved Agihan
+Route::get('/agihan', [MohonRequestController::class, 'agihan']);
+
 // User accepting Agihan
 // MohonDistributionAcceptance
 Route::get('/mohon-distribution-item-acceptances/{mohonDistributioItemId}', [MohonDistributionItemAcceptanceController::class, 'show']);

@@ -25,7 +25,7 @@ export default function DeleteModal({id, step}) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
+      store.reset() // empty store data
       //console.log(id)
 
       // get item categories from /mohon-items/categories

@@ -20,7 +20,7 @@ export default function UpdateDistributionItemModal({mohonDistributionItemId}) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
+      store.reset() // empty store data
 
       // get mohonDistributionItem detail
       //axios(`${store.mohonDistributionItemUrl}/show/${mohonDistributionItemId}`)

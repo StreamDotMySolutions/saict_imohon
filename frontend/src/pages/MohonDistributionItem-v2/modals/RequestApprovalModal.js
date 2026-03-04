@@ -22,7 +22,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
+      store.reset() // empty store data
       //console.log(agihanRequestId)
 
         //console.log( `${store.submitUrl}`)

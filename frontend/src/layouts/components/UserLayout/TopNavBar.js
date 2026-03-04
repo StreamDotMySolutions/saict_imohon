@@ -30,9 +30,9 @@ function TopNavbar() {
                 <Nav.Link as={NavLink} to="/mohon"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>
               </Nav>
 
-              {/* <Nav>
-                <Nav.Link as={NavLink} to="/distribution-acceptances"> <FontAwesomeIcon icon="fa-solid fa-computer" />{' '}Agihan</Nav.Link>
-              </Nav> */}
+              <Nav>
+                <Nav.Link as={NavLink} to="/user/agihan"> <FontAwesomeIcon icon="fa-solid fa-boxes-stacked" />{' '}Agihan</Nav.Link>
+              </Nav>
 
            <Account />
         </Navbar.Collapse>

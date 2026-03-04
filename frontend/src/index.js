@@ -65,6 +65,7 @@ import Agihan from './pages/Agihan'
 import Agihan2 from './pages/Agihan-v2'
 import ShowAgihan from './pages/Agihan-v2/show.js';
 
+import UserAgihan from './pages/UserAgihan'
 import MohonAdministration from './pages/Administrations/Mohon'
 import AgihanAdministration from './pages/Administrations/Agihan'
 
@@ -117,6 +118,7 @@ export default function App() {
                 <Route path="/users" element={<User />} />
                 <Route path="/user-departments" element={<UserDepartment />} />
 
+                <Route path="/user/agihan" element={<UserAgihan />} />
                 <Route path="/mohon" element={<Mohon />} />
                 <Route path="/mohon/:mohonRequestId" element={<MohonShow/>} />
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
