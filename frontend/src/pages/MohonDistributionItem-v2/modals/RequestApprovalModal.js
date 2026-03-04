@@ -1,13 +1,16 @@
 import { useState, useEffect} from 'react'
 import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate } from 'react-router-dom'
 import { InputSelect, InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import JustificationModal from './JustificationModal'
 
-export default function RequestApprovalModal({agihanRequestId}) {
+export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL
+    const navigate = useNavigate()
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -81,15 +84,12 @@ export default function RequestApprovalModal({agihanRequestId}) {
           data: formData
         })
         .then( response => {
-          //console.log(response)
           setIsLoading(false)
-
-          // set MohonIndex listener to true
           store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
           setTimeout(() => {
             handleCloseClick();
+            onSuccess?.();
+            navigate('/admin/agihan?tab=menunggu');
           }, 500);
         })
         .catch( error => {
@@ -105,17 +105,54 @@ export default function RequestApprovalModal({agihanRequestId}) {
     return (
       <>
  
-        <Button variant="info" onClick={handleShowClick}>
-          Mohon
+        <Button variant="primary" onClick={handleShowClick}>
+          Seterusnya <FontAwesomeIcon icon='fas fa-chevron-right' />
         </Button>
       
           
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal size='xl' show={show} onHide={handleCloseClick} enforceFocus={false} scrollable>
           <Modal.Header closeButton>
-            <Modal.Title> Lihat Permohonan Agihan </Modal.Title>
+            <Modal.Title>Lihat Permohonan Agihan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
+
+          {/* ── Progress Steps ──────────────────────────────────── */}
+          <div className='d-flex align-items-center mb-4'>
+            {/* Step 1 — done (clickable to go back) */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#198754', cursor: 'pointer' }}
+              onClick={handleCloseClick}
+            >
+              <FontAwesomeIcon icon='fas fa-check' />
+            </div>
+            <span className='ms-2 text-muted' style={{ cursor: 'pointer' }} onClick={handleCloseClick}>Cadangan Agihan</span>
+
+            {/* Connector 1→2 */}
+            <div className='flex-grow-1 mx-3' style={{ height: 2, backgroundColor: '#198754' }} />
+
+            {/* Step 2 — active */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#0d6efd' }}
+            >
+              2
+            </div>
+            <span className='ms-2 fw-semibold'>Hantar untuk Kelulusan</span>
+
+            {/* Connector 2→3 */}
+            <div className='flex-grow-1 mx-3' style={{ height: 2, backgroundColor: '#dee2e6' }} />
+
+            {/* Step 3 — pending */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#6c757d' }}
+            >
+              3
+            </div>
+            <span className='ms-2 text-muted'>Kelulusan Boss</span>
+          </div>
 
           <Col className='mb-3'>
             <h5>Maklumat Pelulus</h5>
@@ -196,11 +233,12 @@ export default function RequestApprovalModal({agihanRequestId}) {
                 onChange={ (e) => store.setValue('acknowledge', true) }
               />
 
-            <Button 
+            <Button
                 disabled={isLoading}
-                variant="secondary" 
+                variant="secondary"
                 onClick={handleCloseClick}>
-                Tutup
+                <FontAwesomeIcon icon='fas fa-arrow-left' className='me-1' />
+                Undur
             </Button>
 
             <Button 

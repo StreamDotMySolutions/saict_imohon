@@ -75,22 +75,22 @@ const MohonIndex = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th>No. Rujukan</th>
+                        <th style={{ 'width': '50px'}}>No. Rujukan</th>
                         <th style={{ 'width': '120px'}}>Nama</th>
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
-                        <th style={{ 'width': '200px'}}>Jabatan</th>
+                        <th style={{ 'width': '250px'}}>Jabatan</th>
                         {/* <th style={{ 'width': '200px'}}>Kelulusan Mohon</th> */}
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
                         {/* <th className='text-center' style={{ 'width': '50px'}}>Status Tiket</th> */}
-                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
+                        <th className='text-center' >Tindakan</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.reference_no ?? `#${mohon.id}`}</span></td>
+                            <td><small><span className="badge bg-primary">{mohon.reference_no ?? `#${mohon.id}`}</span></small></td>
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                             <td>{mohon.user?.user_profile?.user_department?.name}</td>
@@ -104,25 +104,16 @@ const MohonIndex = ({status}) => {
                                 <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
                             </td> */}
                            
-                            <td className='text-center'>
-                                {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Lihat</Button>
-                                </Link>*/}
-                                {/* <StatusModal mohonRequestId={mohon.id} /> */}
-                                {' '}
-                                <ReportingModal mohonRequestId={mohon.id} />    
-                                {' '}
-                                <ViewModal id={mohon.id} />
-                                {' '}
-                            
-                                {mohon.mohon_approval?.step == 4 && mohon.mohon_approval?.status == 'approved'  ?
-                                    <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                        <Button size='sm' variant='outline-success'>Agihan</Button>
-                                    </Link>
-                                    :
-                                    // 
-                                    <></>
-                                }
+                            <td>
+                                <div className='d-flex gap-1 justify-content-center flex-wrap'>
+                                    <ReportingModal mohonRequestId={mohon.id} />
+                                    <ViewModal id={mohon.id} />
+                                    {mohon.mohon_approval?.step == 4 && mohon.mohon_approval?.status == 'approved' && (
+                                        <Link to={`/mohon-distribution-requests/${mohon.id}`}>
+                                            <Button size='sm' variant='outline-success'>Agihan</Button>
+                                        </Link>
+                                    )}
+                                </div>
                             </td>
                         </tr>
                     ))}

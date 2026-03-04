@@ -1,59 +1,18 @@
-import React, { useState, useEffect } from 'react';
+const agihanStepLabel = (step, status) => {
+    if (step === 0)                                return { text: 'Belum Dihantar',     bg: 'secondary' };
+    if (step === 1 && status === 'pending')        return { text: 'Menunggu Pelulus 2', bg: 'warning'   };
+    if (step === 2 && status === 'approved')       return { text: 'Diluluskan',         bg: 'success'   };
+    if (step === 2 && status === 'rejected')       return { text: 'Ditolak',            bg: 'danger'    };
+    return { text: 'Belum Mohon', bg: 'secondary' };
+};
 
 export function AgihanApprovalStatus({ step, currentStatus }) {
-    const [user, setUser] = useState('');
-    const [status, setStatus] = useState('');
-    //console.log(step)
-    useEffect(() => {
-        // Use useEffect to set the user based on the step
-        switch (step) {
-            case 0:
-                setUser('Admin');
-                break;
-            case 1:
-                setUser('Pelulus 2');
-                break;   
-            case 2:
-                setUser('Pelulus 2');
-            break;   
-            default:
-                setUser('Admin');
-                break;
-        }
-    }, [step]); // Only run the effect if 'step' changes
-
-    useEffect(() => {
-        // Use useEffect to set the status based on the  currentStatus
-        switch (currentStatus) {
-            case 'pending':
-                setStatus('menunggu');
-                break;
-            case 'approved':
-                setStatus('lulus');
-                break;
-            case 'rejected':
-                setStatus('gagal');
-                break;
-            default:
-                setStatus('belum mohon');
-                break;
-
-        }
-    }, [currentStatus]); // Only run the effect if 'currentStatus' changes
+    const { text, bg } = agihanStepLabel(step, currentStatus);
+    const textColor = bg === 'warning' ? 'dark' : 'white';
 
     return (
-        <>
-            {/* <button style={{ 'width': '180px'}} size="sm" type="button" className="btn btn-outline-secondary text-start">
-                {user} <span class="badge bg-secondary">{status}</span>
-            </button> */}
-            {/* {step}| {currentStatus} */}
-
-            <div  className="text-center p-0 rounded border border-1 border-light border-secondary">
-                <small>
-                    Dari: {user} 
-                    <br />
-                    Status: <span className="badge bg-secondary">{status}</span></small>
-            </div>
-        </>
+        <span className={`badge text-${textColor} bg-${bg}`}>
+            {text}
+        </span>
     );
 }
