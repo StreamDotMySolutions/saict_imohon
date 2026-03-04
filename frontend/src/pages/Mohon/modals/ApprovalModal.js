@@ -4,7 +4,6 @@ import { InputText, InputTextarea, InputSelect } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import MohonData from '../components/MohonData'
-import { Navigate } from 'react-router-dom'
 
 
 {/**
@@ -29,7 +28,6 @@ export default function ApprovalModal({id,count,step}) {
     const handleShow = () => setShow(true)
 
     const handleShowClick = () =>{
-      store.emptyData() // empty store data
       setShow(true) // show the modal
 
       // get managers
@@ -84,11 +82,7 @@ export default function ApprovalModal({id,count,step}) {
           //console.log(response)
           setIsLoading(false)
 
-          // set MohonIndex listener to true
           store.setValue('refresh', true)
-          store.setValue('redirect', true)
-
-          // Add a delay of 1 second before closing
           setTimeout(() => {
             handleCloseClick();
           }, 500);
@@ -103,13 +97,6 @@ export default function ApprovalModal({id,count,step}) {
         })
     }
 
-    // redirect to store-items
-    if( store.getValue('redirect') === true ) {
-      store.setValue('redirect', false)
-      return <Navigate to={`/mohon/${id}`} replace />
-    }
-
-  
     return (
       <>
         {count === 0 ? (
@@ -122,7 +109,7 @@ export default function ApprovalModal({id,count,step}) {
           </Button>
         )}
           
-        <Modal fullscreen show={show} onHide={handleCloseClick}>
+        <Modal size='xl' show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
             <Modal.Title>Lihat Permohonan</Modal.Title>
           </Modal.Header>

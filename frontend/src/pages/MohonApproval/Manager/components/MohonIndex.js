@@ -42,7 +42,7 @@ const MohonIndex = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>No.</th>
+                        <th>No. Rujukan</th>
                         <th style={{ 'width': '120px'}}>Nama</th>
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
                         {/* <th className="text-center" style={{ 'width': '100px'}}>Status Kelulusan</th> */}
@@ -56,7 +56,7 @@ const MohonIndex = ({status}) => {
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon.numbering}</span></td>
+                            <td> <span className="badge bg-primary">{mohon.reference_no ?? `#${mohon.id}`}</span></td>
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                             {/* <td className='text-center'>

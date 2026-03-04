@@ -216,7 +216,7 @@ const MohonDistributionItemIndex = ({ agihanRequestId }) => {
               <strong>PERMOHONAN</strong> mewakili senarai peralatan yang dimohon oleh Permohonan ID <Badge>{mohon.mohon_request_id}</Badge>.
             </li>
             <li>
-              Senarai peralatan ini dikumpul dalam Agihan ID <Badge>{mohon.id}</Badge>
+              Senarai peralatan ini dikumpul dalam Agihan <Badge>{mohon.reference_no ?? `#${mohon.id}`}</Badge>
             </li>
             <li>
               Untuk menambah peralatan ke dalam Agihan, anda kena pilih <i><strong>Checkbox</strong></i> peralatan di senarai Permohonan

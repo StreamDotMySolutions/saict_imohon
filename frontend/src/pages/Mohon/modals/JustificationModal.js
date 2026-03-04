@@ -1,55 +1,38 @@
-import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea } from './components/Inputs'
-import axios from '../../../libs/axios'
-import useMohonStore from '../store'
+import { useRef } from 'react'
+import { Button, Overlay, Popover } from 'react-bootstrap'
+import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export default function JustificationModal({message}) {
-
-    const [isLoading, setIsLoading] = useState(false)
+export default function JustificationModal({ message }) {
     const [show, setShow] = useState(false)
-  
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
+    const ref = useRef(null)
 
-    const handleShowClick = () =>{
-      setShow(true) // show the modal
-    }
-
-    const handleCloseClick = () => {
-      handleClose()
-    }
-
-  
     return (
-      <>
-        <Button size="sm" variant="outline-dark" onClick={handleShowClick}>
-          Justifikasi
-        </Button>
-  
-        <Modal size={'lg'} show={show} onHide={handleCloseClick}>
-          <Modal.Header closeButton>
-            <Modal.Title>Justifikasi</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Col className='bg-dark text-light p-5'>
-              {message}
-            </Col>
-          </Modal.Body>
-          
-          <Modal.Footer>
-            <Button 
-              //disabled={isLoading}
-              variant="secondary" 
-              onClick={handleCloseClick}>
-              Tutup
+        <>
+            <Button
+                ref={ref}
+                size='sm'
+                variant={show ? 'secondary' : 'outline-secondary'}
+                onClick={() => setShow(s => !s)}
+            >
+                <FontAwesomeIcon icon='fas fa-comment-dots' className='me-1' />
+                Justifikasi
             </Button>
 
-
-          </Modal.Footer>
-        </Modal>
-      </>
+            <Overlay
+                show={show}
+                target={ref}
+                placement='top'
+                rootClose
+                onHide={() => setShow(false)}
+            >
+                <Popover style={{ maxWidth: '320px' }}>
+                    <Popover.Header>Justifikasi</Popover.Header>
+                    <Popover.Body style={{ whiteSpace: 'pre-wrap', fontSize: '0.875rem' }}>
+                        {message || <span className='text-muted fst-italic'>Tiada justifikasi.</span>}
+                    </Popover.Body>
+                </Popover>
+            </Overlay>
+        </>
     );
-  }
-
+}

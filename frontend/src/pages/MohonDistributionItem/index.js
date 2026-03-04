@@ -40,11 +40,11 @@ const MohonDistributionItem = () => {
                 <ol class="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/mohon-approval/by-admin" ><Badge>AGIHAN</Badge></Link></li>
                     <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.mohon_request?.id}</Badge>{' '}{response.mohon_request?.title}</Link>
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.mohon_request?.reference_no ?? `#${response.mohon_request?.id}`}</Badge>{' '}{response.mohon_request?.title}</Link>
                     </li>
                     <li class="breadcrumb-item">Senarai Agihan</li>
                     <li className="breadcrumb-item">
-                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.id}</Badge>{' '}{response.title}</Link>
+                        <Link to={`/mohon-distribution-requests/${mohonRequestId}`}><Badge>{response.reference_no ?? `#${response.id}`}</Badge>{' '}{response.title}</Link>
                     </li>
                     <li className="breadcrumb-item">Senarai Peralatan</li>
                 </ol>

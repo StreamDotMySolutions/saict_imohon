@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button } from 'react-bootstrap'
+import { Table, Pagination, Button, Alert } from 'react-bootstrap'
 import useMohonItemStore from '../store'
 import axios from '../../../libs/axios'
 import EditModal from '../modals/EditModal'
@@ -8,6 +8,7 @@ import ViewModal from '../modals/ViewModal'
 import CreateModal from '../modals/CreateModal'
 import ApprovalModal from '../../Mohon/modals/ApprovalModal'
 import { useSearchParams } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MohonItemIndex = ({mohonRequestId, step}) => {
     const [searchParams] = useSearchParams()
@@ -42,8 +43,19 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
 
     ) // useEffect()
 
+    const itemCount = items?.data?.length ?? 0;
+
     return (
         <div>
+
+            {step === 0 && itemCount > 0 && (
+                <Alert variant='info' className='d-flex align-items-center gap-2'>
+                    <FontAwesomeIcon icon='fas fa-circle-info' />
+                    <span>
+                        Anda telah menambah <strong>{itemCount} peralatan</strong>. Sila klik butang <strong>Mohon</strong> untuk menghantar permohonan kepada Pelulus 1.
+                    </span>
+                </Alert>
+            )}
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">

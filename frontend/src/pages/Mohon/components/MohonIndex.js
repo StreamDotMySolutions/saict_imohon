@@ -10,11 +10,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const stepLabel = (step, status) => {
     if (step === 0) return { text: 'Draf', bg: 'secondary' };
     if (step === 1 && status === 'pending') return { text: 'Menunggu Pelulus 1', bg: 'warning' };
-    if (step === 2 && status === 'approved') return { text: 'Lulus Pelulus 1', bg: 'primary' };
+    if (step === 2 && status === 'approved') return { text: 'Diluluskan', bg: 'success' };
     if (step === 2 && status === 'rejected') return { text: 'Ditolak', bg: 'danger' };
     if (step === 3 && status === 'pending') return { text: 'Dalam Proses Admin', bg: 'warning' };
     if (step === 3 && status === 'approved') return { text: 'Diluluskan', bg: 'success' };
-    return { text: 'Tidak Diketahui', bg: 'secondary' };
+    if (step === 4 && status === 'approved') return { text: 'Selesai', bg: 'success' };
+    if (step === 4 && status === 'rejected') return { text: 'Ditolak', bg: 'danger' };
+    return { text: 'Belum Memohon', bg: 'secondary' };
+};
+
+const agihanLabel = (distributionRequests) => {
+    if (!distributionRequests || distributionRequests.length === 0) return null;
+    const latest = distributionRequests[0];
+    const approval = latest?.mohon_distribution_approval;
+    if (!approval) return null;
+    if (approval.step === 0) return { text: 'Admin Menyediakan', bg: 'secondary' };
+    if (approval.step === 1 && approval.status === 'pending') return { text: 'Menunggu Pelulus 2', bg: 'warning' };
+    if (approval.step === 2 && approval.status === 'approved') return { text: 'Agihan Diluluskan', bg: 'success' };
+    if (approval.step === 2 && approval.status === 'rejected') return { text: 'Agihan Ditolak', bg: 'danger' };
+    return null;
 };
 
 const canDelete = (step, status) =>
@@ -64,7 +78,8 @@ const MohonIndex = () => {
                                 <th>Nama</th>
                                 <th className='text-center'>Peralatan Mohon</th>
                                 <th className='text-center'>Peralatan Agihan</th>
-                                <th className='text-center'>Status</th>
+                                <th className='text-center'>Status Memohon</th>
+                                <th className='text-center'>Status Agihan</th>
                                 <th className='text-center'>Tarikh Permohonan</th>
                                 <th className='text-center'>Tindakan</th>
                             </tr>
@@ -75,6 +90,7 @@ const MohonIndex = () => {
                                     mohon.mohon_approval?.step,
                                     mohon.mohon_approval?.status
                                 );
+                                const agihan = agihanLabel(mohon.mohon_distribution_requests);
                                 const deletable = canDelete(
                                     mohon.mohon_approval?.step,
                                     mohon.mohon_approval?.status
@@ -83,15 +99,31 @@ const MohonIndex = () => {
                                 return (
                                     <tr key={index}>
                                         <td className='text-center'>
-                                            <Badge bg='primary'>{mohon.numbering}</Badge>
+                                            <Badge bg='primary'>{mohon.reference_no ?? `#${mohon.id}`}</Badge>
                                         </td>
                                         <td>{mohon.user?.name}</td>
-                                        <td className='text-center'>{mohon.mohon_items_count}</td>
+                                        <td className='text-center'>
+                                            {mohon.mohon_items_count === 0 && mohon.mohon_approval?.step === 0 ? (
+                                                <Link to={`/mohon-items/${mohon.id}?create=true`}>
+                                                    <Badge bg='warning' text='dark'>
+                                                        <FontAwesomeIcon icon='fas fa-circle-exclamation' className='me-1' />
+                                                        Tambah Peralatan
+                                                    </Badge>
+                                                </Link>
+                                            ) : mohon.mohon_items_count}
+                                        </td>
                                         <td className='text-center'>{mohon.mohon_distribution_items_count}</td>
                                         <td className='text-center'>
                                             <Badge bg={bg} text={bg === 'warning' ? 'dark' : undefined}>
                                                 {text}
                                             </Badge>
+                                        </td>
+                                        <td className='text-center'>
+                                            {agihan ? (
+                                                <Badge bg={agihan.bg} text={agihan.bg === 'warning' ? 'dark' : undefined}>
+                                                    {agihan.text}
+                                                </Badge>
+                                            ) : '-'}
                                         </td>
                                         <td className='text-center'>{mohon.created_at}</td>
                                         <td className='text-center'>

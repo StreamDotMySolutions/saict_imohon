@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
-import { Table,Alert,Row,Col, Button, ProgressBar,Modal,Form} from 'react-bootstrap'
-import { InputText, InputTextarea } from '../modals/components/Inputs'
+import { Badge, Card, Row, Col } from 'react-bootstrap'
+import { InputText } from '../modals/components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import JustificationModal from '../modals/JustificationModal'
@@ -69,43 +69,45 @@ export default function MohonData({id}) {
             />
             <br /> */}
             <br />
-            <h5>Maklumat Peralatan</h5>
-            <Table className='mt-3'>
-                <thead>
-                    <tr>
-                        <th style={{ 'width': '20px'}}>Bil.</th>
-                        <th>Penerima</th>
-                        <th>Jawatan</th>
-                        <th>No. Telefon</th>
-                        <th>Nama Bangunan</th>
-                        <th>Tingkat</th>
-                        <th>Lokasi</th>
-                        <th>Peralatan</th>
-                        <th>Jenis</th>
-                        <th>Justifikasi</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {store.getValue('items')?.map((item,index) => (
-                        <tr key={index}>
-                            <td> <span className="badge bg-primary">{index + 1}</span></td>
-                            <td>{item.name}</td>
-                            <td>{item.occupation}</td>
-                            <td>{item.mobile}</td>
-                            <td>{item.building_name}</td>
-                            <td>{item.building_level}</td>
-                            <td>{item.location}</td>
-                            <td>{item.category?.name}</td>
-                            <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                            <td>
-                              <JustificationModal message={item.description} />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+            <h5>Maklumat Peralatan <Badge bg='secondary'>{store.getValue('items')?.length ?? 0}</Badge></h5>
+            <Row className='g-3 mt-1'>
+                {store.getValue('items')?.map((item, index) => (
+                    <Col xs={12} md={6} lg={4} key={index}>
+                        <Card className='h-100 shadow-sm'>
+                            <Card.Header className='d-flex align-items-center justify-content-between py-2'>
+                                <div>
+                                    <Badge bg='primary' className='me-1'>{index + 1}</Badge>
+                                    <strong>{item.category?.name}</strong>
+                                </div>
+                                <Badge bg={item.type === 'new' ? 'success' : 'warning'} text={item.type === 'new' ? undefined : 'dark'}>
+                                    {item.type === 'new' ? 'Baharu' : 'Ganti'}
+                                </Badge>
+                            </Card.Header>
+                            <Card.Body className='py-2 px-3'>
+                                <InfoRow label='Penerima' value={item.name} />
+                                <InfoRow label='Jawatan' value={item.occupation} />
+                                <InfoRow label='No. Telefon' value={item.mobile} />
+                                <InfoRow label='Bangunan' value={item.building_name} />
+                                <InfoRow label='Tingkat' value={item.building_level} />
+                                <InfoRow label='Lokasi' value={item.location} />
+                            </Card.Body>
+                            {item.description && (
+                                <Card.Footer className='py-2 text-end'>
+                                    <JustificationModal message={item.description} />
+                                </Card.Footer>
+                            )}
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
        
       </>
     );
   }
+
+const InfoRow = ({ label, value }) => (
+    <div className='d-flex justify-content-between mb-1' style={{ fontSize: '0.85rem' }}>
+        <span className='text-muted'>{label}</span>
+        <span className='fw-semibold text-end ms-2'>{value ?? '-'}</span>
+    </div>
+);
