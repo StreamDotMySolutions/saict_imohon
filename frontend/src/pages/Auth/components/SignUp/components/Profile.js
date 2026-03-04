@@ -7,6 +7,15 @@ const Profile = () => {
     const store = useAuthStore()
     const errors = store.errors
 
+    const handleNRICChange = (e) => {
+        const input = e.target.value
+        const formatted = input
+            .replace(/\D/g, '')
+            .slice(0, 12)
+            .replace(/(\d{6})(\d{2})(\d{4})/, '$1-$2-$3')
+        useAuthStore.setState({ nric: { value: formatted } })
+    }
+
     return (
         <div>
             <Row className='g-3'>
@@ -66,8 +75,9 @@ const Profile = () => {
                             type='text'
                             name='nric'
                             placeholder='XXXXXX-XX-XXXX'
+                            value={store.nric?.value || ''}
                             isInvalid={!!errors?.nric}
-                            onChange={e => useAuthStore.setState({ nric: { value: e.target.value } })}
+                            onChange={handleNRICChange}
                         />
                         {errors?.nric && (
                             <Form.Control.Feedback type='invalid'>

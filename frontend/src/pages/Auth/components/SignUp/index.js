@@ -45,7 +45,11 @@ const SignUpForm = () => {
 
         fields.forEach(fieldName => {
             if (store && store[fieldName]?.value) {
-                formData.append(fieldName, store[fieldName].value)
+                // Remove hyphens from NRIC before sending to backend
+                const value = fieldName === 'nric'
+                    ? store[fieldName].value.replace(/-/g, '')
+                    : store[fieldName].value
+                formData.append(fieldName, value)
             }
         })
 
