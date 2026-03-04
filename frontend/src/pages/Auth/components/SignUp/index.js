@@ -78,9 +78,9 @@ const SignUpForm = () => {
                 <Card className='border-0 shadow-lg'>
                     <Card.Body className='p-5'>
                         <div className='text-center mb-4'>
-                            <FontAwesomeIcon icon='fa-solid fa-check-circle' className='text-success' style={{ fontSize: '3rem' }} />
+                            <FontAwesomeIcon icon='fa-solid fa-check-circle' className='text-success' style={{ fontSize: '2.5rem' }} />
                         </div>
-                        <h5 className='fw-bold text-center mb-3'>Pendaftaran Berjaya</h5>
+                        <h4 className='fw-bold text-center mb-3 fs-4'>Pendaftaran Berjaya</h4>
                         <Alert variant='success' className='mb-4'>
                             Pihak admin akan mengesahkan pendaftaran anda.
                             <br />
@@ -105,8 +105,8 @@ const SignUpForm = () => {
             <Card className='border-0 shadow-lg'>
                 <Card.Body className='p-5'>
                     <div className='text-center mb-4'>
-                        <h3 className='fw-bold mb-1'>Daftar</h3>
-                        <p className='text-muted'>Buat akaun baru untuk memulakan</p>
+                        <h3 className='fw-bold mb-2 fs-4'>Daftar</h3>
+                        <p className='text-muted mb-0'>Buat akaun baru untuk memulakan</p>
                     </div>
 
                     {isError && (
@@ -144,7 +144,7 @@ const SignUpForm = () => {
                         </Button>
 
                         <div className='text-center'>
-                            <p className='text-muted'>
+                            <p className='text-muted fs-6 mb-0'>
                                 Sudah ada akaun?{' '}
                                 <Link to='/sign-in' className='fw-semibold'>
                                     Log Masuk

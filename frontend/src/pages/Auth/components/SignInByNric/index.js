@@ -70,8 +70,8 @@ const SignInByNricForm = () => {
             <Card className='border-0 shadow-lg'>
                 <Card.Body className='p-5'>
                     <div className='text-center mb-4'>
-                        <h3 className='fw-bold mb-1'>Log Masuk</h3>
-                        <p className='text-muted'>Guna Kad Pengenalan Diri</p>
+                        <h3 className='fw-bold mb-2 fs-4'>Log Masuk</h3>
+                        <p className='text-muted mb-0'>Guna Kad Pengenalan Diri</p>
                     </div>
 
                     {message && (
@@ -141,7 +141,7 @@ const SignInByNricForm = () => {
                             )}
                         </Button>
 
-                        <div className='d-flex gap-2 flex-wrap justify-content-center text-center' style={{ fontSize: '0.9rem' }}>
+                        <div className='d-flex gap-2 flex-wrap justify-content-center text-center fs-6'>
                             {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
                                 <Link to='/sign-in'>
                                     <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-1' />
@@ -164,10 +164,10 @@ const SignInByNricForm = () => {
             {process.env.REACT_APP_SHOW_CREDENTIALS === 'true' && (
                 <Card className='mt-4 border-light bg-light'>
                     <Card.Body className='p-3'>
-                        <small className='text-muted fw-semibold d-block mb-2'>
+                        <div className='text-muted fw-semibold d-block mb-2 fs-6'>
                             <FontAwesomeIcon icon='fa-solid fa-flask' className='me-1' />
                             DEV — Akaun Ujian
-                        </small>
+                        </div>
                         <div className='d-flex flex-wrap gap-2'>
                             {DEV_USERS.map(u => (
                                 <Button
