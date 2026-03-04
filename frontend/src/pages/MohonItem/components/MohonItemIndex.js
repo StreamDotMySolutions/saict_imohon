@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Pagination, Button, Alert, Row, Col, Form } from 'react-bootstrap'
+import { Table, Pagination, Button, Alert } from 'react-bootstrap'
 import useMohonItemStore from '../store'
 import axios from '../../../libs/axios'
 import EditModal from '../modals/EditModal'
@@ -16,43 +16,30 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonItemStore()
     const [items, setItems] = useState([])
-    const [search, setSearch] = useState('')
-    const [pageUrl, setPageUrl] = useState(null)
 
-    // Reset page when search changes
-    useEffect(() => {
-        setPageUrl(null)
-    }, [search])
-
-    // Fetch items data
-    useEffect( () =>
+    // to get items data
+    useEffect( () => 
         {
-            const params = new URLSearchParams()
-            if (search) params.set('search', search)
-            const url = pageUrl
-                ? `${pageUrl}&${params.toString()}`
-                : `${apiUrl}/user/mohon-items/${mohonRequestId}?${params.toString()}`
-
-            axios(
+            // modified axios to prepend Bearer Token on header
+            axios( 
                 {
-                    method: 'get',
-                    url: url
-                }
+                    method: 'get', // method is GET
+                    url: `${apiUrl}/user/mohon-items/${mohonRequestId}` // eg GET http://localhost:8000/api/mohon-items/123
+                } 
             )
-            .then( response => {
-                setItems(response.data.items)
-                store.setValue('refresh', false )
+            .then( response => { // response block
+                //console.log(response.data.items)   // output to console  
+                setItems(response.data.items) // assign data to const = mohons
+                store.setValue('refresh', false ) // set MohonIndex listener back to FALSE
             })
-            .catch( error => {
-                console.warn(error)
+            .catch( error => { // error block
+                console.warn(error) // output to console
             })
       },
         [
-            search,
-            pageUrl,
-            store.getValue('refresh'),
-            mohonRequestId
-        ]
+            store.getValue('refresh'), // Form action listener
+            store.url // pagination listener
+        ] 
 
     ) // useEffect()
 
@@ -69,14 +56,6 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                     </span>
                 </Alert>
             )}
-
-            {/* Search bar */}
-            <Row className='g-2 mb-3' style={{ maxWidth: 400 }}>
-                <Col>
-                    <Form.Control size='sm' placeholder='Cari nama atau kategori peralatan...'
-                        value={search} onChange={e => setSearch(e.target.value)} />
-                </Col>
-            </Row>
 
             <div className="d-flex bd-highlight mb-3">
                 <div className="ms-auto p-2 bd-highlight">
@@ -117,15 +96,44 @@ const MohonItemIndex = ({mohonRequestId, step}) => {
                 </tbody>
             </Table>
 
-            <Pagination className='mt-3'>
-                {items?.links?.map((page, index) => (
-                    <Pagination.Item key={index} active={page.active} disabled={!page.url}
-                        onClick={() => page.url && setPageUrl(page.url)}>
-                        <span dangerouslySetInnerHTML={{ __html: page.label }} />
-                    </Pagination.Item>
-                ))}
-            </Pagination>
+            <div className="d-flex bd-highlight mb-3">
+                <div className="ms-auto p-2 bd-highlight">
+                    <PaginatorLink items={items} />
+                </div>
+            </div>
         </div>
     );
 };
 export default MohonItemIndex;
+
+
+/**
+ * Paginator Links
+ */
+function PaginatorLink ({items}){
+    //console.log(items.links)
+    const handlePaginationClick = (url) => {
+      //console.log(url)
+      useMohonItemStore.setState({url: url}) // update the url state in store
+      
+    }
+
+    // extract the data from Laravel Paginator JSON
+    const links = items?.links?.map( (page,index) => 
+        
+      <Pagination.Item
+          key={index} 
+          active={page.active}
+          disabled={page.url === null}
+          onClick={() => handlePaginationClick(page.url)}
+          >
+              <span dangerouslySetInnerHTML={{__html: page.label}} />
+      </Pagination.Item>
+    )
+  
+    return  (
+      <Pagination className='mt-3'>
+      {links}
+      </Pagination>
+    )
+  }
