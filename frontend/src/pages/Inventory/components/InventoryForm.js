@@ -21,7 +21,7 @@ const InventoryForm = () => {
             setCategories(response.data.categories)
             })
 
-    } )
+    }, [])
     
         //console.log(categories)
 
