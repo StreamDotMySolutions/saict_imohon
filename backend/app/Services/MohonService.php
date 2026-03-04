@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 class MohonService
 {
 
-    public static function index($status, $tab = null)
+    public static function index($status, $tab = null, $search = null)
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
 
         switch($role){
             case 'user':
-                $mohons = self::getMohonDataAsUser($user, $tab);
+                $mohons = self::getMohonDataAsUser($user, $tab, $search);
             break;
             case 'manager':
                 $mohons = self::getMohonDataAsManager($user, $status);
@@ -41,7 +41,7 @@ class MohonService
     /*
     * List All MohonRequest
     */
-    public static function getMohonDataAsUser($user, $tab = null)
+    public static function getMohonDataAsUser($user, $tab = null, $search = null)
     {
         $query = MohonRequest::query()
                     ->with([
@@ -60,6 +60,13 @@ class MohonService
             $query->where('step', 4)->where('status', 'rejected');
         } elseif ($tab === 'aktif') {
             $query->where('step', '<', 4);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('reference_no', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%");
+            });
         }
 
         $mohons = $query->orderBy('id', 'DESC')
@@ -318,5 +325,16 @@ class MohonService
         // Delete MohonRequest
         return $mohonRequest->delete();
 
+    }
+
+    public static function statsAsUser($user)
+    {
+        $base = MohonRequest::where('user_id', $user->id);
+        return [
+            'total'   => (clone $base)->count(),
+            'aktif'   => (clone $base)->where('step', '<', 4)->count(),
+            'selesai' => (clone $base)->where('step', 4)->where('status', 'approved')->count(),
+            'gagal'   => (clone $base)->where('step', 4)->where('status', 'rejected')->count(),
+        ];
     }
 }

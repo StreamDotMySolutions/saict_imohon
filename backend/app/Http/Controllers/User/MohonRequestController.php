@@ -20,11 +20,17 @@ class MohonRequestController extends Controller
         //\Log::info($request);
         //$status = 'pending';
         //\Log::info($request->input('status'));
-        $mohons = MohonService::index($request->input('status'), $request->input('tab'));
+        $mohons = MohonService::index($request->input('status'), $request->input('tab'), $request->input('search'));
 
         return response()->json([
             'mohons' => $mohons
         ]);
+    }
+
+    public function stats(Request $request)
+    {
+        $user = auth('sanctum')->user();
+        return response()->json(['stats' => MohonService::statsAsUser($user)]);
     }
 
     public function store(StoreMohonRequest $request)

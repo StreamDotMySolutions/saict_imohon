@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Pagination, Button, Badge, Container, Row, Col } from 'react-bootstrap'
+import { Table, Pagination, Button, Badge, Container, Row, Col, Form } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
 import DeleteModal from '../modals/DeleteModal'
@@ -37,35 +37,42 @@ const canDelete = (step, status) =>
 const MohonIndex = ({ tab }) => {
     const store = useMohonStore()
     const [mohons, setMohons] = useState([])
+    const [search, setSearch] = useState('')
+    const [pageUrl, setPageUrl] = useState(null)
     const apiUrl = process.env.REACT_APP_BACKEND_URL
 
+    // Reset page when search changes
     useEffect(() => {
-        const url = tab
-            ? `${apiUrl}/user/mohon-requests?tab=${tab}`
-            : `${apiUrl}/user/mohon-requests`
+        setPageUrl(null)
+    }, [search])
+
+    // Fetch data
+    useEffect(() => {
+        const params = new URLSearchParams()
+        if (tab) params.set('tab', tab)
+        if (search) params.set('search', search)
+        const url = pageUrl
+            ? `${pageUrl}&${params.toString()}`
+            : `${apiUrl}/user/mohon-requests?${params.toString()}`
         axios({ method: 'get', url })
-        .then(response => {
-            setMohons(response.data.mohons)
-            store.setValue('refresh', false)
-        })
-        .catch(error => console.warn(error))
-    }, [store.getValue('refresh'), store.url, tab])
+            .then(response => {
+                setMohons(response.data.mohons)
+                store.setValue('refresh', false)
+            })
+            .catch(error => console.warn(error))
+    }, [search, pageUrl, store.getValue('refresh'), tab])
 
     const data = mohons?.data ?? [];
 
     return (
         <Container>
-            {/* Page header */}
-            <Row className='align-items-center mb-3'>
+            {/* Search bar */}
+            <Row className='g-2 mb-3' style={{ maxWidth: 400 }}>
                 <Col>
-                    <h3 className='mb-0'>Permohonan Saya</h3>
-                    <small className='text-muted'>Senarai semua permohonan peralatan yang telah anda buat.</small>
-                </Col>
-                <Col xs='auto'>
-                    <CreateModal />
+                    <Form.Control size='sm' placeholder='Cari no. rujukan atau tajuk...'
+                        value={search} onChange={e => setSearch(e.target.value)} />
                 </Col>
             </Row>
-            <hr />
 
             {data.length === 0 ? (
                 <EmptyState />
@@ -146,9 +153,14 @@ const MohonIndex = ({ tab }) => {
                         </tbody>
                     </Table>
 
-                    <div className='d-flex justify-content-end mt-2'>
-                        <PaginatorLink items={mohons} />
-                    </div>
+                    <Pagination className='mt-3'>
+                        {mohons?.links?.map((page, index) => (
+                            <Pagination.Item key={index} active={page.active} disabled={!page.url}
+                                onClick={() => page.url && setPageUrl(page.url)}>
+                                <span dangerouslySetInnerHTML={{ __html: page.label }} />
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
                 </>
             )}
         </Container>
@@ -163,24 +175,5 @@ const EmptyState = () => (
         <CreateModal />
     </div>
 );
-
-function PaginatorLink({ items }) {
-    const handlePaginationClick = (url) => {
-        useMohonStore.setState({ url })
-    }
-
-    const links = items?.links?.map((page, index) => (
-        <Pagination.Item
-            key={index}
-            active={page.active}
-            disabled={page.url === null}
-            onClick={() => handlePaginationClick(page.url)}
-        >
-            <span dangerouslySetInnerHTML={{ __html: page.label }} />
-        </Pagination.Item>
-    ))
-
-    return <Pagination className='mt-3'>{links}</Pagination>
-}
 
 export default MohonIndex;

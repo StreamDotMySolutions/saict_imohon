@@ -14,8 +14,9 @@ use App\Http\Controllers\User\{
 };
 
 // MohonRequest
-Route::get('/mohon-requests', [MohonRequestController::class, 'index']); 
+Route::get('/mohon-requests', [MohonRequestController::class, 'index']);
 Route::post('/mohon-requests', [MohonRequestController::class, 'store']);
+Route::get('/mohon-requests/stats', [MohonRequestController::class, 'stats']);
 Route::get('/mohon-requests/{mohonRequestId}', [MohonRequestController::class, 'show']);
 Route::delete('/mohon-requests/{mohonRequestId}', [MohonRequestController::class, 'delete']);
 
