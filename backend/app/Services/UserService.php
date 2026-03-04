@@ -120,60 +120,48 @@ class UserService
         return $user;
     }
 
-    public static function index()
+    public static function index(Request $request)
     {
+        $users = [];
+        $search = $request->input('search');
+        $deptId = $request->input('user_department_id');
 
-        // to list all users with role
-        $users = array();
-        if(\Request::has('role')){
-            //\Log::info('role');
-       
-            $role = \Request::query('role');       
-            $paginate = User::query()
-                            ->with('profile.userDepartment')
-                            ->with('roles')
-                            ->whereHas('roles', function($q) use ($role) {
-                                $q->whereIn('name', [$role]);
-                            })  
-                            //->whereNotNull('email_verified_at')
-                            ->where('is_approved', true);
-            $users = $paginate->orderBy('id','DESC')->paginate(20)->withQueryString();
-        }
+        if ($request->has('role')) {
+            $role = $request->query('role');
+            $query = User::query()
+                ->with('profile.userDepartment')
+                ->with('roles')
+                ->whereHas('roles', fn($q) => $q->whereIn('name', [$role]))
+                ->where('is_approved', true);
 
-        // to list Pendaftaran Baharu in FE, role = user with is_approved = false
-        //\Log::info(\Request::input('is_approved'));
-        if(\Request::has('is_approved')){
-            //\Log::info('is_approved');
-       
-            //$role = 'user';       
-            $paginate = User::query()
-                            ->with('profile.userDepartment')
-                            ->with('roles')
-                            // ->whereHas('roles', function($q) use ($role) {
-                            //     $q->whereIn('name', [$role]);
-                            // })
-                            //->whereNotNull('email_verified_at')
-                            ->where('is_approved', \Request::input('is_approved'));
-            $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
-        }
-
-        // to list disabled users
-        if(\Request::has('is_disabled')){
-                //\Log::info('is_approved');
-           
-                $role = 'user';       
-                $paginate = User::query()
-                                ->with('profile.userDepartment')
-                                ->with('roles')
-                                ->whereHas('roles', function($q) use ($role) {
-                                    $q->whereIn('name', [$role]);
-                                })
-                                //->whereNotNull('email_verified_at')
-                                ->where('is_approved', true);
-                $users = $paginate->orderBy('id','DESC')->paginate(25)->withQueryString();
+            if ($search) {
+                $query->where(fn($q) => $q->where('name', 'like', "%{$search}%")
+                                          ->orWhere('email', 'like', "%{$search}%"));
             }
-        
-       
+            if ($deptId) {
+                $query->whereHas('profile', fn($q) => $q->where('user_department_id', $deptId));
+            }
+
+            $users = $query->orderBy('id', 'DESC')->paginate(20)->withQueryString();
+        }
+
+        if ($request->has('is_approved')) {
+            $query = User::query()
+                ->with('profile.userDepartment')
+                ->with('roles')
+                ->where('is_approved', $request->input('is_approved'));
+
+            if ($search) {
+                $query->where(fn($q) => $q->where('name', 'like', "%{$search}%")
+                                          ->orWhere('email', 'like', "%{$search}%"));
+            }
+            if ($deptId) {
+                $query->whereHas('profile', fn($q) => $q->where('user_department_id', $deptId));
+            }
+
+            $users = $query->orderBy('id', 'DESC')->paginate(25)->withQueryString();
+        }
+
         return $users;
     }
 
