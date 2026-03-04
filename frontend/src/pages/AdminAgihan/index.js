@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReportingModal from '../Reporting/ReportingModal';
 import AgihanDraftModal from './AgihanDraftModal'
 import AgihanViewModal from './AgihanViewModal';
+import AgihanLulusModal from './AgihanLulusModal';
 
 const TABS = [
     { key: 'baharu',   label: 'Baharu',   bg: 'warning', text: 'dark'  },
@@ -13,6 +14,20 @@ const TABS = [
     { key: 'lulus',    label: 'Lulus',    bg: 'success', text: 'white' },
     { key: 'gagal',    label: 'Gagal',    bg: 'danger',  text: 'white' },
 ];
+
+const DeliveryStatusBadge = ({ total, done }) => {
+    if (total === 0) return <Badge bg='secondary'>Tiada Item</Badge>
+    if (done === total) return <Badge bg='success'>Semua Ditetapkan</Badge>
+    if (done === 0) return <Badge bg='warning' text='dark'>Belum Ditetapkan</Badge>
+    return <Badge bg='warning' text='dark'>{done}/{total} Ditetapkan</Badge>
+}
+
+const AcceptanceStatusBadge = ({ total, done }) => {
+    if (total === 0) return <Badge bg='secondary'>Tiada Item</Badge>
+    if (done === total) return <Badge bg='success'>Semua Diterima</Badge>
+    if (done === 0) return <Badge bg='warning' text='dark'>Belum Diterima</Badge>
+    return <Badge bg='warning' text='dark'>{done}/{total} Diterima</Badge>
+}
 
 const AdminAgihan = () => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -74,6 +89,8 @@ const AdminAgihan = () => {
                         <th>Jabatan</th>
                         <th className='text-center'>Peralatan Dimohon</th>
                         <th className='text-center'>Peralatan Diagih</th>
+                        {tab === 'lulus' && <th className='text-center'>Status Penghantaran</th>}
+                        {tab === 'lulus' && <th className='text-center'>Status Penerimaan</th>}
                         <th className='text-center'>Tarikh Permohonan</th>
                         <th className='text-center'>Tindakan</th>
                     </tr>
@@ -92,6 +109,22 @@ const AdminAgihan = () => {
                             <td>{mohon.user?.user_profile?.user_department?.name ?? '-'}</td>
                             <td className='text-center'>{mohon.mohon_items_count}</td>
                             <td className='text-center'>{mohon.mohon_distribution_items_count ?? 0}</td>
+                            {tab === 'lulus' && (
+                                <td className='text-center'>
+                                    <DeliveryStatusBadge
+                                        total={mohon.mohon_distribution_items_count ?? 0}
+                                        done={mohon.mohon_distribution_items_with_delivery_count ?? 0}
+                                    />
+                                </td>
+                            )}
+                            {tab === 'lulus' && (
+                                <td className='text-center'>
+                                    <AcceptanceStatusBadge
+                                        total={mohon.mohon_distribution_items_count ?? 0}
+                                        done={mohon.mohon_distribution_items_with_acceptance_count ?? 0}
+                                    />
+                                </td>
+                            )}
                             <td className='text-center'>{mohon.created_at}</td>
                             <td className='text-center'>
                                 {tab === 'baharu'
@@ -103,7 +136,14 @@ const AdminAgihan = () => {
                                             )}
                                         </div>
                                     )
-                                    : <AgihanViewModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} />
+                                    : (
+                                        <div className='d-flex gap-1 justify-content-center'>
+                                            {tab === 'lulus' && (
+                                                <AgihanLulusModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} />
+                                            )}
+                                            <AgihanViewModal mohonId={mohon.id} referenceNo={mohon.reference_no ?? `#${mohon.id}`} />
+                                        </div>
+                                    )
                                 }
                             </td>
                         </tr>

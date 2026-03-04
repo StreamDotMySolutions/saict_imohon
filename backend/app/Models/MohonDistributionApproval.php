@@ -21,8 +21,13 @@ class MohonDistributionApproval extends Model
         return $this->belongsTo(MohonDistributionRequest::class);
     }
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function boss()
+    {
+        return $this->belongsTo(User::class, 'boss_id');
     }
 }

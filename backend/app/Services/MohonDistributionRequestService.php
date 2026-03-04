@@ -158,8 +158,8 @@ class MohonDistributionRequestService
         $request = MohonDistributionRequest::query()
                     ->where('id', $id)
                     ->with([
-                        'mohonRequest',
-                        'mohonRequest.mohonItems', 
+                        'mohonRequest.user.userProfile.userDepartment',
+                        'mohonRequest.mohonItems',
                         'mohonRequest.mohonItems.category',
                         'mohonDistributionApproval',
                         'mohonDistributionApprovalApprovedByUser',
