@@ -69,14 +69,13 @@ export default function MohonData({id}) {
             />
             <br /> */}
             <br />
-            <h5>Maklumat Peralatan <Badge bg='secondary'>{store.getValue('items')?.length ?? 0}</Badge></h5>
-            <Row className='g-3 mt-1'>
+            <h5>Maklumat Peralatan ( {store.getValue('items')?.length ?? 0} unit )</h5>
+            <Row className='g-2 mt-0'>
                 {store.getValue('items')?.map((item, index) => (
                     <Col xs={12} md={6} lg={4} key={index}>
                         <Card className='h-100 shadow-sm'>
                             <Card.Header className='d-flex align-items-center justify-content-between py-2'>
                                 <div>
-                                    <Badge bg='primary' className='me-1'>{index + 1}</Badge>
                                     <strong>{item.category?.name}</strong>
                                 </div>
                                 <Badge bg={item.type === 'new' ? 'success' : 'warning'} text={item.type === 'new' ? undefined : 'dark'}>

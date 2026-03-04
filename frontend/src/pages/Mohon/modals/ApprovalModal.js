@@ -111,7 +111,7 @@ export default function ApprovalModal({id,count,step}) {
           
         <Modal size='xl' show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title>Lihat Permohonan</Modal.Title>
+            <Modal.Title>Maklumat Peralatan ( {count} unit )</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
