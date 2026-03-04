@@ -52,7 +52,11 @@ class MohonApprovalService
                 'date'           => now()->translatedFormat('d F Y'),
                 'role'           => 'manager',
             ];
-            Mail::to($manager->email)->send(new MohonNotification($data));
+            try {
+                Mail::to($manager->email)->send(new MohonNotification($data));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         return $approval;
@@ -139,7 +143,11 @@ class MohonApprovalService
                     'date'           => now()->translatedFormat('d F Y'),
                     'role'           => 'admin',
                 ];
-                Mail::to($admin->email)->send(new MohonNotification($data));
+                try {
+                    Mail::to($admin->email)->send(new MohonNotification($data));
+                } catch (\Exception $e) {
+                    \Log::warning('Mail failed: ' . $e->getMessage());
+                }
             }
 
             return $step3;
@@ -158,7 +166,11 @@ class MohonApprovalService
                     'role'           => 'requester_rejected',
                     'message'        => $request->input('message'),
                 ];
-                Mail::to($mohon->user->email)->send(new MohonNotification($data));
+                try {
+                    Mail::to($mohon->user->email)->send(new MohonNotification($data));
+                } catch (\Exception $e) {
+                    \Log::warning('Mail failed: ' . $e->getMessage());
+                }
             }
             return $approval;
         }
@@ -212,19 +224,27 @@ class MohonApprovalService
         // Notify requester (user)
         if ($mohon->user) {
             $roleUser = $status === 'approved' ? 'user_admin_approved' : 'user_admin_rejected';
-            Mail::to($mohon->user->email)->send(new MohonNotification(array_merge($baseData, [
-                'name' => $mohon->user->name,
-                'role' => $roleUser,
-            ])));
+            try {
+                Mail::to($mohon->user->email)->send(new MohonNotification(array_merge($baseData, [
+                    'name' => $mohon->user->name,
+                    'role' => $roleUser,
+                ])));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         // Notify manager
         if ($manager) {
             $roleManager = $status === 'approved' ? 'manager_admin_approved' : 'manager_admin_rejected';
-            Mail::to($manager->email)->send(new MohonNotification(array_merge($baseData, [
-                'name' => $manager->name,
-                'role' => $roleManager,
-            ])));
+            try {
+                Mail::to($manager->email)->send(new MohonNotification(array_merge($baseData, [
+                    'name' => $manager->name,
+                    'role' => $roleManager,
+                ])));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         return $approval;

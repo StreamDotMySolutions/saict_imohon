@@ -64,7 +64,11 @@ class AuthController extends Controller
             //\Log::info('email');
             // $user->markEmailAsVerified();
             // Mail::to($request->input('email'))->send(new MyTestEmail($request->input('name')));
-            $user->sendEmailVerificationNotification();
+            try {
+                $user->sendEmailVerificationNotification();
+            } catch (\Exception $e) {
+                \Log::warning('Verification email failed: ' . $e->getMessage());
+            }
             //event(new Registered($user));
         }
 

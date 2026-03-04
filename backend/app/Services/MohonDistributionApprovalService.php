@@ -71,7 +71,11 @@ class MohonDistributionApprovalService
                 'date'         => now()->translatedFormat('d F Y'),
                 'role'         => 'boss_pending',
             ];
-            Mail::to($boss->email)->send(new AgihanNotification($data));
+            try {
+                Mail::to($boss->email)->send(new AgihanNotification($data));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         return $approval;
@@ -111,7 +115,11 @@ class MohonDistributionApprovalService
                 'date'         => now()->translatedFormat('d F Y'),
                 'role'         => $role,
             ];
-            Mail::to($admin->email)->send(new AgihanNotification($data));
+            try {
+                Mail::to($admin->email)->send(new AgihanNotification($data));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         return $approval;
