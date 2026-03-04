@@ -16,13 +16,18 @@ use App\Http\Requests\MohonItem\DeleteRequest;
 class MohonItemController extends Controller
 {
 
-    public function index($mohonRequestId)
+    public function index(Request $request, $mohonRequestId)
     {
-        $items = MohonItemService::index($mohonRequestId);
+        $items = MohonItemService::index($mohonRequestId, $request->input('search'));
 
         return response()->json([
             'items' => $items
         ]);
+    }
+
+    public function stats($mohonRequestId)
+    {
+        return response()->json(['stats' => MohonItemService::statsForRequest($mohonRequestId)]);
     }
 
     public function store(StoreRequest $request, $mohonRequestId)

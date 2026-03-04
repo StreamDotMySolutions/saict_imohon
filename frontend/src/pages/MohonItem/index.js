@@ -3,7 +3,13 @@ import useMohonStore from '../Mohon/store'
 import { useState, useEffect } from 'react'
 import axios from '../../libs/axios'
 import MohonItemIndex from './components/MohonItemIndex'
-import { Badge } from 'react-bootstrap'
+import MohonItemDashboard from './components/MohonItemDashboard'
+import { Badge, Nav, Container } from 'react-bootstrap'
+
+const TABS = [
+    { key: 'papan-pemuka', label: 'Papan Pemuka' },
+    { key: 'senarai',      label: 'Senarai Peralatan' },
+];
 
 const MohonItem = () => {
   const apiUrl = process.env.REACT_APP_BACKEND_URL
@@ -12,6 +18,8 @@ const MohonItem = () => {
   const store = useMohonStore()
   const [title, setTitle] = useState('')
   const [step, setStep] = useState('')
+  const [tab, setTab] = useState('papan-pemuka')
+  const [stats, setStats] = useState(null)
 
   useEffect(() => {
     axios({
@@ -28,6 +36,19 @@ const MohonItem = () => {
     })
   }, [mohonRequestId])
 
+  useEffect(() => {
+    axios({
+      'method' : 'get',
+      'url' : `${apiUrl}/user/mohon-items/${mohonRequestId}/stats`
+    })
+    .then( response => {
+        setStats(response.data.stats)
+    })
+    .catch ( error => {
+        console.warn(error)
+    })
+  }, [mohonRequestId])
+
     return (
         <div>
             <nav aria-label="breadcrumb">
@@ -37,8 +58,24 @@ const MohonItem = () => {
                     <li className="breadcrumb-item">Senarai peralatan</li>
                 </ol>
             </nav>
-        
-            <MohonItemIndex mohonRequestId={mohonRequestId} step={step} /> 
+
+            <Nav variant='tabs' className='mb-3'>
+                {TABS.map(t => (
+                    <Nav.Item key={t.key}>
+                        <Nav.Link
+                            active={tab === t.key}
+                            onClick={() => setTab(t.key)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {t.key === 'papan-pemuka' && <Badge bg='info' className='me-1'>&nbsp;</Badge>}
+                            {t.label}
+                        </Nav.Link>
+                    </Nav.Item>
+                ))}
+            </Nav>
+
+            {tab === 'papan-pemuka' && <Container><MohonItemDashboard stats={stats} /></Container>}
+            {tab === 'senarai' && <MohonItemIndex key={tab} mohonRequestId={mohonRequestId} step={step} />}
         </div>
     );
 };

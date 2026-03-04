@@ -8,15 +8,25 @@ use Illuminate\Http\Request;
 class MohonItemService
 {
 
-    public static function index($mohonRequestId)
+    public static function index($mohonRequestId, $search = null)
     {
         $paginate = MohonItem::query();
-        $items = $paginate->orderBy('id','DESC')
+        $query = $paginate->orderBy('id','DESC')
                                 ->with(['category'])
-                                ->where('mohon_request_id', $mohonRequestId)
-                                ->paginate(10) // 10 items per page
-                                ->withQueryString();
-    
+                                ->where('mohon_request_id', $mohonRequestId);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhereHas('category', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $items = $query->paginate(10) // 10 items per page
+                       ->withQueryString();
+
         return $items;
     }
 
@@ -81,9 +91,19 @@ class MohonItemService
 
     public static function delete($id)
     {
- 
+
         return MohonItem::query()
                             ->where('id',$id)
                             ->delete();
+    }
+
+    public static function statsForRequest($mohonRequestId)
+    {
+        $base = MohonItem::where('mohon_request_id', $mohonRequestId);
+        return [
+            'total'  => (clone $base)->count(),
+            'new'    => (clone $base)->where('type', 'new')->count(),
+            'ganti'  => (clone $base)->where('type', 'ganti')->count(),
+        ];
     }
 }

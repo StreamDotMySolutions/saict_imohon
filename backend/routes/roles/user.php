@@ -26,6 +26,7 @@ Route::post('/mohon-approvals/{mohonRequestId}', [MohonApprovalController::class
 
 // MohonItem
 Route::get('/mohon-items/categories', [MohonItemController::class, 'categories']);
+Route::get('/mohon-items/{mohonRequestId}/stats', [MohonItemController::class, 'stats']);
 Route::get('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'index']);
 Route::post('/mohon-items/{mohonRequestId}', [MohonItemController::class, 'store']);
 Route::get('/mohon-items/show/{id}', [MohonItemController::class, 'show']);
