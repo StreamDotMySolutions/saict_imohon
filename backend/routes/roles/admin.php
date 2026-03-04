@@ -69,6 +69,7 @@ Route::patch('/users/{user}/disable', [UserController::class, 'disable']);
 Route::delete('/users/{user}', [UserController::class, 'delete']);
 
 // Inventory Management
+Route::get('/inventories/dashboard', [InventoryController::class, 'dashboard']);
 Route::get('/inventories', [InventoryController::class, 'index']);
 Route::post('/inventories', [InventoryController::class, 'store']);
 Route::get('/inventories/{inventory}', [InventoryController::class, 'show']);

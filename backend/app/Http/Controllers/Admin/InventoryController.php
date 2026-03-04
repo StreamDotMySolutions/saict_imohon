@@ -12,9 +12,15 @@ use App\Http\Requests\Inventory\DeleteRequest;
 
 class InventoryController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $inventories = InventoryService::index();
+        $inventories = InventoryService::dashboard();
+        return response()->json(['inventories' => $inventories]);
+    }
+
+    public function index(Request $request)
+    {
+        $inventories = InventoryService::index($request);
 
         return response()->json([
             'inventories' => $inventories
