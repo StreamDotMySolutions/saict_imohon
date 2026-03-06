@@ -44,6 +44,7 @@ const AdminDashboard = () => {
     const u = data?.users ?? {}
     const inv = data?.inventory ?? {}
     const wf = data?.workflow ?? {}
+    const ri = data?.requested_items ?? {}
 
     return (
         <Container>
@@ -138,7 +139,26 @@ const AdminDashboard = () => {
                 </Col>
             </Row>
 
-            {/* Row 3 — Workflow */}
+            {/* Row 3 — Peralatan Dimohon */}
+            <p className='text-uppercase fw-semibold mb-2 mt-4' style={{ fontSize: '0.75rem', color: '#888', letterSpacing: '0.06em' }}>
+                Peralatan Dimohon
+            </p>
+            <Row className='g-3'>
+                <Col xs={6} md={3}>
+                    <StatCard icon='fa-solid fa-file-pen' label='Jumlah Dimohon' value={ri.total} bg='primary' />
+                </Col>
+                <Col xs={6} md={3}>
+                    <StatCard icon='fa-solid fa-boxes-stacked' label='Diluluskan Agihan' value={ri.agihan} bg='info' />
+                </Col>
+                <Col xs={6} md={3}>
+                    <StatCard icon='fa-solid fa-clipboard-check' label='Telah Diterima' value={ri.diterima} bg='success' />
+                </Col>
+                <Col xs={6} md={3}>
+                    <StatCard icon='fa-solid fa-xmark' label='Ditolak' value={ri.ditolak} bg='danger' />
+                </Col>
+            </Row>
+
+            {/* Row 4 — Workflow */}
             <p className='text-uppercase fw-semibold mb-2 mt-4' style={{ fontSize: '0.75rem', color: '#888', letterSpacing: '0.06em' }}>
                 Aliran Kerja
             </p>

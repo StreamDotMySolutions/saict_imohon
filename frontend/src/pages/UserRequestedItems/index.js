@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Card, Col, Container, Form, Pagination, Row, Table } from 'react-bootstrap'
+import { Badge, Card, Col, Container, Form, Nav, Pagination, Row, Table } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from '../../libs/axios'
 import TrackingModal from '../Tracking/TrackingModal'
+import RequestedItemsDashboard from '../RequestedItems/Dashboard'
 
 const STAGES = ['Mohon', 'Agihan', 'Penghantaran', 'Penerimaan']
 
@@ -83,6 +84,7 @@ const CompactStepper = ({ item }) => {
 const UserRequestedItems = () => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
 
+    const [tab, setTab] = useState('rekod')
     const [items, setItems] = useState([])
     const [links, setLinks] = useState([])
     const [pageUrl, setPageUrl] = useState(null)
@@ -104,6 +106,8 @@ const UserRequestedItems = () => {
     }, [search, categoryId, type])
 
     useEffect(() => {
+        if (tab !== 'rekod') return
+
         const params = new URLSearchParams()
         if (search) params.set('search', search)
         if (categoryId) params.set('category_id', categoryId)
@@ -118,7 +122,7 @@ const UserRequestedItems = () => {
                 setItems(response.data.items.data)
                 setLinks(response.data.items.links)
             })
-    }, [search, categoryId, type, pageUrl])
+    }, [search, categoryId, type, pageUrl, tab])
 
     return (
         <Container>
@@ -151,6 +155,25 @@ const UserRequestedItems = () => {
             </Row>
             <hr />
 
+            {/* Tabs */}
+            <Nav variant='tabs' className='mb-4'>
+                <Nav.Item>
+                    <Nav.Link active={tab === 'rekod'} onClick={() => setTab('rekod')} style={{ cursor: 'pointer' }}>
+                        Rekod
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link active={tab === 'dashboard'} onClick={() => setTab('dashboard')} style={{ cursor: 'pointer' }}>
+                        Papan Pemuka
+                    </Nav.Link>
+                </Nav.Item>
+            </Nav>
+
+            {/* Dashboard tab */}
+            {tab === 'dashboard' && <RequestedItemsDashboard apiUrl={`${apiUrl}/user/requested-items/dashboard`} />}
+
+            {/* Rekod tab */}
+            {tab === 'rekod' && (<>
             <Row className='g-2 mb-3' style={{ maxWidth: 700 }}>
                 <Col>
                     <Form.Control
@@ -262,6 +285,7 @@ const UserRequestedItems = () => {
                     ))}
                 </Pagination>
             </div>
+            </>)}
         </Container>
     )
 }

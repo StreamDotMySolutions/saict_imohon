@@ -45,6 +45,7 @@ Route::get('/tracking', [MohonRequestController::class, 'tracking']);
 Route::post('/item-requests', [ItemRequestController::class, 'store']);
 
 // Requested Items (user's own MohonItems)
+Route::get('/requested-items/dashboard', [RequestedItemController::class, 'dashboard']);
 Route::get('/requested-items/stats', [RequestedItemController::class, 'stats']);
 Route::get('/requested-items', [RequestedItemController::class, 'index']);
 

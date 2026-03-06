@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\MohonDistributionItem;
 use App\Models\MohonDistributionItemDelivery;
 use App\Models\MohonDistributionRequest;
+use App\Models\MohonItem;
 use App\Models\MohonRequest;
 use App\Models\User;
 use App\Models\UserDepartment;
@@ -44,6 +45,18 @@ class DashboardController extends Controller
                 )
             )->count();
 
+        // --- Requested Items ---
+        $requestedItems = [
+            'total'    => MohonItem::count(),
+            'agihan'   => MohonItem::whereHas('mohonDistributionItem')->count(),
+            'diterima' => MohonItem::whereHas('mohonDistributionItem', fn($q) =>
+                $q->whereHas('mohonDistributionItemAcceptance')
+            )->count(),
+            'ditolak'  => MohonItem::whereHas('mohonRequest', fn($q) =>
+                $q->whereHas('mohonApproval', fn($a) => $a->where('status', 'rejected'))
+            )->count(),
+        ];
+
         // --- Workflow ---
         $workflow = [
             'permohonan'  => MohonRequest::where('step', '>=', 1)->count(),
@@ -65,6 +78,7 @@ class DashboardController extends Controller
                 'disahkan'    => $disahkan,
             ],
             'workflow' => $workflow,
+            'requested_items' => $requestedItems,
         ]);
     }
 }

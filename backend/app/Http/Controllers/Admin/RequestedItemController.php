@@ -34,6 +34,26 @@ class RequestedItemController extends Controller
         return response()->json(['items' => $items]);
     }
 
+    public function dashboard()
+    {
+        $byCategory = MohonItem::with([
+            'category',
+            'mohonDistributionItem.mohonDistributionItemAcceptance',
+        ])->get()
+            ->groupBy('category_id')
+            ->map(function ($group) {
+                return [
+                    'category' => $group->first()->category?->name ?? 'Tiada Kategori',
+                    'total'    => $group->count(),
+                    'agihan'   => $group->filter(fn($i) => $i->mohonDistributionItem !== null)->count(),
+                    'diterima' => $group->filter(fn($i) => $i->mohonDistributionItem?->mohonDistributionItemAcceptance !== null)->count(),
+                ];
+            })
+            ->values();
+
+        return response()->json(['by_category' => $byCategory]);
+    }
+
     public function stats()
     {
         $total = MohonItem::count();

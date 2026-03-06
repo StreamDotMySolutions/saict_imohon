@@ -94,5 +94,6 @@ Route::get('/manage/mohon-distribution-requests', [ManageMohonDistributionContro
 Route::delete('/manage/mohon-distribution-requests/{id}', [ManageMohonDistributionController::class, 'delete']);
 
 // Requested Items (all MohonItems across users)
+Route::get('/requested-items/dashboard', [RequestedItemController::class, 'dashboard']);
 Route::get('/requested-items/stats', [RequestedItemController::class, 'stats']);
 Route::get('/requested-items', [RequestedItemController::class, 'index']);
