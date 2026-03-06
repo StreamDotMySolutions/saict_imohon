@@ -3,7 +3,6 @@ import { Table, Pagination, Button, Badge, Container, Row, Col } from 'react-boo
 import useMohonStore from '../store'
 import axios from '../../../libs/axios'
 import DeleteModal from '../modals/DeleteModal'
-import CreateModal from '../modals/CreateModal'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -62,7 +61,12 @@ const MohonIndex = ({ tab }) => {
                     <small className='text-muted'>Senarai semua permohonan peralatan yang telah anda buat.</small>
                 </Col>
                 <Col xs='auto'>
-                    <CreateModal />
+                    <Link to='/item-request'>
+                        <Button variant='primary' size='sm'>
+                            <FontAwesomeIcon icon='fas fa-plus' className='me-1' />
+                            Permohonan Baharu
+                        </Button>
+                    </Link>
                 </Col>
             </Row>
             <hr />
@@ -160,7 +164,12 @@ const EmptyState = () => (
         <FontAwesomeIcon icon='fas fa-clipboard' style={{ fontSize: '3rem', opacity: 0.3 }} />
         <p className='mt-3 mb-1 fs-5'>Tiada permohonan lagi.</p>
         <p className='mb-3'>Klik butang di bawah untuk membuat permohonan pertama anda.</p>
-        <CreateModal />
+        <Link to='/item-request'>
+            <Button variant='primary' size='sm'>
+                <FontAwesomeIcon icon='fas fa-plus' className='me-1' />
+                Permohonan Baharu
+            </Button>
+        </Link>
     </div>
 );
 

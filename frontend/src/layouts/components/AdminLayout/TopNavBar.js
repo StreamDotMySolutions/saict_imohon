@@ -26,7 +26,9 @@ function TopNavbar() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Nav.Link as={NavLink} to="/mohon-approval/by-admin"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Permohonan</Nav.Link>
+                    <Nav.Link as={NavLink} to="/requested-items"> <FontAwesomeIcon icon="fa-solid fa-list" />{' '}Senarai Item</Nav.Link>
                     <Nav.Link as={NavLink} to="/admin/agihan"> <FontAwesomeIcon icon="fa-solid fa-truck" />{' '}Agihan</Nav.Link>
+                    <Nav.Link as={NavLink} to="/admin/tracking"> <FontAwesomeIcon icon="fa-solid fa-timeline" />{' '}Penjejakan</Nav.Link>
                     <Dropdown.Divider />
                     <Dropdown.Header>Pengurusan</Dropdown.Header>
                     <Nav.Link as={NavLink} to="/administration/mohon"> <FontAwesomeIcon icon="fa-solid fa-pencil" />{' '}Mohon</Nav.Link>

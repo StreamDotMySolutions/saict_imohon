@@ -18,13 +18,15 @@ use App\Http\Controllers\Admin\{
     InventoryController,
     CategoryController,
     AgihanController,
-    DashboardController
+    DashboardController,
+    RequestedItemController
 };
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index']);
 // Agihan (list approved mohon requests for distribution)
 Route::get('/agihan/mohon', [AgihanController::class, 'mohon']);
+Route::get('/tracking', [AgihanController::class, 'tracking']);
 Route::get('/agihan/vendors/{categoryId}', [AgihanController::class, 'vendors']);
 Route::get('/agihan/{mohonId}', [AgihanController::class, 'show']);
 
@@ -90,3 +92,7 @@ Route::delete('/mohon-requests/{mohonRequestId}', [MohonRequestController::class
 // MohonDistribution Management
 Route::get('/manage/mohon-distribution-requests', [ManageMohonDistributionController::class, 'index']);
 Route::delete('/manage/mohon-distribution-requests/{id}', [ManageMohonDistributionController::class, 'delete']);
+
+// Requested Items (all MohonItems across users)
+Route::get('/requested-items/stats', [RequestedItemController::class, 'stats']);
+Route::get('/requested-items', [RequestedItemController::class, 'index']);

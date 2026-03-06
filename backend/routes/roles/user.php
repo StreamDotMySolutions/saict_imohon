@@ -10,7 +10,9 @@ use App\Http\Controllers\User\{
     MohonRequestController,
     MohonApprovalController,
     MohonItemController,
-    MohonDistributionItemAcceptanceController
+    MohonDistributionItemAcceptanceController,
+    ItemRequestController,
+    RequestedItemController
 };
 
 // MohonRequest
@@ -35,6 +37,16 @@ Route::delete('/mohon-items/{id}', [MohonItemController::class, 'delete']);
 
 // User viewing approved Agihan
 Route::get('/agihan', [MohonRequestController::class, 'agihan']);
+
+// Tracking — user can track mohon requests from their department
+Route::get('/tracking', [MohonRequestController::class, 'tracking']);
+
+// Item Request (single-page wizard)
+Route::post('/item-requests', [ItemRequestController::class, 'store']);
+
+// Requested Items (user's own MohonItems)
+Route::get('/requested-items/stats', [RequestedItemController::class, 'stats']);
+Route::get('/requested-items', [RequestedItemController::class, 'index']);
 
 // User accepting Agihan
 // MohonDistributionAcceptance
