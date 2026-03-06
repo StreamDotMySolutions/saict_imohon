@@ -81,30 +81,20 @@ class AuthController extends Controller
         // attempt to authenticate
         $token = null;
         $request->authenticate();
-        $user = array();
 
         $user = User::where('id', Auth::user()->id)
-                        ->where('is_approved', true) // only is_approved=true
                         ->with(['profile.userDepartment'])
                         ->first();
 
+        // create token in User Model
+        $token = Auth::user()->createToken('API Token')->plainTextToken;
+        $user['role'] = $user->roles->pluck('name')[0];
 
-        if ($user) {
-            // create token in User Model
-            $token = Auth::user()->createToken('API Token')->plainTextToken;
-            $user['role'] = $user->roles->pluck('name')[0];
-
-            return response()->json([
-                'message' => 'Authentication Success',
-                'token' => $token,
-                'user' => $user
-            ]);
-
-        } else {
-            return response()->json([
-                'message' => 'User not approved or not found',
-            ], 401);
-        }
+        return response()->json([
+            'message' => 'Authentication Success',
+            'token' => $token,
+            'user' => $user
+        ]);
 
         // // make attempt
         // $credentials = [
@@ -154,33 +144,24 @@ class AuthController extends Controller
     {
         // attempt to authenticate
         $token = null;
-        $user = array();
 
         $request->authenticate();
 
         // find user
         $user = User::where('id', Auth::user()->id)
-                ->where('is_approved', true) // only is_approved=true
                 ->with(['profile.userDepartment'])
                 ->first();
 
-        if ($user) {
-            // create token in User Model
-            $token = Auth::user()->createToken('API Token')->plainTextToken;
-            $user['role'] = $user->roles->pluck('name')[0];
+        // create token in User Model
+        $token = Auth::user()->createToken('API Token')->plainTextToken;
+        $user['role'] = $user->roles->pluck('name')[0];
 
-            //\Log::info('login-' . Auth::user()->email);
-            return response()->json([
-                'message' => 'Authentication Success',
-                'token' => $token,
-                'user' => $user
-            ]);
-
-        } else {
-            return response()->json([
-                'message' => 'User not approved or not found',
-            ], 401);
-        }
+        //\Log::info('login-' . Auth::user()->email);
+        return response()->json([
+            'message' => 'Authentication Success',
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 
     public function logout()

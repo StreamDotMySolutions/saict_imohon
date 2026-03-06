@@ -27,13 +27,16 @@ axios.interceptors.request.use(
     }
 );
 
-// detect 401 or 403
+// detect 401 or 403 — skip auth endpoints so login/register can show their own errors
+const AUTH_PATHS = ['/login', '/login-by-nric', '/register', '/password/email', '/password/reset'];
+
 axios.interceptors.response.use(
-  (response) => response, // Return the response if it's not a 401 error
+  (response) => response,
   (error) => {
-    if (error.response.status === 401 || error.response.status === 403 || error.response.status === 419 ) {
-      // Redirect to your login page or another route
-      //console.log('401 ,419 or 403')
+    const url = error.config?.url || '';
+    const isAuthEndpoint = AUTH_PATHS.some(path => url.includes(path));
+
+    if (!isAuthEndpoint && (error.response?.status === 401 || error.response?.status === 403 || error.response?.status === 419)) {
       window.location.href = '/unauthorized';
     }
 

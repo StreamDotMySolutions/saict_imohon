@@ -38,6 +38,8 @@ const SignInByNricForm = () => {
         setIsLoading(true)
 
         const formData = new FormData(event.target)
+        // Remove hyphens from NRIC before sending
+        formData.set('nric', nric.replace(/-/g, ''))
 
         axios({
             url: `${process.env.REACT_APP_BACKEND_URL}/login-by-nric`,

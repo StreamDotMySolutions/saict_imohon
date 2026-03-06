@@ -36,15 +36,19 @@ export function resetStore(){
     {
       role: null,
       email: null,
+      email_verified_at: null,
       password: null,
-      
+
       name: null,
       occupation: null,
       nric: null,
       phone: null,
       address: null,
+      level: null,
+      building: null,
 
       user_department_id: null,
-    
+      is_approved: null,
+
       })
 }

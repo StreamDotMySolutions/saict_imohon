@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserService
 {
@@ -101,10 +102,18 @@ class UserService
             // if change role
                 User::where('id', $user->id)->update($request->only(['is_approved']));
         }
-        
+
+        // EMAIL VERIFIED AT
+        if ($request->has('email_verified_at')) {
+            $emailVerifiedAt = $request->input('email_verified_at');
+            // Convert ISO 8601 datetime to MySQL format, or null if empty
+            $formattedDate = $emailVerifiedAt ? Carbon::parse($emailVerifiedAt)->format('Y-m-d H:i:s') : null;
+            User::where('id', $user->id)->update(['email_verified_at' => $formattedDate]);
+        }
+
 
         // User Profile
-        return UserProfile::where('user_id', $user->id)->update($request->except(['is_approved','email', 'name','nric','password','_method','role','user_id']));
+        return UserProfile::where('user_id', $user->id)->update($request->except(['is_approved','email_verified_at','email', 'name','nric','password','_method','role','user_id']));
 
     }
 

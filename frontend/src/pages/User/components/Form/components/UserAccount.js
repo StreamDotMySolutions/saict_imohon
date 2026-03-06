@@ -12,6 +12,8 @@ const UserAccount = () => {
 
     const [toggleStatus, setToggleStatus] = useState(false)
 
+    const [toggleEmailVerified, setToggleEmailVerified] = useState(false)
+
     useEffect(() => {
         // Check if user.is_approved and user.is_approved.value exist
         if (user?.is_approved?.value !== undefined) {
@@ -22,11 +24,27 @@ const UserAccount = () => {
         }
       }, [user.is_approved]);
 
+    useEffect(() => {
+        // Check if user.email_verified_at has a value
+        if (user?.email_verified_at?.value) {
+          setToggleEmailVerified(true);
+        } else {
+          setToggleEmailVerified(false);
+        }
+      }, [user.email_verified_at]);
+
     const handleToggleChange = () => {
     const newStatus = !toggleStatus;
     setToggleStatus(newStatus);
     // Update the store with the new status
-    useUserStore.setState({ is_approved: newStatus ? 1 : 0 });
+    useUserStore.setState({ is_approved: { value: newStatus ? 1 : 0 } });
+    };
+
+    const handleEmailVerifiedChange = () => {
+    const newStatus = !toggleEmailVerified;
+    setToggleEmailVerified(newStatus);
+    // Update the store with the new status - set to now or null
+    useUserStore.setState({ email_verified_at: { value: newStatus ? new Date().toISOString() : null } });
     };
 
     //console.log(user.selectedRole)
@@ -64,17 +82,19 @@ const UserAccount = () => {
                 field='email'
             />
 
-            
-            {/* <Col className="border border-1 rounded p-2">
+            <Col className="border border-1 rounded p-2 mt-3">
                 Pengesahan Email
-                <Row className='col-6'>
-                    <Col>Belum</Col>
-                    <Col>Sudah</Col>
-                </Row>
-            </Col> */}
+                <Form.Check
+                    type="switch"
+                    id="email-verified-switch"
+                    label={toggleEmailVerified ? 'Sudah Disahkan' : 'Belum Disahkan'}
+                    checked={toggleEmailVerified}
+                    onChange={handleEmailVerifiedChange}
+                />
+            </Col>
 
             <Col className="border border-1 rounded p-2 mt-3">
-                Status {user.is_approved?.value}
+                Status
                 <Form.Check
                     type="switch"
                     id="status-switch"
