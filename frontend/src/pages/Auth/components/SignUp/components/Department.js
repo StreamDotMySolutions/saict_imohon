@@ -20,10 +20,25 @@ const Department = () => {
             })
     }, [])
 
+    // Flatten the tree into a list of options with depth info
+    const flattenTree = (nodes, depth = 0) => {
+        const result = []
+        nodes.forEach((node, index) => {
+            const isLast = index === nodes.length - 1
+            result.push({ ...node, depth, isLast })
+            if (node.children?.length) {
+                result.push(...flattenTree(node.children, depth + 1))
+            }
+        })
+        return result
+    }
+
+    const options = flattenTree(data)
+
     return (
         <Form.Group>
             <Form.Label className='fw-semibold'>
-                <FontAwesomeIcon icon='fa-solid fa-home' className='me-2' />
+                <FontAwesomeIcon icon='fa-solid fa-building' className='me-2' />
                 Jabatan
             </Form.Label>
             <Form.Select
@@ -32,7 +47,20 @@ const Department = () => {
                 onChange={e => useAuthStore.setState({ user_department_id: { value: e.target.value } })}
             >
                 <option value=''>Pilih Jabatan</option>
-                <CategoryDropdown data={data} />
+                {options.map(opt => {
+                    const isRoot = opt.parent_id === null
+                    const prefix = isRoot ? '' : '\u00A0\u00A0\u00A0\u00A0'.repeat(opt.depth - 1) + (opt.isLast ? '└── ' : '├── ')
+                    return (
+                        <option
+                            key={opt.id}
+                            value={opt.id}
+                            disabled={isRoot}
+                            style={isRoot ? { fontWeight: 'bold', backgroundColor: '#f0f0f0' } : {}}
+                        >
+                            {isRoot ? `■ ${opt.name}` : `${prefix}${opt.name}`}
+                        </option>
+                    )
+                })}
             </Form.Select>
             {errors?.user_department_id && (
                 <Form.Control.Feedback type='invalid'>
@@ -40,27 +68,6 @@ const Department = () => {
                 </Form.Control.Feedback>
             )}
         </Form.Group>
-    )
-}
-
-function CategoryDropdown({ data, depth = 0 }) {
-    const indent = '_ _'.repeat(depth)
-
-    return (
-        <>
-            {data.map((category, index) => (
-                <React.Fragment key={index}>
-                    <option
-                        value={category.id}
-                        disabled={category.parent_id === null}
-                        style={{ paddingLeft: `${depth * 20}px` }}
-                    >
-                        {depth !== 0 && 'I'}{indent} {category.name}
-                    </option>
-                    <CategoryDropdown data={category.children} depth={depth + 1} />
-                </React.Fragment>
-            ))}
-        </>
     )
 }
 

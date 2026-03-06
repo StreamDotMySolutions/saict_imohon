@@ -7,29 +7,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const SignOut = () => {
     const navigate = useNavigate()
-    const { isAuthenticated, logout } = useAuthStore()
 
     useEffect(() => {
         const performSignOut = async () => {
-            localStorage.clear()
             try {
                 await axios.post(`${process.env.REACT_APP_BACKEND_URL}/logout`)
-                localStorage.clear()
-                logout()
-                navigate('/sign-in-by-nric')
             } catch (error) {
                 console.error('Error during logout:', error)
+            } finally {
+                localStorage.clear()
+                useAuthStore.setState({ user: null, isAuthenticated: false })
                 navigate('/sign-in-by-nric')
             }
         }
 
         performSignOut()
-    }, [logout, navigate])
-
-    if (!isAuthenticated) {
-        navigate('/sign-in-by-nric')
-        return null
-    }
+    }, [navigate])
 
     return (
         <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: '100vh' }}>

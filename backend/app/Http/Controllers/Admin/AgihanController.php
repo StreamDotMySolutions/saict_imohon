@@ -29,6 +29,34 @@ class AgihanController extends Controller
         return response()->json(['mohon' => $mohon]);
     }
 
+    public function tracking(Request $request)
+    {
+        $query = MohonRequest::query()
+            ->with(['user.userProfile.userDepartment', 'mohonApproval'])
+            ->where('step', 4)
+            ->where('status', 'approved')
+            ->withCount([
+                'mohonItems',
+                'mohonDistributionItems',
+                'mohonDistributionItems as mohon_distribution_items_with_delivery_count' => function ($q) {
+                    $q->whereHas('mohonDistributionItemDelivery');
+                },
+                'mohonDistributionItems as mohon_distribution_items_with_acceptance_count' => function ($q) {
+                    $q->whereHas('mohonDistributionItemAcceptance');
+                },
+            ]);
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('reference_no', 'like', "%{$search}%")
+                  ->orWhereHas('user', fn($u) => $u->where('name', 'like', "%{$search}%"));
+            });
+        }
+
+        $items = $query->orderBy('id', 'DESC')->paginate(15)->withQueryString();
+        return response()->json(['items' => $items]);
+    }
+
     public function mohon(Request $request)
     {
         $tab = $request->input('tab', 'baharu');
