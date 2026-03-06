@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notifikasi Permohonan Peralatan – SAICT iMohon</title>
+    <title>Notifikasi Permohonan Peralatan – Seksyen Teknologi Maklumat iMohon</title>
     <style>
         body { margin: 0; padding: 0; background-color: #f4f6f8; font-family: Arial, Helvetica, sans-serif; color: #333333; }
         .wrapper { width: 100%; background-color: #f4f6f8; padding: 32px 0; }
@@ -71,8 +71,8 @@
 
         {{-- Header --}}
         <div class="header">
-            <img src="{{ config('app.url') }}/logo.png" alt="SAICT iMohon Logo" />
-            <h1>SAICT iMohon</h1>
+            <img src="{{ config('app.url') }}/logo.png" alt="Seksyen Teknologi Maklumat iMohon Logo" />
+            <h1>Seksyen Teknologi Maklumat iMohon</h1>
             <p>Sistem Agihan ICT</p>
         </div>
 
@@ -94,7 +94,7 @@
 
             {{-- Context paragraph --}}
             @if($role === 'manager')
-                <p>Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT baharu</strong> yang memerlukan kelulusan anda melalui sistem SAICT iMohon.</p>
+                <p>Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT baharu</strong> yang memerlukan kelulusan anda melalui sistem Seksyen Teknologi Maklumat iMohon.</p>
 
             @elseif($role === 'admin')
                 <p>Anda menerima notifikasi ini kerana terdapat <strong>permohonan peralatan ICT</strong> yang telah diluluskan oleh Pelulus 1 dan kini menunggu tindakan pemprosesan daripada pihak Admin.</p>
@@ -172,7 +172,7 @@
                     @php $btnClass = $isApproved ? 'cta-btn success' : 'cta-btn danger'; @endphp
                     <a href="{{ $data['system_url'] }}" class="{{ $btnClass }}">Lihat Permohonan</a>
                 @else
-                    <a href="{{ $data['system_url'] }}" class="cta-btn">Log Masuk ke SAICT iMohon</a>
+                    <a href="{{ $data['system_url'] }}" class="cta-btn">Log Masuk ke Seksyen Teknologi Maklumat iMohon</a>
                 @endif
             </div>
 
@@ -184,14 +184,14 @@
                 maklumkan kepada penghantar dengan segera dan padamkan e-mel ini beserta semua salinannya.
                 Penyebaran, pengedaran, atau penggandaan e-mel ini oleh mana-mana pihak yang tidak berkenaan
                 adalah dilarang sama sekali.<br /><br />
-                E-mel ini dijana secara automatik oleh sistem SAICT iMohon. Sila <strong>jangan balas</strong>
+                E-mel ini dijana secara automatik oleh sistem Seksyen Teknologi Maklumat iMohon. Sila <strong>jangan balas</strong>
                 e-mel ini. Sekiranya anda memerlukan bantuan, sila hubungi pentadbir sistem anda.
             </div>
         </div>
 
         {{-- Footer --}}
         <div class="footer">
-            &copy; {{ date('Y') }} SAICT iMohon &nbsp;|&nbsp; Sistem Agihan ICT<br />
+            &copy; {{ date('Y') }} Seksyen Teknologi Maklumat iMohon &nbsp;|&nbsp; Sistem Agihan ICT<br />
             <small>E-mel ini dijana secara automatik. Sila jangan balas.</small>
         </div>
 
