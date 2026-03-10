@@ -42,7 +42,7 @@ const EmailPassword = () => {
 
     if (isSuccess) {
         return (
-            <Container className='py-5' style={{ maxWidth: '450px', width: '100%' }}>
+            <Container className='py-5 px-2 px-md-0' style={{ maxWidth: '450px', width: '100%' }}>
                 <Card className='border-0 shadow-lg'>
                     <Card.Body className='p-3 p-sm-4 p-md-5'>
                         <div className='text-center mb-4'>
@@ -67,7 +67,7 @@ const EmailPassword = () => {
     }
 
     return (
-        <Container className='py-5' style={{ maxWidth: '450px', width: '100%' }}>
+        <Container className='py-5 px-2 px-md-0' style={{ maxWidth: '450px', width: '100%' }}>
             <Card className='border-0 shadow-lg'>
                 <Card.Body className='p-3 p-sm-4 p-md-5'>
                     <div className='text-center mb-4'>
