@@ -56,7 +56,7 @@ const InlineEditing = ({
         }, []);
       
         return isVisible ? (
-          <i className="ms-3 fa-solid text-success fa-check fa-beat"></i>
+          <FontAwesomeIcon icon='fa-solid fa-check' className='text-success ms-2' beatFade />
         ) : null;
       }
 
@@ -70,10 +70,7 @@ const InlineEditing = ({
     }
     
     const handleSaveClick = () => {
-        console.log('saving')
         setIsSaving(true)
-        console.log(value)
-        console.log(url)
 
         //Send to server
         const formData = new FormData();
@@ -102,9 +99,9 @@ const InlineEditing = ({
     }
 
     return (
-     
+
             <Form.Group className='mb-3'>
-                <Form.Label>{label}</Form.Label>
+                <Form.Label className='fw-semibold small text-muted'>{label}</Form.Label>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
             
                     <Form.Control 
@@ -142,9 +139,7 @@ const InlineEditing = ({
                     )}
 
                     {isSaving && (
-                        <>
-                            <i className="ms-3 fa-solid fa-sync fa-spin"></i>
-                        </>
+                        <FontAwesomeIcon icon='fa-solid fa-sync' spin className='ms-3 text-secondary' />
                     )}
 
                     {isSuccess && (

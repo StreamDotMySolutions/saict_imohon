@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MohonIndex from './components/MohonIndex';
-import { Badge } from 'react-bootstrap';
-import { Container,Tabs,Tab } from 'react-bootstrap';
+import { Badge, Nav } from 'react-bootstrap';
 
+const TABS = [
+    { key: 'pending',  label: 'Menunggu', bg: 'warning', text: 'dark'  },
+    { key: 'approved', label: 'Lulus',    bg: 'success', text: 'white' },
+    { key: 'rejected', label: 'Gagal',    bg: 'danger',  text: 'white' },
+];
 
 const MohonApprovalByManager = () => {
-
-    const HandleTabChange = (key) => {
-        //console.log(key)
-    }
-
+    const [tab, setTab] = useState('pending');
 
     return (
         <div>
@@ -19,30 +20,23 @@ const MohonApprovalByManager = () => {
                     <li className="breadcrumb-item">Senarai Permohonan</li>
                 </ol>
             </nav>
-            
-        <Container className='p-1'>
-        <Tabs
-          defaultActiveKey="pending"
-          id="userTab"
-          className="mb-3"
-          onSelect={HandleTabChange}
-        >
-            <Tab eventKey="pending" title="Menunggu">
-                <MohonIndex status='pending'/>    
-            </Tab>
 
-            <Tab eventKey="approved" title="Lulus">
-                <MohonIndex  status='approved' />    
-            </Tab>
+            <Nav variant='tabs' className='mb-3'>
+                {TABS.map(t => (
+                    <Nav.Item key={t.key}>
+                        <Nav.Link
+                            active={tab === t.key}
+                            onClick={() => setTab(t.key)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Badge bg={t.bg} text={t.text} className='me-1'>&nbsp;</Badge>
+                            {t.label}
+                        </Nav.Link>
+                    </Nav.Item>
+                ))}
+            </Nav>
 
-            <Tab eventKey="rejected" title="Gagal">
-                <MohonIndex  status='rejected' />    
-            </Tab>
-
-          
-         
-        </Tabs>
-      </Container>
+            <MohonIndex key={tab} status={tab} />
         </div>
     );
 };

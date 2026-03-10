@@ -35,7 +35,7 @@ export default function CreateModal() {
         setCategories(response.data.categories)
       })
 
-      store.emptyData() // empty store data
+      store.reset() // empty store data
       setShow(true)
     } 
 

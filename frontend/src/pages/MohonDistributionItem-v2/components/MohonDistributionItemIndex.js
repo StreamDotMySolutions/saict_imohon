@@ -1,537 +1,307 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Col, FloatingLabel, Form, Row, Table, Badge, Button, Alert } from 'react-bootstrap';
-import useMohonItemStore from '../store';
-import axios from '../../../libs/axios';
-import ApprovalModal from '../../MohonDistributionRequest/modals/ApprovalModal';
-import RequestApprovalModal from '../modals/RequestApprovalModal';
-import UpdateDistributionItemModal from '../modals/UpdateDistributionItemModal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import JustificationModal from '../modals/JustificationModal';
+import { useState, useEffect } from 'react'
+import { Badge, Button, Card, Col, Container, Form, Modal, Row, Table } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from '../../../libs/axios'
 
+const statusBadge = (approval) => {
+    if (!approval) return <Badge bg='secondary'>Draf</Badge>
+    if (approval.status === 'approved') return <Badge bg='success'>Diluluskan</Badge>
+    if (approval.status === 'rejected') return <Badge bg='danger'>Ditolak</Badge>
+    return <Badge bg='warning' text='dark'>Menunggu Kelulusan</Badge>
+}
 
 const MohonDistributionItemIndex = ({ agihanRequestId }) => {
-  const apiUrl = process.env.REACT_APP_BACKEND_URL
-  const store = useMohonItemStore();
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
 
-  const [mohon, setMohon] = useState(null);
-  const [checkedItems, setCheckedItems] = useState({});
-  const [vendorSelections, setVendorSelections] = useState({});
-  const [typeSelections, setTypeSelections] = useState({});
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [vendors, setVendors ] = useState([])
-  const [items, setItems ] = useState([])
-  const [assignedItems, setAssignedItems ] = useState([])
+    const [mohon, setMohon] = useState(null)
+    const [loading, setLoading] = useState(false)
 
+    // Delivery modal
+    const [deliveryItem, setDeliveryItem] = useState(null)
+    const [deliveryForm, setDeliveryForm] = useState({ pic_name: '', pic_phone: '', date_start: '', date_end: '' })
+    const [deliveryErrors, setDeliveryErrors] = useState(null)
+    const [deliveryAck, setDeliveryAck] = useState(false)
+    const [isSavingDelivery, setIsSavingDelivery] = useState(false)
 
-  // list mohonDistributionRequest under $agihanRequestId
-  useEffect(() => {
-    //axios(`${store.mohonDistributionUrl}/${agihanRequestId}`)
-    axios(`${apiUrl}/admin/mohon-distribution/${agihanRequestId}`)
-      .then((response) => {
-        //console.log(response);
-        setMohon(response.data.mohon);
-      })
-      .catch((error) => {
-        console.warn(error);
-      })
-      .finally(
-        store.setValue('refresh', false)
-      )
-  }, [agihanRequestId, store.getValue('refresh')]);
-
-  
-  // to check mohonDistributionItem being assigned to other MohonDistributionRequest
-  // check using mohon_item_id
-  useEffect(() => {
-    if (mohon) {
-      //console.log('check');
-      //axios(`${store.submitUrl}/${mohon.mohon_request_id}/${agihanRequestId}/check`)
-      axios(`${apiUrl}/admin/mohon-distribution-items/${mohon.mohon_request_id}/${agihanRequestId}/check`)
-      .then((response) => {
-          //console.log(response);
-          setAssignedItems(response.data.items)
-        })
-        .catch((error) => {
-          console.warn(error);
-        });
+    const fetchMohon = () => {
+        setLoading(true)
+        axios(`${apiUrl}/admin/mohon-distribution/${agihanRequestId}`)
+            .then(res => setMohon(res.data.mohon))
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false))
     }
-  }, [mohon]);
-  
-  // get vendors from Inventory
-  useEffect(() => {
-    //axios(`${store.submitUrl}/vendors`)
-    axios(`${apiUrl}/admin/mohon-distribution-items/vendors`)
-      .then((response) => {
-        //console.log(response);
-        setVendors(response.data.items);
-      })
-      .catch((error) => {
-        console.warn(error);
-      })
-  },[])
 
-  // get agihan
-  useEffect( () => {
-      //console.log( `${store.submitUrl}/${id}`)
-      //console.log(`${store.mohonDistributionUrl}/${agihanRequestId}`)
-      axios({
-        'method' : 'get',
-        //'url' : `${store.mohonDistributionUrl}/${agihanRequestId}`
-        'url' : `${apiUrl}/admin/mohon-distribution/${agihanRequestId}`
-    })
-    .then( response => {
-      //console.log(response)
-      let data = response.data.mohon
-      //console.log(data)
-      setItems(data.mohon_distribution_items) // set formValue
-    })
-    .catch ( error => {
-      console.warn(error)
-    })
-    .finally(
-      store.setValue('refresh', false)
-    )
-  },[agihanRequestId, store.getValue('refresh') ])
+    useEffect(() => {
+        fetchMohon()
+    }, [agihanRequestId])
 
-  //console.log(`${store.submitUrl}/vendors`)
-
-  if (!mohon) {
-    return <div>Loading...</div>;
-  }
-
-  
-  const mohonItems = mohon.mohon_request.mohon_items;
-  const mohonDistributionItems = mohon.mohon_distribution_items;
-
-  const handleItemChange = (e, itemId) => {
-    const isChecked = e.target.checked;
-    setCheckedItems(prevState => ({ ...prevState, [itemId]: isChecked }));
-
-    const item = mohonItems.find((item) => item.id === itemId);
-    const category_name = item?.category?.name || '';
-    const category_id = item?.category?.id || '';
-    const mohon_distribution_id = mohonDistributionItems.find(
-      (distributionItem) => distributionItem.mohon_item_id === itemId
-    )?.id;
-
-    if (isChecked) {
-      const payload = {
-        itemId,
-        mohon_item_id: itemId,
-        category_name,
-        category_id,
-        vendor: vendorSelections[itemId] || '',
-        type: typeSelections[itemId] || '',
-      };
-
-      //axios.post(`${store.submitUrl}/${agihanRequestId}/create`, payload)
-      axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/create`, payload)
-        .then(response => {
-          //console.log('Save successful:', response);
+    const handleDeliveryOpen = (item) => {
+        const d = item.mohon_distribution_item_delivery
+        setDeliveryForm({
+            pic_name: d?.pic_name ?? '',
+            pic_phone: d?.pic_phone ?? '',
+            date_start: d?.date_start ?? '',
+            date_end: d?.date_end ?? '',
         })
-        .catch(error => {
-          console.error('Save error:', error);
-        });
-    } else {
-      const payload = { itemId, mohon_item_id: itemId, mohon_distribution_id };
-      //axios.post(`${store.submitUrl}/${agihanRequestId}/remove`, payload)
-      axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/remove`, payload)
-      .then(response => {
-          //console.log('Delete successful:', response);
-
-          // Reset vendor and type selections
-          setVendorSelections((prevState) => ({ ...prevState, [itemId]: '' }));
-          setTypeSelections((prevState) => ({ ...prevState, [itemId]: '' }));
-        })
-        .catch(error => {
-          console.error('Delete error:', error);
-        });
+        setDeliveryErrors(null)
+        setDeliveryAck(false)
+        setDeliveryItem(item)
     }
-  };
 
-  const handleVendorChange = (e, itemId) => {
-    const vendor = e.target.value;
-    setVendorSelections((prevState) => ({ ...prevState, [itemId]: vendor }));
-    const item = mohonItems.find((item) => item.id === itemId);
-    const category_name = item?.category?.name || '';
-    const category_id = item?.category?.id || '';
-    const mohon_distribution_item_id = mohonDistributionItems.find(
-      (distributionItem) => distributionItem.mohon_item_id === itemId
-    )?.id;
-
-    const payload = {
-      itemId,
-      mohon_item_id: itemId,
-      category_name,
-      category_id,
-      mohon_distribution_item_id,
-      vendor,
-    };
-
-    //axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
-    axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/sync`, payload)
-      .then(response => {
-        //console.log('Vendor update successful:', response);
-      })
-      .catch(error => {
-        //console.error('Vendor update error:', error);
-      });
-  };
-
-  const handleTypeChange = (e, itemId) => {
-    const type = e.target.value;
-    setTypeSelections((prevState) => ({ ...prevState, [itemId]: type }));
-    const item = mohonItems.find((item) => item.id === itemId);
-    const category_name = item?.category?.name || '';
-    const category_id = item?.category?.id || '';
-    const mohon_distribution_item_id = mohonDistributionItems.find(
-      (distributionItem) => distributionItem.mohon_item_id === itemId
-    )?.id;
-
-    const payload = {
-      itemId,
-      mohon_item_id: itemId,
-      category_name,
-      category_id,
-      mohon_distribution_item_id,
-      type,
-    };
-
-    //axios.post(`${store.submitUrl}/${agihanRequestId}/sync`, payload)
-    axios.post(`${apiUrl}/admin/mohon-distribution-items/${agihanRequestId}/sync`, payload)
-      .then(response => {
-        //console.log('Type update successful:', response);
-      })
-      .catch(error => {
-        console.error('Type update error:', error);
-      });
-  };
-
-  const pending = "Sedang menunggu kelulusan Pelulus 2";
-  const approved = "Telah diluluskan oleh Pelulus 2";
-  const rejected = "Permohonan digagalkan oleh Pelulus 2";
-
-  const approvalStatusMessage = (status) => {
-    switch (status.toUpperCase()) {
-      case "PENDING":
-        return pending;
-      case "APPROVED":
-        return approved;
-      case "REJECTED":
-        return rejected;
-      default:
-        return "Status tidak diketahui";
+    const handleDeliverySubmit = () => {
+        setIsSavingDelivery(true)
+        const formData = new FormData()
+        formData.append('pic_name', deliveryForm.pic_name)
+        formData.append('pic_phone', deliveryForm.pic_phone)
+        formData.append('date_start', deliveryForm.date_start)
+        formData.append('date_end', deliveryForm.date_end)
+        formData.append('acknowledge', deliveryAck ? 1 : 0)
+        axios.post(`${apiUrl}/admin/mohon-distribution-item-deliveries/${deliveryItem.id}`, formData)
+            .then(() => {
+                setDeliveryItem(null)
+                fetchMohon()
+            })
+            .catch(err => {
+                if (err.response?.status === 422) setDeliveryErrors(err.response.data.errors)
+            })
+            .finally(() => setIsSavingDelivery(false))
     }
-  };
 
-  return (
-    <Row>
-      <Alert variant='warning'>
-        <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
-        <hr />
-        {' '}
-        <ol>
-            <li>
-                Terdapat 2 senarai :
-                    <ol type="i">
-                      <li>PERMOHONAN</li>
-                      <li>AGIHAN</li>
-                    </ol>
-            </li>
-            <li>
-              <strong>PERMOHONAN</strong> mewakili senarai peralatan yang dimohon oleh Permohonan ID <Badge>{mohon.mohon_request_id}</Badge>.
-            </li>
-            <li>
-              Senarai peralatan ini dikumpul dalam Agihan ID <Badge>{mohon.id}</Badge>
-            </li>
-            <li>
-              Untuk menambah peralatan ke dalam Agihan, anda kena pilih <i><strong>Checkbox</strong></i> peralatan di senarai Permohonan
-            </li>
-            <li>
-              Seterusnya pilihan <i><strong>Dropdown</strong></i> untuk nama VENDOR akan tersedia dan anda kena pilih Vendor
-            </li>
-            <li>
-              Untuk membuang peralatan yang telah ditambah, hanya perlu <i><strong>Untick Checkbox</strong></i> di bahagian <strong>Permohonan</strong>.
-            </li>
-            <li>
-              Butang <Button size={'sm'} variant={'info'}>Mohon</Button> hanya boleh ditekan jika Agihan mempunyai peralatan dan telah dipilih Vendor untuk setiap peralatan.
-            </li>
-            <li className='mt-2'>
-            Butang <Button size={'sm'} variant={'primary'}>Kemaskini</Button> hanya boleh ditekan jika Pelulus 2 mengesahkan permohonan Agihan.
-            </li>
-            
-        </ol>
-      </Alert>
-           
-      <Container className='border border-1 p-3 rounded' style={{ backgroundColor:"#fafafa"}}>
-     
-        <Row className="d-flex justify-content-between">
-          <Col className="text-start"><h2>PERMOHONAN</h2></Col>
-          <Col className="text-end">
-          </Col>
-        </Row>
-     
+    const approval = mohon?.mohon_distribution_approval
+    const items = mohon?.mohon_distribution_items ?? []
+    const isApproved = approval?.status === 'approved'
 
-      <Table className='mt-3'>
-        <thead>
-          <tr>
-            <th style={{ width: '20px' }}>Bil.</th>
-            <th style={{ width: '200px' }}>NAMA</th>
-            <th>PERALATAN</th>
-            {/* <th style={{ width: '20px' }}>MOHON DISTRIBUTION ID</th> */}
-            <th className='text-center'>AGIHAN</th>
-            <th className='text-center'>VENDOR</th>
-            {/* <th className='text-center'>TYPE</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {mohonItems?.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <span className="badge bg-primary">{index + 1}</span>
-              </td>
-              <td>{item.name}</td>
-              <td>{item.category.name}</td>
-              {/* <td>
-                {mohonDistributionItems.find(
-                  (distributionItem) => distributionItem.mohon_item_id === item.id
-                )?.id}
+    if (loading || !mohon) {
+        return <p className='text-muted text-center py-5'>Memuatkan...</p>
+    }
 
-                {assignedItems.find(
-                  (assignedItem) => assignedItem.mohon_item_id === item.id
-                )?.id ? (
-                  <p>Item is assigned: {assignedItems.find(
-                    (assignedItem) => assignedItem.mohon_item_id === item.id
-                  )?.id}</p>
-                ) : (
-                  <p>Item is not assigned</p>
-                )}
-
-              </td> */}
-              <td className='text-center'>
-                <Form.Check
-                  name='mohon_item_id'
-                  value={item.id}
-                  disabled={ mohon.mohon_distribution_approval.step != 0 
-                            ||
-                            assignedItems.some(
-                              (assignedItem) => assignedItem.mohon_item_id === item.id
-                            )
-                          }
-                  onChange={(e) => handleItemChange(e, item.id)}
-                  checked={
-                    mohonDistributionItems.some(
-                      (distributionItem) => distributionItem.mohon_item_id === item.id
-                    ) ||
-
-                    assignedItems.some(
-                      (assignedItem) => assignedItem.mohon_item_id === item.id
-                    )
-                  
-                  }
-                />
-              </td>
-              <td className='text-center'>
-                {/* {mohonDistributionItems.find(
-                  (distributionItem) => distributionItem.mohon_item_id === item.id
-                )?.vendor_name} */}
-                <FloatingLabel controlId={`floatingSelectVendor${index}`} label="Sila pilih vendor">
-                  <Form.Select
-                    onChange={(e) => handleVendorChange(e, item.id)}
-                    disabled={
-                      !mohonDistributionItems.some(
-                        (distributionItem) => distributionItem.mohon_item_id === item.id
-                      ) || mohon.mohon_distribution_approval.step != 0
-                    }
-                    value={vendorSelections[item.id] || mohonDistributionItems.find(
-                      (distributionItem) => distributionItem.mohon_item_id === item.id
-                    )?.inventory_id  
-                    ||
-                    assignedItems[item.id] || assignedItems.find(
-                      (assignedItem) => assignedItem.mohon_item_id === item.id
-                    )?.inventory_id  
-                    ||
-                    ''}
-                  >
-                    <option value="">Pilih Vendor</option>
-                    {vendors.map((item) => (
-                      <>
-                  
-                      <option key={item.id} value={item.id}>{item.vendor} ( {item.contract_number} )</option>
-                      </>
-                    ))}
-
-                  </Form.Select>
-                </FloatingLabel>
-              </td>
-              {/* <td className='text-center'>
-               
-
-                <FloatingLabel controlId={`floatingSelectType${index}`} label="Sila pilih type">
-                  <Form.Select
-                    onChange={(e) => handleTypeChange(e, item.id)}
-                    disabled={
-                      !mohonDistributionItems.some(
-                        (distributionItem) => distributionItem.mohon_item_id === item.id
-                      )
-                    }
-                   
-                    value={typeSelections[item.id] || mohonDistributionItems.find(
-                      (distributionItem) => distributionItem.mohon_item_id === item.id
-                    )?.type || ''}
-                  >
-                    <option value="">Pilih Type</option>
-                    <option value="new">New</option>
-                    <option value="replacement">Replacement</option>
-                  </Form.Select>
-                </FloatingLabel>
-              </td> */}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      </Container>
-
-     <Container className='mt-5 border border-1 p-3 rounded' style={{ backgroundColor:"#fafafa"}}>
-      
-      <div>
-        <Row className="d-flex justify-content-between">
-          <Col className="text-start"><h2>AGIHAN</h2></Col>
-          <Col className="text-end">
-      
-              { mohon.mohon_distribution_approval.step === 0 ?
-                <>
-                  {items && items.length > 0 && items.every(item => item.inventory?.vendor) ? (
-                    <RequestApprovalModal agihanRequestId={agihanRequestId} />
-                  ) : (
-                    <Button variant={'info'} disabled>Mohon</Button>
-                  )}
-                </>
-                
-                :
-                <>
-                <Badge>
-                  Sudah dimohon pada { mohon.mohon_distribution_approval.created_at }
-                </Badge>
-   
-                {' '}
-                <Badge className='bg-dark'>
-                  <FontAwesomeIcon icon={'fas fa-info'} /> : { approvalStatusMessage(mohon.mohon_distribution_approval.status) }
-                </Badge>
-                </>
-              }
-          </Col>
-        </Row>
-      </div>
-
-      <Table>
-          <thead>
-              <tr>
-                  <th className='col-1'>NAMA</th>
-                  <th className='col-1'>PERALATAN</th>
-                  <th className='col-1'>VENDOR</th>
-                  <th className='col-4 text-center'>PENGHANTARAN</th>
-                  <th className='col-6 text-center'>PENERIMAAN</th>
-                 
-                  <th className='col-1'><span className='float-end'>TINDAKAN</span></th>
-              </tr>
-          </thead>
-          <tbody>
-          
-            {items.length > 0 && items?.map( (item,index) => (
-              <tr key={index}>
-                  <td>{item.mohon_item?.name}</td>
-                  <td>{item?.category.name}</td>
-                  <td>{item.inventory?.vendor}</td>
-                  <td>
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>TARIKH MULA</th>
-                        <th>TARIKH TAMAT</th>
-                        <th className='col-2'>NAMA RE</th>
-                        <th>TELEFON RE</th>
-                      </tr>
-                    </thead>
+    return (
+        <Container>
+            {/* Summary */}
+            <div className='mb-4'>
+                <h6 className='text-uppercase text-muted mb-2'>Maklumat Agihan</h6>
+                <Table size='sm' borderless className='mb-0' style={{ maxWidth: 480 }}>
                     <tbody>
-                      {item.mohon_distribution_item_delivery ? (
                         <tr>
-                          <td>{item.mohon_distribution_item_delivery.date_start}</td>
-                          <td>{item.mohon_distribution_item_delivery.date_end}</td>
-                          <td>{item.mohon_distribution_item_delivery.pic_name}</td>
-                          <td>{item.mohon_distribution_item_delivery.pic_phone}</td>
+                            <td className='text-muted' style={{ width: 160 }}>No. Rujukan</td>
+                            <td className='fw-semibold'>{mohon.reference_no ?? `#${mohon.id}`}</td>
                         </tr>
-                      ) : (
                         <tr>
-                          <td colSpan="4">Data penghantaran belum ditetapkan</td>
+                            <td className='text-muted'>Pemohon</td>
+                            <td>{mohon.mohon_request?.user?.name ?? '-'}</td>
                         </tr>
-                      )}
+                        <tr>
+                            <td className='text-muted'>Jabatan</td>
+                            <td>{mohon.mohon_request?.user?.user_profile?.user_department?.name ?? '-'}</td>
+                        </tr>
+                        <tr>
+                            <td className='text-muted'>Status</td>
+                            <td>{statusBadge(approval)}</td>
+                        </tr>
                     </tbody>
-                  </Table>
+                </Table>
+            </div>
 
-                  </td>
-
-                  <td>
-
-                  <Table>
-                    <thead>
-                      <tr>
-                        {/* <th>TARIKH PENGESAHAN</th> */}
-                        <th>TARIKH PEMASANGAN</th>
-                        <th className='col-2'>NAMA RE</th>
-                        <th>TELEFON RE</th>
-                        <th>JUSTIFIKASI</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {item.mohon_distribution_item_acceptance ? (
-                        <tr>
-                          {/* <td>{item.mohon_distribution_item_acceptance?.created_at}</td> */}
-                          <td>{item.mohon_distribution_item_acceptance.installation_date}</td>
-                          <td>{item.mohon_distribution_item_acceptance.pic_name}</td>
-                          <td>{item.mohon_distribution_item_acceptance.pic_phone}</td>
-                          <td className='text-center'>
-                   
-                              <JustificationModal message={item.mohon_distribution_item_acceptance.message} />
-                   
-                          </td>
-                        </tr>
-                      ) : (
-                        <tr>
-                          <td colSpan="4">Data penerimaan belum ditetapkan</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
-
-
-                  </td>
-                
-                  <td>
-                    <span className='float-end'>
-                      {mohon.mohon_distribution_approval.status === 'approved' ? (
-                        item.mohon_distribution_item_delivery ? (
-                          <Button size={'sm'} disabled>Kemaskini</Button>
-                        ) : (
-                          <UpdateDistributionItemModal mohonDistributionItemId={item.id} />
-                        )
-                      ) : (
-                        <Button size={'sm'} disabled>Kemaskini</Button>
-                      )}
+            {/* Item Cards */}
+            <h6 className='text-uppercase text-muted mb-2'>
+                Peralatan ({items.length} unit)
+                {isApproved && (
+                    <span className='ms-2 text-success fw-normal' style={{ fontSize: '0.8rem' }}>
+                        — tetapkan maklumat penghantaran setiap peralatan
                     </span>
-                  </td>
+                )}
+            </h6>
+            {items.length === 0
+                ? <p className='text-muted small'>Tiada peralatan.</p>
+                : (
+                    <Row className='g-2'>
+                        {items.map((item, index) => {
+                            const delivery = item.mohon_distribution_item_delivery
+                            const acceptance = item.mohon_distribution_item_acceptance
+                            return (
+                                <Col xs={12} md={6} lg={4} key={index}>
+                                    <Card className='h-100 shadow-sm'>
+                                        <Card.Header className='d-flex align-items-center justify-content-between py-2'>
+                                            <strong>{item.category?.name}</strong>
+                                            <Badge
+                                                bg={item.type === 'new' ? 'success' : 'warning'}
+                                                text={item.type === 'new' ? undefined : 'dark'}
+                                            >
+                                                {item.type === 'new' ? 'Baharu' : 'Ganti'}
+                                            </Badge>
+                                        </Card.Header>
+                                        <Card.Body className='py-2 px-3'>
+                                            <InfoRow label='Penerima' value={item.mohon_item?.name} />
+                                            <InfoRow label='Jawatan' value={item.mohon_item?.occupation} />
+                                            <InfoRow label='Bangunan' value={item.mohon_item?.building_name} />
+                                            <InfoRow label='Tingkat' value={item.mohon_item?.building_level} />
+                                            <InfoRow label='Lokasi' value={item.mohon_item?.location} />
+                                            <InfoRow label='Vendor' value={item.inventory?.vendor} />
+                                        </Card.Body>
 
-              </tr>
-            ))}
+                                        {isApproved && (
+                                            <Card.Footer className='py-2 px-3'>
+                                                {/* Penghantaran */}
+                                                <div className='text-muted fw-semibold mb-1 text-uppercase' style={{ fontSize: '0.72rem' }}>
+                                                    Penghantaran
+                                                </div>
+                                                {delivery ? (
+                                                    <>
+                                                        <div className='d-flex justify-content-between align-items-center mb-1'>
+                                                            <small className='text-success fw-semibold'>
+                                                                <FontAwesomeIcon icon='fas fa-circle-check' className='me-1' />
+                                                                Penghantaran ditetapkan
+                                                            </small>
+                                                            <Button
+                                                                size='sm'
+                                                                variant='outline-secondary'
+                                                                style={{ fontSize: '0.75rem', padding: '1px 6px' }}
+                                                                onClick={() => handleDeliveryOpen(item)}
+                                                            >
+                                                                Edit
+                                                            </Button>
+                                                        </div>
+                                                        <InfoRow label='PIC' value={delivery.pic_name} />
+                                                        <InfoRow label='Tel. PIC' value={delivery.pic_phone} />
+                                                        <InfoRow label='Tarikh Mula' value={delivery.date_start} />
+                                                        <InfoRow label='Tarikh Tamat' value={delivery.date_end} />
+                                                    </>
+                                                ) : (
+                                                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                                                        <Badge bg='warning' text='dark'>
+                                                            <FontAwesomeIcon icon='fas fa-clock' className='me-1' />
+                                                            Belum ditetapkan
+                                                        </Badge>
+                                                        <Button size='sm' variant='outline-primary' onClick={() => handleDeliveryOpen(item)}>
+                                                            Set Penghantaran
+                                                        </Button>
+                                                    </div>
+                                                )}
 
-          </tbody>
-        </Table>
-     </Container>
+                                                {/* Penerimaan */}
+                                                <hr className='my-2' />
+                                                <div className='text-muted fw-semibold mb-1 text-uppercase' style={{ fontSize: '0.72rem' }}>
+                                                    Penerimaan
+                                                </div>
+                                                {acceptance ? (
+                                                    <>
+                                                        <small className='text-success fw-semibold'>
+                                                            <FontAwesomeIcon icon='fas fa-circle-check' className='me-1' />
+                                                            Diterima
+                                                        </small>
+                                                        <InfoRow label='Tarikh Pasang' value={acceptance.installation_date} />
+                                                        <InfoRow label='PIC' value={acceptance.pic_name} />
+                                                        <InfoRow label='Tel. PIC' value={acceptance.pic_phone} />
+                                                    </>
+                                                ) : (
+                                                    <small className='text-muted'>Belum diterima</small>
+                                                )}
+                                            </Card.Footer>
+                                        )}
+                                    </Card>
+                                </Col>
+                            )
+                        })}
+                    </Row>
+                )
+            }
 
-  
-    </Row>
-    
-  );
-};
+            {/* Delivery Modal */}
+            <Modal show={!!deliveryItem} onHide={() => !isSavingDelivery && setDeliveryItem(null)} centered enforceFocus={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <FontAwesomeIcon icon='fas fa-truck' className='me-2' />
+                        Maklumat Penghantaran
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className='text-muted small mb-3'>
+                        {deliveryItem?.category?.name} — {deliveryItem?.mohon_item?.name}
+                    </p>
 
-export default MohonDistributionItemIndex;
+                    <Form.Group className='mb-2'>
+                        <Form.Label className='small fw-semibold'>Nama PIC Vendor</Form.Label>
+                        <Form.Control
+                            size='sm'
+                            value={deliveryForm.pic_name}
+                            onChange={e => setDeliveryForm(f => ({ ...f, pic_name: e.target.value }))}
+                            isInvalid={!!deliveryErrors?.pic_name}
+                            disabled={isSavingDelivery}
+                        />
+                        <Form.Control.Feedback type='invalid'>{deliveryErrors?.pic_name?.[0]}</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className='mb-2'>
+                        <Form.Label className='small fw-semibold'>No. Telefon PIC</Form.Label>
+                        <Form.Control
+                            size='sm'
+                            value={deliveryForm.pic_phone}
+                            onChange={e => setDeliveryForm(f => ({ ...f, pic_phone: e.target.value }))}
+                            isInvalid={!!deliveryErrors?.pic_phone}
+                            disabled={isSavingDelivery}
+                        />
+                        <Form.Control.Feedback type='invalid'>{deliveryErrors?.pic_phone?.[0]}</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Row className='g-2 mb-3'>
+                        <Col>
+                            <Form.Group>
+                                <Form.Label className='small fw-semibold'>Tarikh Mula</Form.Label>
+                                <Form.Control
+                                    type='date'
+                                    size='sm'
+                                    value={deliveryForm.date_start}
+                                    onChange={e => setDeliveryForm(f => ({ ...f, date_start: e.target.value }))}
+                                    isInvalid={!!deliveryErrors?.date_start}
+                                    disabled={isSavingDelivery}
+                                />
+                                <Form.Control.Feedback type='invalid'>{deliveryErrors?.date_start?.[0]}</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group>
+                                <Form.Label className='small fw-semibold'>Tarikh Tamat</Form.Label>
+                                <Form.Control
+                                    type='date'
+                                    size='sm'
+                                    value={deliveryForm.date_end}
+                                    onChange={e => setDeliveryForm(f => ({ ...f, date_end: e.target.value }))}
+                                    isInvalid={!!deliveryErrors?.date_end}
+                                    disabled={isSavingDelivery}
+                                />
+                                <Form.Control.Feedback type='invalid'>{deliveryErrors?.date_end?.[0]}</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Form.Check
+                        label='Saya mengesahkan maklumat penghantaran ini adalah betul'
+                        checked={deliveryAck}
+                        onChange={e => setDeliveryAck(e.target.checked)}
+                        disabled={isSavingDelivery}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={() => setDeliveryItem(null)} disabled={isSavingDelivery}>
+                        Batal
+                    </Button>
+                    <Button variant='primary' onClick={handleDeliverySubmit} disabled={!deliveryAck || isSavingDelivery}>
+                        {isSavingDelivery
+                            ? <><FontAwesomeIcon icon='fas fa-spinner' spin className='me-1' />Menyimpan...</>
+                            : <><FontAwesomeIcon icon='fas fa-floppy-disk' className='me-1' />Simpan</>
+                        }
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </Container>
+    )
+}
+
+const InfoRow = ({ label, value }) => (
+    <div className='d-flex justify-content-between mb-1' style={{ fontSize: '0.85rem' }}>
+        <span className='text-muted'>{label}</span>
+        <span className='fw-semibold text-end ms-2'>{value ?? '-'}</span>
+    </div>
+)
+
+export default MohonDistributionItemIndex

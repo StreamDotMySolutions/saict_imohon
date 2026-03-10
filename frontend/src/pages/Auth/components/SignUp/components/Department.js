@@ -1,82 +1,74 @@
-import React, { useState,useEffect } from 'react'
-
-//import useDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore'
+import React, { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Form } from 'react-bootstrap'
 import useAuthStore from '../../../stores/AuthStore'
 import axios from '../../../../../libs/axios'
-//import useAccountStore from '../../../../Account/stores/AccountStore'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import { Row,Col,Button, Form, InputGroup, Alert } from 'react-bootstrap'
 
 const Department = () => {
-    const apiUrl =  process.env.REACT_APP_BACKEND_URL
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useAuthStore()
     const errors = store.errors
-    const auth = useAuthStore()
-    const [data,setData] = useState([])
+    const [data, setData] = useState([])
 
-    useEffect( () => {
+    useEffect(() => {
         axios({
-            //url: auth.user_departments_url,  // user store API
-            url: `${apiUrl}/global/user-departments`,  // user store API
-            method: 'get', // method is POST
+            url: `${apiUrl}/global/user-departments`,
+            method: 'get',
         })
-        .then( response => {
-            //console.log(response.data)
-            setData(response.data.user_departments)
-        })
-    },[])
+            .then(response => {
+                setData(response.data.user_departments)
+            })
+    }, [])
 
-    return (
-        <>
-        <InputGroup hasValidation>
-            <InputGroup.Text className='fs-2'><FontAwesomeIcon icon="fa-solid fa-home"></FontAwesomeIcon></InputGroup.Text>
-            <Form.Select 
-                htmlSize={10}
-                isInvalid={errors?.hasOwnProperty('user_department_id')}
-                onChange={ (e) => useAuthStore.setState({ user_department_id: { value: e.target.value}} )}  
-            >
-                <CategoryDropdown data={data} />
-            </Form.Select>
-
-            {errors?.hasOwnProperty('user_department_id') &&
-
-                <Form.Control.Feedback type="invalid">   
-                { errors.user_department_id ? errors.user_department_id : null }
-                </Form.Control.Feedback>
-            
+    // Flatten the tree into a list of options with depth info
+    const flattenTree = (nodes, depth = 0) => {
+        const result = []
+        nodes.forEach((node, index) => {
+            const isLast = index === nodes.length - 1
+            result.push({ ...node, depth, isLast })
+            if (node.children?.length) {
+                result.push(...flattenTree(node.children, depth + 1))
             }
+        })
+        return result
+    }
 
-            <Form.Control.Feedback type="invalid">
-               
-            </Form.Control.Feedback>
-        </InputGroup>
-        </>
-       
-    );
-};
+    const options = flattenTree(data)
 
-function CategoryDropdown({ data, depth = 0 }) {
-    const indent = '_ _'.repeat(depth);
-    
     return (
-      <>
-        {data.map((category,index) => (
-        <>
-        <option
-            key={index}
-            value={category.id}
-            className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
-            disabled={category.parent_id === null}
+        <Form.Group>
+            <Form.Label className='fw-semibold'>
+                <FontAwesomeIcon icon='fa-solid fa-building' className='me-2' />
+                Jabatan
+            </Form.Label>
+            <Form.Select
+                size='lg'
+                isInvalid={!!errors?.user_department_id}
+                onChange={e => useAuthStore.setState({ user_department_id: { value: e.target.value } })}
             >
-            {depth != 0 && 'I'}{indent}{' '}{category.name}
-        </option>
-        <CategoryDropdown data={category.children}  depth={depth + 1} />
-        </>
-        ))}
-  
-    </>
-    );
+                <option value=''>Pilih Jabatan</option>
+                {options.map(opt => {
+                    const isRoot = opt.parent_id === null
+                    const prefix = isRoot ? '' : '\u00A0\u00A0\u00A0\u00A0'.repeat(opt.depth - 1) + (opt.isLast ? '└── ' : '├── ')
+                    return (
+                        <option
+                            key={opt.id}
+                            value={opt.id}
+                            disabled={isRoot}
+                            style={isRoot ? { fontWeight: 'bold', backgroundColor: '#f0f0f0' } : {}}
+                        >
+                            {isRoot ? `■ ${opt.name}` : `${prefix}${opt.name}`}
+                        </option>
+                    )
+                })}
+            </Form.Select>
+            {errors?.user_department_id && (
+                <Form.Control.Feedback type='invalid'>
+                    {errors.user_department_id}
+                </Form.Control.Feedback>
+            )}
+        </Form.Group>
+    )
 }
 
-export default Department;
+export default Department

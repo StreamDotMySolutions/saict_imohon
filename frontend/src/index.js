@@ -47,6 +47,7 @@ import VerifyFailed from './pages/Auth/components/EmailVerifiy/failed.js'
 
 
 import Inventory from './pages/Inventory'
+import AdminDashboard from './pages/AdminDashboard'
 
 
 import Mohon from './pages/Mohon'
@@ -65,8 +66,15 @@ import Agihan from './pages/Agihan'
 import Agihan2 from './pages/Agihan-v2'
 import ShowAgihan from './pages/Agihan-v2/show.js';
 
+import UserAgihan from './pages/UserAgihan'
 import MohonAdministration from './pages/Administrations/Mohon'
 import AgihanAdministration from './pages/Administrations/Agihan'
+import AdminAgihan from './pages/AdminAgihan'
+import AdminAgihanShow from './pages/AdminAgihan/show'
+import Tracking from './pages/Tracking'
+import ItemRequest from './pages/ItemRequest'
+import RequestedItems from './pages/RequestedItems'
+import UserRequestedItems from './pages/UserRequestedItems'
 
 import RefreshAlert from './components/global/RefreshAlert.js';
 
@@ -117,12 +125,20 @@ export default function App() {
                 <Route path="/users" element={<User />} />
                 <Route path="/user-departments" element={<UserDepartment />} />
 
+                <Route path="/user/requested-items" element={<UserRequestedItems />} />
+                <Route path="/user/agihan" element={<UserAgihan />} />
+                <Route path="/item-request" element={<ItemRequest />} />
                 <Route path="/mohon" element={<Mohon />} />
                 <Route path="/mohon/:mohonRequestId" element={<MohonShow/>} />
                 <Route path="/mohon-items/:mohonRequestId" element={<MohonItem/>} />
 
                 <Route path="/administration/mohon" element={<MohonAdministration />} />
                 <Route path="/administration/agihan" element={<AgihanAdministration />} />
+
+                <Route path="/admin/agihan" element={<AdminAgihan />} />
+                <Route path="/admin/agihan/:mohonId" element={<AdminAgihanShow />} />
+                <Route path="/admin/tracking" element={<Tracking />} />
+                <Route path="/user/tracking" element={<Tracking />} />
 
                 <Route path="/mohon-approval/by-manager" element={<MohonApprovalByManager />} />
                 <Route path="/mohon-approval/by-admin" element={<MohonApprovalByAdmin />} />    
@@ -135,6 +151,8 @@ export default function App() {
                 <Route path="/agihan-2" element={<Agihan2/>} />
                 <Route path="/agihan-2/:mohonRequestId" element={<ShowAgihan/>} />
                 
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/requested-items" element={<RequestedItems />} />
                 <Route path="/inventories" element={<Inventory />} />
                
    

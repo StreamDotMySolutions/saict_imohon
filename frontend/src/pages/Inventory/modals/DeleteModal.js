@@ -108,7 +108,7 @@ export default function DeleteModal({id}) {
 
     return (
       <>
-        <Button variant="danger"  onClick={handleShow}>
+        <Button variant="danger" size="sm" onClick={handleShow}>
          Hapus
         </Button>
   
@@ -121,21 +121,18 @@ export default function DeleteModal({id}) {
           </Modal.Body>
           <Modal.Footer>
             <Form.Check
-              className='me-4'
-
+              className='me-auto'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-       
               label="Saya sahkan data ini untuk di hapus"
               type="checkbox"
-              //onClick={ () =>useInventoryStore.setState({errors:null}) }
               onClick={ () =>store.setValue('error', null) }
               onChange={ (e) => store.setValue('acknowledge', true) }
             />
-            <Button variant="secondary" onClick={handleCloseClick}>
+            <Button variant="secondary" size="sm" onClick={handleCloseClick}>
               Tutup
             </Button>
-            <Button variant="danger" onClick={handleDeleteClick}>
+            <Button variant="danger" size="sm" onClick={handleDeleteClick}>
               Hapus
             </Button>
           </Modal.Footer>

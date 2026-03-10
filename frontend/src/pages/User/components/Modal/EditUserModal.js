@@ -48,7 +48,11 @@ function EditUserModal({id}) {
                   is_approved: {
                           value: response.data?.user?.is_approved
                         },
-  
+
+                  email_verified_at: {
+                          value: response.data?.user?.email_verified_at
+                        },
+
                   role:{
                           value: response.data?.user?.role
                         },
@@ -63,25 +67,25 @@ function EditUserModal({id}) {
                         },
             occupation: {
                           value: response.data?.user?.profile?.occupation
-                        },     
+                        },
                   nric: {
                           value: response.data?.user?.nric
-                        },      
+                        },
                 phone: {
                           value: response.data?.user?.profile?.phone
-                        },      
+                        },
               level:  {
                           value: response.data?.user?.profile?.level
                         },
               building:  {
                           value: response.data?.user?.profile?.building
-                        },                        
+                        },
               address:  {
                           value: response.data?.user?.profile?.address
-                        },                                          
+                        },
         user_department_id: {
                           value: response.data?.user?.profile?.user_department_id
-                        },  
+                        },
       })
 
       //now assign the Form
@@ -98,11 +102,12 @@ function EditUserModal({id}) {
       const fieldNames = [
 
                   'role',
-                  'email', 
+                  'email',
+                  'email_verified_at',
                   'password',
-                  'name', 
+                  'name',
                   'occupation',
-                  'nric', 
+                  'nric',
                   'phone',
                   'level',
                   'building',
@@ -118,8 +123,11 @@ function EditUserModal({id}) {
       // create payload
       fieldNames.forEach((fieldName) => {
         const value = user?.[fieldName]?.value;
-        if (value !== null && value !== '' && value !== undefined) {
-          formData.append(fieldName, value) // only append if has value
+        // email_verified_at must be sent even when null (to unverify)
+        if (fieldName === 'email_verified_at') {
+          formData.append(fieldName, value ?? '');
+        } else if (value !== null && value !== '' && value !== undefined) {
+          formData.append(fieldName, value);
         }
       });
 
@@ -172,7 +180,7 @@ function EditUserModal({id}) {
         <Row className='text-danger'>
             { error &&
             <>
-            Please check all tabs for error
+            Sila lihat kesemua tabs untuk ralat
             </>}
           </Row>
           <Button variant="secondary" onClick={handleClose}>

@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MohonIndex from './components/MohonIndex';
-import { Alert, Badge, Button, Tab, Tabs } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Badge, Nav } from 'react-bootstrap';
 
+const TABS = [
+    { key: 'pending',  label: 'Baharu', bg: 'warning', text: 'dark'  },
+    { key: 'approved', label: 'Lulus',  bg: 'success', text: 'white' },
+    { key: 'rejected', label: 'Gagal',  bg: 'danger',  text: 'white' },
+];
 
 const MohonApprovalByAdmin = () => {
+    const [tab, setTab] = useState('pending');
+
     return (
         <div>
             <nav aria-label="breadcrumb">
@@ -14,25 +21,22 @@ const MohonApprovalByAdmin = () => {
                 </ol>
             </nav>
 
-            <Tabs
-                defaultActiveKey="mohon_pending"
-                className="mb-3"
-                >
-                <Tab eventKey="mohon_pending" title="Baharu">
-                    <MohonIndex status={'pending'} />
-                </Tab>
-                <Tab eventKey="mohon_approved" title="Lulus">
-                    <MohonIndex status={'approved'} />
-                </Tab>
-                <Tab eventKey="mohon_rejected" title="Gagal">
-                    <MohonIndex status={'rejected'} />
-                </Tab>
+            <Nav variant='tabs' className='mb-3'>
+                {TABS.map(t => (
+                    <Nav.Item key={t.key}>
+                        <Nav.Link
+                            active={tab === t.key}
+                            onClick={() => setTab(t.key)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Badge bg={t.bg} text={t.text} className='me-1'>&nbsp;</Badge>
+                            {t.label}
+                        </Nav.Link>
+                    </Nav.Item>
+                ))}
+            </Nav>
 
-      
-         
-            </Tabs>
-            
-         
+            <MohonIndex key={tab} status={tab} />
         </div>
     );
 };

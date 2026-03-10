@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 class MohonService
 {
 
-    public static function index($status)
+    public static function index($status, $tab = null, $search = null)
     {
         $user =  auth('sanctum')->user(); // user auth
         $role = $user->roles->pluck('name')[0]; // User only have 1 role
-        //\Log::info($status);
 
-   
         switch($role){
             case 'user':
-                $mohons = self::getMohonDataAsUser($user);
+                $mohons = self::getMohonDataAsUser($user, $tab, $search);
             break;
             case 'manager':
                 $mohons = self::getMohonDataAsManager($user, $status);
@@ -43,40 +41,37 @@ class MohonService
     /*
     * List All MohonRequest
     */
-    public static function getMohonDataAsUser($user)
+    public static function getMohonDataAsUser($user, $tab = null, $search = null)
     {
-
-        # User hasOne UserProfile
-        # UserProfile belongsTo UserDepartment
-        $userDepartmentId = $user->userProfile->userDepartment->id; // User Department ID
-
-        $paginate = MohonRequest::query(); // Intiate Paginate
-        $mohons = $paginate->orderBy('id','DESC')
-                    //->with(['mohonApproval'])
+        $query = MohonRequest::query()
                     ->with([
                         'user.userProfile',
                         'user.roles',
                         'mohonApproval.user',
-                        'approver'
-                        ])
-
-                    // list ad LoggedIn User
+                        'approver',
+                        'mohonDistributionRequests.mohonDistributionApproval',
+                    ])
                     ->where('user_id', $user->id)
+                    ->withCount(['mohonItems', 'mohonDistributionItems']);
 
-                    // to list requests from same department
-                    // based on User Department ID
-                    // ->whereHas('user.userProfile', function ($query) use ($userDepartmentId) {
-                    //     $query->where('user_department_id', $userDepartmentId);
-                    // })
+        if ($tab === 'selesai') {
+            $query->where('step', 4)->where('status', 'approved');
+        } elseif ($tab === 'gagal') {
+            $query->where('step', 4)->where('status', 'rejected');
+        } elseif ($tab === 'aktif') {
+            $query->where('step', '<', 4);
+        }
 
-                    ->withCount([
-                        'mohonItems', // Mohon hasMany MohonItems
-                        'mohonDistributionItems' // Mohon hasMany MohonDistributionItems
-                        
-                        ]) // to calculate how many items
-                    
-                    ->paginate(10) // 10 items per page
-                    ->withQueryString(); // with GET Query String
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('reference_no', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+
+        $mohons = $query->orderBy('id', 'DESC')
+                    ->paginate(10)
+                    ->withQueryString();
 
         PaginationHelper::addNumbering($mohons);
 
@@ -240,7 +235,6 @@ class MohonService
             'step' => 0,
             'status' => 'pending',
             //'description' => 'Maklumat permohonan'
-            
         ]);
 
         
@@ -331,5 +325,16 @@ class MohonService
         // Delete MohonRequest
         return $mohonRequest->delete();
 
+    }
+
+    public static function statsAsUser($user)
+    {
+        $base = MohonRequest::where('user_id', $user->id);
+        return [
+            'total'   => (clone $base)->count(),
+            'aktif'   => (clone $base)->where('step', '<', 4)->count(),
+            'selesai' => (clone $base)->where('step', 4)->where('status', 'approved')->count(),
+            'gagal'   => (clone $base)->where('step', 4)->where('status', 'rejected')->count(),
+        ];
     }
 }

@@ -8,6 +8,7 @@ import DisplayMessage from '../../../../components/DisplayMessage'
 
 export default function CreateUserModal({role}) {
 
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const user = useUserStore()
     const [show, setShow] = useState(false)
     const [error, setError] = useState(false)

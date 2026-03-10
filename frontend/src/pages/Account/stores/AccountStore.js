@@ -6,7 +6,7 @@ const account = {
    
     store_url :  `${base_url}/global/account`,
     show_url :  `${base_url}/global/account`,
-    update_url :  `${base_url}/global.account`,
+    update_url :  `${base_url}/global/account`,
     refresh: false,
     email : null,
 }

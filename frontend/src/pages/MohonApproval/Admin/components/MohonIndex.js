@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table,Pagination, Button, Alert, Badge, Form } from 'react-bootstrap'
+import { Table,Pagination, Button, Badge, Form } from 'react-bootstrap'
 import useMohonStore from '../store'
 import axios from '../../../../libs/axios'
 import { Link } from 'react-router-dom'
@@ -45,7 +45,6 @@ const MohonIndex = ({status}) => {
 
     return (
         <div>
-  
             <Alert variant='warning'>
                 <FontAwesomeIcon icon={'fas fa-info'} style={{fontSize: '1.5rem'}} /> Maklumat <br />
                 <hr />
@@ -67,7 +66,7 @@ const MohonIndex = ({status}) => {
                     Butang <Button className={'bg-light text-dark mt-2'} size={'sm'} variant='success'>Agihan</Button> pula hanya aktif selepas kelulusan diluluskan oleh Admin. Setiap Agihan akan mempunyai set peralatan sendiri.
                     </li>
                     <li>
-                     Setiap <strong>Permohonan</strong> boleh mempunyai satu atau lebih <strong>Agihan</strong>.  
+                     Setiap <strong>Permohonan</strong> boleh mempunyai satu atau lebih <strong>Agihan</strong>.
                     </li>
                 </ol>
             </Alert>
@@ -75,22 +74,22 @@ const MohonIndex = ({status}) => {
             <Table>
                 <thead>
                     <tr>
-                        <th style={{ 'width': '20px'}}>No.</th>
+                        <th style={{ 'width': '50px'}}>No. Rujukan</th>
                         <th style={{ 'width': '120px'}}>Nama</th>
                         <th style={{ 'width': '120px'}}>Kad Pengenalan</th>
-                        <th style={{ 'width': '200px'}}>Jabatan</th>
+                        <th style={{ 'width': '250px'}}>Jabatan</th>
                         {/* <th style={{ 'width': '200px'}}>Kelulusan Mohon</th> */}
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Dimohon</th>
                         <th className='text-center' style={{ 'width': '50px'}}>Jumlah Peralatan Diagih</th>
                         {/* <th className='text-center' style={{ 'width': '50px'}}>Status Tiket</th> */}
-                        <th className='text-center' style={{ 'width': '250px'}}>Tindakan</th>
+                        <th className='text-center' >Tindakan</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {mohons?.data?.map((mohon,index) => (
                         <tr key={index}>
-                            <td> <span className="badge bg-primary">{mohon?.numbering}</span></td>
+                            <td><small><span className="badge bg-primary">{mohon.reference_no ?? `#${mohon.id}`}</span></small></td>
                             <td>{mohon.user?.name}</td>
                             <td>{mohon.user?.nric}</td>
                             <td>{mohon.user?.user_profile?.user_department?.name}</td>
@@ -104,25 +103,18 @@ const MohonIndex = ({status}) => {
                                 <FontAwesomeIcon icon={mohon.ticket_status === 'open' ? faLockOpen : faLock} />
                             </td> */}
                            
-                            <td className='text-center'>
-                                {/* <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                    <Button size='sm' variant='outline-success'>Lihat</Button>
-                                </Link>*/}
-                                {/* <StatusModal mohonRequestId={mohon.id} /> */}
-                                {' '}
-                                <ReportingModal mohonRequestId={mohon.id} />    
-                                {' '}
-                                <ViewModal id={mohon.id} />
-                                {' '}
-                            
-                                {mohon.mohon_approval?.step == 4 && mohon.mohon_approval?.status == 'approved'  ?
-                                    <Link to={`/mohon-distribution-requests/${mohon.id}`}>
-                                        <Button size='sm' variant='outline-success'>Agihan</Button>
-                                    </Link>
-                                    :
-                                    // 
-                                    <></>
-                                }
+                            <td>
+                                <div className='d-flex gap-1 justify-content-center flex-wrap'>
+                                    <ReportingModal mohonRequestId={mohon.id} />
+                                    <ViewModal id={mohon.id} />
+                                    {mohon.mohon_approval?.step == 4 && mohon.mohon_approval?.status == 'approved' && (
+                                        <Link to='/admin/agihan'>
+                                            <Button size='sm' variant='outline-success'>
+                                                <FontAwesomeIcon icon='fas fa-truck' className='me-1' />Agihan
+                                            </Button>
+                                        </Link>
+                                    )}
+                                </div>
                             </td>
                         </tr>
                     ))}

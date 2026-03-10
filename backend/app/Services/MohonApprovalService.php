@@ -42,11 +42,21 @@ class MohonApprovalService
         // send email to manager
         $manager = User::where('id', $request->input('manager_id'))->first();
         if ($manager) {
+            $mohon = MohonRequest::find($mohonRequestId);
             $data = [
-                'name' => $manager->name,
-                'message' => 'Notifikasi Permohonan Peralatan'
+                'name'           => $manager->name,
+                'requester_name' => $user->name,
+                'requester_email'=> $user->email,
+                'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                'system_url'     => env('FRONTEND_URL', config('app.url')),
+                'date'           => now()->translatedFormat('d F Y'),
+                'role'           => 'manager',
             ];
-            Mail::to($manager->email)->send(new MohonNotification($data));
+            try {
+                Mail::to($manager->email)->send(new MohonNotification($data));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
         }
 
         return $approval;
@@ -108,7 +118,7 @@ class MohonApprovalService
                 //'approver_id' => $user->id, // requesting  ANY admin
             ]);
 
-            return MohonApproval::create([
+            $step3 = MohonApproval::create([
                 'mohon_request_id' => $mohonRequestId,
                 'user_id' => $user->id, // Manager
 
@@ -118,7 +128,50 @@ class MohonApprovalService
                 'step' => 3, // step 3 is for admin maanaging
                 'status' => 'pending' // pending
             ]);
+
+            // notify all admins
+            $mohon = MohonRequest::with('user')->find($mohonRequestId);
+            $admins = User::whereHas('roles', fn($q) => $q->where('name', 'admin'))->get();
+            foreach ($admins as $admin) {
+                $data = [
+                    'name'           => $admin->name,
+                    'requester_name' => $mohon->user->name ?? '-',
+                    'requester_email'=> $mohon->user->email ?? '-',
+                    'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                    'manager_name'   => $user->name,
+                    'system_url'     => env('FRONTEND_URL', config('app.url')),
+                    'date'           => now()->translatedFormat('d F Y'),
+                    'role'           => 'admin',
+                ];
+                try {
+                    Mail::to($admin->email)->send(new MohonNotification($data));
+                } catch (\Exception $e) {
+                    \Log::warning('Mail failed: ' . $e->getMessage());
+                }
+            }
+
+            return $step3;
         } else {
+            // notify requester of rejection
+            $mohon = MohonRequest::with('user')->find($mohonRequestId);
+            if ($mohon && $mohon->user) {
+                $data = [
+                    'name'           => $mohon->user->name,
+                    'requester_name' => $mohon->user->name,
+                    'requester_email'=> $mohon->user->email,
+                    'reference_no'   => $mohon->reference_no ?? '#' . $mohonRequestId,
+                    'manager_name'   => $user->name,
+                    'system_url'     => env('FRONTEND_URL', config('app.url')),
+                    'date'           => now()->translatedFormat('d F Y'),
+                    'role'           => 'requester_rejected',
+                    'message'        => $request->input('message'),
+                ];
+                try {
+                    Mail::to($mohon->user->email)->send(new MohonNotification($data));
+                } catch (\Exception $e) {
+                    \Log::warning('Mail failed: ' . $e->getMessage());
+                }
+            }
             return $approval;
         }
   
@@ -127,29 +180,74 @@ class MohonApprovalService
 
     public static function storeByAdmin($request, $mohonRequestId)
     {
-
         // role = Admin managing the request
-        // step = 3
-        // if processed, upgrade step to 4
-        $user =  auth('sanctum')->user();
+        // step = 3 → 4
+        $user = auth('sanctum')->user();
+        $status = $request->input('status'); // 'approved' or 'rejected'
 
-        MohonRequest::where('id',$mohonRequestId)->update([
-            'status' => $request->input('status'), //either approved or rejected
-            'step' => 4, // step 4 is final
-            'approver_id' => $user->id, // latest approver
-            'admin_id' => $user->id, // Admin
+        MohonRequest::where('id', $mohonRequestId)->update([
+            'status'      => $status,
+            'step'        => 4,
+            'approver_id' => $user->id,
+            'admin_id'    => $user->id,
         ]);
 
-        return MohonApproval::create([
+        $approval = MohonApproval::create([
             'mohon_request_id' => $mohonRequestId,
-            'user_id' => $user->id, // Admin
-            'requester_id' => $user->id, // the one who request the request
-            'approver_id' => $user->id, // the one who will approve the request
-            'admin_id' =>  $user->id, // User that requesting approval to manager ( pelulus 1 )
-            'step' => 4,
-            'message' => $request->input('message'),
-            'status' => $request->input('status')
+            'user_id'          => $user->id,
+            'requester_id'     => $user->id,
+            'approver_id'      => $user->id,
+            'admin_id'         => $user->id,
+            'step'             => 4,
+            'message'          => $request->input('message'),
+            'status'           => $status,
         ]);
+
+        // Find requester and the manager who approved at step=2
+        $mohon = MohonRequest::with('user')->find($mohonRequestId);
+        $managerApproval = MohonApproval::where('mohon_request_id', $mohonRequestId)
+            ->where('step', 2)
+            ->with('user')
+            ->first();
+        $manager = $managerApproval?->user;
+
+        $baseData = [
+            'requester_name'  => $mohon->user->name ?? '-',
+            'requester_email' => $mohon->user->email ?? '-',
+            'reference_no'    => $mohon->reference_no ?? '#' . $mohonRequestId,
+            'admin_name'      => $user->name,
+            'system_url'      => env('FRONTEND_URL', config('app.url')),
+            'date'            => now()->translatedFormat('d F Y'),
+            'message'         => $request->input('message'),
+        ];
+
+        // Notify requester (user)
+        if ($mohon->user) {
+            $roleUser = $status === 'approved' ? 'user_admin_approved' : 'user_admin_rejected';
+            try {
+                Mail::to($mohon->user->email)->send(new MohonNotification(array_merge($baseData, [
+                    'name' => $mohon->user->name,
+                    'role' => $roleUser,
+                ])));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
+        }
+
+        // Notify manager
+        if ($manager) {
+            $roleManager = $status === 'approved' ? 'manager_admin_approved' : 'manager_admin_rejected';
+            try {
+                Mail::to($manager->email)->send(new MohonNotification(array_merge($baseData, [
+                    'name' => $manager->name,
+                    'role' => $roleManager,
+                ])));
+            } catch (\Exception $e) {
+                \Log::warning('Mail failed: ' . $e->getMessage());
+            }
+        }
+
+        return $approval;
     }
 
     // public static function storeStep4($request, $mohonRequestId)

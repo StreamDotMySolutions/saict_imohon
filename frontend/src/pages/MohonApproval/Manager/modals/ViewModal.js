@@ -40,7 +40,7 @@ export default function ViewModal({id}) {
           setItems(mohon.mohon_items)
           setStep(mohon.mohon_approval.step)
           //store.setValue('message',mohon.mohon_approval_rejected_by_user ? mohon.mohon_approval_rejected_by_user.message : mohon.mohon_approval_approved_by_user.message  ) 
-          store.setValue('message' , mohon.mohon_approval.message)
+          store.setValue('message', '')
           // items
           setIsLoading(false)
       })
@@ -131,7 +131,7 @@ export default function ViewModal({id}) {
           <Modal.Body>
             <MohonData id={id} />
 
-
+            <br />
             <h5>Justifikasi</h5>
               {}
             <InputTextarea

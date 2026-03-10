@@ -2,49 +2,26 @@ import { create } from 'zustand'
 
 const base_url = process.env.REACT_APP_BACKEND_URL
 
-const useMohonItemStore  = create((set) => ({
+const useMohonItemStore = create((set, get) => ({
+  mohonDistributionUrl: `${base_url}/admin/mohon-distribution`,
+  mohonDistributionItemUrl: `${base_url}/admin/mohon-distribution-items`,
+  mohonDistributionItemDeliveryUrl: `${base_url}/admin/mohon-distribution-item-deliveries`,
+  bossApprovalUrl: `${base_url}/admin/mohon-distribution-approvals`,
 
-    url: `${base_url}/admin/mohon-distribution-items`,
-    submitUrl: `${base_url}/admin/mohon-distribution-items`,
+  refresh: false,
+  data: {},
 
-    mohonUrl: `${base_url}/global/mohon-requests`,
-    mohonDistributionUrl: `${base_url}/admin/mohon-distribution`,
-    mohonDistributionItemUrl: `${base_url}/admin/mohon-distribution-items`,
-    mohonDistributionItemDeliveryUrl: `${base_url}/admin/mohon-distribution-item-deliveries`,
-    bossApprovalUrl: `${base_url}/admin/mohon-distribution-approvals`,
-    refresh: false,
-    errors: null,
-    latestId: null,
-    data: {},
-    
-    setValue: (fieldName, value) => {
-      set((state) => ({
-        data: {
-          ...state.data,
-          [fieldName]: { value },
-        },
-      }));
-    },
+  setRefresh: (val) => set({ refresh: val }),
 
-    setError: (fieldName, error) => {
-        set((state) => ({
-          data: {
-            ...state.data,
-            [fieldName]: { error },
-          },
-        }));
-    },
-      
-    emptyData: () => {
-        set({ data: {} });
-        set({ errors: {} });
-    },
+  setValue: (fieldName, value) =>
+    set(state => ({ data: { ...state.data, [fieldName]: { value } } })),
 
-    getValue: (fieldName) => {
-        const field = useMohonItemStore.getState().data[fieldName];
-        return field ? field.value : null;
-    },
+  getValue: (fieldName) => {
+    const field = get().data[fieldName]
+    return field ? field.value : null
+  },
 
-}));
+  reset: () => set({ data: {} }),
+}))
 
 export default useMohonItemStore

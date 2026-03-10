@@ -1,56 +1,57 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import { React, useState , useEffect} from 'react'
+import { useEffect, useState } from 'react'
+import { Container, Nav } from 'react-bootstrap'
 import axios from '../../libs/axios'
-import UserTable from './components/UserTable';
-import HeaderTable from './components/HeaderTable';
-import { Tabs,Tab } from 'react-bootstrap';
-import useUserStore from './stores/UserStore';
-import NewRegistration from './components/NewRegistration';
-import Disabled from './components/Disabled';
+import CreateUserModal from './components/Modal/CreateUserModal'
+import UserTable from './components/UserTable'
+import NewRegistration from './components/NewRegistration'
+
+const TABS = [
+    { key: 'approve',  label: 'Tidak Aktif' },
+    { key: 'user',     label: 'Pengguna' },
+    { key: 'admin',    label: 'Admin' },
+    { key: 'manager',  label: 'Pelulus 1' },
+    { key: 'boss',     label: 'Pelulus 2' },
+]
 
 const User = () => {
- 
-    const HandleTabChange = (key) => {
-      //console.log(key)
-      // set role store
-      useUserStore.setState({ selectedRole : key })
-    }
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
+    const [tab, setTab] = useState('approve')
+    const [departments, setDepartments] = useState([])
+
+    useEffect(() => {
+        axios({ method: 'get', url: `${apiUrl}/global/user-departments` })
+            .then(response => setDepartments(response.data.user_departments))
+    }, [])
 
     return (
-      <Container className='p-1'>
-        
-        <Tabs
-          defaultActiveKey="approve"
-          id="userTab"
-          className="mb-3"
-          onSelect={HandleTabChange}
-        >
-          <Tab eventKey="approve" title="Tidak Aktif">
-            <NewRegistration role='user'/>
-          </Tab>
+        <Container>
+            <h4 className='mb-1'>Pengguna</h4>
+            <p className='text-muted'>Pengurusan akaun pengguna sistem.</p>
+            <hr />
 
-          <Tab eventKey="user" title="Pengguna">
-            <UserTable role='user'/>
-          </Tab>
-          
-          {/* <Tab eventKey="disabled" title="Pengguna Tidak Aktif">
-            <Disabled/>
-          </Tab>  */}
+            <div className='d-flex justify-content-between align-items-center mb-3'>
+                <Nav variant='tabs'>
+                    {TABS.map(t => (
+                        <Nav.Item key={t.key}>
+                            <Nav.Link
+                                active={tab === t.key}
+                                onClick={() => setTab(t.key)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {t.label}
+                            </Nav.Link>
+                        </Nav.Item>
+                    ))}
+                </Nav>
+                <CreateUserModal />
+            </div>
 
-          <Tab eventKey="admin" title="Admin">
-            <UserTable role='admin'/>
-          </Tab>
-          <Tab eventKey="manager" title="Pelulus 1">
-            <UserTable role='manager'/>
-          </Tab>
-          <Tab eventKey="boss" title="Pelulus 2">
-            <UserTable role='boss'/>
-          </Tab>  
-        </Tabs>
-      </Container>
+            {tab === 'approve'
+                ? <NewRegistration departments={departments} />
+                : <UserTable role={tab} departments={departments} />
+            }
+        </Container>
     )
-} 
-
+}
 
 export default User

@@ -19,7 +19,7 @@ export default function DeleteModal({id}) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
+      store.reset() // empty store data
       //console.log(id)
 
         console.log( `${store.submitUrl}/${id}`)

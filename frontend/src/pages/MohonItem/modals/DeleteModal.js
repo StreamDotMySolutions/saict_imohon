@@ -108,7 +108,7 @@ export default function DeleteModal({id, step}) {
   
         <Modal size={'lg'} show={show} onHide={handleCloseClick}>
           <Modal.Header closeButton>
-            <Modal.Title><span className="badge bg-primary">{id}</span> Hapus Permohonan </Modal.Title>
+            <Modal.Title>Hapus Permohonan </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

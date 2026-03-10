@@ -11,6 +11,15 @@ class MohonRequest extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $model->updateQuietly([
+                'reference_no' => 'MOHON-' . now()->year . '-' . str_pad($model->id, 4, '0', STR_PAD_LEFT),
+            ]);
+        });
+    }
     protected $casts = [
         //'created_at' => 'datetime:Y-m-d H:i:s', // Format as datetime
         'created_at' => 'datetime:d M Y', // Format as datetime

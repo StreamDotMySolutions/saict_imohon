@@ -26,7 +26,7 @@ const useAuthStore = create(persist(
     refresh: false,
     errors: null,
     login: () => set({ isAuthenticated: true }),
-    logout: () => set({ isAuthenticated: false }),
+    logout: () => set({ isAuthenticated: false, user: null }),
     setErrors: (errors) => set({ errors }),
   }),
   {

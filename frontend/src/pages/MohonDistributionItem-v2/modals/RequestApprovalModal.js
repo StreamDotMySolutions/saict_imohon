@@ -1,13 +1,16 @@
 import { useState, useEffect} from 'react'
-import { Alert,Row,Col, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
+import { Alert,Row,Col, Card, Button, ProgressBar,Modal,Form, Table, Badge} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate } from 'react-router-dom'
 import { InputSelect, InputText, InputTextarea } from './components/Inputs'
 import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import JustificationModal from './JustificationModal'
 
-export default function RequestApprovalModal({agihanRequestId}) {
+export default function RequestApprovalModal({agihanRequestId, onSuccess}) {
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL
+    const navigate = useNavigate()
     const store = useMohonStore()
     const errors = store.getValue('errors')
 
@@ -22,7 +25,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
 
     const handleShowClick = () =>{
       setIsLoading(true)
-      store.emptyData() // empty store data
+      store.reset() // empty store data
       //console.log(agihanRequestId)
 
         //console.log( `${store.submitUrl}`)
@@ -81,15 +84,12 @@ export default function RequestApprovalModal({agihanRequestId}) {
           data: formData
         })
         .then( response => {
-          //console.log(response)
           setIsLoading(false)
-
-          // set MohonIndex listener to true
           store.setValue('refresh', true)
-
-          // Add a delay of 1 second before closing
           setTimeout(() => {
             handleCloseClick();
+            onSuccess?.();
+            navigate('/admin/agihan?tab=menunggu');
           }, 500);
         })
         .catch( error => {
@@ -105,17 +105,54 @@ export default function RequestApprovalModal({agihanRequestId}) {
     return (
       <>
  
-        <Button variant="info" onClick={handleShowClick}>
-          Mohon
+        <Button variant="primary" onClick={handleShowClick}>
+          Seterusnya <FontAwesomeIcon icon='fas fa-chevron-right' />
         </Button>
       
           
-        <Modal size={'xl'} show={show} onHide={handleCloseClick}>
+        <Modal size='xl' show={show} onHide={handleCloseClick} enforceFocus={false} scrollable>
           <Modal.Header closeButton>
-            <Modal.Title> Lihat Permohonan Agihan </Modal.Title>
+            <Modal.Title>Mohon Agihan</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
+
+          {/* ── Progress Steps ──────────────────────────────────── */}
+          <div className='d-flex align-items-center mb-4'>
+            {/* Step 1 — done (clickable to go back) */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#198754', cursor: 'pointer' }}
+              onClick={handleCloseClick}
+            >
+              <FontAwesomeIcon icon='fas fa-check' />
+            </div>
+            <span className='ms-2 text-muted' style={{ cursor: 'pointer' }} onClick={handleCloseClick}>Cadangan Agihan</span>
+
+            {/* Connector 1→2 */}
+            <div className='flex-grow-1 mx-3' style={{ height: 2, backgroundColor: '#198754' }} />
+
+            {/* Step 2 — active */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#0d6efd' }}
+            >
+              2
+            </div>
+            <span className='ms-2 fw-semibold'>Hantar untuk Kelulusan</span>
+
+            {/* Connector 2→3 */}
+            <div className='flex-grow-1 mx-3' style={{ height: 2, backgroundColor: '#dee2e6' }} />
+
+            {/* Step 3 — pending */}
+            <div
+              className='d-flex align-items-center justify-content-center rounded-circle text-white fw-bold flex-shrink-0'
+              style={{ width: 32, height: 32, backgroundColor: '#6c757d' }}
+            >
+              3
+            </div>
+            <span className='ms-2 text-muted'>Kelulusan Boss</span>
+          </div>
 
           <Col className='mb-3'>
             <h5>Maklumat Pelulus</h5>
@@ -129,44 +166,34 @@ export default function RequestApprovalModal({agihanRequestId}) {
           </Col>
 
           <Col className='mb-3'>
-            <h5>Maklumat Agihan</h5>
-            <Table className='border rounded mt-3' style={{backgroundColor:"#f0f0f0"}}>
-              <thead>
-                  <tr>
-                      <th>Bil.</th>
-                
-                      <th>PERALATAN</th>
-                      <th>JENIS</th>
-                      <th>PENERIMA</th>
-                      <th>JAWATAN</th>
-                      <th>NAMA BANGUNAN</th>
-                      <th>TINGKAT</th>
-                      <th>LOKASI</th>
-                      <th>VENDOR</th>
-                      <th>JUSTIFIKASI</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {items.length > 0 && items?.map( (item,index) => (
-                  <tr key={index}>
-                      <td><Badge>{index + 1}</Badge></td>
-          
-                      <td>{item.category.name}</td>
-                      <td>{item.type === 'new' ? 'Baharu' : 'Ganti'}</td>
-                      <td>{item.mohon_item?.name}</td>
-                      <td>{item.mohon_item?.occupation}</td>
-                      <td>{item.mohon_item?.building_name}</td>
-                      <td>{item.mohon_item?.building_level}</td>
-                      <td>{item.mohon_item?.location}</td>
-                      <td>{item.inventory?.vendor}</td>
-                      <td className='text-center'>
+            <h5>Maklumat Agihan ( {items.length} unit )</h5>
+            <Row className='g-2 mt-0'>
+              {items.map((item, index) => (
+                <Col xs={12} md={6} lg={4} key={index}>
+                  <Card className='h-100 shadow-sm'>
+                    <Card.Header className='d-flex align-items-center justify-content-between py-2'>
+                      <strong>{item.category?.name}</strong>
+                      <Badge bg={item.type === 'new' ? 'success' : 'warning'} text={item.type === 'new' ? undefined : 'dark'}>
+                        {item.type === 'new' ? 'Baharu' : 'Ganti'}
+                      </Badge>
+                    </Card.Header>
+                    <Card.Body className='py-2 px-3'>
+                      <InfoRow label='Penerima' value={item.mohon_item?.name} />
+                      <InfoRow label='Jawatan' value={item.mohon_item?.occupation} />
+                      <InfoRow label='Bangunan' value={item.mohon_item?.building_name} />
+                      <InfoRow label='Tingkat' value={item.mohon_item?.building_level} />
+                      <InfoRow label='Lokasi' value={item.mohon_item?.location} />
+                      <InfoRow label='Vendor' value={item.inventory?.vendor} />
+                    </Card.Body>
+                    {item.mohon_item?.description && (
+                      <Card.Footer className='py-2 text-end'>
                         <JustificationModal message={item.mohon_item?.description} />
-                      </td>
-                  </tr>
-                ))}
-
-              </tbody>
-            </Table>
+                      </Card.Footer>
+                    )}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </Col>
            
 
@@ -176,7 +203,7 @@ export default function RequestApprovalModal({agihanRequestId}) {
               fieldName="message"
               placeholder="Sila lengkapkan justifikasi agihan"
               icon="fas fa-pencil"
-              rows ="8"
+              rows ="3"
               isLoading={isLoading} 
             />
           </Col>
@@ -196,11 +223,12 @@ export default function RequestApprovalModal({agihanRequestId}) {
                 onChange={ (e) => store.setValue('acknowledge', true) }
               />
 
-            <Button 
+            <Button
                 disabled={isLoading}
-                variant="secondary" 
+                variant="secondary"
                 onClick={handleCloseClick}>
-                Tutup
+                <FontAwesomeIcon icon='fas fa-arrow-left' className='me-1' />
+                Undur
             </Button>
 
             <Button 
@@ -216,3 +244,9 @@ export default function RequestApprovalModal({agihanRequestId}) {
     );
   }
 
+const InfoRow = ({ label, value }) => (
+  <div className='d-flex justify-content-between mb-1' style={{ fontSize: '0.85rem' }}>
+    <span className='text-muted'>{label}</span>
+    <span className='fw-semibold text-end ms-2'>{value ?? '-'}</span>
+  </div>
+)

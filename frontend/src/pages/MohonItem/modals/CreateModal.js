@@ -6,7 +6,7 @@ import axios from '../../../libs/axios'
 import useMohonStore from '../store'
 import HtmlForm from './HtmlForm'
 
-export default function CreateModal() {
+export default function CreateModal({ autoOpen = false }) {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
     const store = useMohonStore()
     const errors = store.errors
@@ -20,6 +20,10 @@ export default function CreateModal() {
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
+
+    useEffect(() => {
+        if (autoOpen) handleShowClick()
+    }, [autoOpen])
 
     const types = [
       { id: 'new', name: 'Baharu' },

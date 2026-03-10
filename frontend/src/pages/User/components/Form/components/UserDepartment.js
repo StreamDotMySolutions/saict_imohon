@@ -1,42 +1,61 @@
-import React, { useState,useEffect } from 'react'
-import useUserDepartmentStore from '../../../../UserDepartment/stores/UserDepartmentStore';
+import React, { useState, useEffect } from 'react'
 import useUserStore from '../../../stores/UserStore';
 import axios from '../../../../../libs/axios'
 import { Form } from 'react-bootstrap';
 
 const UserDepartment = () => {
-    const apiUrl =  process.env.REACT_APP_BACKEND_URL
-    const category = useUserDepartmentStore()
+    const apiUrl = process.env.REACT_APP_BACKEND_URL
     const user = useUserStore()
-    const [data,setData] = useState([])
-    // console.log('from category')
-    // console.log(category.index_url)
+    const [data, setData] = useState([])
 
-    useEffect( () => {
+    useEffect(() => {
         axios({
-            url: `${apiUrl}/global/user-departments`,  // user store API
-            method: 'get', // method is POST
+            url: `${apiUrl}/global/user-departments`,
+            method: 'get',
         })
-        .then( response => {
-            //console.log(response.data)
+        .then(response => {
             setData(response.data.user_departments)
         })
-    },[])
+    }, [])
+
+    const flattenTree = (nodes, depth = 0) => {
+        const result = []
+        nodes.forEach((node, index) => {
+            const isLast = index === nodes.length - 1
+            result.push({ ...node, depth, isLast })
+            if (node.children?.length) {
+                result.push(...flattenTree(node.children, depth + 1))
+            }
+        })
+        return result
+    }
+
+    const options = flattenTree(data)
 
     return (
         <>
-        <Form.Select 
+        <Form.Select
             htmlSize={10}
             isInvalid={user.user_department_id?.message}
-            value={user?.user_department_id?.value}
-            onChange={(e) => { 
-                const data = {
-                    value: e.target.value
-                }
-                useUserStore.setState({user_department_id: data})}
-            }
+            value={user?.user_department_id?.value ?? ''}
+            onChange={(e) => {
+                useUserStore.setState({ user_department_id: { value: e.target.value } })
+            }}
         >
-            <CategoryDropdown data={data} />
+            {options.map(opt => {
+                const isRoot = opt.parent_id === null
+                const prefix = isRoot ? '' : '\u00A0\u00A0\u00A0\u00A0'.repeat(opt.depth - 1) + (opt.isLast ? '└── ' : '├── ')
+                return (
+                    <option
+                        key={opt.id}
+                        value={opt.id}
+                        disabled={isRoot}
+                        style={isRoot ? { fontWeight: 'bold', backgroundColor: '#f0f0f0' } : {}}
+                    >
+                        {isRoot ? `■ ${opt.name}` : `${prefix}${opt.name}`}
+                    </option>
+                )
+            })}
         </Form.Select>
 
         <Form.Control.Feedback type="invalid">
@@ -45,31 +64,5 @@ const UserDepartment = () => {
         </>
     );
 };
-
-
-function CategoryDropdown({ data, depth = 0 }) {
-    const indent = '_ _'.repeat(depth);
-    
-    return (
-      <>
-        {data.map((category,index) => (
-          <>
-       
-          {/* <option className={category.parent_id === null ? 'text-uppercase fw-bold' : ' text-uppercase'} key={index} value={category.id}> */}
-          <option
-            value={category.id}
-            className={category.parent_id === null ? 'text-uppercase fw-bold' : 'text-uppercase'}
-            key={index}
-            disabled={category.parent_id === null}
-            >
-            {depth != 0 && 'I'}{indent}{' '}{category.name}
-          </option>
-          <CategoryDropdown data={category.children} depth={depth + 1} />
-          </>
-        ))}
-  
-    </>
-    );
-  }
 
 export default UserDepartment;
