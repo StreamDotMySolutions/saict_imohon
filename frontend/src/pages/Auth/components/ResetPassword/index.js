@@ -57,7 +57,7 @@ const ResetPassword = () => {
 
     if (isSuccess) {
         return (
-            <Container className='py-5' style={{ maxWidth: '450px' }}>
+            <Container className='py-5' style={{ maxWidth: '450px', width: '100%' }}>
                 <Card className='border-0 shadow-lg'>
                     <Card.Body className='p-3 p-sm-4 p-md-5'>
                         <div className='text-center mb-4'>
@@ -82,7 +82,7 @@ const ResetPassword = () => {
     }
 
     return (
-        <Container className='py-5' style={{ maxWidth: '450px' }}>
+        <Container className='py-5' style={{ maxWidth: '450px', width: '100%' }}>
             <Card className='border-0 shadow-lg'>
                 <Card.Body className='p-3 p-sm-4 p-md-5'>
                     <div className='text-center mb-4'>

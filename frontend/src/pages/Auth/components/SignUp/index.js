@@ -78,7 +78,7 @@ const SignUpForm = () => {
 
     if (isSuccess) {
         return (
-            <Container className='py-5' style={{ maxWidth: '600px' }}>
+            <Container className='py-5' style={{ maxWidth: '600px', width: '100%' }}>
                 <Card className='border-0 shadow-lg'>
                     <Card.Body className='p-3 p-sm-4 p-md-5'>
                         <div className='text-center mb-4'>
