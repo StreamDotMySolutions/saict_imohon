@@ -10,7 +10,7 @@ const users = {
     refresh: false,
     selectedRole: null,
     index_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users/?page=1',
-    // store_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users',
+    store_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users',
     // show_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users',
     // update_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users',
     // approve_url :  process.env.REACT_APP_BACKEND_URL + '/admin/users',
