@@ -39,9 +39,11 @@ const UserDepartment = () => {
             isInvalid={user.user_department_id?.message}
             value={user?.user_department_id?.value ?? ''}
             onChange={(e) => {
+                console.log('Department onChange fired, value:', e.target.value)
                 useUserStore.setState({ user_department_id: { value: e.target.value } })
             }}
         >
+            <option value="">-- Sila pilih jabatan --</option>
             {options.map(opt => {
                 const isRoot = opt.parent_id === null
                 const prefix = isRoot ? '' : '\u00A0\u00A0\u00A0\u00A0'.repeat(opt.depth - 1) + (opt.isLast ? '└── ' : '├── ')
