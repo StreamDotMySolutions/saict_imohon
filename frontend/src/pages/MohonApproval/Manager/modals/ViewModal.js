@@ -18,6 +18,7 @@ export default function ViewModal({id}) {
     const [items, setItems] = useState([]) // MohonItems
     const [step, setStep] = useState('') // Step
     const [approvalDate, setApprovalDate] = useState('') // Message
+    const [acknowledge, setAcknowledge] = useState(false)
     const requiredStep = 1 // manager
 
     const handleClose = () => setShow(false)
@@ -26,6 +27,7 @@ export default function ViewModal({id}) {
     const handleShowClick = () =>{
       setIsLoading(true)
       store.emptyData() // empty store data
+      setAcknowledge(false)
       //console.log(id)
       //console.log( `${store.submitUrl}/${id}`)
       axios({
@@ -153,25 +155,25 @@ export default function ViewModal({id}) {
               className='me-4'
               isInvalid={errors?.hasOwnProperty('acknowledge')}
               reverse
-              //checked={step !== 1}
+              checked={acknowledge}
               disabled={step !== 1}
               label="Saya mengesahkan telah memeriksa permohonan ini"
               type="checkbox"
               onClick={ () => useMohonStore.setState({errors:null}) }
-              onChange={ (e) => store.setValue('acknowledge', true) }
+              onChange={ (e) => { setAcknowledge(e.target.checked); store.setValue('acknowledge', e.target.checked ? true : null) } }
             />
 
 
-            <Button 
-              disabled={ isLoading || step !== 1}
-              variant="success" 
+            <Button
+              disabled={ isLoading || step !== 1 || !acknowledge}
+              variant="success"
               onClick={handleApproveClick}>
               Lulus
             </Button>
 
-            <Button 
-              disabled={ isLoading || step !== 1}
-              variant="danger" 
+            <Button
+              disabled={ isLoading || step !== 1 || !acknowledge}
+              variant="danger"
               onClick={handleRejectClick}>
               Gagal
             </Button>
