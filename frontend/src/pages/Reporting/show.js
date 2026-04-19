@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Badge, Card, Col, Row, Table } from 'react-bootstrap';
 import axios from '../../libs/axios';
 import { useParams } from 'react-router-dom';
-import JustificationModal from '../Mohon/modals/JustificationModal';
+
 
 const stepLabel = (step, status) => {
     if (step === 0) return { text: 'Draf', bg: 'secondary' };
@@ -139,9 +139,9 @@ const ShowAgihan = ({ mohonRequestId: propMohonRequestId }) => {
                                 <td>{item.building_name}</td>
                                 <td>{item.building_level}</td>
                                 <td>{item.location}</td>
-                                <td className='text-center'>
+                                <td>
                                     {item.description
-                                        ? <JustificationModal message={item.description} />
+                                        ? <small style={{ whiteSpace: 'pre-wrap' }}>{item.description}</small>
                                         : <span className='text-muted'>-</span>}
                                 </td>
                                 <td className='text-center'>
