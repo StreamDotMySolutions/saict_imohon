@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Badge, Card, Col, Row, Table } from 'react-bootstrap'
 import axios from '../../libs/axios'
-import JustificationModal from '../Mohon/modals/JustificationModal'
+
 
 const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
     const apiUrl = process.env.REACT_APP_BACKEND_URL
@@ -78,7 +78,7 @@ const ShowForBoss = ({ mohonRequestId: propMohonRequestId }) => {
                                     </Badge>
                                 </td>
                                 <td className='align-middle'>
-                                    <JustificationModal message={item.description} />
+                                    <small style={{ whiteSpace: 'pre-wrap' }}>{item.description || '-'}</small>
                                 </td>
                             </tr>
                         ))}
