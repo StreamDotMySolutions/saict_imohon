@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Transit Gateway — ap-southeast-5
+  Shared TGW connecting portal-vpc, ai-vpc, radio-vpc
+  Deploy this FIRST before any VPC stack
+
+Resources:
+
+  TransitGateway:
+    Type: AWS::EC2::TransitGateway
+    Properties:
+      Description: RTM Transit Gateway Dev
+      AmazonSideAsn: 64512
+      AutoAcceptSharedAttachments: enable
+      DefaultRouteTableAssociation: enable
+      DefaultRouteTablePropagation: enable
+      DnsSupport: enable
+      VpnEcmpSupport: enable
+      Tags:
+        - Key: Name
+          Value: rtm-tgw-dev
+
+Outputs:
+  TransitGatewayId:
+    Value: !Ref TransitGateway
+    Description: Transit Gateway ID — used by portal-vpc, ai-vpc, radio-vpc stacks
+    Export:
+      Name: TransitGatewayId

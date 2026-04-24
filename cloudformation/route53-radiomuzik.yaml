@@ -1,0 +1,223 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Route 53 Hosted Zone and DNS records for radiomuzik.com
+  NOTE: NS and SOA records are auto-created by AWS — not included here
+  NOTE: ACM validation CNAMEs are auto-managed by ACM — included for reference only
+
+Parameters:
+  ALBDNSName:
+    Type: String
+    Default: portal-alb-1779190685.ap-southeast-5.elb.amazonaws.com
+    Description: Portal ALB DNS name
+
+  ALBHostedZoneId:
+    Type: String
+    Default: Z04476843M3I0MJM2PHJM
+    Description: Portal ALB canonical hosted zone ID
+
+Resources:
+
+  # -------------------------------------------------------
+  # Hosted Zone
+  # -------------------------------------------------------
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: radiomuzik.com.
+
+  # -------------------------------------------------------
+  # Root domain and www → ALB (alias)
+  # -------------------------------------------------------
+  RootARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: radiomuzik.com.
+      Type: A
+      AliasTarget:
+        HostedZoneId: !Ref ALBHostedZoneId
+        DNSName: !Ref ALBDNSName
+        EvaluateTargetHealth: true
+
+  WwwARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: www.radiomuzik.com.
+      Type: A
+      AliasTarget:
+        HostedZoneId: !Ref ALBHostedZoneId
+        DNSName: !Ref ALBDNSName
+        EvaluateTargetHealth: true
+
+  PortalARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: portal.radiomuzik.com.
+      Type: A
+      AliasTarget:
+        HostedZoneId: !Ref ALBHostedZoneId
+        DNSName: !Ref ALBDNSName
+        EvaluateTargetHealth: true
+
+  # -------------------------------------------------------
+  # Staging → CloudFront (alias)
+  # -------------------------------------------------------
+  StagingARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: staging.radiomuzik.com.
+      Type: A
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2
+        DNSName: d34bpbw58g5u4b.cloudfront.net.
+        EvaluateTargetHealth: false
+
+  # -------------------------------------------------------
+  # live / stream / docs → CloudFront (CNAME)
+  # -------------------------------------------------------
+  LiveCNAME:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: live.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - d22a77t6lz6bm6.cloudfront.net
+
+  StreamCNAME:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: stream.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - d1u3i1iw0ghy00.cloudfront.net
+
+  DocsCNAME:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: docs.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - dpufdsdbe7jem.cloudfront.net
+
+  # -------------------------------------------------------
+  # Infrastructure A records
+  # -------------------------------------------------------
+  BastionARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: bastion.radiomuzik.com.
+      Type: A
+      TTL: 300
+      ResourceRecords:
+        - 56.69.33.230
+
+  CMSARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: cms.radiomuzik.com.
+      Type: A
+      TTL: 300
+      ResourceRecords:
+        - 56.69.33.230
+
+  IcecastOriginARecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: icecast-origin.radiomuzik.com.
+      Type: A
+      TTL: 60
+      ResourceRecords:
+        - 43.216.131.143
+
+  # -------------------------------------------------------
+  # ACM DNS Validation CNAMEs
+  # (auto-managed by ACM — recreate if certs are recreated)
+  # -------------------------------------------------------
+  ACMValidationRadiomuzik:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _7691a9422683bfb6b52a4779a3cc5f68.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _c90c9162dfd3df57c752c3ecf2eb1256.jkddzztszm.acm-validations.aws.
+
+  ACMValidationDocs:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _09bcdfd8151a3abf1c944934138f703e.docs.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _6ce925a0d7134b6c205f9c705a8fc07d.jkddzztszm.acm-validations.aws.
+
+  ACMValidationLive:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _13b1f6fdce308820fb1531ff1dd7e2e0.live.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _972d16b461b010fdd21e200a3a66cbc1.jkddzztszm.acm-validations.aws.
+
+  ACMValidationPortal:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _c76f36016f43af2659ea3003eeba7541.portal.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _be52c41f8aec73d5c657edf52199b7b1.jkddzztszm.acm-validations.aws.
+
+  ACMValidationStaging:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _bdf746ae2b21b22b4b865c3b0c966852.staging.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _d528417039bc77aa8f2a4f624b36e262.jkddzztszm.acm-validations.aws.
+
+  ACMValidationStream:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _4871e3c9fc30c9e12aa2b1e828a4161c.stream.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _d2032a2bf97b72a6a7266ee8ca01728b.jkddzztszm.acm-validations.aws.
+
+  ACMValidationWww:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: _685e6f31d3046128c002192159098e9c.www.radiomuzik.com.
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - _fa0682f5c0bbf98833217160f9b52e9e.jkddzztszm.acm-validations.aws.
+
+Outputs:
+  HostedZoneId:
+    Value: !Ref HostedZone
+    Description: Route 53 Hosted Zone ID
+    Export:
+      Name: RadiomuzikHostedZoneId

@@ -1,0 +1,236 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  ai-vpc — ap-southeast-5 (10.10.0.0/16)
+  2 public + 2 private subnets across AZ-a and AZ-b
+  NAT gateway, IGW, TGW attachment
+  Requires vpc-transit-gateway stack deployed first
+
+Parameters:
+  TransitGatewayId:
+    Type: String
+    Default: tgw-036ca31136b317c4a
+    Description: Transit Gateway ID (from vpc-transit-gateway stack)
+
+Resources:
+
+  # -------------------------------------------------------
+  # VPC
+  # -------------------------------------------------------
+  AIVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.10.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: ai-vpc
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: ai-vpc-igw
+
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref AIVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  # -------------------------------------------------------
+  # Subnets
+  # -------------------------------------------------------
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AIVPC
+      CidrBlock: 10.10.1.0/24
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: ai-vpc-public-az1
+
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AIVPC
+      CidrBlock: 10.10.2.0/24
+      AvailabilityZone: ap-southeast-5b
+      Tags:
+        - Key: Name
+          Value: ai-vpc-public-az2
+
+  PrivateSubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AIVPC
+      CidrBlock: 10.10.10.0/24
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: ai-vpc-private-az1
+
+  PrivateSubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AIVPC
+      CidrBlock: 10.10.20.0/24
+      AvailabilityZone: ap-southeast-5b
+      Tags:
+        - Key: Name
+          Value: ai-vpc-private-az2
+
+  # -------------------------------------------------------
+  # NAT Gateway (public AZ1)
+  # -------------------------------------------------------
+  NATElasticIP:
+    Type: AWS::EC2::EIP
+    DependsOn: IGWAttachment
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: ai-vpc-nat-eip
+
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NATElasticIP.AllocationId
+      SubnetId: !Ref PublicSubnetAZ1
+      Tags:
+        - Key: Name
+          Value: ai-vpc-nat
+
+  # -------------------------------------------------------
+  # Route Tables
+  # -------------------------------------------------------
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AIVPC
+      Tags:
+        - Key: Name
+          Value: ai-vpc-public-rt
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: IGWAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetAZ1Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetAZ1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetAZ2Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetAZ2
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTableAZ1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AIVPC
+      Tags:
+        - Key: Name
+          Value: ai-vpc-private-rt-az1
+
+  PrivateRT1Default:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateRT1ToPortal:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ1
+      DestinationCidrBlock: 10.0.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateRT1ToRadio:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ1
+      DestinationCidrBlock: 192.168.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateSubnetAZ1Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetAZ1
+      RouteTableId: !Ref PrivateRouteTableAZ1
+
+  PrivateRouteTableAZ2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AIVPC
+      Tags:
+        - Key: Name
+          Value: ai-vpc-private-rt-az2
+
+  PrivateRT2Default:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateRT2ToPortal:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ2
+      DestinationCidrBlock: 10.0.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateRT2ToRadio:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ2
+      DestinationCidrBlock: 192.168.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateSubnetAZ2Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetAZ2
+      RouteTableId: !Ref PrivateRouteTableAZ2
+
+  # -------------------------------------------------------
+  # Transit Gateway Attachment
+  # -------------------------------------------------------
+  TGWAttachment:
+    Type: AWS::EC2::TransitGatewayAttachment
+    Properties:
+      TransitGatewayId: !Ref TransitGatewayId
+      VpcId: !Ref AIVPC
+      SubnetIds:
+        - !Ref PrivateSubnetAZ1
+        - !Ref PrivateSubnetAZ2
+      Tags:
+        - Key: Name
+          Value: ai-vpc-attachment
+
+Outputs:
+  VpcId:
+    Value: !Ref AIVPC
+    Export:
+      Name: AIVpcId
+
+  PrivateSubnetAZ1Id:
+    Value: !Ref PrivateSubnetAZ1
+    Export:
+      Name: AIPrivateSubnetAZ1Id
+
+  PrivateSubnetAZ2Id:
+    Value: !Ref PrivateSubnetAZ2
+    Export:
+      Name: AIPrivateSubnetAZ2Id

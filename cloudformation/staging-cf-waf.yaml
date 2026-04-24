@@ -1,0 +1,212 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFront + WAF for staging.radiomuzik.com
+
+Parameters:
+  EC2OriginDomain:
+    Type: String
+    Default: ec2-43-216-55-86.ap-southeast-5.compute.amazonaws.com
+    Description: Public DNS of the portal-staging EC2 instance
+
+  EC2SecurityGroupId:
+    Type: String
+    Default: sg-049165c5e338d6c96
+    Description: Security group ID of portal-staging EC2
+
+  HostedZoneId:
+    Type: String
+    Default: Z02249793448ESOJGZDBR
+    Description: Route 53 hosted zone ID for radiomuzik.com
+
+  DomainName:
+    Type: String
+    Default: staging.radiomuzik.com
+    Description: Domain name for the staging environment
+
+  CloudFrontPrefixListId:
+    Type: String
+    Default: pl-09076f83e90b139d0
+    Description: CloudFront origin-facing managed prefix list (ap-southeast-5)
+
+Resources:
+
+  # -------------------------------------------------------
+  # ACM Certificate (must be in us-east-1 for CloudFront)
+  # -------------------------------------------------------
+  StagingCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+
+  # -------------------------------------------------------
+  # WAF Web ACL (scope CLOUDFRONT = must deploy us-east-1)
+  # -------------------------------------------------------
+  StagingWAF:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: staging-waf
+      Scope: CLOUDFRONT
+      DefaultAction:
+        Allow: {}
+      Description: WAF for staging.radiomuzik.com
+      Rules:
+        - Name: AWSCommonRules
+          Priority: 1
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSCommonRules
+
+        - Name: AWSKnownBadInputs
+          Priority: 2
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSKnownBadInputs
+
+        - Name: AWSSQLiRules
+          Priority: 3
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSSQLiRules
+
+        - Name: RateLimit500
+          Priority: 4
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              Limit: 500
+              AggregateKeyType: IP
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateLimit500
+
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: staging-waf
+
+  # -------------------------------------------------------
+  # CloudFront Distribution
+  # -------------------------------------------------------
+  StagingDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub '${DomainName} portal'
+        Aliases:
+          - !Ref DomainName
+        Enabled: true
+        HttpVersion: http2
+        PriceClass: PriceClass_All
+
+        Origins:
+          - Id: portal-staging-ec2
+            DomainName: !Ref EC2OriginDomain
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+              OriginSSLProtocols:
+                - TLSv1.2
+
+        # /api/* — no cache, forward all methods
+        CacheBehaviors:
+          - PathPattern: /api/*
+            TargetOriginId: portal-staging-ec2
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - POST
+              - PATCH
+              - DELETE
+            CachedMethods:
+              - GET
+              - HEAD
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad      # CachingDisabled
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # AllViewer
+            Compress: true
+
+        # /* — default cache for static assets
+        DefaultCacheBehavior:
+          TargetOriginId: portal-staging-ec2
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+            - PUT
+            - POST
+            - PATCH
+            - DELETE
+          CachedMethods:
+            - GET
+            - HEAD
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6          # CachingOptimized
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # AllViewer
+          Compress: true
+
+        ViewerCertificate:
+          AcmCertificateArn: !Ref StagingCertificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+
+        WebACLId: !GetAtt StagingWAF.Arn
+
+  # -------------------------------------------------------
+  # Route 53 — point staging.radiomuzik.com to CloudFront
+  # -------------------------------------------------------
+  StagingDNS:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub '${DomainName}.'
+      Type: A
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2   # CloudFront hosted zone (fixed value)
+        DNSName: !GetAtt StagingDistribution.DomainName
+        EvaluateTargetHealth: false
+
+Outputs:
+  CloudFrontDistributionId:
+    Value: !Ref StagingDistribution
+    Description: CloudFront Distribution ID
+
+  CloudFrontDomain:
+    Value: !GetAtt StagingDistribution.DomainName
+    Description: CloudFront domain name
+
+  WAFWebACLArn:
+    Value: !GetAtt StagingWAF.Arn
+    Description: WAF Web ACL ARN
+
+  CertificateArn:
+    Value: !Ref StagingCertificate
+    Description: ACM Certificate ARN

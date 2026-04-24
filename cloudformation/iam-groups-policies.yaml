@@ -1,0 +1,345 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  IAM Groups, Custom Policies, Roles and Instance Profiles
+  Covers: 5 groups, 3 VPC-scoped restriction policies, 3 EC2 roles
+  NOTE: This template contains permission structure — treat as sensitive
+
+Parameters:
+  AccountId:
+    Type: String
+    Default: '759371407156'
+
+  PortalVpcId:
+    Type: String
+    Default: vpc-02e129cd9a0d72fc5
+
+  AIVpcId:
+    Type: String
+    Default: vpc-06e057c830f490e07
+
+  RadioVpcId:
+    Type: String
+    Default: vpc-0000a469e921f5835
+
+Resources:
+
+  # -------------------------------------------------------
+  # Custom IAM Policies — VPC-scoped EC2 restrictions
+  # -------------------------------------------------------
+  AIGroupEC2Restriction:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: AIGroupEC2Restriction
+      Description: Restricts AI group to ai-vpc and ap-southeast-5 only
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyOutsideMalaysia
+            Effect: Deny
+            Action:
+              - ec2:RunInstances
+              - ec2:CreateVolume
+              - ec2:CreateSecurityGroup
+              - ec2:CreateSnapshot
+              - ec2:ModifyVolume
+              - ec2:AttachVolume
+              - ec2:DetachVolume
+              - ec2:AllocateAddress
+              - ec2:DisassociateAddress
+              - ec2:ReleaseAddress
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                aws:RequestedRegion: ap-southeast-5
+          - Sid: DenyEC2OutsideVpc
+            Effect: Deny
+            Action: ec2:RunInstances
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:subnet/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${AIVpcId}
+          - Sid: DenyEBSAttachOutsideVpc
+            Effect: Deny
+            Action: ec2:AttachVolume
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${AIVpcId}
+          - Sid: DenyEIPAssociateOutsideVpc
+            Effect: Deny
+            Action: ec2:AssociateAddress
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${AIVpcId}
+          - Sid: DenyS3BucketOutsideMalaysia
+            Effect: Deny
+            Action: s3:CreateBucket
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                s3:LocationConstraint: ap-southeast-5
+          - Sid: DenyS3BucketWrongPrefix
+            Effect: Deny
+            Action: s3:CreateBucket
+            NotResource: arn:aws:s3:::ai-*
+
+  PortalGroupEC2Restriction:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: PortalGroupEC2Restriction
+      Description: Restricts Portal group to portal-vpc and ap-southeast-5 only
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyOutsideMalaysia
+            Effect: Deny
+            Action:
+              - ec2:RunInstances
+              - ec2:CreateVolume
+              - ec2:CreateSecurityGroup
+              - ec2:CreateSnapshot
+              - ec2:ModifyVolume
+              - ec2:AttachVolume
+              - ec2:DetachVolume
+              - ec2:AllocateAddress
+              - ec2:DisassociateAddress
+              - ec2:ReleaseAddress
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                aws:RequestedRegion: ap-southeast-5
+          - Sid: DenyEC2OutsideVpc
+            Effect: Deny
+            Action: ec2:RunInstances
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:subnet/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${PortalVpcId}
+          - Sid: DenyEBSAttachOutsideVpc
+            Effect: Deny
+            Action: ec2:AttachVolume
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${PortalVpcId}
+          - Sid: DenyEIPAssociateOutsideVpc
+            Effect: Deny
+            Action: ec2:AssociateAddress
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${PortalVpcId}
+          - Sid: DenyS3BucketOutsideMalaysia
+            Effect: Deny
+            Action: s3:CreateBucket
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                s3:LocationConstraint: ap-southeast-5
+          - Sid: DenyS3BucketWrongPrefix
+            Effect: Deny
+            Action: s3:CreateBucket
+            NotResource: arn:aws:s3:::portal-*
+
+  RadioGroupEC2Restriction:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: RadioGroupEC2Restriction
+      Description: Restricts Radio group to radio-vpc and ap-southeast-5 only
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyOutsideMalaysia
+            Effect: Deny
+            Action:
+              - ec2:RunInstances
+              - ec2:CreateVolume
+              - ec2:CreateSecurityGroup
+              - ec2:CreateSnapshot
+              - ec2:ModifyVolume
+              - ec2:AttachVolume
+              - ec2:DetachVolume
+              - ec2:AllocateAddress
+              - ec2:DisassociateAddress
+              - ec2:ReleaseAddress
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                aws:RequestedRegion: ap-southeast-5
+          - Sid: DenyEC2OutsideVpc
+            Effect: Deny
+            Action: ec2:RunInstances
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:subnet/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${RadioVpcId}
+          - Sid: DenyEBSAttachOutsideVpc
+            Effect: Deny
+            Action: ec2:AttachVolume
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${RadioVpcId}
+          - Sid: DenyEIPAssociateOutsideVpc
+            Effect: Deny
+            Action: ec2:AssociateAddress
+            Resource: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:instance/*
+            Condition:
+              StringNotEquals:
+                ec2:Vpc: !Sub arn:aws:ec2:ap-southeast-5:${AccountId}:vpc/${RadioVpcId}
+          - Sid: DenyS3BucketOutsideMalaysia
+            Effect: Deny
+            Action: s3:CreateBucket
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                s3:LocationConstraint: ap-southeast-5
+          - Sid: DenyS3BucketWrongPrefix
+            Effect: Deny
+            Action: s3:CreateBucket
+            NotResource: arn:aws:s3:::rtm-*
+
+  # -------------------------------------------------------
+  # IAM Groups
+  # -------------------------------------------------------
+  GroupAI:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: AI
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+        - !Ref AIGroupEC2Restriction
+
+  GroupInfra:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Infra
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+  GroupPortal:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Portal
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+        - !Ref PortalGroupEC2Restriction
+
+  GroupRadio:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Radio
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+        - !Ref RadioGroupEC2Restriction
+
+  GroupRadmik:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Radmik
+      # No policies — console access only, billing read via user-level policy
+
+  # -------------------------------------------------------
+  # EC2 IAM Roles + Instance Profiles
+  # -------------------------------------------------------
+  PortalSSMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: PortalSSMRole
+      Description: SSM access for portal-1 and portal-2 EC2 instances
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  PortalSSMProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: PortalSSMProfile
+      Roles:
+        - !Ref PortalSSMRole
+
+  BastionPortalSSMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: BastionPortalSSMRole
+      Description: SSM access for portal-bastion EC2 instance
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  BastionPortalSSMProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: BastionPortalSSMProfile
+      Roles:
+        - !Ref BastionPortalSSMRole
+
+  RCSAudioS3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: RCSAudioS3Role
+      Description: S3 + SSM access for RCS Windows servers (drive mapping)
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - PolicyName: RCSAudioS3Policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                Resource:
+                  - arn:aws:s3:::rtm-rcs-audio
+                  - arn:aws:s3:::rtm-rcs-audio/*
+                  - arn:aws:s3:::rtm-ai-radiomuzik
+                  - arn:aws:s3:::rtm-ai-radiomuzik/*
+                  - arn:aws:s3:::rtm-emergency-playlist
+                  - arn:aws:s3:::rtm-emergency-playlist/*
+
+  RCSAudioS3Profile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: RCSAudioS3Profile
+      Roles:
+        - !Ref RCSAudioS3Role
+
+Outputs:
+  AIGroupArn:
+    Value: !GetAtt GroupAI.Arn
+  InfraGroupArn:
+    Value: !GetAtt GroupInfra.Arn
+  PortalGroupArn:
+    Value: !GetAtt GroupPortal.Arn
+  RadioGroupArn:
+    Value: !GetAtt GroupRadio.Arn
+  PortalSSMProfileArn:
+    Value: !GetAtt PortalSSMProfile.Arn
+  BastionSSMProfileArn:
+    Value: !GetAtt BastionPortalSSMProfile.Arn
+  RCSAudioS3ProfileArn:
+    Value: !GetAtt RCSAudioS3Profile.Arn

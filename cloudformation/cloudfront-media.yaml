@@ -1,0 +1,220 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  CloudFront distributions for media properties — live, stream, docs
+  live.radiomuzik.com  → MediaPackage HLS (E3C2TT9168NOV3)
+  stream.radiomuzik.com → Icecast ICY audio (EHBQCWJ72GVMB)
+  docs.radiomuzik.com  → S3 portal-docs-radiomuzik OAC (E1Y7AS9SJ17NGR)
+  IMPORTANT: Deploy in us-east-1 (CloudFront + WAF requirement)
+
+Parameters:
+
+  MediaPackageEndpoint:
+    Type: String
+    Description: >
+      AWS MediaPackage channel endpoint hostname only (no https://).
+      e.g. XXXX.mediapackage.ap-southeast-5.amazonaws.com
+    Default: ''
+
+  LiveCertificateArn:
+    Type: String
+    Description: ACM cert ARN (us-east-1) for live.radiomuzik.com
+    Default: ''
+
+  StreamCertificateArn:
+    Type: String
+    Description: ACM cert ARN (us-east-1) for stream.radiomuzik.com
+    Default: ''
+
+  DocsCertificateArn:
+    Type: String
+    Description: ACM cert ARN (us-east-1) for docs.radiomuzik.com
+    Default: ''
+
+  IcecastOriginHostname:
+    Type: String
+    Description: Icecast origin hostname (no scheme/port)
+    Default: icecast-origin.radiomuzik.com
+
+  DocsS3BucketDomain:
+    Type: String
+    Description: S3 bucket regional domain for portal-docs-radiomuzik
+    Default: portal-docs-radiomuzik.s3.ap-southeast-5.amazonaws.com
+
+Resources:
+
+  # -------------------------------------------------------
+  # OAC — for docs S3 bucket (private)
+  # -------------------------------------------------------
+  DocsOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: docs-radiomuzik-oac
+        Description: OAC for portal-docs-radiomuzik S3 bucket
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  # -------------------------------------------------------
+  # Origin Request Policy — Icecast headers
+  # (forwards Icy-MetaData, Range, Origin to Icecast origin)
+  # -------------------------------------------------------
+  IcecastOriginRequestPolicy:
+    Type: AWS::CloudFront::OriginRequestPolicy
+    Properties:
+      OriginRequestPolicyConfig:
+        Name: IcecastStreamHeaders
+        Comment: Forward ICY stream headers to Icecast origin
+        CookiesConfig:
+          CookieBehavior: none
+        HeadersConfig:
+          HeaderBehavior: whitelist
+          Headers:
+            - Icy-MetaData
+            - Range
+            - Origin
+        QueryStringsConfig:
+          QueryStringBehavior: none
+
+  # -------------------------------------------------------
+  # live.radiomuzik.com — MediaPackage HLS
+  # -------------------------------------------------------
+  LiveDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: live.radiomuzik.com — MuzikFM HLS live stream
+        Enabled: true
+        HttpVersion: http2
+        Aliases:
+          - live.radiomuzik.com
+        ViewerCertificate:
+          AcmCertificateArn: !Ref LiveCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        Origins:
+          - Id: MediaPackageOrigin
+            DomainName: !Ref MediaPackageEndpoint
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols:
+                - TLSv1.2
+        DefaultCacheBehavior:
+          TargetOriginId: MediaPackageOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          # CachingDisabled — live stream, no caching
+          Compress: false
+        PriceClass: PriceClass_100
+      Tags:
+        - Key: Name
+          Value: live-radiomuzik-cf
+
+  # -------------------------------------------------------
+  # stream.radiomuzik.com — Icecast ICY audio
+  # -------------------------------------------------------
+  StreamDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: stream.radiomuzik.com — Icecast ICY AAC stream
+        Enabled: true
+        HttpVersion: http2
+        Aliases:
+          - stream.radiomuzik.com
+        ViewerCertificate:
+          AcmCertificateArn: !Ref StreamCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        Origins:
+          - Id: IcecastOrigin
+            DomainName: !Ref IcecastOriginHostname
+            CustomOriginConfig:
+              HTTPPort: 80
+              OriginProtocolPolicy: http-only
+        DefaultCacheBehavior:
+          TargetOriginId: IcecastOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          # CachingDisabled — live audio, no caching
+          OriginRequestPolicyId: !Ref IcecastOriginRequestPolicy
+          Compress: false
+        PriceClass: PriceClass_100
+      Tags:
+        - Key: Name
+          Value: stream-radiomuzik-cf
+
+  # -------------------------------------------------------
+  # docs.radiomuzik.com — S3 private bucket via OAC
+  # -------------------------------------------------------
+  DocsDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: docs.radiomuzik.com — PDF documentation site (S3 OAC)
+        Enabled: true
+        HttpVersion: http2
+        Aliases:
+          - docs.radiomuzik.com
+        DefaultRootObject: index.html
+        ViewerCertificate:
+          AcmCertificateArn: !Ref DocsCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        Origins:
+          - Id: DocsS3Origin
+            DomainName: !Ref DocsS3BucketDomain
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+            OriginAccessControlId: !Ref DocsOriginAccessControl
+        DefaultCacheBehavior:
+          TargetOriginId: DocsS3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          # CachingOptimized — static docs, 1-day TTL
+          Compress: true
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 10
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 10
+        PriceClass: PriceClass_100
+      Tags:
+        - Key: Name
+          Value: docs-radiomuzik-cf
+
+Outputs:
+  LiveDistributionId:
+    Value: !Ref LiveDistribution
+    Description: CloudFront distribution ID for live.radiomuzik.com
+
+  LiveDomainName:
+    Value: !GetAtt LiveDistribution.DomainName
+    Description: CloudFront domain for live.radiomuzik.com (use in Route 53 CNAME)
+
+  StreamDistributionId:
+    Value: !Ref StreamDistribution
+    Description: CloudFront distribution ID for stream.radiomuzik.com
+
+  StreamDomainName:
+    Value: !GetAtt StreamDistribution.DomainName
+    Description: CloudFront domain for stream.radiomuzik.com (use in Route 53 CNAME)
+
+  DocsDistributionId:
+    Value: !Ref DocsDistribution
+    Description: CloudFront distribution ID for docs.radiomuzik.com
+
+  DocsDomainName:
+    Value: !GetAtt DocsDistribution.DomainName
+    Description: CloudFront domain for docs.radiomuzik.com (use in Route 53 CNAME)
+
+  DocsOACId:
+    Value: !Ref DocsOriginAccessControl
+    Description: OAC ID — add this to portal-docs-radiomuzik bucket policy
+    Export:
+      Name: DocsOriginAccessControlId

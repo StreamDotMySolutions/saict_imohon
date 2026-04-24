@@ -1,0 +1,259 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  portal-vpc — ap-southeast-5 (10.0.0.0/16)
+  2 public + 2 private subnets across AZ-a and AZ-b
+  NAT gateway, IGW, TGW attachment, S3 VPC endpoint
+  Requires vpc-transit-gateway stack deployed first
+
+Parameters:
+  TransitGatewayId:
+    Type: String
+    Default: tgw-036ca31136b317c4a
+    Description: Transit Gateway ID (from vpc-transit-gateway stack)
+
+Resources:
+
+  # -------------------------------------------------------
+  # VPC
+  # -------------------------------------------------------
+  PortalVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: portal-vpc
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: portal-igw
+
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref PortalVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  # -------------------------------------------------------
+  # Subnets
+  # -------------------------------------------------------
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PortalVPC
+      CidrBlock: 10.0.0.0/20
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: portal-subnet-public1-ap-southeast-5a
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PortalVPC
+      CidrBlock: 10.0.16.0/20
+      AvailabilityZone: ap-southeast-5b
+      Tags:
+        - Key: Name
+          Value: portal-subnet-public2-ap-southeast-5b
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PortalVPC
+      CidrBlock: 10.0.128.0/20
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: portal-subnet-private1-ap-southeast-5a
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PortalVPC
+      CidrBlock: 10.0.144.0/20
+      AvailabilityZone: ap-southeast-5b
+      Tags:
+        - Key: Name
+          Value: portal-subnet-private2-ap-southeast-5b
+
+  # -------------------------------------------------------
+  # NAT Gateway (public subnet 1)
+  # -------------------------------------------------------
+  NATElasticIP:
+    Type: AWS::EC2::EIP
+    DependsOn: IGWAttachment
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: portal-nat-eip
+
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NATElasticIP.AllocationId
+      SubnetId: !Ref PublicSubnet1
+      Tags:
+        - Key: Name
+          Value: portal-nat
+
+  # -------------------------------------------------------
+  # Route Tables
+  # -------------------------------------------------------
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref PortalVPC
+      Tags:
+        - Key: Name
+          Value: portal-rtb-public
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: IGWAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnet1RouteAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet2RouteAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref PortalVPC
+      Tags:
+        - Key: Name
+          Value: portal-rtb-private1-ap-southeast-5a
+
+  PrivateRoute1Default:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateRoute1ToRadio:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 192.168.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateRoute1ToAI:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 10.10.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateSubnet1RouteAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable1
+
+  PrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref PortalVPC
+      Tags:
+        - Key: Name
+          Value: portal-rtb-private2-ap-southeast-5b
+
+  PrivateRoute2Default:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateRoute2ToRadio:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 192.168.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateRoute2ToAI:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 10.10.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  PrivateSubnet2RouteAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+
+  # -------------------------------------------------------
+  # S3 VPC Gateway Endpoint
+  # -------------------------------------------------------
+  S3VPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref PortalVPC
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.s3
+      VpcEndpointType: Gateway
+      RouteTableIds:
+        - !Ref PrivateRouteTable1
+        - !Ref PrivateRouteTable2
+
+  # -------------------------------------------------------
+  # Transit Gateway Attachment
+  # -------------------------------------------------------
+  TGWAttachment:
+    Type: AWS::EC2::TransitGatewayAttachment
+    Properties:
+      TransitGatewayId: !Ref TransitGatewayId
+      VpcId: !Ref PortalVPC
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+      Tags:
+        - Key: Name
+          Value: portal-vpc-attachment
+
+Outputs:
+  VpcId:
+    Value: !Ref PortalVPC
+    Export:
+      Name: PortalVpcId
+
+  PublicSubnet1Id:
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: PortalPublicSubnet1Id
+
+  PublicSubnet2Id:
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: PortalPublicSubnet2Id
+
+  PrivateSubnet1Id:
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: PortalPrivateSubnet1Id
+
+  PrivateSubnet2Id:
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: PortalPrivateSubnet2Id

@@ -1,0 +1,215 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Portal CloudFront + WAF — MUST deploy in us-east-1
+  Depends on portal-infrastructure.yaml being deployed first in ap-southeast-5
+  Covers: ACM Certificate, WAF Web ACL, CloudFront Distribution, Route 53
+
+Parameters:
+  ALBDNSName:
+    Type: String
+    Default: portal-alb-1779190685.ap-southeast-5.elb.amazonaws.com
+    Description: ALB DNS name (output from portal-infrastructure stack)
+
+  ALBHostedZoneId:
+    Type: String
+    Default: Z04476843M3I0MJM2PHJM
+    Description: ALB canonical hosted zone ID (output from portal-infrastructure stack)
+
+  HostedZoneId:
+    Type: String
+    Default: Z02249793448ESOJGZDBR
+    Description: Route 53 hosted zone ID for radiomuzik.com
+
+  DomainName:
+    Type: String
+    Default: portal.radiomuzik.com
+    Description: Domain name for the portal
+
+  WafRateLimit:
+    Type: Number
+    Default: 500
+    Description: Max requests per 5 minutes per IP before WAF blocks
+
+Resources:
+
+  # -------------------------------------------------------
+  # ACM Certificate (us-east-1 required for CloudFront)
+  # -------------------------------------------------------
+  PortalCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+
+  # -------------------------------------------------------
+  # WAF Web ACL
+  # -------------------------------------------------------
+  PortalWAF:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: portal-waf
+      Scope: CLOUDFRONT
+      DefaultAction:
+        Allow: {}
+      Description: WAF for portal.radiomuzik.com
+      Rules:
+        - Name: AWSCommonRules
+          Priority: 1
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSCommonRules
+
+        - Name: AWSKnownBadInputs
+          Priority: 2
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSKnownBadInputs
+
+        - Name: AWSSQLiRules
+          Priority: 3
+          OverrideAction:
+            None: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSSQLiRules
+
+        - Name: RateLimitPerIP
+          Priority: 4
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              Limit: !Ref WafRateLimit
+              AggregateKeyType: IP
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateLimitPerIP
+
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: portal-waf
+
+  # -------------------------------------------------------
+  # CloudFront Distribution
+  # Origin: ALB (HTTPS:443)
+  # -------------------------------------------------------
+  PortalDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub '${DomainName} portal production'
+        Aliases:
+          - !Ref DomainName
+        Enabled: true
+        HttpVersion: http2
+        PriceClass: PriceClass_All
+
+        Origins:
+          - Id: portal-alb-origin
+            DomainName: !Ref ALBDNSName
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols:
+                - TLSv1.2
+
+        # /api/* — no cache, all methods
+        CacheBehaviors:
+          - PathPattern: /api/*
+            TargetOriginId: portal-alb-origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - POST
+              - PATCH
+              - DELETE
+            CachedMethods:
+              - GET
+              - HEAD
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad      # CachingDisabled
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # AllViewer
+            Compress: true
+
+        # /* — cache static assets
+        DefaultCacheBehavior:
+          TargetOriginId: portal-alb-origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+            - PUT
+            - POST
+            - PATCH
+            - DELETE
+          CachedMethods:
+            - GET
+            - HEAD
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6          # CachingOptimized
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # AllViewer
+          Compress: true
+
+        ViewerCertificate:
+          AcmCertificateArn: !Ref PortalCertificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+
+        WebACLId: !GetAtt PortalWAF.Arn
+
+  # -------------------------------------------------------
+  # Route 53 — portal.radiomuzik.com → CloudFront
+  # -------------------------------------------------------
+  PortalDNS:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub '${DomainName}.'
+      Type: A
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2   # CloudFront fixed hosted zone
+        DNSName: !GetAtt PortalDistribution.DomainName
+        EvaluateTargetHealth: false
+
+Outputs:
+  CloudFrontDistributionId:
+    Value: !Ref PortalDistribution
+    Description: CloudFront Distribution ID
+
+  CloudFrontDomain:
+    Value: !GetAtt PortalDistribution.DomainName
+    Description: CloudFront domain name
+
+  WAFWebACLArn:
+    Value: !GetAtt PortalWAF.Arn
+    Description: WAF Web ACL ARN
+
+  CertificateArn:
+    Value: !Ref PortalCertificate
+    Description: ACM Certificate ARN (us-east-1)

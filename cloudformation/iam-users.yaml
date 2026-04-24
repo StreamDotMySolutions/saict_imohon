@@ -1,0 +1,138 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  IAM Users and group memberships
+  Requires iam-groups-policies stack deployed first
+  NOTE: Passwords NOT included — set manually after deployment
+  NOTE: Access keys NOT included — generate manually per user
+
+# -------------------------------------------------------
+# User summary:
+#   AIUser           → AI group (programmatic, api access)
+#   InfraUser        → Infra group (programmatic, api access)
+#   PortalUser       → Portal group (programmatic, api access)
+#   RadioUser        → Radio group (programmatic, api access)
+#   rtm-billing-user → Radmik group (billing read only)
+#   azrilnazlialias  → Infra group (console)
+#   medialab         → Infra group (console)
+#   amir.waliyuddin  → Radmik group (console)
+#   anwar            → Radmik group (console)
+#   sitinuriylia     → Radmik group (console)
+#   syed             → Radmik group (console)
+#   zulhilmi         → Radmik group (console)
+# -------------------------------------------------------
+
+Resources:
+
+  # -------------------------------------------------------
+  # Service/API Users (programmatic access)
+  # -------------------------------------------------------
+  AIUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: AIUser
+      Groups:
+        - AI
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+
+  InfraUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: InfraUser
+      Groups:
+        - Infra
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+
+  PortalUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: PortalUser
+      Groups:
+        - Portal
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+
+  RadioUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: RadioUser
+      Groups:
+        - Radio
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+
+  RtmBillingUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: rtm-billing-user
+      Groups:
+        - Radmik
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess
+
+  # -------------------------------------------------------
+  # Console Users (human access)
+  # -------------------------------------------------------
+  AzrilNazliAlias:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: azrilnazlialias
+      Groups:
+        - Infra
+      LoginProfile:
+        PasswordResetRequired: true
+
+  Medialab:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: medialab
+      Groups:
+        - Infra
+      LoginProfile:
+        PasswordResetRequired: true
+
+  AmirWaliyuddin:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: amir.waliyuddin@radmik.com.my
+      Groups:
+        - Radmik
+      LoginProfile:
+        PasswordResetRequired: true
+
+  Anwar:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: anwar@radmik.com.my
+      Groups:
+        - Radmik
+      LoginProfile:
+        PasswordResetRequired: true
+
+  SitiNurIylia:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sitinuriylia@radmik.com.my
+      Groups:
+        - Radmik
+      LoginProfile:
+        PasswordResetRequired: true
+
+  Syed:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: syed@radmik.com.my
+      Groups:
+        - Radmik
+      LoginProfile:
+        PasswordResetRequired: true
+
+  Zulhilmi:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: zulhilmi@radmik.com.my
+      Groups:
+        - Radmik
+      LoginProfile:
+        PasswordResetRequired: true

@@ -1,0 +1,230 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  S3 buckets for RTM / RadioMuzik — ap-southeast-5
+  Covers all 8 buckets: portal-docs-radiomuzik, rtm-ai-radiomuzik,
+  rtm-emergency-playlist, rtm-rcs-audio, rtm-tts-artifacts-dev/prod,
+  rtm-tts-history-dev/prod
+
+Parameters:
+  DocsOACId:
+    Type: String
+    Description: >
+      CloudFront OAC ID for portal-docs-radiomuzik.
+      Get from cloudfront-media stack output DocsOriginAccessControlId.
+      Leave empty to skip OAC bucket policy (add manually after CF deploy).
+    Default: ''
+
+Conditions:
+  HasDocsOAC: !Not [!Equals [!Ref DocsOACId, '']]
+
+Resources:
+
+  # -------------------------------------------------------
+  # portal-docs-radiomuzik
+  # Hosts PDF documentation served via docs.radiomuzik.com CF
+  # Private — accessed only via CloudFront OAC
+  # -------------------------------------------------------
+  PortalDocsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: portal-docs-radiomuzik
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: portal-docs-radiomuzik
+
+  PortalDocsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: HasDocsOAC
+    Properties:
+      Bucket: !Ref PortalDocsBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowCloudFrontOAC
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub '${PortalDocsBucket.Arn}/*'
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/*'
+                s3:ResourceAccount: !Ref AWS::AccountId
+
+  # -------------------------------------------------------
+  # rtm-ai-radiomuzik
+  # AI-generated content (TTS audio output, AI models, etc.)
+  # Versioning enabled — preserve generation history
+  # -------------------------------------------------------
+  AIRadiomuzikBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-ai-radiomuzik
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-ai-radiomuzik
+
+  # -------------------------------------------------------
+  # rtm-emergency-playlist
+  # Emergency broadcast playlist audio files
+  # Versioning enabled — critical content, must be recoverable
+  # -------------------------------------------------------
+  EmergencyPlaylistBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-emergency-playlist
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-emergency-playlist
+
+  # -------------------------------------------------------
+  # rtm-rcs-audio
+  # RCS radio automation audio library
+  # Versioning enabled — broadcast-critical content
+  # Accessed by EC2 via RCSAudioS3Role instance profile
+  # -------------------------------------------------------
+  RCSAudioBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-rcs-audio
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-rcs-audio
+
+  # -------------------------------------------------------
+  # rtm-tts-artifacts-dev
+  # TTS (text-to-speech) generated audio artifacts — dev
+  # -------------------------------------------------------
+  TTSArtifactsDevBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-tts-artifacts-dev
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-tts-artifacts-dev
+        - Key: Environment
+          Value: dev
+
+  # -------------------------------------------------------
+  # rtm-tts-artifacts-prod
+  # TTS generated audio artifacts — prod
+  # -------------------------------------------------------
+  TTSArtifactsProdBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-tts-artifacts-prod
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-tts-artifacts-prod
+        - Key: Environment
+          Value: prod
+
+  # -------------------------------------------------------
+  # rtm-tts-history-dev
+  # TTS request/generation history logs — dev
+  # -------------------------------------------------------
+  TTSHistoryDevBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-tts-history-dev
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-tts-history-dev
+        - Key: Environment
+          Value: dev
+
+  # -------------------------------------------------------
+  # rtm-tts-history-prod
+  # TTS request/generation history logs — prod
+  # -------------------------------------------------------
+  TTSHistoryProdBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: rtm-tts-history-prod
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: rtm-tts-history-prod
+        - Key: Environment
+          Value: prod
+
+Outputs:
+  PortalDocsBucketName:
+    Value: !Ref PortalDocsBucket
+    Description: portal-docs-radiomuzik bucket name
+
+  PortalDocsBucketArn:
+    Value: !GetAtt PortalDocsBucket.Arn
+    Description: portal-docs-radiomuzik bucket ARN (needed for OAC bucket policy)
+    Export:
+      Name: PortalDocsBucketArn
+
+  RCSAudioBucketArn:
+    Value: !GetAtt RCSAudioBucket.Arn
+    Export:
+      Name: RCSAudioBucketArn
+
+  AIRadiomuzikBucketArn:
+    Value: !GetAtt AIRadiomuzikBucket.Arn
+    Export:
+      Name: AIRadiomuzikBucketArn
+
+  EmergencyPlaylistBucketArn:
+    Value: !GetAtt EmergencyPlaylistBucket.Arn
+    Export:
+      Name: EmergencyPlaylistBucketArn

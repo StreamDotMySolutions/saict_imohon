@@ -1,0 +1,210 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  radio-vpc — ap-southeast-5 (192.168.0.0/16)
+  1 public + 1 private subnet in AZ-a (single-AZ)
+  IGW, VPN Gateway (for MikroTik Site-to-Site VPN), TGW attachment
+  No NAT gateway — private subnet routes internet via TGW or VGW
+  Requires vpc-transit-gateway stack deployed first
+
+Parameters:
+  TransitGatewayId:
+    Type: String
+    Default: tgw-036ca31136b317c4a
+    Description: Transit Gateway ID (from vpc-transit-gateway stack)
+
+  VpnCustomerGatewayIp:
+    Type: String
+    Description: MikroTik public IP for CGW (Site-to-Site VPN)
+
+Resources:
+
+  # -------------------------------------------------------
+  # VPC
+  # -------------------------------------------------------
+  RadioVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: radio-vpc
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: radio-igw
+
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref RadioVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  # -------------------------------------------------------
+  # Subnets
+  # -------------------------------------------------------
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref RadioVPC
+      CidrBlock: 192.168.1.0/24
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: Radio-Public
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref RadioVPC
+      CidrBlock: 192.168.2.0/24
+      AvailabilityZone: ap-southeast-5a
+      Tags:
+        - Key: Name
+          Value: Radio-Private
+
+  # -------------------------------------------------------
+  # VPN Gateway (for MikroTik Site-to-Site VPN)
+  # -------------------------------------------------------
+  VPNGateway:
+    Type: AWS::EC2::VPNGateway
+    Properties:
+      Type: ipsec.1
+      Tags:
+        - Key: Name
+          Value: radio-vpc-vgw
+
+  VPNGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref RadioVPC
+      VpnGatewayId: !Ref VPNGateway
+
+  CustomerGateway:
+    Type: AWS::EC2::CustomerGateway
+    Properties:
+      Type: ipsec.1
+      BgpAsn: 65000
+      IpAddress: !Ref VpnCustomerGatewayIp
+      Tags:
+        - Key: Name
+          Value: radio-mikrotik-cgw
+
+  VPNConnection:
+    Type: AWS::EC2::VPNConnection
+    Properties:
+      Type: ipsec.1
+      CustomerGatewayId: !Ref CustomerGateway
+      VpnGatewayId: !Ref VPNGateway
+      StaticRoutesOnly: true
+      Tags:
+        - Key: Name
+          Value: radio-vpn-mikrotik
+
+  VPNStaticRoute:
+    Type: AWS::EC2::VPNConnectionRoute
+    Properties:
+      VpnConnectionId: !Ref VPNConnection
+      DestinationCidrBlock: 10.50.0.0/24
+
+  # -------------------------------------------------------
+  # Route Tables
+  # -------------------------------------------------------
+  MainRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref RadioVPC
+      Tags:
+        - Key: Name
+          Value: radio-rtb-main
+
+  RouteToInternet:
+    Type: AWS::EC2::Route
+    DependsOn: IGWAttachment
+    Properties:
+      RouteTableId: !Ref MainRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  RouteToPortal:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainRouteTable
+      DestinationCidrBlock: 10.0.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  RouteToAI:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref MainRouteTable
+      DestinationCidrBlock: 10.10.0.0/16
+      TransitGatewayId: !Ref TransitGatewayId
+
+  RouteToMikroTik:
+    Type: AWS::EC2::Route
+    DependsOn: VPNGatewayAttachment
+    Properties:
+      RouteTableId: !Ref MainRouteTable
+      DestinationCidrBlock: 10.50.0.0/24
+      GatewayId: !Ref VPNGateway
+
+  PublicSubnetAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref MainRouteTable
+
+  PrivateSubnetAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet
+      RouteTableId: !Ref MainRouteTable
+
+  # -------------------------------------------------------
+  # VPN Route Propagation
+  # -------------------------------------------------------
+  VPNRoutePropagation:
+    Type: AWS::EC2::VPNGatewayRoutePropagation
+    DependsOn: VPNGatewayAttachment
+    Properties:
+      RouteTableIds:
+        - !Ref MainRouteTable
+      VpnGatewayId: !Ref VPNGateway
+
+  # -------------------------------------------------------
+  # Transit Gateway Attachment
+  # -------------------------------------------------------
+  TGWAttachment:
+    Type: AWS::EC2::TransitGatewayAttachment
+    Properties:
+      TransitGatewayId: !Ref TransitGatewayId
+      VpcId: !Ref RadioVPC
+      SubnetIds:
+        - !Ref PublicSubnet
+      Tags:
+        - Key: Name
+          Value: radio-vpc-attachment
+
+Outputs:
+  VpcId:
+    Value: !Ref RadioVPC
+    Export:
+      Name: RadioVpcId
+
+  PublicSubnetId:
+    Value: !Ref PublicSubnet
+    Export:
+      Name: RadioPublicSubnetId
+
+  PrivateSubnetId:
+    Value: !Ref PrivateSubnet
+    Export:
+      Name: RadioPrivateSubnetId
+
+  VPNConnectionId:
+    Value: !Ref VPNConnection
+    Description: VPN connection ID for MikroTik tunnel
