@@ -4,6 +4,23 @@ All templates are stored on the bastion at `/home/ubuntu/cloudformation/`.
 
 ---
 
+## Live Endpoints
+
+| URL | Purpose |
+|-----|---------|
+| https://radiomuzik.com | Public website (root) |
+| https://www.radiomuzik.com | Public website (www) |
+| https://portal.radiomuzik.com | Staff portal (iMohon) |
+| https://staging.radiomuzik.com | Staging portal |
+| https://live.radiomuzik.com/muzikfm-audio-hls.m3u8 | MuzikFM HLS live stream |
+| https://stream.radiomuzik.com/muzikfm | MuzikFM Icecast AAC stream |
+| https://docs.radiomuzik.com | Documentation site |
+| https://cms.radiomuzik.com | CMS (on bastion) |
+| https://bastion.radiomuzik.com | Bastion SSH (56.69.33.230) |
+| http://icecast-origin.radiomuzik.com | Icecast origin (internal, 43.216.131.143) |
+
+---
+
 ## Prerequisites
 
 - AWS CLI v2 installed and configured (`aws configure`)
