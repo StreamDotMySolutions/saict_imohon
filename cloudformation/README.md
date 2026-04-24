@@ -21,6 +21,56 @@ All templates are stored on the bastion at `/home/ubuntu/cloudformation/`.
 
 ---
 
+## Infrastructure Overview
+
+### AI VPC (`ai-vpc` — `vpc-06e057c830f490e07`)
+
+CIDR: `10.10.0.0/16` | Region: `ap-southeast-5`
+
+**Subnets:**
+
+| Subnet ID | CIDR | AZ | Name |
+|-----------|------|----|------|
+| subnet-06824e2cb5a97860a | 10.10.1.0/24 | ap-southeast-5a | ai-vpc-public-az1 |
+| subnet-047ba5efe25ca5081 | 10.10.2.0/24 | ap-southeast-5b | ai-vpc-public-az2 |
+| subnet-08a0ddce2308fd755 | 10.10.10.0/24 | ap-southeast-5a | ai-vpc-private-az1 |
+| subnet-059ee8604f736dff8 | 10.10.20.0/24 | ap-southeast-5b | ai-vpc-private-az2 |
+
+**Security Groups:**
+
+| SG ID | Name | Rules |
+|-------|------|-------|
+| sg-0b3f6709e3ef3b8f4 | ai-tts-security-group | SSH 22 from 0.0.0.0/0 |
+| sg-072073630ed673e2c | default | All traffic from portal-vpc (10.0.0.0/16) and radio-vpc (192.168.0.0/16) |
+
+**EC2 Instances (TTS — Text-to-Speech):**
+
+| Instance ID | Name | Type | Private IP | Subnet | AMI |
+|-------------|------|------|-----------|--------|-----|
+| i-0cb32f24302d94417 | tts-1 | g6.4xlarge | 10.10.10.241 | ai-vpc-private-az1 | ami-0db28a93c072dcadd |
+| i-0370288387351f7f4 | tts-2 | g6.4xlarge | 10.10.1.177 | ai-vpc-public-az1 | ami-0db28a93c072dcadd |
+| i-07f961b7fc0dbf7fe | tts-staging | g6.4xlarge | 10.10.1.38 | ai-vpc-public-az1 | ami-0db28a93c072dcadd |
+
+> All TTS instances use GPU instance type `g6.4xlarge` (NVIDIA L4). No public IPs assigned — accessed via bastion or TGW from portal-vpc. S3 access to `rtm-ai-radiomuzik`, `rtm-rcs-audio`, and `rtm-emergency-playlist` is via IAM role (`RCSAudioS3Role`).
+
+---
+
+### Portal VPC (`portal-vpc` — `vpc-02e129cd9a0d72fc5`)
+
+CIDR: `10.0.0.0/16` | Region: `ap-southeast-5`
+
+Hosts: `portal-1`, `portal-2` (m7i.xlarge), `portal-bastion` (56.69.33.230), `portal-db` (RDS MySQL 8.0.45), `portal-alb` (internet-facing).
+
+---
+
+### Radio VPC (`radio-vpc` — `vpc-0000a469e921f5835`)
+
+CIDR: `192.168.0.0/16` | Region: `ap-southeast-5`
+
+Hosts: Icecast origin server (43.216.131.143). Connected to on-premises MikroTik via Site-to-Site VPN (`radio-vpc-vgw`). Static route `10.50.0.0/24` via VGW.
+
+---
+
 ## Prerequisites
 
 - AWS CLI v2 installed and configured (`aws configure`)
