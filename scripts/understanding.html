@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 18mm 18mm;
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font-size: 8pt; color: #888; }
+    @bottom-left  { content: "SAICT iMohon — Project Understanding"; font-size: 8pt; color: #888; }
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1a1a1a; font-size: 10.5pt; line-height: 1.5; }
+  h1 { font-size: 22pt; margin: 0 0 2pt; color: #0b3d5c; }
+  .sub { color: #5a7a8c; font-size: 11pt; margin: 0 0 4pt; font-weight: 600; }
+  .meta { color: #888; font-size: 8.5pt; margin-bottom: 14pt; }
+  h2 { font-size: 13pt; color: #0b3d5c; border-bottom: 2px solid #cfe0ea; padding-bottom: 3pt; margin: 20pt 0 8pt; }
+  h3 { font-size: 11pt; color: #14556b; margin: 14pt 0 4pt; }
+  p { margin: 5pt 0; }
+  ul { margin: 5pt 0 5pt 0; padding-left: 18pt; }
+  li { margin: 3pt 0; }
+  code { background: #eef3f6; padding: 1px 4px; border-radius: 3px; font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 9pt; color: #b23a48; }
+  .lead { background: #f3f8fb; border-left: 4px solid #2a7fa8; padding: 8pt 12pt; border-radius: 0 5px 5px 0; margin: 8pt 0 4pt; }
+  table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 9.3pt; }
+  th { background: #0b3d5c; color: #fff; text-align: left; padding: 6pt 8pt; font-weight: 600; }
+  td { padding: 6pt 8pt; border-bottom: 1px solid #dce6ec; vertical-align: top; }
+  tr:nth-child(even) td { background: #f6fafc; }
+  .flow { background: #fbfdff; border: 1px solid #dce6ec; border-radius: 6px; padding: 10pt 14pt; margin: 8pt 0; }
+  .flow-title { font-weight: 700; color: #0b3d5c; margin-bottom: 4pt; }
+  .pill { display: inline-block; background: #e7f0f5; color: #14556b; border-radius: 10px; padding: 1px 8pt; font-size: 8.5pt; font-weight: 600; }
+  .badge-warn { color: #9a6a00; }
+  .avoid-break { break-inside: avoid; }
+  .footer-note { margin-top: 18pt; padding-top: 8pt; border-top: 1px solid #dce6ec; color: #888; font-size: 8.5pt; }
+</style>
+</head>
+<body>
+
+<h1>SAICT iMohon</h1>
+<p class="sub">Project Understanding &amp; Architecture Reference</p>
+<p class="meta">Malaysian government (RTM) equipment request &amp; distribution system · Generated 12 Aug 2026</p>
+
+<div class="lead">
+A Malaysian government <strong>equipment request and distribution management system</strong> for RTM (Radio Televisyen Malaysia), deployed to <code>imohon.rtm.gov.my</code>. Staff submit equipment requests (<em>permohonan</em>) that pass through a multi-tier approval chain, then get distributed (<em>agihan</em>) with full delivery and acceptance tracking. All user-facing text is in <strong>Bahasa Malaysia</strong>; code identifiers are in English.
+</div>
+
+<h2>Stack &amp; Shape</h2>
+<ul>
+  <li><strong>backend/</strong> — Laravel 10 REST API (PHP 8.1+, MySQL). Sanctum token auth, Spatie Permission (6 roles) + Activity Log, nested-set categories &amp; departments.</li>
+  <li><strong>frontend/</strong> — React 18 SPA (Create React App). Zustand state, React-Bootstrap 5, Axios with token interceptors.</li>
+  <li><strong>Deployment</strong> — <code>scripts/deploy.sh</code> (git pull → composer install → npm build) behind nginx + PHP 8.2-FPM.</li>
+  <li><strong>Branches</strong> — default dev branch is <code>dev</code>; work here is on <code>claude/project-understanding-sufy7s</code>.</li>
+</ul>
+
+<h2>The Two Core Workflows</h2>
+
+<div class="flow avoid-break">
+  <div class="flow-title">1 · Permohonan (Request) &nbsp;<span class="pill">MOHON-{year}-{NNNN}</span></div>
+  User drafts a request → submits → <strong>Manager</strong> approves → <strong>Admin</strong> processes &amp; finalizes. A 4-step state machine tracked on <code>MohonApproval</code> (<code>step</code>/<code>status</code>), mirrored onto <code>MohonRequest</code>.
+</div>
+
+<div class="flow avoid-break">
+  <div class="flow-title">2 · Agihan (Distribution) &nbsp;<span class="pill">AGIHAN-{year}-{NNNN}</span></div>
+  Admin creates a distribution request for an approved permohonan and assigns inventory items → <strong>Boss</strong> approves → Admin sets delivery info → User accepts delivery. Reference numbers are auto-generated in a model <code>booted()</code> hook.
+</div>
+
+<h3>MohonApproval state machine</h3>
+<table class="avoid-break">
+  <tr><th>step</th><th>status</th><th>Meaning</th><th>Actor</th></tr>
+  <tr><td>0</td><td>pending</td><td>Draft (not yet submitted)</td><td>User</td></tr>
+  <tr><td>1</td><td>pending</td><td>Submitted, awaiting Manager</td><td>Manager</td></tr>
+  <tr><td>2</td><td>approved / rejected</td><td>Manager decision</td><td>Manager</td></tr>
+  <tr><td>3</td><td>pending / approved</td><td>Admin processing</td><td>Admin</td></tr>
+  <tr><td>4</td><td>approved / rejected</td><td>Final decision, ready for distribution</td><td>Admin</td></tr>
+</table>
+
+<p><strong>Audit-trail design:</strong> approval records are <em>inserted</em>, never updated in place — each step is a new row. Backend logic lives in a <code>public static</code> <strong>service layer</strong> (<code>MohonService</code>, <code>MohonApprovalService</code>, distribution services); controllers are thin and role-grouped under <code>/api/{role}/…</code>, wired in <code>RouteServiceProvider.php</code>.</p>
+
+<h2>Practical Gotchas — Where Code Diverges from the Docs</h2>
+<p>These are the things worth knowing before touching the code — verified against the actual source, beyond what <code>CLAUDE.md</code> describes.</p>
+
+<table>
+  <tr><th style="width:22%">Area</th><th>Reality on the ground</th></tr>
+  <tr>
+    <td><strong>Route-level RBAC (frontend)</strong></td>
+    <td>There is <strong>none</strong>. <code>ProtectedRoute</code> only checks auth + email verification. Roles merely change which navbar links appear — any logged-in user can navigate directly to any admin/boss URL. Access control is enforced server-side per role prefix, not in the SPA.</td>
+  </tr>
+  <tr>
+    <td><strong>DB foreign keys</strong></td>
+    <td>Migrations have a pervasive typo — <code>-&gt;costrained()</code> instead of <code>-&gt;constrained()</code>. It is a silent no-op, so <strong>no FK constraints exist at the DB level</strong>; relationships are enforced only in Eloquent.</td>
+  </tr>
+  <tr>
+    <td><strong>Dead "Application" subsystem</strong></td>
+    <td><code>ApplicationService</code>, <code>DistributionService</code>, <code>DistributionApprovalService</code>, <code>DistributionAcceptanceService</code>, <code>User::applications()</code>, and <code>LoginTest</code>'s <code>/api/applications</code> all reference <code>Application</code>/<code>Distribution</code> models <strong>that don't exist</strong>. Leftovers from a prior design renamed to "Mohon" — treat as dead code.</td>
+  </tr>
+  <tr>
+    <td><strong>Mass assignment</strong></td>
+    <td>Domain models use <code>$guarded</code>, not <code>$fillable</code> (docs say fillable). Only <code>UserDepartment</code> declares an explicit <code>$fillable</code>.</td>
+  </tr>
+  <tr>
+    <td><strong>Tests</strong></td>
+    <td>Pest 2, but domain coverage is essentially zero — only trivial example tests plus a <strong>broken <code>LoginTest</code></strong> hitting a non-existent route. <code>RefreshDatabase</code> is commented out.</td>
+  </tr>
+  <tr>
+    <td><strong>Frontend cruft</strong></td>
+    <td>The <code>createResourceStore</code> factory is imported nowhere (dead) — every page hand-rolls the same store ~20×. Versioned duplicates remain (<code>Agihan</code> vs <code>Agihan-v2</code>, <code>MohonDistributionItem</code> vs <code>-v2</code>). App is hard-gated behind <code>REACT_APP_MODE==='production'</code> and a 768px <strong>desktop-only</strong> block. Router lives entirely in <code>index.js</code> (no <code>App.js</code>).</td>
+  </tr>
+  <tr>
+    <td><strong>Minor</strong></td>
+    <td>Duplicate admin distribution routes; two migrations share timestamp <code>2026_03_04_042748</code>; the <code>global.php</code> route group lacks <code>auth:sanctum</code> at the group level.</td>
+  </tr>
+</table>
+
+<h2>Key Models &amp; Relationships</h2>
+<ul>
+  <li><code>User</code> → <code>UserProfile</code> → <code>UserDepartment</code> (nested set). Roles via Spatie: <span class="pill">user</span> <span class="pill">manager</span> <span class="pill">admin</span> <span class="pill">boss</span> <span class="pill">system</span> <span class="pill">guest</span></li>
+  <li><code>MohonRequest</code> → many <code>MohonItem</code> (→ <code>Category</code>), many <code>MohonApproval</code> (ASC), many <code>MohonDistributionRequest</code> (DESC).</li>
+  <li><code>MohonDistributionRequest</code> → many <code>MohonDistributionApproval</code> (→ boss), many <code>MohonDistributionItem</code>.</li>
+  <li><code>MohonDistributionItem</code> → <code>Inventory</code>, <code>Category</code>, <code>MohonItem</code>; hasOne <code>Delivery</code> + hasOne <code>Acceptance</code>.</li>
+</ul>
+
+<div class="footer-note">
+Source of truth: this reference reflects the state of the repository as read on 12 Aug 2026 on branch <code>claude/project-understanding-sufy7s</code>. The high-level workflow diagrams and state tables match <code>CLAUDE.md</code>; the "Practical Gotchas" section captures where the live code diverges from or carries legacy baggage relative to that document.
+</div>
+
+</body>
+</html>
