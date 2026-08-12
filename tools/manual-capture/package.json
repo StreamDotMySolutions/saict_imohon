@@ -1,0 +1,14 @@
+{
+  "name": "imohon-manual-capture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Screenshot capture for the SAICT iMohon user manual",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "capture": "node capture.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
