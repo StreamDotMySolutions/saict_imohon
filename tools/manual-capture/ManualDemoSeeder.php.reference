@@ -1,0 +1,408 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\UserProfile;
+use App\Models\UserDepartment;
+use App\Models\Category;
+use App\Models\Inventory;
+use App\Models\MohonRequest;
+use App\Models\MohonItem;
+use App\Models\MohonApproval;
+use App\Models\MohonDistributionRequest;
+use App\Models\MohonDistributionApproval;
+use App\Models\MohonDistributionItem;
+use App\Models\MohonDistributionItemDelivery;
+use App\Models\MohonDistributionItemAcceptance;
+
+/**
+ * Builds a demonstration dataset for the user manual screenshots.
+ *
+ * Every name, NRIC, phone number and email here is invented. This exists so
+ * the manual never needs a screenshot of the live imohon_dev database, which
+ * holds real staff records.
+ *
+ * Run only against the isolated demo database (imohon_manual). Depends on
+ * UserSeeder having created the roles, categories and departments.
+ */
+class ManualDemoSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $user    = User::where('email', 'user@local')->firstOrFail();
+        $manager = User::where('email', 'manager@local')->firstOrFail();
+        $admin   = User::where('email', 'admin@local')->firstOrFail();
+        $boss    = User::where('email', 'boss@local')->firstOrFail();
+
+        $this->giveDemoNames($user, $manager, $admin, $boss);
+
+        $pc      = Category::where('name', 'PC')->firstOrFail();
+        $printer = Category::where('name', 'PRINTER')->firstOrFail();
+        $dept    = UserDepartment::where('name', 'SEKSYEN APLIKASI DAN ICT')->firstOrFail();
+
+        $this->seedInventory($admin, $pc, $printer);
+
+        // One request per stage of the approval state machine, so every screen
+        // in the manual has something meaningful to display.
+        $this->draft($user, $dept, $pc);
+        $this->awaitingManager($user, $manager, $dept, $pc);
+        $this->rejectedByManager($user, $manager, $dept, $printer);
+        $this->withAdmin($user, $manager, $admin, $dept, $pc);
+        $this->fullyApproved($user, $manager, $admin, $dept, $pc);
+        $this->distributionAwaitingBoss($user, $manager, $admin, $boss, $dept, $pc);
+        $this->distributionDelivered($user, $manager, $admin, $boss, $dept, $printer);
+
+        $this->command->info('Demo dataset ready.');
+    }
+
+    /** Replace the seeder's placeholder names with plausible fictional ones. */
+    private function giveDemoNames(User $user, User $manager, User $admin, User $boss): void
+    {
+        $names = [
+            $user->id    => ['Nurul Ain binti Abdullah', 'Pegawai Teknologi Maklumat F41'],
+            $manager->id => ['Mohd Hafiz bin Ismail',    'Ketua Seksyen'],
+            $admin->id   => ['Siti Aishah binti Omar',   'Pentadbir Sistem'],
+            $boss->id    => ['Dato\' Zulkifli bin Hassan', 'Pengarah'],
+        ];
+
+        foreach ($names as $id => [$name, $occupation]) {
+            User::where('id', $id)->update(['name' => $name]);
+            UserProfile::where('user_id', $id)->update(['occupation' => $occupation]);
+        }
+    }
+
+    private function seedInventory(User $admin, Category $pc, Category $printer): void
+    {
+        $stock = [
+            ['Komputer Meja Dell OptiPlex 7010', 'OptiPlex 7010', $pc->id,      25, 'Sistem Teknologi Sdn Bhd'],
+            ['Komputer Riba Lenovo ThinkPad',    'ThinkPad E14',  $pc->id,      18, 'Mega Komputer Sdn Bhd'],
+            ['Komputer Meja HP ProDesk 400',     'ProDesk 400',   $pc->id,      30, 'Sistem Teknologi Sdn Bhd'],
+            ['Pencetak Laser HP LaserJet Pro',   'LaserJet M404', $printer->id, 12, 'Cetak Perdana Enterprise'],
+            ['Pencetak Laser Brother HL-L2375',  'HL-L2375DW',    $printer->id, 8,  'Cetak Perdana Enterprise'],
+        ];
+
+        foreach ($stock as $i => [$item, $model, $categoryId, $total, $vendor]) {
+            Inventory::create([
+                'user_id'         => $admin->id,
+                'category_id'     => $categoryId,
+                'item'            => $item,
+                'model'           => $model,
+                'vendor'          => $vendor,
+                'total'           => $total,
+                'email'           => 'khidmat@' . str($vendor)->slug() . '.com.my',
+                'phone'           => '03-8888 ' . (1000 + $i * 111),
+                'date_start'      => now()->subYear()->toDateString(),
+                'date_end'        => now()->addYear()->toDateString(),
+                'received_on'     => now()->subMonths(6)->toDateString(),
+                'contract_number' => sprintf('KONTRAK/RTM/%d/%03d', now()->year - 1, $i + 1),
+                'contract_name'   => 'Perolehan Peralatan ICT ' . (now()->year - 1),
+                'contract_pic'    => 'Encik Rosli bin Karim',
+                'contract_owner'  => 'Seksyen Teknologi Maklumat',
+                'contract_value'  => 150000 + ($i * 25000),
+            ]);
+        }
+    }
+
+    /** Shared shape for a request plus its line item. */
+    private function makeRequest(User $user, UserDepartment $dept, Category $category, array $attrs, array $item): MohonRequest
+    {
+        $request = MohonRequest::create(array_merge([
+            'user_id'       => $user->id,
+            'ticket_status' => 'open',
+        ], $attrs));
+
+        MohonItem::create(array_merge([
+            'mohon_request_id' => $request->id,
+            'category_id'      => $category->id,
+            'department_id'    => $dept->id,
+            'department'       => 'ANGKASAPURI',
+            'section'          => 'SEKSYEN APLIKASI DAN ICT',
+            'unit'             => 'UNIT SOKONGAN TEKNIKAL',
+            'occupation'       => 'Pegawai Teknologi Maklumat F41',
+            'mobile'           => '019-2345678',
+            'building_name'    => 'Wisma Radio',
+            'building_level'   => 'Tingkat 3',
+            'location'         => 'Bilik Server, Tingkat 3',
+        ], $item));
+
+        return $request;
+    }
+
+    private function draft(User $user, UserDepartment $dept, Category $pc): void
+    {
+        $r = $this->makeRequest($user, $dept, $pc, [
+            'title'       => 'Permohonan Komputer Meja Untuk Kakitangan Baharu',
+            'description' => 'Permohonan komputer meja bagi dua kakitangan baharu yang melaporkan diri pada bulan ini.',
+            'status'      => 'pending',
+            'step'        => '0',
+        ], [
+            'name'        => 'Komputer Meja',
+            'type'        => 'new',
+            'description' => 'Komputer meja untuk kegunaan pejabat.',
+        ]);
+
+        MohonApproval::create([
+            'mohon_request_id' => $r->id,
+            'user_id'          => $user->id,
+            'requester_id'     => $user->id,
+            'step'             => 0,
+            'status'           => 'pending',
+        ]);
+    }
+
+    private function awaitingManager(User $user, User $manager, UserDepartment $dept, Category $pc): void
+    {
+        $r = $this->makeRequest($user, $dept, $pc, [
+            'title'       => 'Permohonan Komputer Riba Untuk Kerja Luar',
+            'description' => 'Permohonan komputer riba bagi tugasan liputan di luar pejabat.',
+            'status'      => 'pending',
+            'step'        => '1',
+            'approver_id' => $manager->id,
+        ], [
+            'name'        => 'Komputer Riba',
+            'type'        => 'new',
+            'description' => 'Komputer riba untuk liputan luar.',
+        ]);
+
+        MohonApproval::create([
+            'mohon_request_id' => $r->id,
+            'user_id'          => $user->id,
+            'requester_id'     => $user->id,
+            'approver_id'      => $manager->id,
+            'manager_id'       => $manager->id,
+            'step'             => 1,
+            'status'           => 'pending',
+            'message'          => 'Dihantar untuk kelulusan Ketua Seksyen.',
+        ]);
+    }
+
+    private function rejectedByManager(User $user, User $manager, UserDepartment $dept, Category $printer): void
+    {
+        $r = $this->makeRequest($user, $dept, $printer, [
+            'title'       => 'Permohonan Pencetak Tambahan',
+            'description' => 'Permohonan pencetak tambahan untuk kegunaan unit.',
+            'status'      => 'rejected',
+            'step'        => '2',
+            'approver_id' => $manager->id,
+        ], [
+            'name'        => 'Pencetak Laser',
+            'type'        => 'new',
+            'description' => 'Pencetak laser hitam putih.',
+        ]);
+
+        foreach ([[1, 'pending', 'Dihantar untuk kelulusan.'], [2, 'rejected', 'Pencetak sedia ada masih boleh digunakan. Mohon guna pencetak berkongsi di Tingkat 3.']] as [$step, $status, $msg]) {
+            MohonApproval::create([
+                'mohon_request_id' => $r->id,
+                'user_id'          => $user->id,
+                'requester_id'     => $user->id,
+                'approver_id'      => $manager->id,
+                'manager_id'       => $manager->id,
+                'step'             => $step,
+                'status'           => $status,
+                'message'          => $msg,
+            ]);
+        }
+    }
+
+    private function withAdmin(User $user, User $manager, User $admin, UserDepartment $dept, Category $pc): void
+    {
+        $r = $this->makeRequest($user, $dept, $pc, [
+            'title'       => 'Permohonan Penggantian Komputer Rosak',
+            'description' => 'Komputer meja sedia ada telah rosak dan tidak boleh dibaiki.',
+            'status'      => 'pending',
+            'step'        => '3',
+            'approver_id' => $manager->id,
+            'admin_id'    => $admin->id,
+        ], [
+            'name'        => 'Komputer Meja',
+            'type'        => 'replace',
+            'description' => 'Penggantian komputer meja yang rosak.',
+        ]);
+
+        $steps = [
+            [1, 'pending',  $manager->id, 'Dihantar untuk kelulusan Ketua Seksyen.'],
+            [2, 'approved', $manager->id, 'Diluluskan. Penggantian adalah wajar.'],
+            [3, 'pending',  $admin->id,   'Dalam proses semakan Admin.'],
+        ];
+
+        foreach ($steps as [$step, $status, $actor, $msg]) {
+            MohonApproval::create([
+                'mohon_request_id' => $r->id,
+                'user_id'          => $user->id,
+                'requester_id'     => $user->id,
+                'approver_id'      => $manager->id,
+                'manager_id'       => $manager->id,
+                'admin_id'         => $step >= 3 ? $admin->id : null,
+                'step'             => $step,
+                'status'           => $status,
+                'message'          => $msg,
+            ]);
+        }
+    }
+
+    private function fullyApproved(User $user, User $manager, User $admin, UserDepartment $dept, Category $pc): MohonRequest
+    {
+        $r = $this->makeRequest($user, $dept, $pc, [
+            'title'       => 'Permohonan Komputer Meja Untuk Bilik Sunting',
+            'description' => 'Permohonan tiga unit komputer meja untuk bilik sunting audio.',
+            'status'      => 'approved',
+            'step'        => '4',
+            'approver_id' => $manager->id,
+            'admin_id'    => $admin->id,
+        ], [
+            'name'        => 'Komputer Meja',
+            'type'        => 'new',
+            'description' => 'Komputer meja berspesifikasi tinggi untuk sunting audio.',
+        ]);
+
+        $this->fullApprovalChain($r, $user, $manager, $admin);
+
+        return $r;
+    }
+
+    private function fullApprovalChain(MohonRequest $r, User $user, User $manager, User $admin): void
+    {
+        $steps = [
+            [1, 'pending',  'Dihantar untuk kelulusan Ketua Seksyen.'],
+            [2, 'approved', 'Diluluskan oleh Ketua Seksyen.'],
+            [3, 'pending',  'Dalam proses semakan Admin.'],
+            [4, 'approved', 'Permohonan diluluskan sepenuhnya. Sedia untuk agihan.'],
+        ];
+
+        foreach ($steps as [$step, $status, $msg]) {
+            MohonApproval::create([
+                'mohon_request_id' => $r->id,
+                'user_id'          => $user->id,
+                'requester_id'     => $user->id,
+                'approver_id'      => $manager->id,
+                'manager_id'       => $manager->id,
+                'admin_id'         => $step >= 3 ? $admin->id : null,
+                'step'             => $step,
+                'status'           => $status,
+                'message'          => $msg,
+            ]);
+        }
+    }
+
+    private function distributionAwaitingBoss(User $user, User $manager, User $admin, User $boss, UserDepartment $dept, Category $pc): void
+    {
+        $r = $this->makeRequest($user, $dept, $pc, [
+            'title'       => 'Permohonan Komputer Riba Untuk Unit Berita',
+            'description' => 'Permohonan komputer riba bagi dua pegawai Unit Berita.',
+            'status'      => 'approved',
+            'step'        => '4',
+            'approver_id' => $manager->id,
+            'admin_id'    => $admin->id,
+        ], [
+            'name'        => 'Komputer Riba',
+            'type'        => 'new',
+            'description' => 'Komputer riba untuk Unit Berita.',
+        ]);
+        $this->fullApprovalChain($r, $user, $manager, $admin);
+
+        $mohonItem = MohonItem::where('mohon_request_id', $r->id)->firstOrFail();
+        $inventory = Inventory::where('category_id', $pc->id)->firstOrFail();
+
+        $dist = MohonDistributionRequest::create([
+            'mohon_request_id' => $r->id,
+            'user_id'          => $admin->id,
+            'title'            => 'Agihan Komputer Riba Unit Berita',
+            'description'      => 'Agihan bagi permohonan ' . $r->reference_no . '.',
+            'status'           => 'pending',
+            'step'             => 1,
+        ]);
+
+        MohonDistributionItem::create([
+            'mohon_distribution_request_id' => $dist->id,
+            'mohon_item_id'                 => $mohonItem->id,
+            'category_id'                   => $pc->id,
+            'inventory_id'                  => (string) $inventory->id,
+            'type'                          => 'new',
+            'description'                   => 'Komputer riba dari stok semasa.',
+            'received_status'               => 0,
+        ]);
+
+        MohonDistributionApproval::create([
+            'mohon_distribution_request_id' => $dist->id,
+            'user_id'                       => $admin->id,
+            'boss_id'                       => $boss->id,
+            'step'                          => 1,
+            'status'                        => 'pending',
+            'message'                       => 'Dihantar untuk kelulusan Pengarah.',
+        ]);
+    }
+
+    private function distributionDelivered(User $user, User $manager, User $admin, User $boss, UserDepartment $dept, Category $printer): void
+    {
+        $r = $this->makeRequest($user, $dept, $printer, [
+            'title'       => 'Permohonan Pencetak Untuk Kaunter Pertanyaan',
+            'description' => 'Permohonan satu unit pencetak laser untuk kaunter pertanyaan.',
+            'status'      => 'approved',
+            'step'        => '4',
+            'approver_id' => $manager->id,
+            'admin_id'    => $admin->id,
+        ], [
+            'name'        => 'Pencetak Laser',
+            'type'        => 'new',
+            'description' => 'Pencetak laser untuk kaunter pertanyaan.',
+        ]);
+        $this->fullApprovalChain($r, $user, $manager, $admin);
+
+        $mohonItem = MohonItem::where('mohon_request_id', $r->id)->firstOrFail();
+        $inventory = Inventory::where('category_id', $printer->id)->firstOrFail();
+
+        $dist = MohonDistributionRequest::create([
+            'mohon_request_id' => $r->id,
+            'user_id'          => $admin->id,
+            'title'            => 'Agihan Pencetak Kaunter Pertanyaan',
+            'description'      => 'Agihan bagi permohonan ' . $r->reference_no . '.',
+            'status'           => 'approved',
+            'step'             => 2,
+        ]);
+
+        foreach ([[1, 'pending', 'Dihantar untuk kelulusan Pengarah.'], [2, 'approved', 'Diluluskan. Sedia untuk penghantaran.']] as [$step, $status, $msg]) {
+            MohonDistributionApproval::create([
+                'mohon_distribution_request_id' => $dist->id,
+                'user_id'                       => $admin->id,
+                'boss_id'                       => $boss->id,
+                'step'                          => $step,
+                'status'                        => $status,
+                'message'                       => $msg,
+            ]);
+        }
+
+        $distItem = MohonDistributionItem::create([
+            'mohon_distribution_request_id' => $dist->id,
+            'mohon_item_id'                 => $mohonItem->id,
+            'category_id'                   => $printer->id,
+            'inventory_id'                  => (string) $inventory->id,
+            'type'                          => 'new',
+            'description'                   => 'Pencetak laser dari stok semasa.',
+            'received_status'               => 1,
+            'received_text'                 => 'Diterima dalam keadaan baik.',
+            'received_at'                   => now()->subDays(2),
+        ]);
+
+        MohonDistributionItemDelivery::create([
+            'mohon_distribution_item_id' => $distItem->id,
+            'pic_name'                   => 'Encik Rosli bin Karim',
+            'pic_phone'                  => '013-4567890',
+            'date_start'                 => now()->subDays(5)->toDateString(),
+            'date_end'                   => now()->subDays(3)->toDateString(),
+        ]);
+
+        MohonDistributionItemAcceptance::create([
+            'mohon_distribution_item_id' => $distItem->id,
+            'user_id'                    => $user->id,
+            'serial_number'              => 'SN-BRO-2026-00417',
+            'pic_name'                   => 'Encik Rosli bin Karim',
+            'pic_phone'                  => '013-4567890',
+            'installation_date'          => now()->subDays(2)->toDateString(),
+            'message'                    => 'Peralatan diterima dan berfungsi dengan baik.',
+            'description'                => 'Dipasang di kaunter pertanyaan, Tingkat 1.',
+        ]);
+    }
+}

@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>Manual Pengguna — SAICT iMohon</title>
+<style>
+  /* ---------- Halaman & cetakan ---------- */
+  @page { size: A4; margin: 20mm 18mm; }
+  @page :first { margin: 0; }
+
+  :root {
+    --ink:      #1a1d21;
+    --muted:    #5b6570;
+    --line:     #d6dbe1;
+    --accent:   #0b4f8a;
+    --accent-bg:#eef4fa;
+    --warn-bg:  #fff8e6;
+    --warn-line:#e0aa2a;
+    --ok-bg:    #edf7ee;
+    --ok-line:  #2e7d32;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--ink);
+    background: #fff;
+  }
+
+  .sheet { max-width: 190mm; margin: 0 auto; padding: 12mm 10mm; }
+
+  /* ---------- Muka depan ---------- */
+  .cover {
+    min-height: 265mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 24mm;
+    background: linear-gradient(160deg, #0b4f8a 0%, #12689e 55%, #1a7fb8 100%);
+    color: #fff;
+    page-break-after: always;
+  }
+  .cover .kicker {
+    font-size: 10pt; letter-spacing: .18em; text-transform: uppercase;
+    opacity: .85; margin-bottom: 10mm;
+  }
+  .cover h1 { font-size: 32pt; line-height: 1.15; margin: 0 0 6mm; font-weight: 650; }
+  .cover .sub { font-size: 13pt; opacity: .92; margin-bottom: 18mm; font-weight: 300; }
+  .cover .rule { width: 46mm; height: 3px; background: rgba(255,255,255,.55); margin-bottom: 12mm; }
+  .cover dl { display: grid; grid-template-columns: 34mm 1fr; gap: 2mm 6mm; font-size: 10pt; margin: 0; }
+  .cover dt { opacity: .75; }
+  .cover dd { margin: 0; font-weight: 500; }
+
+  /* ---------- Tipografi ---------- */
+  h2 {
+    font-size: 17pt; margin: 0 0 5mm; padding-bottom: 2.5mm;
+    border-bottom: 2px solid var(--accent); color: var(--accent);
+    page-break-after: avoid;
+  }
+  h3 { font-size: 12.5pt; margin: 8mm 0 3mm; color: var(--ink); page-break-after: avoid; }
+  h4 { font-size: 11pt; margin: 6mm 0 2mm; color: var(--muted); page-break-after: avoid; }
+  p  { margin: 0 0 3mm; }
+  .chapter { page-break-before: always; }
+
+  ol, ul { margin: 0 0 4mm; padding-left: 6mm; }
+  li { margin-bottom: 1.6mm; }
+  ol.steps > li { margin-bottom: 3mm; }
+  ol.steps > li::marker { font-weight: 700; color: var(--accent); }
+
+  code {
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 9.5pt; background: #f3f5f7; padding: .5mm 1.4mm;
+    border-radius: 2px; border: 1px solid #e4e8ec;
+  }
+
+  /* ---------- Jadual ---------- */
+  table { width: 100%; border-collapse: collapse; margin: 0 0 5mm; font-size: 9.8pt; page-break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 2mm 2.6mm; text-align: left; vertical-align: top; }
+  th { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  tbody tr:nth-child(even) { background: #fafbfc; }
+
+  /* ---------- Lencana status ---------- */
+  .badge {
+    display: inline-block; padding: .4mm 2mm; border-radius: 3px;
+    font-size: 8.8pt; font-weight: 600; white-space: nowrap;
+  }
+  .b-pending  { background: #ffc107; color: #3d2f00; }
+  .b-approved { background: #198754; color: #fff; }
+  .b-rejected { background: #dc3545; color: #fff; }
+  .b-draft    { background: #6c757d; color: #fff; }
+
+  /* ---------- Kotak nota ---------- */
+  .note, .warn, .ok {
+    padding: 3mm 4mm; margin: 0 0 5mm; border-left: 3px solid;
+    font-size: 9.9pt; page-break-inside: avoid; border-radius: 0 3px 3px 0;
+  }
+  .note { background: var(--accent-bg); border-color: var(--accent); }
+  .warn { background: var(--warn-bg);   border-color: var(--warn-line); }
+  .ok   { background: var(--ok-bg);     border-color: var(--ok-line); }
+  .note strong, .warn strong, .ok strong { display: block; margin-bottom: 1mm; }
+
+  /* ---------- Rajah ---------- */
+  figure { margin: 0 0 6mm; page-break-inside: avoid; }
+  figure img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line); border-radius: 3px;
+  }
+  figcaption {
+    font-size: 9pt; color: var(--muted); margin-top: 1.5mm;
+    padding-left: 1mm; border-left: 2px solid var(--accent);
+  }
+  .missing {
+    border: 1.5px dashed #b9c2cc; border-radius: 3px; background: #f7f9fb;
+    padding: 14mm 6mm; text-align: center; color: #8a949f; font-size: 9.5pt;
+  }
+  .missing code { background: #fff; }
+
+  /* ---------- Kandungan ---------- */
+  .toc { page-break-after: always; }
+  .toc ol { list-style: none; padding-left: 0; counter-reset: ch; }
+  .toc > ol > li { counter-increment: ch; margin-bottom: 2.5mm; font-weight: 600; }
+  .toc > ol > li::before { content: counter(ch) ". "; color: var(--accent); }
+  .toc ol ol { padding-left: 7mm; margin-top: 1mm; }
+  .toc ol ol li { font-weight: 400; color: var(--muted); font-size: 10pt; }
+
+  .role-tag {
+    display: inline-block; font-size: 8.5pt; font-weight: 600; letter-spacing: .05em;
+    text-transform: uppercase; background: var(--accent); color: #fff;
+    padding: .6mm 2.2mm; border-radius: 3px; vertical-align: middle; margin-left: 2mm;
+  }
+
+  @media print {
+    .sheet { padding: 0; max-width: none; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ MUKA DEPAN ============ -->
+<section class="cover">
+  <div class="kicker">Sistem Permohonan &amp; Agihan Peralatan ICT</div>
+  <h1>Manual Pengguna<br>SAICT iMohon</h1>
+  <div class="rule"></div>
+  <div class="sub">Panduan lengkap untuk Pengguna, Pengurus dan Admin</div>
+  <dl>
+    <dt>Versi dokumen</dt><dd>1.0</dd>
+    <dt>Sistem</dt><dd>SAICT iMohon</dd>
+    <dt>Peranan diliputi</dt><dd>Pengguna, Pengurus, Admin</dd>
+    <dt>Disediakan oleh</dt><dd>Seksyen Teknologi Maklumat</dd>
+  </dl>
+</section>
+
+<div class="sheet">
+
+<!-- ============ KANDUNGAN ============ -->
+<section class="toc">
+  <h2>Kandungan</h2>
+  <ol>
+    <li>Pengenalan
+      <ol>
+        <li>1.1 Tujuan sistem</li>
+        <li>1.2 Peranan pengguna</li>
+        <li>1.3 Aliran kerja keseluruhan</li>
+        <li>1.4 Memahami lencana status</li>
+      </ol>
+    </li>
+    <li>Memulakan Penggunaan
+      <ol>
+        <li>2.1 Mendaftar akaun baharu</li>
+        <li>2.2 Pengesahan e-mel</li>
+        <li>2.3 Log masuk</li>
+        <li>2.4 Lupa katalaluan</li>
+      </ol>
+    </li>
+    <li>Panduan Pengguna
+      <ol>
+        <li>3.1 Papan pemuka</li>
+        <li>3.2 Mencipta permohonan baharu</li>
+        <li>3.3 Menambah item permohonan</li>
+        <li>3.4 Menghantar permohonan untuk kelulusan</li>
+        <li>3.5 Menjejak status permohonan</li>
+        <li>3.6 Menerima penghantaran peralatan</li>
+        <li>3.7 Menguruskan akaun</li>
+      </ol>
+    </li>
+    <li>Panduan Pengurus
+      <ol>
+        <li>4.1 Senarai permohonan untuk kelulusan</li>
+        <li>4.2 Meluluskan permohonan</li>
+        <li>4.3 Menolak permohonan</li>
+      </ol>
+    </li>
+    <li>Panduan Admin
+      <ol>
+        <li>5.1 Papan pemuka admin</li>
+        <li>5.2 Memproses permohonan</li>
+        <li>5.3 Mencipta permohonan agihan</li>
+        <li>5.4 Menetapkan maklumat penghantaran</li>
+        <li>5.5 Menguruskan inventori</li>
+        <li>5.6 Menguruskan pengguna dan jabatan</li>
+      </ol>
+    </li>
+    <li>Lampiran
+      <ol>
+        <li>A. Rujukan status permohonan</li>
+        <li>B. Medan wajib bagi setiap borang</li>
+        <li>C. Masalah lazim</li>
+      </ol>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ BAB 1 ============ -->
+<section class="chapter">
+<h2>1. Pengenalan</h2>
+
+<h3>1.1 Tujuan sistem</h3>
+<p>SAICT iMohon ialah sistem pengurusan permohonan dan agihan peralatan ICT.
+Kakitangan menghantar permohonan peralatan (<em>permohonan</em>), yang kemudian
+melalui rantaian kelulusan berperingkat sebelum peralatan diagihkan secara fizikal.
+Sistem merekodkan setiap peringkat — daripada permohonan awal sehingga penghantaran
+dan pengesahan penerimaan — dengan jejak audit yang lengkap.</p>
+
+<div class="note">
+  <strong>Aplikasi untuk desktop</strong>
+  Sistem ini direka untuk paparan desktop. Jika dibuka pada telefon atau pada
+  tetingkap yang lebih kecil daripada 768 piksel, satu amaran akan dipaparkan.
+  Sila gunakan komputer desktop atau komputer riba.
+</div>
+
+<h3>1.2 Peranan pengguna</h3>
+<p>Setiap akaun diberikan satu peranan yang menentukan skrin yang boleh dicapai.</p>
+<table>
+  <thead><tr><th style="width:26mm">Peranan</th><th>Tanggungjawab</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Pengguna</strong></td><td>Mencipta permohonan, menambah item, menghantar untuk kelulusan, menjejak status dan mengesahkan penerimaan peralatan.</td></tr>
+    <tr><td><strong>Pengurus</strong></td><td>Meluluskan atau menolak permohonan daripada kakitangan dalam jabatan yang sama.</td></tr>
+    <tr><td><strong>Admin</strong></td><td>Memproses permohonan yang telah diluluskan pengurus, mencipta agihan, menetapkan maklumat penghantaran serta menguruskan inventori dan pengguna.</td></tr>
+    <tr><td>Pengarah</td><td>Meluluskan atau menolak permohonan agihan yang dihantar oleh Admin. <em>Tidak diliputi dalam manual ini.</em></td></tr>
+    <tr><td>Sistem</td><td>Penyelenggaraan dan konfigurasi peringkat sistem. <em>Tidak diliputi dalam manual ini.</em></td></tr>
+  </tbody>
+</table>
+
+<h3>1.3 Aliran kerja keseluruhan</h3>
+<p>Proses lengkap terbahagi kepada dua fasa.</p>
+
+<h4>Fasa 1 — Permohonan</h4>
+<ol class="steps">
+  <li><strong>Pengguna</strong> mencipta permohonan. Permohonan bermula sebagai <span class="badge b-draft">Draf</span> dan belum kelihatan kepada sesiapa.</li>
+  <li><strong>Pengguna</strong> menambah satu atau lebih item, memilih Pengurus, dan menghantar permohonan.</li>
+  <li><strong>Pengurus</strong> menyemak dan sama ada meluluskan atau menolak. Jika ditolak, aliran berakhir di sini.</li>
+  <li><strong>Admin</strong> menerima permohonan yang diluluskan dan memprosesnya.</li>
+  <li><strong>Admin</strong> memberikan kelulusan akhir. Permohonan kini sedia untuk agihan.</li>
+</ol>
+
+<h4>Fasa 2 — Agihan</h4>
+<ol class="steps">
+  <li><strong>Admin</strong> mencipta permohonan agihan bagi permohonan yang telah diluluskan.</li>
+  <li><strong>Admin</strong> menetapkan item inventori tertentu kepada agihan tersebut.</li>
+  <li><strong>Admin</strong> menghantar agihan kepada <strong>Pengarah</strong> untuk kelulusan.</li>
+  <li><strong>Admin</strong> menetapkan maklumat penghantaran selepas kelulusan diperoleh.</li>
+  <li><strong>Pengguna</strong> mengesahkan penerimaan peralatan, melengkapkan proses.</li>
+</ol>
+
+<div class="note">
+  <strong>Jejak audit</strong>
+  Rekod kelulusan tidak pernah ditulis semula. Setiap keputusan menambah satu
+  rekod baharu, jadi sejarah penuh sesuatu permohonan sentiasa kekal.
+</div>
+
+<h3>1.4 Memahami lencana status</h3>
+<p>Warna lencana digunakan secara konsisten di seluruh sistem.</p>
+<table>
+  <thead><tr><th style="width:30mm">Lencana</th><th>Maksud</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge b-draft">Draf</span></td><td>Belum dihantar. Masih boleh disunting atau dibuang oleh pemohon.</td></tr>
+    <tr><td><span class="badge b-pending">Menunggu</span></td><td>Sedang menunggu keputusan daripada pihak yang meluluskan.</td></tr>
+    <tr><td><span class="badge b-approved">Lulus</span></td><td>Diluluskan pada peringkat tersebut.</td></tr>
+    <tr><td><span class="badge b-rejected">Gagal</span></td><td>Ditolak. Aliran kerja berhenti.</td></tr>
+  </tbody>
+</table>
+<p>Nombor rujukan juga mengikut format yang tetap: permohonan menggunakan
+<code>MOHON-TAHUN-NNNN</code> dan agihan menggunakan <code>AGIHAN-TAHUN-NNNN</code>,
+contohnya <code>MOHON-2026-0001</code>. Nombor ini dijana secara automatik.</p>
+</section>
+
+<!-- ============ BAB 2 ============ -->
+<section class="chapter">
+<h2>2. Memulakan Penggunaan</h2>
+
+<h3>2.1 Mendaftar akaun baharu</h3>
+<ol class="steps">
+  <li>Buka halaman sistem dan klik pautan pendaftaran.</li>
+  <li>Lengkapkan nama, nombor kad pengenalan, e-mel dan katalaluan.</li>
+  <li>Klik butang daftar. Satu e-mel pengesahan akan dihantar.</li>
+</ol>
+<figure>
+  <img src="screenshots/03-auth-sign-up.png" alt="Skrin pendaftaran">
+  <figcaption>Rajah 3: Skrin pendaftaran pengguna baharu</figcaption>
+</figure>
+
+<h3>2.2 Pengesahan e-mel</h3>
+<p>Akaun mesti disahkan sebelum boleh digunakan. Klik pautan di dalam e-mel yang
+diterima. Jika anda log masuk sebelum pengesahan dibuat, satu kad amaran akan
+dipaparkan dan skrin lain tidak boleh dicapai.</p>
+<div class="warn">
+  <strong>Tidak menerima e-mel?</strong>
+  Periksa folder spam terlebih dahulu. Jika masih tiada, hubungi Admin untuk
+  pengesahan secara manual.
+</div>
+
+<h3>2.3 Log masuk</h3>
+<p>Terdapat dua cara untuk log masuk.</p>
+<h4>Menggunakan e-mel</h4>
+<ol class="steps">
+  <li>Masukkan alamat e-mel dan katalaluan anda.</li>
+  <li>Klik butang log masuk.</li>
+</ol>
+<figure>
+  <img src="screenshots/01-auth-sign-in-email.png" alt="Log masuk e-mel">
+  <figcaption>Rajah 1: Skrin log masuk menggunakan e-mel</figcaption>
+</figure>
+
+<h4>Menggunakan nombor kad pengenalan</h4>
+<p>Masukkan nombor kad pengenalan dan katalaluan anda. Cara ini berguna bagi
+kakitangan yang lebih mudah mengingati nombor kad pengenalan berbanding e-mel.</p>
+<figure>
+  <img src="screenshots/02-auth-sign-in-nric.png" alt="Log masuk kad pengenalan">
+  <figcaption>Rajah 2: Skrin log masuk menggunakan nombor kad pengenalan</figcaption>
+</figure>
+
+<h3>2.4 Lupa katalaluan</h3>
+<ol class="steps">
+  <li>Klik pautan lupa katalaluan pada skrin log masuk.</li>
+  <li>Masukkan alamat e-mel anda dan hantar.</li>
+  <li>Klik pautan set semula di dalam e-mel, kemudian masukkan katalaluan baharu.</li>
+</ol>
+<figure>
+  <img src="screenshots/04-auth-password-reset.png" alt="Set semula katalaluan">
+  <figcaption>Rajah 4: Skrin permintaan set semula katalaluan</figcaption>
+</figure>
+</section>
+
+<!-- ============ BAB 3 ============ -->
+<section class="chapter">
+<h2>3. Panduan Pengguna <span class="role-tag">Pengguna</span></h2>
+
+<h3>3.1 Papan pemuka</h3>
+<p>Selepas log masuk, papan pemuka memaparkan ringkasan permohonan anda.</p>
+<figure>
+  <img src="screenshots/05-user-dashboard.png" alt="Papan pemuka pengguna">
+  <figcaption>Rajah 5: Papan pemuka pengguna</figcaption>
+</figure>
+
+<h3>3.2 Mencipta permohonan baharu</h3>
+<ol class="steps">
+  <li>Pergi ke skrin senarai permohonan.</li>
+  <li>Klik butang untuk mencipta permohonan baharu.</li>
+  <li>Masukkan tajuk dan keterangan permohonan, kemudian simpan.</li>
+</ol>
+<p>Permohonan yang baharu dicipta berstatus <span class="badge b-draft">Draf</span>.
+Ia belum dihantar dan belum kelihatan kepada Pengurus.</p>
+<figure>
+  <img src="screenshots/06-user-mohon-list.png" alt="Senarai permohonan">
+  <figcaption>Rajah 6: Senarai permohonan, memaparkan sepuluh rekod bagi setiap halaman</figcaption>
+</figure>
+
+<h3>3.3 Menambah item permohonan</h3>
+<p>Permohonan tanpa item tidak berguna. Buka permohonan draf tersebut dan tambah
+sekurang-kurangnya satu item.</p>
+<ol class="steps">
+  <li>Klik pada permohonan untuk membuka skrin pengurusan item.</li>
+  <li>Klik butang tambah item.</li>
+  <li>Lengkapkan <strong>semua</strong> medan yang disenaraikan di bawah — kesemuanya wajib.</li>
+  <li>Simpan. Ulang bagi setiap item tambahan yang diperlukan.</li>
+</ol>
+<table>
+  <thead><tr><th style="width:38mm">Medan</th><th>Keterangan</th></tr></thead>
+  <tbody>
+    <tr><td>Kategori</td><td>Jenis peralatan, contohnya PC atau PRINTER.</td></tr>
+    <tr><td>Jabatan</td><td>Jabatan yang memohon.</td></tr>
+    <tr><td>Jenis</td><td><em>Baharu</em> untuk peralatan tambahan, atau <em>Ganti</em> untuk menggantikan peralatan yang rosak.</td></tr>
+    <tr><td>Nama item</td><td>Nama peralatan yang dimohon.</td></tr>
+    <tr><td>Jawatan</td><td>Jawatan pengguna yang akan menggunakan peralatan.</td></tr>
+    <tr><td>Nama bangunan</td><td>Bangunan tempat peralatan akan dipasang.</td></tr>
+    <tr><td>Tingkat</td><td>Tingkat di dalam bangunan tersebut.</td></tr>
+    <tr><td>No. telefon bimbit</td><td>Nombor untuk dihubungi semasa penghantaran.</td></tr>
+    <tr><td>Lokasi</td><td>Lokasi khusus, contohnya <em>Bilik Server, Tingkat 3</em>.</td></tr>
+    <tr><td>Keterangan</td><td>Justifikasi permohonan.</td></tr>
+  </tbody>
+</table>
+<figure>
+  <img src="screenshots/07-user-mohon-items.png" alt="Pengurusan item">
+  <figcaption>Rajah 7: Skrin pengurusan item bagi permohonan draf</figcaption>
+</figure>
+
+<h3>3.4 Menghantar permohonan untuk kelulusan</h3>
+<ol class="steps">
+  <li>Pastikan semua item telah ditambah dan betul.</li>
+  <li>Pilih <strong>Pengurus</strong> yang akan meluluskan permohonan. Medan ini wajib.</li>
+  <li>Tandakan kotak pengakuan untuk mengesahkan maklumat adalah benar.</li>
+  <li>Klik hantar.</li>
+</ol>
+<div class="warn">
+  <strong>Penghantaran tidak boleh dibatalkan</strong>
+  Sebaik permohonan dihantar, statusnya bertukar kepada
+  <span class="badge b-pending">Menunggu</span> dan anda tidak lagi boleh menyuntingnya.
+  Semak dengan teliti sebelum menghantar.
+</div>
+<figure>
+  <img src="screenshots/08-user-mohon-show-draft.png" alt="Butiran permohonan draf">
+  <figcaption>Rajah 8: Butiran permohonan draf sebelum dihantar</figcaption>
+</figure>
+
+<h3>3.5 Menjejak status permohonan</h3>
+<p>Skrin penjejakan memaparkan peringkat semasa bagi setiap permohonan berserta
+sejarah penuh kelulusan.</p>
+<figure>
+  <img src="screenshots/11-user-tracking.png" alt="Penjejakan">
+  <figcaption>Rajah 11: Skrin penjejakan status permohonan</figcaption>
+</figure>
+<p>Jika permohonan ditolak, sebab yang diberikan oleh Pengurus atau Admin akan
+dipaparkan pada butiran permohonan.</p>
+<figure>
+  <img src="screenshots/09-user-mohon-rejected.png" alt="Permohonan ditolak">
+  <figcaption>Rajah 9: Permohonan yang ditolak, berserta sebab penolakan</figcaption>
+</figure>
+
+<h3>3.6 Menerima penghantaran peralatan</h3>
+<p>Setelah Admin menetapkan maklumat penghantaran, anda perlu mengesahkan
+penerimaan peralatan.</p>
+<ol class="steps">
+  <li>Buka skrin agihan.</li>
+  <li>Cari item yang telah dihantar dan buka borang penerimaan.</li>
+  <li>Lengkapkan medan berikut — kesemuanya wajib:
+    <ul>
+      <li><strong>Nombor siri</strong> peralatan yang diterima</li>
+      <li><strong>Nama</strong> dan <strong>nombor telefon</strong> pegawai yang menghantar</li>
+      <li><strong>Tarikh pemasangan</strong></li>
+      <li><strong>Catatan</strong> mengenai keadaan peralatan</li>
+    </ul>
+  </li>
+  <li>Tandakan kotak pengakuan. Butang simpan hanya aktif selepas kotak ini ditandakan.</li>
+  <li>Klik simpan.</li>
+</ol>
+<figure>
+  <img src="screenshots/12-user-agihan.png" alt="Agihan pengguna">
+  <figcaption>Rajah 12: Senarai agihan untuk pengguna</figcaption>
+</figure>
+<div class="ok">
+  <strong>Proses selesai</strong>
+  Selepas penerimaan direkodkan, aliran kerja bagi permohonan tersebut lengkap.
+</div>
+
+<h3>3.7 Menguruskan akaun</h3>
+<p>Skrin akaun membolehkan anda mengemas kini butiran profil dan menukar katalaluan.</p>
+<figure>
+  <img src="screenshots/14-user-account.png" alt="Akaun">
+  <figcaption>Rajah 14: Skrin tetapan akaun pengguna</figcaption>
+</figure>
+</section>
+
+<!-- ============ BAB 4 ============ -->
+<section class="chapter">
+<h2>4. Panduan Pengurus <span class="role-tag">Pengurus</span></h2>
+
+<h3>4.1 Senarai permohonan untuk kelulusan</h3>
+<p>Skrin kelulusan disusun dalam tiga tab.</p>
+<table>
+  <thead><tr><th style="width:28mm">Tab</th><th>Kandungan</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge b-pending">Menunggu</span></td><td>Permohonan yang menunggu keputusan anda. Mulakan kerja di sini.</td></tr>
+    <tr><td><span class="badge b-approved">Lulus</span></td><td>Permohonan yang telah anda luluskan.</td></tr>
+    <tr><td><span class="badge b-rejected">Gagal</span></td><td>Permohonan yang telah anda tolak.</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <strong>Anda hanya melihat jabatan anda sendiri</strong>
+  Senarai ini hanya memaparkan permohonan daripada kakitangan dalam jabatan yang
+  sama dengan anda, dan yang secara khusus telah dihantar kepada anda oleh pemohon.
+  Jika sesuatu permohonan tidak kelihatan, kemungkinan pemohon telah memilih
+  Pengurus yang lain.
+</div>
+<figure>
+  <img src="screenshots/16-manager-approval-menunggu.png" alt="Tab menunggu">
+  <figcaption>Rajah 16: Permohonan menunggu kelulusan pengurus</figcaption>
+</figure>
+
+<h3>4.2 Meluluskan permohonan</h3>
+<ol class="steps">
+  <li>Pada tab <span class="badge b-pending">Menunggu</span>, klik untuk membuka permohonan.</li>
+  <li>Semak item yang dimohon dan justifikasi yang diberikan.</li>
+  <li>Masukkan catatan jika perlu. Catatan tidak wajib bagi kelulusan.</li>
+  <li>Tandakan kotak pengakuan.</li>
+  <li>Klik butang lulus.</li>
+</ol>
+<div class="warn">
+  <strong>Kotak pengakuan adalah wajib</strong>
+  Sistem tidak akan menerima keputusan anda tanpa kotak pengakuan ditandakan.
+  Ini terpakai bagi kelulusan dan juga penolakan.
+</div>
+<p>Permohonan yang diluluskan akan diteruskan kepada Admin untuk diproses.</p>
+<figure>
+  <img src="screenshots/17-manager-approval-lulus.png" alt="Tab lulus">
+  <figcaption>Rajah 17: Permohonan yang telah diluluskan pengurus</figcaption>
+</figure>
+
+<h3>4.3 Menolak permohonan</h3>
+<ol class="steps">
+  <li>Buka permohonan daripada tab <span class="badge b-pending">Menunggu</span>.</li>
+  <li>Masukkan sebab penolakan dalam medan catatan. Nyatakan dengan jelas —
+      pemohon akan melihat teks ini.</li>
+  <li>Tandakan kotak pengakuan.</li>
+  <li>Klik butang tolak.</li>
+</ol>
+<div class="warn">
+  <strong>Penolakan menamatkan aliran kerja</strong>
+  Permohonan yang ditolak tidak boleh dihidupkan semula. Pemohon perlu mencipta
+  permohonan baharu. Oleh itu, sebab penolakan yang jelas adalah penting.
+</div>
+<figure>
+  <img src="screenshots/18-manager-approval-gagal.png" alt="Tab gagal">
+  <figcaption>Rajah 18: Permohonan yang telah ditolak pengurus</figcaption>
+</figure>
+</section>
+
+<!-- ============ BAB 5 ============ -->
+<section class="chapter">
+<h2>5. Panduan Admin <span class="role-tag">Admin</span></h2>
+
+<h3>5.1 Papan pemuka admin</h3>
+<p>Papan pemuka admin memaparkan ringkasan permohonan dan agihan di seluruh sistem.</p>
+<figure>
+  <img src="screenshots/19-admin-dashboard.png" alt="Papan pemuka admin">
+  <figcaption>Rajah 19: Papan pemuka admin</figcaption>
+</figure>
+
+<h3>5.2 Memproses permohonan</h3>
+<p>Permohonan yang telah diluluskan oleh Pengurus akan masuk ke dalam baris giliran
+Admin di bawah tab <span class="badge b-pending">Baharu</span>.</p>
+<ol class="steps">
+  <li>Buka skrin kelulusan admin dan pilih tab <span class="badge b-pending">Baharu</span>.</li>
+  <li>Buka permohonan dan semak item yang diminta terhadap stok inventori yang ada.</li>
+  <li>Tandakan kotak pengakuan, kemudian luluskan atau tolak.</li>
+</ol>
+<p>Kelulusan Admin merupakan keputusan akhir bagi Fasa 1. Permohonan tersebut
+kini sedia untuk agihan.</p>
+<figure>
+  <img src="screenshots/20-admin-approval-baharu.png" alt="Kelulusan admin">
+  <figcaption>Rajah 20: Permohonan baharu untuk diproses admin</figcaption>
+</figure>
+
+<h3>5.3 Mencipta permohonan agihan</h3>
+<ol class="steps">
+  <li>Buka skrin agihan. Skrin ini menyenaraikan permohonan yang telah diluluskan sepenuhnya.</li>
+  <li>Pilih permohonan dan cipta satu permohonan agihan baharu. Nombor rujukan
+      <code>AGIHAN-TAHUN-NNNN</code> dijana secara automatik.</li>
+  <li>Tetapkan item inventori tertentu kepada setiap item yang dimohon. Pilih sama
+      ada jenis <em>Baharu</em> atau <em>Ganti</em>.</li>
+  <li>Hantar agihan kepada Pengarah untuk kelulusan.</li>
+</ol>
+<figure>
+  <img src="screenshots/23-admin-agihan-list.png" alt="Senarai agihan">
+  <figcaption>Rajah 23: Senarai permohonan yang sedia untuk agihan</figcaption>
+</figure>
+<figure>
+  <img src="screenshots/24-admin-agihan-detail.png" alt="Butiran agihan">
+  <figcaption>Rajah 24: Butiran agihan bagi satu permohonan</figcaption>
+</figure>
+
+<h3>5.4 Menetapkan maklumat penghantaran</h3>
+<p>Selepas Pengarah meluluskan agihan, rekodkan cara peralatan akan dihantar.</p>
+<ol class="steps">
+  <li>Buka item agihan dan buka borang penghantaran.</li>
+  <li>Masukkan <strong>nama</strong> dan <strong>nombor telefon</strong> pegawai yang bertanggungjawab.</li>
+  <li>Masukkan <strong>tarikh mula</strong> dan <strong>tarikh tamat</strong> penghantaran.</li>
+  <li>Tandakan kotak pengakuan dan simpan.</li>
+</ol>
+<div class="warn">
+  <strong>Tarikh tamat mesti selepas tarikh mula</strong>
+  Sistem menolak borang jika tarikh tamat sama atau lebih awal daripada tarikh mula.
+</div>
+<p>Setelah disimpan, pemohon akan melihat item tersebut pada skrin agihan mereka
+dan boleh mengesahkan penerimaan.</p>
+<figure>
+  <img src="screenshots/25-admin-dist-request.png" alt="Permohonan agihan">
+  <figcaption>Rajah 25: Skrin permohonan agihan</figcaption>
+</figure>
+
+<h3>5.5 Menguruskan inventori</h3>
+<p>Skrin inventori merekodkan peralatan yang tersedia untuk diagihkan, termasuk
+maklumat kontrak dan pembekal.</p>
+<figure>
+  <img src="screenshots/27-admin-inventories.png" alt="Inventori">
+  <figcaption>Rajah 27: Skrin pengurusan inventori</figcaption>
+</figure>
+<p>Kategori item disusun secara bersarang — contohnya <code>ITEMS</code> sebagai
+kategori induk dengan <code>PC</code> dan <code>PRINTER</code> di bawahnya.</p>
+<figure>
+  <img src="screenshots/28-admin-categories.png" alt="Kategori">
+  <figcaption>Rajah 28: Skrin pengurusan kategori item</figcaption>
+</figure>
+
+<h3>5.6 Menguruskan pengguna dan jabatan</h3>
+<p>Admin boleh mencipta akaun, menetapkan peranan, dan menguruskan struktur jabatan.</p>
+<figure>
+  <img src="screenshots/29-admin-users.png" alt="Pengguna">
+  <figcaption>Rajah 29: Skrin pengurusan pengguna</figcaption>
+</figure>
+<figure>
+  <img src="screenshots/30-admin-departments.png" alt="Jabatan">
+  <figcaption>Rajah 30: Skrin pengurusan jabatan</figcaption>
+</figure>
+<div class="note">
+  <strong>Jabatan mempengaruhi kelulusan</strong>
+  Pengurus hanya melihat permohonan daripada kakitangan dalam jabatan yang sama.
+  Jika seorang pengguna diletakkan dalam jabatan yang salah, permohonannya tidak
+  akan sampai kepada Pengurus yang betul.
+</div>
+</section>
+
+<!-- ============ LAMPIRAN ============ -->
+<section class="chapter">
+<h2>6. Lampiran</h2>
+
+<h3>A. Rujukan status permohonan</h3>
+<p>Jadual berikut memperincikan setiap peringkat dalam aliran kelulusan permohonan.</p>
+<table>
+  <thead><tr><th style="width:16mm">Peringkat</th><th style="width:30mm">Status</th><th>Maksud</th><th style="width:24mm">Tindakan oleh</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td><span class="badge b-pending">Menunggu</span></td><td>Draf, belum dihantar</td><td>Pengguna</td></tr>
+    <tr><td>1</td><td><span class="badge b-pending">Menunggu</span></td><td>Telah dihantar, menunggu Pengurus</td><td>Pengurus</td></tr>
+    <tr><td>2</td><td><span class="badge b-approved">Lulus</span> / <span class="badge b-rejected">Gagal</span></td><td>Keputusan Pengurus</td><td>Pengurus</td></tr>
+    <tr><td>3</td><td><span class="badge b-pending">Menunggu</span></td><td>Dalam proses Admin</td><td>Admin</td></tr>
+    <tr><td>4</td><td><span class="badge b-approved">Lulus</span> / <span class="badge b-rejected">Gagal</span></td><td>Keputusan akhir, sedia untuk agihan</td><td>Admin</td></tr>
+  </tbody>
+</table>
+
+<p>Bagi fasa agihan:</p>
+<table>
+  <thead><tr><th style="width:16mm">Peringkat</th><th style="width:30mm">Status</th><th>Maksud</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td><span class="badge b-pending">Menunggu</span></td><td>Draf, Admin sedang menyiapkan agihan</td></tr>
+    <tr><td>1</td><td><span class="badge b-pending">Menunggu</span></td><td>Telah dihantar kepada Pengarah</td></tr>
+    <tr><td>2</td><td><span class="badge b-approved">Lulus</span> / <span class="badge b-rejected">Gagal</span></td><td>Keputusan Pengarah</td></tr>
+  </tbody>
+</table>
+
+<h3>B. Medan wajib bagi setiap borang</h3>
+<table>
+  <thead><tr><th style="width:44mm">Borang</th><th>Medan wajib</th></tr></thead>
+  <tbody>
+    <tr><td>Tambah item permohonan</td><td>Kategori, Jabatan, Jenis, Nama item, Jawatan, Nama bangunan, Tingkat, No. telefon bimbit, Lokasi, Keterangan</td></tr>
+    <tr><td>Hantar untuk kelulusan</td><td>Pengurus, kotak pengakuan</td></tr>
+    <tr><td>Kelulusan Pengurus / Admin</td><td>Kotak pengakuan</td></tr>
+    <tr><td>Maklumat penghantaran <em>(Admin)</em></td><td>Nama pegawai, No. telefon, Tarikh mula, Tarikh tamat <em>(mesti selepas tarikh mula)</em>, kotak pengakuan</td></tr>
+    <tr><td>Pengesahan penerimaan <em>(Pengguna)</em></td><td>Nombor siri, Nama pegawai, No. telefon, Tarikh pemasangan, Catatan, kotak pengakuan</td></tr>
+  </tbody>
+</table>
+
+<h3>C. Masalah lazim</h3>
+<table>
+  <thead><tr><th style="width:52mm">Masalah</th><th>Penyelesaian</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Amaran dipaparkan dan skrin tidak boleh digunakan</td>
+      <td>Sistem ini untuk desktop sahaja. Gunakan tetingkap pelayar yang lebih lebar daripada 768 piksel.</td>
+    </tr>
+    <tr>
+      <td>Tidak dapat log masuk selepas mendaftar</td>
+      <td>Akaun belum disahkan. Klik pautan pengesahan dalam e-mel, atau hubungi Admin.</td>
+    </tr>
+    <tr>
+      <td>Pengurus tidak nampak permohonan saya</td>
+      <td>Sahkan permohonan telah <em>dihantar</em> dan bukan lagi draf, dan Pengurus yang betul telah dipilih. Pengurus juga mesti berada dalam jabatan yang sama dengan anda.</td>
+    </tr>
+    <tr>
+      <td>Butang lulus atau tolak tidak berfungsi</td>
+      <td>Kotak pengakuan belum ditandakan. Kotak ini wajib.</td>
+    </tr>
+    <tr>
+      <td>Butang simpan pada borang penerimaan tidak aktif</td>
+      <td>Tandakan kotak pengakuan terlebih dahulu untuk mengaktifkan butang.</td>
+    </tr>
+    <tr>
+      <td>Borang penghantaran ditolak</td>
+      <td>Pastikan tarikh tamat adalah selepas tarikh mula.</td>
+    </tr>
+    <tr>
+      <td>Dilog keluar secara tiba-tiba</td>
+      <td>Token log masuk telah tamat tempoh. Log masuk semula.</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+</div><!-- /.sheet -->
+
+<script>
+/* Tunjuk kotak penanda jika tangkapan skrin belum dijana, supaya dokumen ini
+   masih boleh dibaca sebelum capture.mjs dijalankan. */
+document.querySelectorAll('figure img').forEach(function (img) {
+  img.addEventListener('error', function () {
+    var box = document.createElement('div');
+    box.className = 'missing';
+    box.innerHTML = 'Tangkapan skrin belum dijana<br><code>' + img.getAttribute('src') + '</code>';
+    img.replaceWith(box);
+  });
+});
+</script>
+
+</body>
+</html>
